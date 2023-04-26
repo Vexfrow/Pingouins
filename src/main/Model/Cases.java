@@ -16,7 +16,7 @@ public class Cases {
 
         //getters
 
-    public boolean isMange() {
+    public boolean estMange() {
         return mange;
     }
 
