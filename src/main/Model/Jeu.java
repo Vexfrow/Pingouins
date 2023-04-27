@@ -15,6 +15,7 @@ public class Jeu{
     private ArrayList<Coup> coupJoue;
     private ArrayList<Coup> coupAnnule;
     private ArrayList<Joueur> listeJoueur;
+    private ArrayList<Pingouin> listePingouin;
 
     private int nbLignes; // taille du tableau
     private int nbColonnes; // taille du tableau
@@ -101,15 +102,17 @@ public class Jeu{
     /**
      * Init du jeu de base
      */
-    Jeu(){
+    Jeu(ArrayList<Joueur> listeJoueur){
+        this(listeJoueur,8,8);
         
 
     }
-    Jeu(Case [][]terrainInitiale, ArrayList<Joueur> listeJoueur, int nbLigneTab, int nbColTab){ // pour la méthode annule()
+    Jeu(Case [][]terrainInitiale, ArrayList<Joueur> listeJoueur,ArrayList<Pingouin> listePingouin, int nbLigneTab, int nbColTab){ // pour la méthode annule()
         this.terrainInitiale = terrainInitiale;
         this.terrainCourant = terrainInitiale;
         coupAnnule = new ArrayList<Coup>();
         coupJoue = new ArrayList<Coup>();
+        this.listePingouin = listePingouin;
         this.nbColonnes = nbLigneTab;
         this.nbLignes = nbColTab;
 
@@ -118,7 +121,7 @@ public class Jeu{
     /**
      * Init du jeu avec des parametres
      */
-    Jeu(int nbLignes, int nbColonnes, ArrayList<Joueur> listeJoueur, int PingParJoueur, int nbLignes, int nbColonnes,){
+    Jeu(ArrayList<Joueur> listeJoueur, int nbLignes, int nbColonnes){
         terrainInitiale = new Cases[nbLignes][nbColonnes*2-1];
         terrainCourant = new Cases[nbLignes][nbColonnes*2-1];
         coupAnnule = new ArrayList<Coup>();
@@ -132,14 +135,20 @@ public class Jeu{
         
     }
 
-
-    public void placePingouin(int l, int c, Joueur joueur){
-        Pingouin ping = new pingouin(l,c);
-        joueur.
-
+    
+    public boolean pingouinPresent(l,c){
+        return (getCase(l,c).pingouin !=null);
     }
 
+    public void placePingouin(int l, int c, Joueur joueur){
 
+        if(!joueur.tousPingouinPlace){
+            Pingouin ping = new pingouin(l,c);
+            joueur.listePingouin.add(ping);
+            Cases cases = getCase(l,c);
+            cases.setPingouin(ping);
+        }
+    }
 
     /**
      * Creation du terrain aléatoirement de taille du terrain hexagonale donné en param
@@ -243,7 +252,7 @@ public class Jeu{
      */
     public void annule(){
         if(peutAnnuler()){
-            Jeu jeu = new Jeu(terrainInitiale,this);
+            Jeu jeu = new Jeu(terrainInitiale,listeJoueur.clone());
             int i = 0;
             coupAnnule.add(coupJoue.get(coupJoue.size()-1));
             coupJoue.remove(coupJoue.size()-1);
