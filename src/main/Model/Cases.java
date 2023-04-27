@@ -1,13 +1,14 @@
-package main.Model;
+package Model;
+
 
 public class Cases {
 
     private boolean mange; //true/1 = mangé
     private int nbPoissons;
-    private Pingouin pingouin;
+    private boolean pingouin;
 
 
-    public Cases(boolean mange, int nbPoissons, Pingouin pingouin) {
+    public Cases(boolean mange, int nbPoissons, boolean pingouin) {
         this.mange = mange;
         this.nbPoissons = nbPoissons;
         this.pingouin = pingouin;
@@ -16,17 +17,8 @@ public class Cases {
     public Cases(int nbPoissons) {
         this.nbPoissons = nbPoissons;
         this.mange = false;
+        this.pingouin=false;
     }
-
-    public Cases cloneCases(boolean mange, int nbPoissons, Pingouin ping){
-        if (ping == null) {
-            return new Cases(mange, nbPoissons, null);
-        } else {
-            return new Cases(mange, nbPoissons, new Pingouin(ping.getNumero(), ping.getJoueur()));
-        }
-    }
-
-
         //getters
 
     public boolean estMange() {
@@ -38,8 +30,8 @@ public class Cases {
     }
 
 
-    public Pingouin getPingouin() {
-        return this.pingouin;
+    public boolean pingouinPresent() {
+        return pingouin;
     }
 
         //setters
@@ -52,7 +44,7 @@ public class Cases {
         this.nbPoissons = nbPoissons;
     }
     
-    public void setPingouin(Pingouin pingouin) {
+    public void setPingouin(boolean pingouin) {
         this.pingouin = pingouin;
     }
 

@@ -1,15 +1,20 @@
-package main.Model;
+package Model;
+
+import Model.Pingouin;
+import Model.Joueur;
 
 public class Coup {
     
     private int x;
     private int y;
+    private Joueur joueur;
     private Pingouin pingouin;
 
 
-    public Coup(int x, int y, Pingouin pingouin) {
+    public Coup(int x, int y, Joueur joueur, Pingouin pingouin) {
         this.x = x;
         this.y = y;
+        this.joueur = joueur;
         this.pingouin = pingouin;
     }
 
@@ -22,9 +27,15 @@ public class Coup {
         return this.y;
     }
 
+    public Joueur getJoueur(){
+        return this.joueur;
+    }
+
     public Pingouin getPingouin(){
         return this.pingouin;
     }
+
+/* Setters */
 
     public void setLigne(int ligne){
         this.x = ligne;
@@ -34,19 +45,26 @@ public class Coup {
         this.y = colonne;
     }
 
+    public void setJoueur(Joueur joueur){
+        this.joueur = joueur;
+    }
+
     public void setPingouin(Pingouin pingouin){
         this.pingouin = pingouin;
     }
 
+
+
     public Coup cloner(){
-        Coup cp = new Coup(this.x,this.y, this.pingouin);
+        Coup cp = new Coup(this.x,this.y,this.joueur, this.pingouin);
         return cp;
     }
 
     //afficher un coup
     @Override
     public String toString() {
-        return "PingouinJoueur = " + pingouin.getJoueur()+ ", numéro pingouin = " + pingouin.getNumero() + ", x = "+ x + ", y = " + y;
+        String string = "x= " + x + "y = " + y;
+        return string;
     }
 
 

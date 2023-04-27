@@ -1,4 +1,4 @@
-package main.Model;
+package Model;
 
 
 import java.util.Arrays;
@@ -11,9 +11,10 @@ public class mainModel {
 		
         //test pour la fonction clonner terrain
 
-        //System.out.println("");
+        System.out.println("");
 
-        Jeu j = new Jeu(8,8, 1, 1);
+/*
+        Jeu j = new Jeu();
         System.out.println(j);
 
 
@@ -28,7 +29,7 @@ public class mainModel {
 		}
 
         System.out.println(result);
-		
+		*/
 		
 	}
 
