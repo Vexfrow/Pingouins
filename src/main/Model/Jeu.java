@@ -12,8 +12,8 @@ public class Jeu{
 
     private Cases [][] terrainInitiale;
     private Cases [][] terrainCourant;
-    private ArraysList<Coup> coupJoue;
-    private ArraysList<Coup> coupAnnule;
+    private ArrayList<Coup> coupJoue;
+    private ArrayList<Coup> coupAnnule;
     private ArrayList<Joueur> listeJoueur;
 
     private int nbLignes;
@@ -115,7 +115,7 @@ public class Jeu{
         
 
     }
-    Jeu(Case [][]terrainInitiale, int nbLigneTab, int nbColTab){
+    Jeu(Cases [][]terrainInitiale, int nbLigneTab, int nbColTab){
         this.terrainInitiale = terrainInitiale;
         this.terrainCourant = cloner(terrainInitiale);
     }
@@ -126,21 +126,21 @@ public class Jeu{
     Jeu(int nbLignes, int nbColonnes, int nbJoueurs, int PingParJoueur){
         terrainInitiale = new Cases[nbLignes][nbColonnes*2-1];
         terrainCourant = new Cases[nbLignes][nbColonnes*2-1];
-        this.nbColonnes = nbColonne*2-1;
+        this.nbColonnes = nbColonnes*2-1;
         this.nbLignes = nbLignes;
         int l = 0;
         int c, r;
 
         
         if( l%2 ==1 ){// si ligne impaire
-            c = 0
+            c = 0;
         }else{ // ligne paire
             c = 1;
         }
         while( l < nbLignes ){
 
             if( l%2 ==1 ){// si ligne impaire
-                c = 0
+                c = 0;
             }else{ // ligne paire
                 c = 1;
             }
@@ -252,13 +252,6 @@ public class Jeu{
             }
             this.terrain = jeu.terrain;
 
-        }
-
-        //changemetn du joueur
-        if(joueurCourant == 1){
-            joueurCourant = 1;
-        } else {
-            joueurCourant = 2;
         }
 
     }

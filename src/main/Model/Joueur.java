@@ -16,7 +16,13 @@ public class Joueur {
         score = 0;
 
         //init la liste des pingouins
+        listePingouin = new ArrayList<>();
 
+        //ajout a la liste des pingouins du joueur les pingouins
+        for(int i =0; i< nbPingouin; i++){
+            Pingouin ping = new Pingouin(i, this);
+            listePingouin.add(ping);
+        }
 
     }
 
@@ -45,6 +51,12 @@ public class Joueur {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    //afficher un joueur
+    @Override
+    public String toString() {
+        return "Joueur = " + getNumeroJoueur() + ", score = " + getScore() + ", Pingouins  = " + getListePingouin().toString() ;
     }
 
     

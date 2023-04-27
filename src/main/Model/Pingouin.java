@@ -17,10 +17,16 @@ public class Pingouin {
         this.colonne = y;
     }
 
-     
+    //constructeur
+    public Pingouin(int numero, Joueur joueur) {
+        this.numero = numero;
+        this.joueur = joueur;
+    }
+
      
     public Pingouin cloner(){
-        Pingouin ping = new Pingouin(this.numero, this.joueur,this.x,this.y);
+        Pingouin ping = new Pingouin(this.numero, this.joueur,this.ligne,this.colonne);
+        return ping;
     }
         //getters
 
@@ -43,13 +49,6 @@ public class Pingouin {
         return colonne;
     }
 
-    /* retourner un couple de coordonnées
-    public int getCoordonnees(){
-        return;
-    }
-    */
-
-
         //setters
 
 
@@ -70,5 +69,10 @@ public class Pingouin {
     }
 
 
+    //afficher un joueur
+    @Override
+    public String toString() {
+        return "Pingouin: numéro pingouin = " + getNumero() + ", proprietaire = " + getJoueur() + ", ligne  = " + getLigne() + ", collone = " + getColonne();
+    }
 
 }

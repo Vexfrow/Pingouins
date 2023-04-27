@@ -23,7 +23,7 @@ public class Coup {
     }
 
     public Pingouin getPingouin(){
-        return this.pingouin
+        return this.pingouin;
     }
 
     public void setLigne(int ligne){

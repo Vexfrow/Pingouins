@@ -48,5 +48,10 @@ public class Cases {
         this.pingouin = pingouin;
     }
 
-    
+    //afficher une case
+    @Override
+    public String toString() {
+        return "Case: est mangé =  " + estMange() + " nombre de poisson =  " + getNbPoissons() + " getPingouin" + getPingouin() ;
+    }
+
 }
