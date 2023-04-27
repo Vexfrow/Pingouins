@@ -22,7 +22,6 @@ public class Jeu{
 
     
 
-
     /**
      * Init du jeu depuis une sauvegarde
      */
@@ -99,7 +98,6 @@ public class Jeu{
 
     		//fermer le fichier
     		reader.close();
-
     		
 		} catch (IOException e) {
 			System.out.print("Erreur : " + e);
@@ -112,24 +110,52 @@ public class Jeu{
      * Init du jeu de base
      */
     Jeu(){
+
         
 
     }
+
+    /**
+     * Init jeu avec un terrain
+     */
     Jeu(Cases [][]terrainInitiale, int nbLigneTab, int nbColTab){
         this.terrainInitiale = terrainInitiale;
-        this.terrainCourant = cloner(terrainInitiale);
+        //this.terrainCourant = cloner(terrainInitiale);
     }
+
 
     /**
      * Init du jeu avec des parametres
      */
     Jeu(int nbLignes, int nbColonnes, int nbJoueurs, int PingParJoueur){
+
         terrainInitiale = new Cases[nbLignes][nbColonnes*2-1];
         terrainCourant = new Cases[nbLignes][nbColonnes*2-1];
         this.nbColonnes = nbColonnes*2-1;
         this.nbLignes = nbLignes;
+
+        //init des arrays
+    	coupAnnule = new ArrayList<Coup>();
+        coupJoue = new ArrayList<Coup>();
+
         int l = 0;
-        int c, r;
+
+        ArrayList<Integer> listeNombre = new ArrayList<Integer>();
+
+        for(int i = 1; i<=60; i++){
+            if(i<= 30){
+                listeNombre.add(1);
+            }else if(i <=50){
+                listeNombre.add(2);
+            }else{
+                listeNombre.add(3);
+            }
+        }
+
+
+        Random r = new Random();
+
+        int c, randomNumber;
 
         
         if( l%2 ==1 ){// si ligne impaire
@@ -137,6 +163,7 @@ public class Jeu{
         }else{ // ligne paire
             c = 1;
         }
+
         while( l < nbLignes ){
 
             if( l%2 ==1 ){// si ligne impaire
@@ -146,15 +173,64 @@ public class Jeu{
             }
 
             while( c < nbColonnes*2-1){
-                r = r.nextInt(3)+1;
-                terrainInitiale[l][c]= new Cases(r);
-                terrainCourant[l][c]= new Cases(r);
+                randomNumber = r.nextInt(3)+1;
+                terrainInitiale[l][c]= new Cases(randomNumber);
+                terrainCourant[l][c]= new Cases(randomNumber);
                 c+=2;
             }
             l++;
         }
 
     }
+
+
+
+    /**
+     * Creation du clone du terrain donné
+     */
+    public Cases [][] clonerTerrain(Cases [][] terrainInitiale){
+
+        Cases [][] terrainClone;
+        Cases caseCourante;
+        Cases cases;
+        Pingouin ping;
+
+        //creation de la nouvelle matrice
+        terrainClone = new Cases[this.nbLignes][this.nbColonnes];
+        int c;
+        int l=0;
+        
+        //boucle sur toutes les lignes
+        while( l < nbLignes){
+
+            if( l%2 ==1 ){// si ligne impaire
+                c = 0;
+            }else{ // ligne paire
+                c = 1;
+            }
+
+            //boucle sur toutes les colonnes
+            while( c < (nbColonnes)){
+                caseCourante = terrainInitiale[l][c];
+
+                ping = caseCourante.getPingouin();
+
+                //test pingouin est present sur la case ou non
+                if(ping != null){
+                    cases = new Cases(caseCourante.estMange(), caseCourante.getNbPoissons(),ping.cloner());
+                } else {
+                    cases = new Cases(caseCourante.estMange(), caseCourante.getNbPoissons(),null);
+                }
+
+                terrainClone[l][c] = cases;
+                c+=2;
+            }
+            l++;
+        }
+
+        return terrainClone;
+    }
+
 
     /**
      * Creation du terrain aléatoirement
@@ -182,6 +258,9 @@ public class Jeu{
             }
     }
 
+    /**
+     * Attribut une case à une case du terrain
+     */
     public void setCase(Cases cases, int ligne, int colonne){
 
             if( ligne%2 ==1 ){// si ligne impaire
@@ -191,12 +270,19 @@ public class Jeu{
             }
     }
 
+
+    /**
+     * Annonce si on peut jouer
+     */
     public boolean peutJoue(Coup cp){
 
         return true;
     }
 
 
+    /**
+     * Joue un coup
+     */
     public void joue(Coup cp){
         int l = cp.getLigne();   //Coord ou le pingouin doit aller
         int c = cp.getColonne(); //Coord ou le pingouin doit aller
@@ -222,6 +308,7 @@ public class Jeu{
         }
     }
 
+
     /**
      * Joue un coup sans objet coup
      */
@@ -229,6 +316,7 @@ public class Jeu{
 
     }
     
+
     /**
      * annonce s'il est possible d'annuler
      */
@@ -236,11 +324,14 @@ public class Jeu{
         return (!(coupJoue.size() < 1));
     }
 
+
     /**
      * Annule un coup
      */
     public void annule(){
-        if(peutAnnuler()){
+
+        /*
+        if(peutAnnule()){
             Jeu jeu = new Jeu(nbligne,nbcolonne);
             int i = 0;
             coupAnnule.add(coupJoue.get(coupJoue.size()-1));
@@ -253,19 +344,18 @@ public class Jeu{
             this.terrain = jeu.terrain;
 
         }
+        */
 
     }
 
-    
-
-    
     
     /**
      * Annonce s'il est possible de refaire un coup annulé
      */
     public boolean peutRefaire(){
-        return true;
+        return (!(coupAnnule.size() < 1));
     }
+
 
     /**
      * Refait un coup annulé
@@ -275,6 +365,7 @@ public class Jeu{
 
         }
     }
+
 
     /**
      * Sauvegarde la partie dans un fichier de nom name
@@ -287,38 +378,59 @@ public class Jeu{
 			
             //stockage des diffferentes valeurs
             
-			//w.write(nbligne + "\n");
-			//w.write(nbcolonne + "\n");
+			w.write(nbLignes + "\n");
+			w.write(nbColonnes + "\n");
+
+
 
 
             //stocker le terrain de base
+
+            String result = "Plateau:\n[";
+		    String sep = "";
+
+            for (int i=0; i<terrainCourant.length; i++) {
+                result += sep + Arrays.toString(terrainCourant[i]);
+                sep = "\n ";
+            }
+
+            w.write(result + "\n");
+
+
+
 
 
 
 
 			//stocker tous les coups joués
+
 			int tailleList = coupJoue.size();
 
 			//stock tous les coups
 			for(int i = 0; i< tailleList; i++) {
-				//w.write(coupJoue.get(i).l + " "+ coupJoue.get(i).c + "\n");
+				//w.write(coupJoue.get(i).getLigne() + " "+ coupJoue.get(i).getColonne() + " " + coupJoue.get(i).getPingouin() + "\n");
 			}
+
 
 			//marque pour indiquer que la suite sont des coups annules
 			w.write("b\n");
 
+
+
+
 			//stocker tous les coups annules
+
 			int tailleLista = coupAnnule.size();
 			for(int i = 0; i< tailleLista; i++) {
-				//w.write(coupAnnule.get(i).l + " "+ coupAnnule.get(i).c + "\n");
+				//w.write(coupAnnule.get(i).getLigne() + " "+ coupAnnule.get(i).getColonne()+ " " + coupAnnule.get(i).getPingouin() +"\n");
 			}
+
 
 			//fermer le fichier
 			w.close();
 
 		} catch (IOException e) {
 			System.out.print("Erreur : " + e);
-
 		}
 
     }
@@ -340,6 +452,5 @@ public class Jeu{
 				"\n- peut refaire : " + peutRefaire();
 		return result;
     }
-
     
 }

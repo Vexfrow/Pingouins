@@ -18,6 +18,14 @@ public class Cases {
         this.mange = false;
     }
 
+    public Cases cloneCases(boolean mange, int nbPoissons, Pingouin ping){
+        if (ping == null) {
+            return new Cases(mange, nbPoissons, null);
+        } else {
+            return new Cases(mange, nbPoissons, new Pingouin(ping.getNumero(), ping.getJoueur()));
+        }
+    }
+
 
         //getters
 
@@ -31,7 +39,7 @@ public class Cases {
 
 
     public Pingouin getPingouin() {
-        return pingouin;
+        return this.pingouin;
     }
 
         //setters
@@ -51,7 +59,9 @@ public class Cases {
     //afficher une case
     @Override
     public String toString() {
-        return "Case: est mangé =  " + estMange() + " nombre de poisson =  " + getNbPoissons() + " getPingouin" + getPingouin() ;
+
+        return  "" +getNbPoissons();
+        //return "Case: est mangé =  " + estMange() + " nombre de poisson =  " + getNbPoissons() + " getPingouin" + getPingouin() ;
     }
 
 }
