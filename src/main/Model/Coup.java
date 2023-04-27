@@ -7,7 +7,6 @@ public class Coup {
     private Pingouin pingouin;
 
 
-
     public Coup(int x, int y, Pingouin pingouin) {
         this.x = x;
         this.y = y;
@@ -44,10 +43,10 @@ public class Coup {
         return cp;
     }
 
-
+    //afficher un coup
     @Override
     public String toString() {
-        return "PingouinJoueur = " + pingouin.getJoueur()+ ", numéro pingouin : " + pingouin.getNumero() + ", x = "+ x + ", y = " + y;
+        return "PingouinJoueur = " + pingouin.getJoueur()+ ", numéro pingouin = " + pingouin.getNumero() + ", x = "+ x + ", y = " + y;
     }
 
 
