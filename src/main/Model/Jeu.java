@@ -22,14 +22,16 @@ public class Jeu{
     }
 
     Jeu(){
+        i
 
     }
 
     Jeu(int nbLignes, int nbColonnes, int nbJoueurs, int PingParJoueur){
 
     }
-    
+
     public void terrainAleatoire(){
+
     }
 
     public Cases [][] getTerrain(){
@@ -70,9 +72,6 @@ public class Jeu{
     }
 
     public void sauvegarder(String name){
-
-    }
-    public void sauvegarder(){
 
     }
 
