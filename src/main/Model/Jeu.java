@@ -12,13 +12,16 @@ public class Jeu{
 
     private Cases [][] terrainInitiale;
     private Cases [][] terrainCourant;
-    private ArraysList<Coup> coupJoue;
-    private ArraysList<Coup> coupAnnule;
+    private ArrayList<Coup> coupJoue;
+    private ArrayList<Coup> coupAnnule;
     private ArrayList<Joueur> listeJoueur;
 
     private int nbLignes; // taille du tableau
     private int nbColonnes; // taille du tableau
     private int nbJoueur;
+
+    
+
 
     /**
      * Init du jeu depuis une sauvegarde
@@ -147,7 +150,7 @@ public class Jeu{
         while( l < nbLignes ){
 
             if( l%2 ==1 ){// si ligne impaire
-                c = 0
+                c = 0;
             }else{ // ligne paire
                 c = 1;
             }
@@ -251,13 +254,6 @@ public class Jeu{
             }
             this.terrain = jeu.terrain;
 
-        }
-
-        //changemetn du joueur
-        if(joueurCourant == 1){
-            joueurCourant = 1;
-        } else {
-            joueurCourant = 2;
         }
 
     }

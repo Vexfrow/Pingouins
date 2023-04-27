@@ -29,7 +29,7 @@ public class Coup {
     }
 
     public Pingouin getPingouin(){
-        return this.pingouin
+        return this.pingouin;
     }
 
 /* Setters */
