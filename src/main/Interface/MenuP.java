@@ -1,11 +1,15 @@
 package Interface;
 
+import Controleur.Controleur;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.io.FileInputStream;
 
 public class MenuP extends JComponent {
+    private Controleur c;
     private JButton partieRapide;
     private JButton partiePersonnalisee;
     private JButton chargerPartie;
@@ -15,7 +19,7 @@ public class MenuP extends JComponent {
     private SpringLayout layout;
     private  JLabel menu;
 
-    public MenuP(){
+    public MenuP(Controleur c){
         //Création des éléments
         try{
             img = (Image)ImageIO.read(new FileInputStream("resource/assets/menu/Titre.png"));
@@ -27,13 +31,45 @@ public class MenuP extends JComponent {
         chargerPartie = new JButton("Charger Partie");
         tutoriel = new JButton("Tutoriel");
         regles = new JButton("Règles");
+
+        prepareBouton();
         layout = new SpringLayout();
         menu = new JLabel(new ImageIcon(img));
-
+        this.c = c;
 
         //Ajouts
 
 
+    }
+
+    public void prepareBouton(){
+        regles.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                System.out.println("Je me lance");
+                c.demarrerRegles();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
     }
 
     private Image reScale(Image source, int x, int y){
@@ -45,17 +81,25 @@ public class MenuP extends JComponent {
     @Override
     public void paintComponent(Graphics g){
         Container panel = getRootPane().getContentPane();
-        panel.setBackground(new Color(62, 230, 220));
-        Color darkBlue = new Color(50, 128, 162);
-        //Peinture
-        menu.setIcon(new ImageIcon(reScale(img, (int)(panel.getSize().width/2), (int)(panel.getSize().height/(3)))));
-        regles.setBackground(darkBlue);
-        partieRapide.setBackground(darkBlue);
-        partiePersonnalisee.setBackground(darkBlue);
-        chargerPartie.setBackground(darkBlue);
-        tutoriel.setBackground(darkBlue);
 
-        regles.setForeground(Color.WHITE);
+
+
+        //Peinture
+        Color reglesColor = new Color(0xFDCF76);
+        Color partieRapideColor = new Color(0x155D85);
+        Color partiPersonnaliseeColor = new Color(0x2678A7);
+        Color chargerPartieColor = new Color(0x4D88A9);
+        Color tutorielColor = new Color(0x7292A4);
+
+
+        panel.setBackground(new Color(0x88C9D1));
+        menu.setIcon(new ImageIcon(reScale(img, (int)(panel.getSize().width/2), (int)(panel.getSize().height/(3)))));
+        regles.setBackground(reglesColor);
+        partieRapide.setBackground(partieRapideColor);
+        partiePersonnalisee.setBackground(partiPersonnaliseeColor);
+        chargerPartie.setBackground(chargerPartieColor);
+        tutoriel.setBackground(tutorielColor);
+
         partieRapide.setForeground(Color.WHITE);
         partiePersonnalisee.setForeground(Color.WHITE);
         chargerPartie.setForeground(Color.WHITE);
@@ -63,16 +107,16 @@ public class MenuP extends JComponent {
 
 
 
-
+        //Ajouts
         panel.setLayout(layout);
         panel.add(menu);
         panel.add(partieRapide);
-
-
         panel.add(partiePersonnalisee);
         panel.add(chargerPartie);
         panel.add(tutoriel);
         panel.add(regles);
+
+        //Fonctions sur les boutons
 
 
 

@@ -1,4 +1,4 @@
-package src.main;
+
 
 import Interface.Fenetre;
 import Controleur.Controleur;
@@ -7,10 +7,9 @@ import java.lang.reflect.InvocationTargetException;
 
 public class Pingouins {
     public static void main (String args[]){
-        Fenetre window = new Fenetre();
+        Controleur c = new Controleur();
+        Fenetre.demarrer(c);
 
-        Controleur c = new Controleur(window);
-        SwingUtilities.invokeLater(window);
 
     }
 
