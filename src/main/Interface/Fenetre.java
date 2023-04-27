@@ -1,6 +1,7 @@
 package Interface;
 
 import javax.swing.*;
+import Interface.MenuP;
 import java.awt.*;
 
 public class Fenetre implements Runnable {
@@ -17,7 +18,7 @@ public class Fenetre implements Runnable {
         jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         jf.setMinimumSize(new Dimension(600, 800));
-        menu.add(new Menu());
+        menu.add(new MenuP());
         jf.add(menu);
 
 

@@ -2,16 +2,10 @@ package Interface;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 
-public class Menu extends JComponent {
+public class MenuP extends JComponent {
     private JButton partieRapide;
     private JButton partiePersonnalisee;
     private JButton chargerPartie;
@@ -21,7 +15,7 @@ public class Menu extends JComponent {
     private SpringLayout layout;
     private  JLabel menu;
 
-    public Menu(){
+    public MenuP(){
         //Création des éléments
         try{
             img = (Image)ImageIO.read(new FileInputStream("resource/assets/menu/Titre.png"));
