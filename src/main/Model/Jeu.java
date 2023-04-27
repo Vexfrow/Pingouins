@@ -14,7 +14,7 @@ public class Jeu{
     private Cases [][] terrainCourant;
     private ArraysList<Coup> coupJoue;
     private ArraysList<Coup> coupAnnule;
-    private ArrayList<Pingouin> listePingouin;
+    private ArrayList<Joueur> listeJoueur;
 
     private int nbLignes;
     private int nbColonnes;
@@ -115,6 +115,10 @@ public class Jeu{
         
 
     }
+    Jeu(Case [][]terrainInitiale, int nbLigneTab, int nbColTab){
+        this.terrainInitiale = terrainInitiale;
+        this.terrainCourant = cloner(terrainInitiale);
+    }
 
     /**
      * Init du jeu avec des parametres
@@ -122,6 +126,8 @@ public class Jeu{
     Jeu(int nbLignes, int nbColonnes, int nbJoueurs, int PingParJoueur){
         terrainInitiale = new Cases[nbLignes][nbColonnes*2-1];
         terrainCourant = new Cases[nbLignes][nbColonnes*2-1];
+        this.nbColonnes = nbColonne*2-1;
+        this.nbLignes = nbLignes;
         int l = 0;
         int c, r;
 
@@ -192,11 +198,23 @@ public class Jeu{
 
 
     public void joue(Coup cp){
-        int l = cp.x;
-        int c = cp.y;
+        int l = cp.getLigne();   //Coord ou le pingouin doit aller
+        int c = cp.getColonne(); //Coord ou le pingouin doit aller
         if (peutJoue(cp)){
-            Cases ancienneCase = getCase(l,c);
-            Case nouvelleCase = new Cases(0,)
+            Cases caseArrive = getCase(l,c);
+
+            Pingouin ping = cp.getPingouin();
+            Joueur joueur = ping.getJoueur();
+            Cases caseDep = getCase(ping.getLigne(),ping.getColonne());
+            joueur.setScore(joueur.getScore()+caseArrive.getNbPoissons());
+
+            caseDep.setPingouin(null); // A verifier !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            caseDep.setMange(true);
+
+            ping.setLigne(l);
+            ping.setColonne(c);
+            caseArrive.setNbPoissons(0);
+            caseArrive.setPingouin(ping);
 
             
             coupJoue.add(cp);
@@ -215,18 +233,39 @@ public class Jeu{
      * annonce s'il est possible d'annuler
      */
     public boolean peutAnnule(){
-        return false;
+        return (!(coupJoue.size() < 1));
     }
 
     /**
      * Annule un coup
      */
     public void annule(){
-        if(peutAnnule()){
+        if(peutAnnuler()){
+            Jeu jeu = new Jeu(nbligne,nbcolonne);
+            int i = 0;
+            coupAnnule.add(coupJoue.get(coupJoue.size()-1));
+            coupJoue.remove(coupJoue.size()-1);
+
+            while( i < coupJoue.size()){
+                jeu.joue(coupJoue.get(i));
+                i++;
+            }
+            this.terrain = jeu.terrain;
 
         }
 
+        //changemetn du joueur
+        if(joueurCourant == 1){
+            joueurCourant = 1;
+        } else {
+            joueurCourant = 2;
+        }
+
     }
+
+    
+
+    
     
     /**
      * Annonce s'il est possible de refaire un coup annulé

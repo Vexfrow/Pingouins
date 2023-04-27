@@ -5,18 +5,23 @@ public class Pingouin {
     private int numero;
     private Joueur joueur;
 
-    private int x;
-    private int y;
+    private int ligne; // coord du terrain Hexagonal
+    private int colonne;
 
 
     //constructeur
     public Pingouin(int numero, Joueur joueur, int x, int y) {
         this.numero = numero;
         this.joueur = joueur;
-        this.x = x;
-        this.y = y;
+        this.ligne = x;
+        this.colonne = y;
     }
 
+     
+     
+    public Pingouin cloner(){
+        Pingouin ping = new Pingouin(this.numero, this.joueur,this.x,this.y);
+    }
         //getters
 
     public int getNumero() {
@@ -29,13 +34,13 @@ public class Pingouin {
     }
 
 
-    public int getX() {
-        return x;
+    public int getLigne() {
+        return ligne;
     }
 
 
-    public int getY() {
-        return y;
+    public int getColonne() {
+        return colonne;
     }
 
     /* retourner un couple de coordonnées
@@ -56,12 +61,12 @@ public class Pingouin {
         this.joueur = joueur;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setLigne(int x) {
+        this.ligne = x;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setColonne(int y) {
+        this.colonne = y;
     }
 
 
