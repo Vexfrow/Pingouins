@@ -134,20 +134,6 @@ public class Jeu{
     	coupAnnule = new ArrayList<Coup>();
         coupJoue = new ArrayList<Coup>();
 
-        int l = 0;
-
-        ArrayList<Integer> listeNombre = new ArrayList<Integer>();
-
-        for(int i = 1; i<=60; i++){
-            if(i<= 30){
-                listeNombre.add(1);
-            }else if(i <=50){
-                listeNombre.add(2);
-            }else{
-                listeNombre.add(3);
-            }
-        }
-
         terrainAleatoire(nbLignes, nbColonnes);
 
     }
@@ -173,7 +159,22 @@ public class Jeu{
     public void terrainAleatoire(int nbLignes, int nbColonnes){
         int l = 0;
         int c,r;
+
+        //array list pour la liste des valeurs possibles pour le nb de poisson
+        ArrayList<Integer> listeNombre = new ArrayList<Integer>();
+
+        for(int i = 1; i<=60; i++){
+            if(i<= 30){
+                listeNombre.add(1);
+            }else if(i <=50){
+                listeNombre.add(2);
+            }else{
+                listeNombre.add(3);
+            }
+        }
+
         Random rand = new Random();
+
         while( l < nbLignes ){
 
             if( l%2 ==1 ){// si ligne impaire
@@ -183,9 +184,12 @@ public class Jeu{
             }
 
             while( c < nbColonnes*2-1){
-                r = rand.nextInt(3)+1;
-                terrainInitiale[l][c]= new Cases(r);
-                terrainCourant[l][c]= new Cases(r);
+
+                r = rand.nextInt(listeNombre.size());
+                int valeur = listeNombre.remove(r);
+
+                terrainInitiale[l][c]= new Cases(valeur);
+                terrainCourant[l][c]= new Cases(valeur);
                 c+=2;
             }
             l++;

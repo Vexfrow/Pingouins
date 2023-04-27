@@ -1,6 +1,7 @@
 package Model;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -13,8 +14,9 @@ public class mainModel {
 
         System.out.println("");
 
-/*
-        Jeu j = new Jeu();
+        ArrayList<Joueur> joueur = new ArrayList<>();
+
+        Jeu j = new Jeu(joueur, 8, 8);
         System.out.println(j);
 
 
@@ -29,8 +31,10 @@ public class mainModel {
 		}
 
         System.out.println(result);
-		*/
 		
+		
+
+
 	}
 
 
