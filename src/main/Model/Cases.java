@@ -2,7 +2,7 @@ package main.Model;
 
 public class Cases {
 
-    private boolean mange; //1 = mangé
+    private boolean mange; //true/1 = mangé
     private int nbPoissons;
     private Pingouin pingouin;
 
@@ -13,13 +13,17 @@ public class Cases {
         this.pingouin = pingouin;
     }
 
+    public Cases(int nbPoissons) {
+        this.nbPoissons = nbPoissons;
+        this.mange = false;
+    }
+
 
         //getters
 
     public boolean estMange() {
         return mange;
     }
-
 
     public int getNbPoissons() {
         return nbPoissons;
@@ -30,20 +34,15 @@ public class Cases {
         return pingouin;
     }
 
-    
-    
         //setters
-
     
     public void setMange(boolean mange) {
         this.mange = mange;
     }
     
-    
     public void setNbPoissons(int nbPoissons) {
         this.nbPoissons = nbPoissons;
     }
-    
     
     public void setPingouin(Pingouin pingouin) {
         this.pingouin = pingouin;
