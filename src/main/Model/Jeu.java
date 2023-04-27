@@ -14,6 +14,11 @@ public class Jeu{
     private ArrayList<Coup> coupJoue;
     private ArrayList<Coup> coupAnnule;
 
+    private int nbLignes;
+    private int nbColonnes;
+    private int nbJoueur;
+
+
 
 
     /**
@@ -33,21 +38,34 @@ public class Jeu{
     		BufferedReader bufferedReader = new BufferedReader(reader);
 
     		String line;
-    		
+
+    		//recuperer le nombre de ligne
+    		line = bufferedReader.readLine();
+    		nbLignes = Integer.parseInt(line);
+
+    		//recuperer le nombre de collone
+    		line = bufferedReader.readLine();
+    		nbColonnes = Integer.parseInt(line);
+
+
+            //creation terrain
+
+    		//terrainCourant = new int[nbligne][nbcolonne];
+
+
+
+
+
 
             //recuperer le terrain
 
 
-    		//recuperer le nombre de ligne
-    		//line = bufferedReader.readLine();
-    		//nbligne = Integer.parseInt(line);
 
-    		//recuperer le nombre de collone
-    		//line = bufferedReader.readLine();
-    		//nbcolonne = Integer.parseInt(line);
 
-    		//creation terrain
-    		//terrain = new int[nbligne][nbcolonne];
+
+
+            //save le terrrain
+            //terrainInitiale = 
 
 
     		//recuprer tous les coups à jouer
@@ -72,7 +90,7 @@ public class Jeu{
 				//definir un nouveau  coup
 				//Coup cp = new Coup(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
 
-				//ajoute le coup à l'arraylist
+				//ajoute le coup à l'arraylist annule
 				//coupAnnule.add(cp);
 
 	    }
@@ -146,7 +164,7 @@ public class Jeu{
     }
     
     /**
-     * annnce s'il est possible d'annuler
+     * annonce s'il est possible d'annuler
      */
     public boolean peutAnnule(){
         return false;
