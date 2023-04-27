@@ -1,5 +1,8 @@
 package main.Model;
 
+import main.Model.Pingouin;
+import main.Model.Joueur;
+
 public class Coup {
     
     private int x;
@@ -53,14 +56,15 @@ public class Coup {
 
 
     public Coup cloner(){
-        Coup cp = new Coup(this.x,this.y, this.pingouin);
+        Coup cp = new Coup(this.x,this.y,this.joueur, this.pingouin);
         return cp;
     }
 
     //afficher un coup
     @Override
     public String toString() {
-        return "PingouinJoueur = " + pingouin.getJoueur()+ ", numéro pingouin = " + pingouin.getNumero() + ", x = "+ x + ", y = " + y;
+        String string = "x= " + x + "y = " + y;
+        return string;
     }
 
 

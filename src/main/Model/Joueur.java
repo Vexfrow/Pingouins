@@ -1,4 +1,5 @@
 package main.Model;
+import main.Model.Pingouin;
 
 import java.util.ArrayList;
 
@@ -12,7 +13,7 @@ public class Joueur {
     public ArrayList<Pingouin> listePingouin;
 
     //constructeur de joueur
-    Joueur(int numeroJoueur, int nbPingouin, nbpingouin){
+    Joueur(int numeroJoueur, int nbPingouin, int nbpingouin){
 
         this.numeroJoueur = numeroJoueur;
         this.score = 0;
@@ -61,8 +62,8 @@ public class Joueur {
         int i = 0;
         while( i < this.listePingouin.size()){
             joueuse.listePingouin.add(this.listePingouin.get(i));
-            return 
         }
+        return joueuse;
     }
 
     

@@ -15,7 +15,8 @@ public class Pingouin {
      
      
     public Pingouin cloner(){
-        Pingouin ping = new Pingouin(this.x,this.y);
+        Pingouin ping = new Pingouin(this.ligne,this.colonne);
+        return ping;
     }
         //getters
 
