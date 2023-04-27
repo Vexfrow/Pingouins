@@ -88,8 +88,22 @@ public class Jeu{
             }
     }
 
+    public boolean peutJoue(Coup cp){
 
-    public void joue(Coup){
+        return true;
+    }
+
+
+    public void joue(Coup cp){
+        int l = cp.x;
+        int c = cp.y;
+        if (peutJoue(cp)){
+            Cases ancienneCase = getCase(l,c);
+            Case nouvelleCase = new Cases(0,)
+
+            
+            coupJoue.add(cp);
+            coupAnnule = new ArrayList<Coup>();
 
     }
 
