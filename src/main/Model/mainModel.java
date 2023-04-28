@@ -10,7 +10,7 @@ public class mainModel {
     
     public static void main(String[] args) {
 		
-        //test pour la fonction clonner terrain
+        //test pour la fonction cloner terrain
 
         System.out.println("");
 

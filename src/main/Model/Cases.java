@@ -21,15 +21,17 @@ public class Cases {
     }
         //getters
 
+    // Renvoie 1 si une case a ete mangee
     public boolean estMange() {
         return mange;
     }
 
+    // Renvoie le nombre de poissons sur une case
     public int getNbPoissons() {
         return nbPoissons;
     }
 
-
+    // Renvoie 1 si un pingouin se trouve sur la case
     public boolean pingouinPresent() {
         return pingouin;
     }

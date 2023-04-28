@@ -5,34 +5,31 @@ public class Pingouin {
     private int ligne; // coord du terrain Hexagonal
     private int colonne;
 
-
     //constructeur
     public Pingouin(int x, int y) {
         this.ligne = x;
         this.colonne = y;
     }
 
-     
-     
+    // Renvoie une copie du pingouin
     public Pingouin cloner(){
         Pingouin ping = new Pingouin(this.ligne,this.colonne);
         return ping;
     }
-        //getters
 
+
+        // Getters
 
     public int getLigne() {
         return ligne;
     }
-
 
     public int getColonne() {
         return colonne;
     }
 
 
-        //setters
-
+        // Setters
 
     public void setLigne(int x) {
         this.ligne = x;
@@ -43,5 +40,11 @@ public class Pingouin {
     }
 
 
+    // Affiche la position du pingouin
+    public String toString(){
+        String resultat = "ping: (";
+        resultat += getLigne() + ", " + getColonne() + ")";
+        return resultat;
+    }
 
 }
