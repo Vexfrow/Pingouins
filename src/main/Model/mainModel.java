@@ -3,13 +3,30 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
+import Model.Position;
 
 
 public class mainModel {
     
     public static void main(String[] args) {
 		
+
+        ArrayList<Position> p = new ArrayList<Position>();
+
+        Position pa = new Position(10, 666);
+
+        p.add(pa);
+
+        Position paa = new Position(10, 666);
+
+        System.out.println(p.contains(pa));
+
+        System.out.println(p.contains(paa));
+
+        /*
+
+
+
         //test pour la fonction cloner terrain
 
         System.out.println("");
@@ -32,7 +49,7 @@ public class mainModel {
 
         System.out.println(result);
 		
-		
+		*/
 
 
 	}

@@ -97,15 +97,15 @@ public class Jeu{
 
 
     // Init du jeu de base
-    Jeu(ArrayList<Joueur> listeJoueur){
-        this(listeJoueur,8,8);
+    Jeu(int nbJoueur){
+        this(nbJoueur,8,8);
         
 
     }
 
 
     // Constructeur pour la methode annule()
-    Jeu(Cases [][]terrainInitiale, ArrayList<Joueur> listeJoueur,ArrayList<Pingouin> listePingouin, int nbLigneTab, int nbColTab){ 
+    Jeu(Cases [][]terrainInitiale, int nbJoueur, int nbLigneTab, int nbColTab){ 
         this.terrainInitiale = terrainInitiale;
         this.terrainCourant = terrainInitiale;
         coupAnnule = new ArrayList<Coup>();
@@ -117,7 +117,7 @@ public class Jeu{
 
 
     // Init du jeu avec des parametres
-    Jeu(ArrayList<Joueur> listeJoueur, int nbLignes, int nbColonnes){
+    Jeu(int nbJoueur, int nbLignes, int nbColonnes){
         terrainInitiale = new Cases[nbLignes][nbColonnes*2-1];
         terrainCourant = new Cases[nbLignes][nbColonnes*2-1];
         coupAnnule = new ArrayList<Coup>();
@@ -138,17 +138,18 @@ public class Jeu{
 
     // Renvoie 1 si un pingouin est present sur une case specifique
     public boolean pingouinPresent(int l,int c){
-        return (getCase(l,c).pingouinPresent());
+        return (getCase(l,c).pingouinPresent()!= 0);
     }
 
 
     // Place un pingouin sur une case
-    public void placePingouin(int l, int c, Joueur joueur){
+    public void placePingouin(int l, int c, int joueurCourant){
+        Joueur joueur = listeJoueur.get(joueurCourant-1);
         if(!joueur.tousPingouinsPlaces() && getCase(l, c) != null && !pingouinPresent(l, c)){
             Pingouin ping = new Pingouin(l,c);
             joueur.listePingouin.add(ping);
             Cases cases = getCase(l,c);
-            cases.setPingouin(true);
+            cases.setPingouin(joueurCourant);
             cases.setNbPoissons(0);
         }
     }
@@ -277,10 +278,122 @@ public class Jeu{
     // encore et qu'aucun pingouin ne soit dessus) et qu'elle soit atteignable)
     // A TERMINER (reste les diagonales)
     public boolean peutJouer(Coup cp){
-        Cases c = getCase(cp.getLigne(), cp.getColonne());
+        // int ligne = cp.getLigne();
+        // int colonne = cp.getColonne();
+        // ArrayList<Position> CasesAccessible = getCaseAccessible(cp.getPingouin());
+        // int index = 0;
+        // while( index <CasesAccessible.size() && caseAccessible.get(index).x )
+    
+        
+        return true;
 
-        return !c.estMange() && !pingouinPresent(cp.getLigne(), cp.getColonne());
     }
+
+    /**
+        Donne les cases accessibles a un pingoin
+     */
+    public ArrayList<Position> getCaseAccessible(Pingouin ping){
+        int yPing;
+        int xPing;
+        int x;
+        int y;
+
+        Position position;
+        Cases cases;
+
+        //sauvegarder la postion du pingouin et conversion des coordonée en case du plateau
+        if((ping.getLigne()%2 ==1)){
+            yPing = ping.getColonne()*2+1;
+        }else {
+            yPing = ping.getColonne()*2;
+        }
+
+        xPing = ping.getColonne();
+        x = xPing;
+        y = yPing;
+
+        ArrayList<Position> caseAccessible = new ArrayList<Position>();
+
+        //regarder dans toutes les directions
+
+        //gauche à droite   
+        y+=2;
+        cases = terrainCourant[x][y];
+        while(!cases.estMange() && cases.pingouinPresent()!=0 && y<this.nbColonnes){
+            position = new Position(x, y/2);
+            //ajout de la position de la case accesible
+            caseAccessible.add(position);
+            y = y+2;
+            cases = terrainCourant[x][y];
+        }
+
+        //droite à gauche
+        y=yPing-2;
+        cases = terrainCourant[x][y];
+        while(!cases.estMange() && cases.pingouinPresent()!=0 && y>=0 ){
+            position = new Position(x, y/2);
+            caseAccessible.add(position);
+            y = y-2;
+            cases = terrainCourant[x][y];
+        }
+        
+        //bas gauche
+        y = yPing -1;
+        x = xPing +1;
+
+        cases = terrainCourant[x][y];
+        while(!cases.estMange() && cases.pingouinPresent()!=0 && y>=0 && x < this.nbLignes){
+            position = new Position(x, y/2);
+            caseAccessible.add(position);
+            y--;
+            x++;
+            cases = terrainCourant[x][y];
+        }
+
+        //bas droite
+        y = yPing +1;
+        x = xPing +1;
+
+        cases = terrainCourant[x][y];
+        while(!cases.estMange() && cases.pingouinPresent()!=0 && y<this.nbColonnes && x < this.nbLignes){
+            position = new Position(x, y/2);
+            caseAccessible.add(position);
+            y++;
+            x++;
+            cases = terrainCourant[x][y];
+        }
+
+        //haut gauche
+        y = yPing -1;
+        x = xPing -1;
+
+        cases = terrainCourant[x][y];
+        while(!cases.estMange() && cases.pingouinPresent()!=0 && y>=0 && x <= 0){
+            position = new Position(x, y/2);
+            caseAccessible.add(position);
+            y--;
+            x--;
+            cases = terrainCourant[x][y];
+        }
+
+        //haut droite
+        y = yPing +1;
+        x = xPing -1;
+
+        cases = terrainCourant[x][y];
+        while(!cases.estMange() && cases.pingouinPresent()!=0 && y< this.nbColonnes && x <= 0){
+            position = new Position(x, y/2);
+            caseAccessible.add(position);
+            y++;
+            x--;
+            cases = terrainCourant[x][y];
+        }
+
+
+        return caseAccessible;
+
+    }
+
 
 
     // Joue un coup sur le terrain courant
@@ -295,13 +408,13 @@ public class Jeu{
             Cases caseDep = getCase(ping.getLigne(),ping.getColonne());
             joueur.setScore(joueur.getScore()+caseArrive.getNbPoissons());
 
-            caseDep.setPingouin(false); // A verifier !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            caseDep.setPingouin(0); // A verifier !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             caseDep.setMange(true);
 
             ping.setLigne(l);
             ping.setColonne(c);
             caseArrive.setNbPoissons(0);
-            caseArrive.setPingouin(true);
+            caseArrive.setPingouin(joueurCourant);
 
             
             coupJoue.add(cp);

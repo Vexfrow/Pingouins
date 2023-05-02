@@ -5,10 +5,10 @@ public class Cases {
 
     private boolean mange; //true/1 = mangé
     private int nbPoissons;
-    private boolean pingouin;
+    private int pingouin;
 
 
-    public Cases(boolean mange, int nbPoissons, boolean pingouin) {
+    public Cases(boolean mange, int nbPoissons, int pingouin) {
         this.mange = mange;
         this.nbPoissons = nbPoissons;
         this.pingouin = pingouin;
@@ -17,7 +17,7 @@ public class Cases {
     public Cases(int nbPoissons) {
         this.nbPoissons = nbPoissons;
         this.mange = false;
-        this.pingouin=false;
+        this.pingouin=0;
     }
         //getters
 
@@ -32,7 +32,7 @@ public class Cases {
     }
 
     // Renvoie 1 si un pingouin se trouve sur la case
-    public boolean pingouinPresent() {
+    public int pingouinPresent() {
         return pingouin;
     }
 
@@ -46,7 +46,7 @@ public class Cases {
         this.nbPoissons = nbPoissons;
     }
     
-    public void setPingouin(boolean pingouin) {
+    public void setPingouin(int pingouin) {
         this.pingouin = pingouin;
     }
 

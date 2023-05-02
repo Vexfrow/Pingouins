@@ -5,10 +5,10 @@ import Model.Joueur;
 
 public class Coup {
     
-    private int x;
+    private int x; // On veut aller
     private int y;
     private Joueur joueur;
-    private Pingouin pingouin;
+    private Pingouin pingouin; 
 
 
     public Coup(int x, int y, Joueur joueur, Pingouin pingouin) {
