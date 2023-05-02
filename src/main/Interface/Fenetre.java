@@ -1,61 +1,40 @@
-
-package main.Interface;
-
-import javax.swing.*;
+package Interface;
 
 import main.Model.Jeu;
-
 import main.Vue.BanquiseGraphique;
 
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import Model.Joueur;
 
 public class Fenetre implements Runnable {
-
+    Menu m;
+    private JFrame jf;
+    private JPanel menu;
+    private SpringLayout l;
     Jeu j;
-
-
-    public Fenetre(Jeu jeu){
-        j = jeu;
+    public Fenetre(){
+        menu = new JPanel();
+        ArrayList<Joueur> a = new ArrayList<>();
+        a.add(new Joueur(1,0,2));
+        j = null;
     }
+    public void run(){
+        jf = new JFrame();
+        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        jf.setMinimumSize(new Dimension(600, 800));
+        //menu.add(new BanquiseGraphique(j));
+        jf.add(new BanquiseGraphique(j));
 
 
-    public static void demarrer(Jeu j){
-        try{
-            SwingUtilities.invokeAndWait(new Fenetre(j));
-        } catch (InvocationTargetException e) {
-            e.getTargetException().printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-    }
 
 
-    public void run() {
-        // Creation d'une fenêtre
-        JFrame mainFrame = new JFrame("La gaufre empoisonnée");
-        mainFrame.setBackground(Color.blue);
 
-        // On fixe la taille et on démarre
-        mainFrame.setSize(530, 300);
-        mainFrame.setMinimumSize(new Dimension(530, 300));
-
-
-        JPanel panelGaufre = new JPanel(new CardLayout());
-        panelGaufre.setBackground(new Color(155, 216, 248));
-        BanquiseGraphique bg = new BanquiseGraphique(j);
-        panelGaufre.add(bg);
-        panelGaufre.setVisible(true);
-        mainFrame.add(panelGaufre);
-
-
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setVisible(true);
-
+        jf.setVisible(true);
     }
 
 

@@ -1,17 +1,19 @@
-package main;
 
-import main.Interface.Fenetre;
-
+import Interface.Fenetre;
+import Controleur.Controleur;
 import main.Model.Jeu;
 
-public class Pingouins {
+import javax.swing.*;
+import java.lang.reflect.InvocationTargetException;
 
-            public static void main(String[] args){
-                //On crée un jeu avec les paramètres passé en paramètre
-                Jeu j = new Jeu();
-                //On crée un controleur à partir de ce jeu
-                //On lance l'affichage de l'interface
-                Fenetre.demarrer(j);
-            }
+public class Pingouins {
+    public static void main (String args[]){
+        Fenetre window = new Fenetre();
+
+        Controleur c = new Controleur(window);
+        SwingUtilities.invokeLater(window);
+
+    }
+
 
 }

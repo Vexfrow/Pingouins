@@ -1,69 +1,50 @@
-package main.Model;
+package Model;
 
 public class Pingouin {
     
-    private int numero;
-    private Joueur joueur;
-
-    private int x;
-    private int y;
-
+    private int ligne; // coord du terrain Hexagonal
+    private int colonne;
 
     //constructeur
-    public Pingouin(int numero, Joueur joueur, int x, int y) {
-        this.numero = numero;
-        this.joueur = joueur;
-        this.x = x;
-        this.y = y;
+    public Pingouin(int x, int y) {
+        this.ligne = x;
+        this.colonne = y;
     }
 
-        //getters
-
-    public int getNumero() {
-        return numero;
-    }
-
-
-    public Joueur getJoueur() {
-        return joueur;
+    // Renvoie une copie du pingouin
+    public Pingouin cloner(){
+        Pingouin ping = new Pingouin(this.ligne,this.colonne);
+        return ping;
     }
 
 
-    public int getX() {
-        return x;
+        // Getters
+
+    public int getLigne() {
+        return ligne;
+    }
+
+    public int getColonne() {
+        return colonne;
     }
 
 
-    public int getY() {
-        return y;
+        // Setters
+
+    public void setLigne(int x) {
+        this.ligne = x;
     }
 
-    /* retourner un couple de coordonnées
-    public int getCoordonnees(){
-        return;
-    }
-    */
-
-
-        //setters
-
-
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
-
-    public void setJoueur(Joueur joueur) {
-        this.joueur = joueur;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
+    public void setColonne(int y) {
+        this.colonne = y;
     }
 
 
+    // Affiche la position du pingouin
+    public String toString(){
+        String resultat = "ping: (";
+        resultat += getLigne() + ", " + getColonne() + ")";
+        return resultat;
+    }
 
 }
