@@ -4,18 +4,17 @@ import Model.Pingouin;
 import Model.Joueur;
 
 public class Coup {
-    
-    private int x; // On veut aller
+    public boolean place; // 1 = on place le pingouin, sinon on joue.
+    private int x; // On veut aller,
     private int y;
-    private Joueur joueur;
-    private Pingouin pingouin; 
+    private Pingouin pingouin;  // non remplis si place = 1.
 
 
-    public Coup(int x, int y, Joueur joueur, Pingouin pingouin) {
+    public Coup(int x, int y, Pingouin pingouin, boolean place) {
         this.x = x;
         this.y = y;
-        this.joueur = joueur;
         this.pingouin = pingouin;
+        this.place = place;
     }
 
         // Getters
@@ -26,10 +25,6 @@ public class Coup {
 
     public int getColonne(){
         return this.y;
-    }
-
-    public Joueur getJoueur(){
-        return this.joueur;
     }
 
     public Pingouin getPingouin(){
@@ -47,10 +42,6 @@ public class Coup {
         this.y = colonne;
     }
 
-    public void setJoueur(Joueur joueur){
-        this.joueur = joueur;
-    }
-
     public void setPingouin(Pingouin pingouin){
         this.pingouin = pingouin;
     }
@@ -58,7 +49,7 @@ public class Coup {
 
     // Renvoie une copie du coup
     public Coup cloner(){
-        Coup cp = new Coup(this.x,this.y,this.joueur, this.pingouin);
+        Coup cp = new Coup(this.x,this.y, this.pingouin, this.place);
         return cp;
     }
 
