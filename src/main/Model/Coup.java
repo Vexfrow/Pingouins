@@ -1,7 +1,7 @@
-package main.Model;
+package Model;
 
-import main.Model.Pingouin;
-import main.Model.Joueur;
+import Model.Pingouin;
+import Model.Joueur;
 
 public class Coup {
     
@@ -18,6 +18,7 @@ public class Coup {
         this.pingouin = pingouin;
     }
 
+        // Getters
     
     public int getLigne(){
         return this.x;
@@ -35,7 +36,8 @@ public class Coup {
         return this.pingouin;
     }
 
-/* Setters */
+
+        // Setters 
 
     public void setLigne(int ligne){
         this.x = ligne;
@@ -54,12 +56,13 @@ public class Coup {
     }
 
 
-
+    // Renvoie une copie du coup
     public Coup cloner(){
         Coup cp = new Coup(this.x,this.y,this.joueur, this.pingouin);
         return cp;
     }
 
+    
     //afficher un coup
     @Override
     public String toString() {

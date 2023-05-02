@@ -1,4 +1,3 @@
-package src.main;
 
 import Interface.Fenetre;
 import Controleur.Controleur;

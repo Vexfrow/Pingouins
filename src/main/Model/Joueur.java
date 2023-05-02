@@ -1,5 +1,5 @@
-package main.Model;
-import main.Model.Pingouin;
+package Model;
+import Model.Pingouin;
 
 import java.util.ArrayList;
 
@@ -12,20 +12,24 @@ public class Joueur {
     //liste des pingouins pour le joueur
     public ArrayList<Pingouin> listePingouin;
 
-    //constructeur de joueur
-    Joueur(int numeroJoueur, int nbPingouin, int nbpingouin){
+    // Constructeur de joueur
+    // Pour initialiser un joueur, on appelle avec score = 0
+    Joueur(int numeroJoueur, int score, int nbPingouin){
 
         this.numeroJoueur = numeroJoueur;
-        this.score = 0;
-
+        this.score = score;
+        this.nbPingouin = nbPingouin;
         listePingouin = new ArrayList<Pingouin>();//init la liste des pingouins
     }
 
 
-    public boolean tousPingouinPlace(){
+    // Renvoie 1 si tous les pingouins pour un joueur sont tous places sur le plateau
+    public boolean tousPingouinsPlaces(){
         return (listePingouin.size() == nbPingouin);
     }
-        //getters
+
+
+        // Getters
 
     public int getNumeroJoueur() {
         return numeroJoueur;
@@ -40,16 +44,16 @@ public class Joueur {
     }
 
 
-        //setters
+        // Setters
 
     public void setNumeroJoueur(int numeroJoueur) {
         this.numeroJoueur = numeroJoueur;
     }
 
-
     public void setScore(int score) {
         this.score = score;
     }
+
 
     //afficher un joueur
     @Override
@@ -57,6 +61,7 @@ public class Joueur {
         return "Joueur = " + getNumeroJoueur() + ", score = " + getScore() + ", Pingouins  = " + getListePingouin().toString() ;
     }
 
+    // Renvoie une copie d'un joueur 
     public Joueur cloner(){
         Joueur joueuse = new Joueur(this.numeroJoueur, this.score, this.nbPingouin);
         int i = 0;
@@ -65,6 +70,5 @@ public class Joueur {
         }
         return joueuse;
     }
-
     
 }

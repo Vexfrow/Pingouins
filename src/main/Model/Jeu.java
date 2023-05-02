@@ -1,8 +1,5 @@
-package main.Model;
-import main.Model.Cases;
-import main.Model.Coup;
-import main.Model.Joueur;
-import main.Model.Pingouin;
+package Model;
+
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -25,12 +22,9 @@ public class Jeu{
     private int nbColonnes; // taille du tableau
     private int nbJoueur;
 
-    
+    private int joueurCourant = 1;  // En supposant que c'est le joueur 1 qui commence
 
-
-    /**
-     * Init du jeu depuis une sauvegarde
-     */
+    // Init du jeu depuis une sauvegarde
     Jeu(String name){
 
         try {
@@ -94,7 +88,6 @@ public class Jeu{
 
     		//fermer le fichier
     		reader.close();
-
     		
 		} catch (IOException e) {
 			System.out.print("Erreur : " + e);
@@ -103,15 +96,16 @@ public class Jeu{
     }
 
 
-    /**
-     * Init du jeu de base
-     */
+    // Init du jeu de base
     Jeu(ArrayList<Joueur> listeJoueur){
         this(listeJoueur,8,8);
         
 
     }
-    Jeu(Cases [][]terrainInitiale, ArrayList<Joueur> listeJoueur,ArrayList<Pingouin> listePingouin, int nbLigneTab, int nbColTab){ // pour la méthode annule()
+
+
+    // Constructeur pour la methode annule()
+    Jeu(Cases [][]terrainInitiale, ArrayList<Joueur> listeJoueur,ArrayList<Pingouin> listePingouin, int nbLigneTab, int nbColTab){ 
         this.terrainInitiale = terrainInitiale;
         this.terrainCourant = terrainInitiale;
         coupAnnule = new ArrayList<Coup>();
@@ -121,9 +115,8 @@ public class Jeu{
 
     }
 
-    /**
-     * Init du jeu avec des parametres
-     */
+
+    // Init du jeu avec des parametres
     Jeu(ArrayList<Joueur> listeJoueur, int nbLignes, int nbColonnes){
         terrainInitiale = new Cases[nbLignes][nbColonnes*2-1];
         terrainCourant = new Cases[nbLignes][nbColonnes*2-1];
@@ -133,31 +126,54 @@ public class Jeu{
         this.nbJoueur = listeJoueur.size();
         this.nbColonnes = nbColonnes*2-1;
         this.nbLignes = nbLignes;
-        terrainAleatoire(nbLignes,nbColonnes);
+
+        //init des arrays
+    	coupAnnule = new ArrayList<Coup>();
+        coupJoue = new ArrayList<Coup>();
+
+        terrainAleatoire(nbLignes, nbColonnes);
+
     }
 
-    
+
+    // Renvoie 1 si un pingouin est present sur une case specifique
     public boolean pingouinPresent(int l,int c){
         return (getCase(l,c).pingouinPresent());
     }
 
-    public void placePingouin(int l, int c, Joueur joueur){
 
-        if(!joueur.tousPingouinPlace()){
+    // Place un pingouin sur une case
+    public void placePingouin(int l, int c, Joueur joueur){
+        if(!joueur.tousPingouinsPlaces() && getCase(l, c) != null && !pingouinPresent(l, c)){
             Pingouin ping = new Pingouin(l,c);
             joueur.listePingouin.add(ping);
             Cases cases = getCase(l,c);
             cases.setPingouin(true);
+            cases.setNbPoissons(0);
         }
     }
 
-    /**
-     * Creation du terrain aléatoirement de taille du terrain hexagonale donné en param
-     */
+
+    // Creation du terrain aleatoirement de taille du terrain hexagonale donne en parametre
     public void terrainAleatoire(int nbLignes, int nbColonnes){
         int l = 0;
         int c,r;
+
+        //array list pour la liste des valeurs possibles pour le nb de poisson
+        ArrayList<Integer> listeNombre = new ArrayList<Integer>();
+
+        for(int i = 1; i<=60; i++){
+            if(i<= 30){
+                listeNombre.add(1);
+            }else if(i <=50){
+                listeNombre.add(2);
+            }else{
+                listeNombre.add(3);
+            }
+        }
+
         Random rand = new Random();
+
         while( l < nbLignes ){
 
             if( l%2 ==1 ){// si ligne impaire
@@ -167,19 +183,57 @@ public class Jeu{
             }
 
             while( c < nbColonnes*2-1){
-                r = rand.nextInt(3)+1;
-                terrainInitiale[l][c]= new Cases(r);
-                terrainCourant[l][c]= new Cases(r);
+
+                r = rand.nextInt(listeNombre.size());
+                int valeur = listeNombre.remove(r);
+
+                terrainInitiale[l][c]= new Cases(valeur);
+                terrainCourant[l][c]= new Cases(valeur);
+                c+=2;
+            }
+            l++;
+        }
+    }
+
+
+    // Creation du clone du terrain donne
+    public Cases [][] clonerTerrain(Cases [][] terrainInitiale){
+
+        Cases [][] terrainClone;
+        Cases caseCourante;
+        Cases cases;
+        Pingouin ping;
+
+        //creation de la nouvelle matrice
+        terrainClone = new Cases[this.nbLignes][this.nbColonnes];
+        int c;
+        int l=0;
+        
+        //boucle sur toutes les lignes
+        while( l < nbLignes){
+
+            if( l%2 ==1 ){// si ligne impaire
+                c = 0;
+            }else{ // ligne paire
+                c = 1;
+            }
+
+            //boucle sur toutes les colonnes
+            while( c < (nbColonnes)){
+                caseCourante = terrainInitiale[l][c];
+                cases = new Cases(caseCourante.estMange(), caseCourante.getNbPoissons(), caseCourante.pingouinPresent());
+
+                terrainClone[l][c] = cases;
                 c+=2;
             }
             l++;
         }
 
+        return terrainClone;
     }
 
-    /**
-     * Donne le terrain courant
-     */
+
+    // Renvoie le terrain courant
     public Cases [][] getTerrain(){
         return terrainCourant;
     }
@@ -189,12 +243,13 @@ public class Jeu{
     // Colonne compris entre [0, nbColonne[, colonne est la position sur le terrain hexagonal
     public Cases getCase(int ligne, int colonne){
             if( ligne%2 ==1 ){// si ligne impaire
-                return terrainCourant[ligne][colonne*2+1];
-            }else{ // ligne paire
                 return terrainCourant[ligne][colonne*2];
+            }else{ // ligne paire
+                return terrainCourant[ligne][colonne*2+1];
             }
     }
 
+    // Attribut une case a une case du terrain
     public void setCase(Cases cases, int ligne, int colonne){
 
             if( ligne%2 ==1 ){// si ligne impaire
@@ -204,16 +259,35 @@ public class Jeu{
             }
     }
 
-    public boolean peutJoue(Coup cp){
 
-        return true;
+    // Renvoie le joueur courant
+    public int quelJoueur(){
+        return joueurCourant;
     }
 
 
-    public void joue(Coup cp){
+    // Renvoie le numero du joueur suivant
+    public void switchJoueur(){
+        joueurCourant = (joueurCourant % nbJoueur) + 1;
+    }
+
+
+    // Renvoie 1 si on peut jouer le coup cp, 0 sinon.
+    // (Il faut que la case soit libre (donc qu'elle existe 
+    // encore et qu'aucun pingouin ne soit dessus) et qu'elle soit atteignable)
+    // A TERMINER (reste les diagonales)
+    public boolean peutJouer(Coup cp){
+        Cases c = getCase(cp.getLigne(), cp.getColonne());
+
+        return !c.estMange() && !pingouinPresent(cp.getLigne(), cp.getColonne());
+    }
+
+
+    // Joue un coup sur le terrain courant
+    public void joue(Coup cp, int joueurCourant){
         int l = cp.getLigne();   //Coord ou le pingouin doit aller
         int c = cp.getColonne(); //Coord ou le pingouin doit aller
-        if (peutJoue(cp)){
+        if (peutJouer(cp) && (joueurCourant == quelJoueur())){
             Cases caseArrive = getCase(l,c);
 
             Pingouin ping = cp.getPingouin();
@@ -232,19 +306,24 @@ public class Jeu{
             
             coupJoue.add(cp);
             coupAnnule = new ArrayList<Coup>();
+
+            switchJoueur();
+
+        }
+        else {
+            // Pour les tests
+            System.out.println("Impossible de jouer\n");
         }
     }
 
-    /**
-     * Joue un coup sans objet coup
-     */
+
+    // Joue un coup sans objet coup
     public void joue(int numEq, int numPing, int ligne, int colonne){
 
     }
     
-    /**
-     * annonce s'il est possible d'annuler
-     */
+
+    // Renvoie 1 si on peut annuler un coup
     public boolean peutAnnuler(){
         return (!(coupJoue.size() < 1));
     }
@@ -255,28 +334,26 @@ public class Jeu{
     public void annule(){    
         if(peutAnnuler()){
         }
+    
 
     }
 
-    /**
-     * Annonce s'il est possible de refaire un coup annulé
-     */
+    
+    // Renvoie 1 s'il est possible de refaire un coup annule
     public boolean peutRefaire(){
-        return true;
+        return (!(coupAnnule.size() < 1));
     }
 
-    /**
-     * Refait un coup annulé
-     */
+
+    // Refait un coup annule
     public void refaire(){
         if(peutRefaire()){
 
         }
     }
 
-    /**
-     * Sauvegarde la partie dans un fichier de nom name
-     */
+
+    // Sauvegarde la partie dans un fichier de nom name
     public void sauvegarder(String name){
 
         try {
@@ -284,22 +361,26 @@ public class Jeu{
 			FileWriter w = new FileWriter(name);
 			
             //stockage des diffferentes valeurs
-            
-			//w.write(nbligne + "\n");
-			//w.write(nbcolonne + "\n");
-
+			w.write(nbLignes + "\n");
+			w.write(nbColonnes + "\n");
 
             //stocker le terrain de base
+            String result = "Plateau:\n[";
+		    String sep = "";
 
+            for (int i=0; i<terrainCourant.length; i++) {
+                result += sep + Arrays.toString(terrainCourant[i]);
+                sep = "\n ";
+            }
 
+            w.write(result + "\n");
 
-
-			//stocker tous les coups joués
+			//stocker tous les coups joues
 			int tailleList = coupJoue.size();
 
-			//stock tous les coups
+			//stocke tous les coups
 			for(int i = 0; i< tailleList; i++) {
-				//w.write(coupJoue.get(i).l + " "+ coupJoue.get(i).c + "\n");
+				//w.write(coupJoue.get(i).getLigne() + " "+ coupJoue.get(i).getColonne() + " " + coupJoue.get(i).getPingouin() + "\n");
 			}
 
 			//marque pour indiquer que la suite sont des coups annules
@@ -308,7 +389,7 @@ public class Jeu{
 			//stocker tous les coups annules
 			int tailleLista = coupAnnule.size();
 			for(int i = 0; i< tailleLista; i++) {
-				//w.write(coupAnnule.get(i).l + " "+ coupAnnule.get(i).c + "\n");
+				//w.write(coupAnnule.get(i).getLigne() + " "+ coupAnnule.get(i).getColonne()+ " " + coupAnnule.get(i).getPingouin() +"\n");
 			}
 
 			//fermer le fichier
@@ -316,14 +397,11 @@ public class Jeu{
 
 		} catch (IOException e) {
 			System.out.print("Erreur : " + e);
-
 		}
 
     }
 
-    /**
-     * affichage terrain et informations courantes
-     */
+    // Affichage terrain et informations courantes
     public String toString(){
         String result = "Plateau:\n[";
 		String sep = "";
@@ -338,6 +416,5 @@ public class Jeu{
 				"\n- peut refaire : " + peutRefaire();
 		return result;
     }
-
     
 }
