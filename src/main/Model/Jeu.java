@@ -252,7 +252,7 @@ public class Jeu{
     /**
      * Annule un coup
      */
-    public void annule(){
+    public void annule(){    
         if(peutAnnuler()){
         }
 
