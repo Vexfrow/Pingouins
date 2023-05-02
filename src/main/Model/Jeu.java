@@ -5,14 +5,11 @@ import java.io.IOException;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.util.Arrays;
-import java.util.ArraysList;
 
 public class Jeu{
 
     private Cases [][] terrainInitiale;
     private Cases [][] terrainCourant;
-    private ArraysList<Coup> coupJoue;
-    private ArraysList<Coup> coupAnnule;
 
 
 
@@ -21,8 +18,8 @@ public class Jeu{
 
     }
 
-    Jeu(){
-        i
+    public Jeu(){
+
 
     }
 
@@ -39,15 +36,15 @@ public class Jeu{
     }
 
     public Cases getCase(int ligne, int colonne){
-        return Cases;
+        return null;
     }
 
-    public void setCase(Cases case){
+    public void setCase(Cases c){
 
     }
 
 
-    public void joue(Coup){
+    public void joue(Coup c){
 
     }
 
@@ -56,7 +53,7 @@ public class Jeu{
     }
     
     public boolean peutAnnule(){
-
+        return false;
     }
 
     public void annule(){
@@ -64,7 +61,7 @@ public class Jeu{
     }
     
     public boolean peutRefaire(){
-
+        return false;
     }
 
     public void refaire(){
