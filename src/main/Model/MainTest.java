@@ -12,6 +12,11 @@ public class MainTest {
         // Initialisation du jeu
         Jeu j = new Jeu(2);
 
+
+        j.sauvegarder(null);
+
+
+
         // Placement des pingouins pour le joueur 1
         System.out.println("Au tour de " + j.quelJoueur() + "\nPlacement pingouin en (0,0)\n");
         j.placePingouin(0, 0);
