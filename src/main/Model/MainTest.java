@@ -17,7 +17,30 @@ public class MainTest {
         System.out.println("\n" + j.toString() + "\n");
         j.placePingouin(1, 0);
         System.out.println("\n" + j.toString() + "\n");
-        j.placePingouin(1, 1);  // pour voir si on peut mettre plus de pingouins
+
+
+        Coup cp = new Coup(0,5,new Pingouin(0,0), false);
+        j.joue(cp);
+        System.out.println("\n" + j.toString() + "\n");
+
+
+        cp = new Coup(3,1,new Pingouin(1,0), false);
+        j.joue(cp);
+        System.out.println("\n" + j.toString() + "\n");
+
+        cp = new Coup(3,1,new Pingouin(0,5), false);
+        j.joue(cp);
+        System.out.println("\n" + j.toString() + "\n");
+
+        j.annule();
+        System.out.println("\n" + j.toString() + "\n");
+        j.annule();
+        System.out.println("\n" + j.toString() + "\n");
+
+        j.refaire();
+        System.out.println("\n" + j.toString() + "\n");
+
+        j.refaire();
         System.out.println("\n" + j.toString() + "\n");
 
         // // Placement des pingouins pour le joueur 2

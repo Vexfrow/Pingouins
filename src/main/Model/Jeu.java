@@ -109,6 +109,7 @@ public class Jeu{
     Jeu(Cases [][]terrainInitiale, int nbJoueur, int nbLigneTab, int nbColTab){ 
         this.terrainInitiale = clonerTerrain(terrainInitiale);
         this.terrainCourant = clonerTerrain(terrainInitiale);
+        System.out.println(this.terrainInitiale);
         coupAnnule = new ArrayList<Coup>();
         coupJoue = new ArrayList<Coup>();
         listeJoueur = new ArrayList<Joueur>();
@@ -120,8 +121,8 @@ public class Jeu{
             i++;
         }
 
-        this.nbColonnes = nbLigneTab;
-        this.nbLignes = nbColTab;
+        this.nbColonnes = nbColTab;
+        this.nbLignes = nbLigneTab;
         this.nbJoueur = nbJoueur;
         this.nbPingouin =1;
 
@@ -162,9 +163,9 @@ public class Jeu{
         ArrayList<Integer> listeNombre = new ArrayList<Integer>();
 
         for(int i = 1; i<=60; i++){
-            if(i<= 30){
-                listeNombre.add(1);
-            }else if(i <=50){
+            if(i<= 60){
+                listeNombre.add(1); // ATTENTION MODIFI2!!!
+            }else if(i <60){
                 listeNombre.add(2);
             }else{
                 listeNombre.add(3);
@@ -249,14 +250,16 @@ public class Jeu{
         Cases caseCourante;
         Cases cases;
         Pingouin ping;
+        int nbl = terrainInitiale.length;
+        int nbc = terrainInitiale[0].length;
 
         //creation de la nouvelle matrice
-        terrainClone = new Cases[this.nbLignes][this.nbColonnes];
+        terrainClone = new Cases[nbl][nbc];
         int c;
         int l=0;
         
         //boucle sur toutes les lignes
-        while( l < nbLignes){
+        while( l < nbl){
 
             if( l%2 ==1 ){// si ligne impaire
                 c = 0;
@@ -265,7 +268,7 @@ public class Jeu{
             }
 
             //boucle sur toutes les colonnes
-            while( c < (nbColonnes)){
+            while( c < (nbc)){
                 caseCourante = terrainInitiale[l][c];
                 cases = new Cases(caseCourante.estMange(), caseCourante.getNbPoissons(), caseCourante.pingouinPresent());
 
@@ -338,13 +341,20 @@ public class Jeu{
         int colonne = cp.getPingouin().getColonne();
         ArrayList<Position> casesAccessible = getCaseAccessible(cp.getPingouin());
         int index = 0;
+        System.out.println("taille des casses accessible est de :" + casesAccessible.size());
         while( index <casesAccessible.size() && casesAccessible.get(index).x !=ligne && casesAccessible.get(index).y != colonne){
+            System.out.println("\n" + casesAccessible.get(index).x + " et y: "+ casesAccessible.get(index).y );
             index++;    
         }
         return (index != casesAccessible.size());
     }
 
-    /**
+
+    public boolean coordValideTab(int x,int y){
+        return (x < this.nbLignes && x >= 0 && y < this.nbColonnes && y >= 0);
+    }
+
+        /**
         Donne les cases accessibles a un pingoin
      */
     public ArrayList<Position> getCaseAccessible(Pingouin ping){
@@ -357,13 +367,13 @@ public class Jeu{
         Cases cases;
 
         //sauvegarder la postion du pingouin et conversion des coordonée en case du plateau
-        if((ping.getLigne()%2 ==1)){
+        if((ping.getLigne()%2 ==0)){
             yPing = ping.getColonne()*2+1;
         }else {
             yPing = ping.getColonne()*2;
         }
 
-        xPing = ping.getColonne();
+        xPing = ping.getLigne();
         x = xPing;
         y = yPing;
 
@@ -373,80 +383,62 @@ public class Jeu{
 
         //gauche à droite   
         y+=2;
-        cases = terrainCourant[x][y];
-        while(!cases.estMange() && cases.pingouinPresent()!=0 && y<this.nbColonnes){
+        while(coordValideTab(x,y) && (cases = terrainCourant[x][y]) != null && !cases.estMange() && cases.pingouinPresent()==0){
             position = new Position(x, y/2);
             //ajout de la position de la case accesible
             caseAccessible.add(position);
             y = y+2;
-            cases = terrainCourant[x][y];
         }
+        
 
         //droite à gauche
         y=yPing-2;
-        cases = terrainCourant[x][y];
-        while(!cases.estMange() && cases.pingouinPresent()!=0 && y>=0 ){
+        while(coordValideTab(x,y) && (cases = terrainCourant[x][y]) != null && !cases.estMange() && cases.pingouinPresent()==0){
             position = new Position(x, y/2);
             caseAccessible.add(position);
             y = y-2;
-            cases = terrainCourant[x][y];
         }
+        
         
         //bas gauche
         y = yPing -1;
         x = xPing +1;
-
-        cases = terrainCourant[x][y];
-        while(!cases.estMange() && cases.pingouinPresent()!=0 && y>=0 && x < this.nbLignes){
+        while(coordValideTab(x,y) && (cases = terrainCourant[x][y]) != null && !cases.estMange() && cases.pingouinPresent()==0){
             position = new Position(x, y/2);
             caseAccessible.add(position);
             y--;
             x++;
-            cases = terrainCourant[x][y];
         }
-
         //bas droite
         y = yPing +1;
         x = xPing +1;
-
-        cases = terrainCourant[x][y];
-        while(!cases.estMange() && cases.pingouinPresent()!=0 && y<this.nbColonnes && x < this.nbLignes){
+        while(coordValideTab(x,y) && (cases = terrainCourant[x][y]) != null && !cases.estMange() && cases.pingouinPresent()==0){
             position = new Position(x, y/2);
             caseAccessible.add(position);
             y++;
             x++;
-            cases = terrainCourant[x][y];
         }
 
         //haut gauche
         y = yPing -1;
         x = xPing -1;
-
-        cases = terrainCourant[x][y];
-        while(!cases.estMange() && cases.pingouinPresent()!=0 && y>=0 && x <= 0){
+        while(coordValideTab(x,y) && (cases = terrainCourant[x][y]) != null && !cases.estMange() && cases.pingouinPresent()==0){
             position = new Position(x, y/2);
             caseAccessible.add(position);
             y--;
             x--;
-            cases = terrainCourant[x][y];
         }
-
+        
         //haut droite
         y = yPing +1;
         x = xPing -1;
-
-        cases = terrainCourant[x][y];
-        while(!cases.estMange() && cases.pingouinPresent()!=0 && y< this.nbColonnes && x <= 0){
+        while(coordValideTab(x,y) && (cases = terrainCourant[x][y]) != null && !cases.estMange() && cases.pingouinPresent()==0){
             position = new Position(x, y/2);
             caseAccessible.add(position);
             y++;
             x--;
-            cases = terrainCourant[x][y];
         }
-
-
         return caseAccessible;
-
     }
 
 
