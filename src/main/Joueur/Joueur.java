@@ -18,7 +18,9 @@ public abstract class Joueur {
         return null;
     }
     
-    public Position elaborePlacement();
+    public Position elaborePlacement(){
+        return null;
+    }
 
     public void setName(String s){}
 
