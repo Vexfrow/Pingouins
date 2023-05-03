@@ -1,7 +1,5 @@
-
 import Interface.Fenetre;
 import Controleur.Controleur;
-import main.Model.Jeu;
 
 import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;

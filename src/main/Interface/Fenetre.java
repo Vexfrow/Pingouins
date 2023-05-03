@@ -1,13 +1,12 @@
 package Interface;
 
-import main.Model.Jeu;
-import main.Vue.BanquiseGraphique;
+import Vue.BanquiseGraphique;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import Model.Joueur;
+import Model.Jeu;
 
 public class Fenetre implements Runnable {
     Menu m;
@@ -29,9 +28,6 @@ public class Fenetre implements Runnable {
         jf.setMinimumSize(new Dimension(600, 800));
         //menu.add(new BanquiseGraphique(j));
         jf.add(new BanquiseGraphique(j));
-
-
-
 
 
         jf.setVisible(true);

@@ -1,4 +1,4 @@
-package main.Vue;
+package Vue;
 
 import java.awt.*;
 

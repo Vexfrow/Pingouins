@@ -1,17 +1,19 @@
-package main.Vue;
+package Vue;
 
-import main.Model.Jeu;
+import Model.Jeu;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
+import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BanquiseGraphique extends JComponent {
 
@@ -22,14 +24,18 @@ public class BanquiseGraphique extends JComponent {
     int largeurCase;
     int hauteurCase;
 
+    private List<Shape> cells = new ArrayList<>(6);
+
+    private Shape highlighted;
+
 
 
     public BanquiseGraphique(Jeu jeu){
         j = jeu;
-        hexagonePoisson1 = chargeImage("hexagone1");
-        hexagonePoisson2 = chargeImage("hexagone2");
-        hexagonePoisson3 = chargeImage("hexagone3");
-        hexagonePingouinR = chargeImage("test");
+        hexagonePoisson1 = chargeImage("hexagoneP1");
+        hexagonePoisson2 = chargeImage("hexagoneP2");
+        hexagonePoisson3 = chargeImage("hexagoneP3");
+        hexagonePingouinR = chargeImage("pingouinRouge");
     }
 
     private BufferedImage chargeImage(String nom) {
@@ -55,62 +61,19 @@ public class BanquiseGraphique extends JComponent {
     }
 
 
-    public void paintComponent(Graphics g) {
-        Graphics2D drawable = (Graphics2D) g;
-
-        drawable.setRenderingHint(
-                RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-        drawable.setRenderingHint(
-                RenderingHints.KEY_COLOR_RENDERING,
-                RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-
-        int largeur = getSize().width;
-        int hauteur = getSize().height;
-        int offsetX = (largeur /20);
-        int offsetY = (hauteur /20);
-        int colonnes = 8;
-        int lignes = 8;
-        int radius = Math.min(largeur / colonnes, (hauteur / lignes)) / 2;
-
-        for (int ligne = 0; ligne < lignes; ligne++)
-            for (int colonne = 0; colonne < (colonnes+(ligne%2)); colonne++) {
-                int x = (int) (colonne*(Math.sqrt(3)*radius) + offsetX);
-                if(ligne%2 == 0){
-                    x += Math.sqrt((radius*radius) - Math.pow(radius/2, 2));
-                }
-                int y = (int) (ligne*(((double)3 /2) * radius) + offsetY);
-                Polygon hexagon = new Hexagone(new Point((int)x,(int)y), radius).getHexagone();
-
-                BufferedImage bfi = hexagonePoisson3;
-//                if(j.getCase(ligne, colonne).estMange()){
-//                    bfi = hexagonePingouinR;
-//                }else if(j.getCase(ligne, colonne).getNbPoissons() == 1){
-//                    bfi = hexagonePoisson1;
-//                }else if(j.getCase(ligne, colonne).getNbPoissons() == 2){
-//                    bfi = hexagonePoisson2;
-//                }else if(j.getCase(ligne, colonne).getNbPoissons() == 3){
-//                    bfi = hexagonePoisson3;
-//                }
-                bfi = getTexturedImage(bfi, hexagon,x, y, radius);
-
-                drawable.drawImage(bfi, x, y, null);
-            }
-    }
-
-
-    public static BufferedImage getTexturedImage(BufferedImage src, Polygon shp, int x, int y, int radius){
-        Image tmps = src.getScaledInstance((int) (Math.sqrt((radius*radius) - Math.pow(radius/2, 2))*2), (int)radius*2, BufferedImage.SCALE_SMOOTH);
-        BufferedImage buffered = new BufferedImage((int) (Math.sqrt((radius*radius) - Math.pow(radius/2, 2))*2), (int)radius*2,BufferedImage.TYPE_INT_ARGB);
+    public static BufferedImage getTexturedImage(BufferedImage src, Shape shp){
+        Rectangle r = shp.getBounds();
+        Image tmps = src.getScaledInstance((int)r.getWidth(), (int)r.getHeight(), BufferedImage.SCALE_REPLICATE);
+        BufferedImage buffered = new BufferedImage((int)r.getWidth(), (int)r.getHeight(),BufferedImage.TYPE_INT_ARGB);
         buffered.getGraphics().drawImage(tmps, 0, 0, null);
 
-//        Graphics g = buffered.getGraphics();
-//        Shape c = g.getClip();
-//        g.setClip(shp);
-//        g.setClip(c);
-//        g.setColor(Color.BLACK);
-//        g.dispose();
-//
+        Graphics g = buffered.getGraphics();
+        Shape c = g.getClip();
+        g.setClip(shp);
+        g.setClip(c);
+        g.setColor(Color.BLACK);
+        g.dispose();
+
         return buffered;
     }
 
@@ -126,12 +89,70 @@ public class BanquiseGraphique extends JComponent {
 
     public void misAJour(Jeu jeu){
         j = jeu;
-        repaint();
+        majPlateau();
     }
 
 
+    @Override
+    public void invalidate() {
+        super.invalidate();
+        majPlateau();
+    }
 
+    protected void majPlateau() {
 
+        float largeur = getSize().width;
+        float hauteur = getSize().height;
+        float offsetX = (largeur /20f);
+        float offsetY = (hauteur /20f);
 
+        int colonnes = 8;
+        int lignes = 8;
+
+        float size = Math.min((largeur / colonnes), (hauteur / lignes));
+        float radius = size/2f;
+
+        cells.clear();
+
+        Shape hexagone = new Hexagone(new Point((int) (offsetX + radius),(int) (offsetY + radius)), radius).getHexagone();
+
+        for (int ligne = 0; ligne < lignes; ligne++) {
+            float offset = size / 2f;
+
+            if (ligne % 2 == 0) {
+                offset = 0;
+                colonnes = 7;
+            }
+            for (int colonne = 0; colonne < colonnes; colonne++) {
+                AffineTransform at = AffineTransform.getTranslateInstance(offset + (colonne * size), ligne * (size * 0.8f));
+                Area area = new Area(hexagone);
+                area = area.createTransformedArea(at);
+
+                cells.add(area);
+            }
+        }
+
+    }
+
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g.create();
+
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+        if (highlighted != null) {
+            g2d.setColor(Color.BLUE);
+            g2d.fill(highlighted);
+        }
+        g2d.setColor(Color.BLACK);
+
+        BufferedImage bfi = hexagonePoisson3;
+
+        for (Shape cell : cells) {
+            bfi = getTexturedImage(bfi, cell);
+            g2d.drawImage(bfi, cell.getBounds().x, cell.getBounds().y, null);
+        }
+        g2d.dispose();
+    }
 
 }
