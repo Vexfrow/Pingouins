@@ -522,13 +522,13 @@ public class Jeu{
         //tableau des position des cases accessibles
         ArrayList<Position> casesAccessible = getCaseAccessible(cp.getPingouin());
 
-        System.out.println("taille des casses accessible est de :" + casesAccessible.size());
+        //System.out.println("taille des casses accessible est de :" + casesAccessible.size()+ "on va en (x,y)=("+ligne+","+colonne+")");
 
         int index = 0;
 
         //parcours de tout le tableau de position et comparaison des coordonée du coup et de la case accessible
-        while( index <casesAccessible.size() && casesAccessible.get(index).x !=ligne && casesAccessible.get(index).y != colonne){
-            System.out.println("\n" + casesAccessible.get(index).x + " et y: "+ casesAccessible.get(index).y );
+        while( index <casesAccessible.size() && (casesAccessible.get(index).x !=ligne || casesAccessible.get(index).y != colonne)){
+            //System.out.println("\n" + casesAccessible.get(index).x + " et y: "+ casesAccessible.get(index).y );
             //System.out.println("\n" + casesAccessible.get(index).x + " et y: "+ casesAccessible.get(index).y );
             //System.out.println("\n" + casesAccessible.get(index).x + " et y: "+ casesAccessible.get(index).y );
             index++;    
@@ -629,7 +629,11 @@ public class Jeu{
             y++;
             x--;
         }
-        
+        // int j = 0;
+        // while(j < caseAccessible.size()){
+        //     System.out.println("x:"+caseAccessible.get(j).x +" y:"+caseAccessible.get(j).y);
+        //     j++;
+        // }
         return caseAccessible;
     }
 
@@ -648,18 +652,7 @@ public class Jeu{
         if (peutJouer(cp)){
             Cases caseArrive = getCase(l,c);
             Joueur joueur = listeJoueur.get(joueurCourant-1);
-            if (joueur == null){
-                System.out.println("Oh non!\n");
-            }
-
             Pingouin ping = cp.getPingouin();
-            if (ping == null){
-                System.out.println("Oh non non!\n");
-            }
-            ping = joueur.getPingouin(ping);
-            if (ping == null){
-                System.out.println("Oh no!\n");
-            }
 
             Cases caseDep = getCase(ping.getLigne(),ping.getColonne());
             joueur.setScore(joueur.getScore()+caseDep.getNbPoissons());
