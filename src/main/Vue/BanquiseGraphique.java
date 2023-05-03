@@ -7,55 +7,46 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
-import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BanquiseGraphique extends JComponent {
 
-    BufferedImage hexagonePoisson1, hexagonePoisson2, hexagonePoisson3, hexagonePingouinR;
+    BufferedImage hexagonePoisson1, hexagonePoisson2, hexagonePoisson3, hexagonePingouinR, hexagoneVide;
 
-    Jeu j;
+    private Jeu jeu;
 
-    int largeurCase;
-    int hauteurCase;
 
-    private List<Shape> cells = new ArrayList<>(6);
-
-    private Shape highlighted;
+    private List<Shape> grille;
 
 
 
     public BanquiseGraphique(Jeu jeu){
-        j = jeu;
+        this.jeu = jeu;
         hexagonePoisson1 = chargeImage("casePoissons1");
         hexagonePoisson2 = chargeImage("casePoissons2");
         hexagonePoisson3 = chargeImage("casePoissons3");
         hexagonePingouinR = chargeImage("pingouinRouge");
+        hexagoneVide = chargeImage("caseVide");
+        grille = new ArrayList<>(60);
     }
 
     private BufferedImage chargeImage(String nom) {
-        InputStream in = null;
         try {
-            in = new FileInputStream("rsc/images/" + nom + ".png");
-        } catch (FileNotFoundException e) {
-            System.out.println("Fichier \"" + nom + "\" introuvable");
-        }
-
-        try {
-            // Chargement d'une image utilisable dans Swing
+            InputStream in = new FileInputStream("rsc/images/" + nom + ".png");
             return ImageIO.read(in);
         } catch (Exception e) {
-            System.out.println("Chargement du fichier \""+nom + "\" impossible");
+            System.out.println("Fichier \"" + nom + "\" introuvable");
         }
         return null;
     }
 
 
+
+    //Todo : Verifier l'utilité de cette fonction
     private void tracer(Graphics2D g, Image i, int x, int y, int l, int h) {
         g.drawImage(i, x, y, l, h, null);
     }
@@ -63,32 +54,28 @@ public class BanquiseGraphique extends JComponent {
 
     public static BufferedImage getTexturedImage(BufferedImage src, Shape shp){
         Rectangle r = shp.getBounds();
-        Image tmps = src.getScaledInstance((int)r.getWidth(), (int)r.getHeight(), BufferedImage.SCALE_REPLICATE);
-        BufferedImage buffered = new BufferedImage((int)r.getWidth(), (int)r.getHeight(),BufferedImage.TYPE_INT_ARGB);
-        buffered.getGraphics().drawImage(tmps, 0, 0, null);
 
-        Graphics g = buffered.getGraphics();
-        Shape c = g.getClip();
-        g.setClip(shp);
-        g.setClip(c);
-        g.setColor(Color.BLACK);
-        g.dispose();
+        //On récupère une version redimensionnée de l'image
+        Image imageTmp = src.getScaledInstance((int)r.getWidth(), (int)r.getHeight(), BufferedImage.SCALE_REPLICATE);
+        //On crée une nouvelle image bufferisé
+        BufferedImage buffered = new BufferedImage((int)r.getWidth(), (int)r.getHeight(),BufferedImage.TYPE_INT_ARGB);
+        //On remplace la nouvelle image par la version redimensionnée de l'image que l'on souhaite mettre
+        buffered.getGraphics().drawImage(imageTmp, 0, 0, null);
+
+        //TODO : Verifier l'utilité de ce bout de code
+//        Graphics g = buffered.getGraphics();
+//        Shape c = g.getClip();
+//        g.setClip(shp);
+//        g.setClip(c);
+//        g.setColor(Color.BLACK);
+//        g.dispose();
 
         return buffered;
     }
 
 
-    int hauteurCase() {
-        return hauteurCase;
-    }
-
-    int largeurCase() {
-        return largeurCase;
-    }
-
-
     public void misAJour(Jeu jeu){
-        j = jeu;
+        this.jeu = jeu;
         majPlateau();
     }
 
@@ -103,32 +90,33 @@ public class BanquiseGraphique extends JComponent {
 
         float largeur = getSize().width;
         float hauteur = getSize().height;
-        float offsetX = (largeur /20f);
+        float offsetX = (largeur /10f);
         float offsetY = (hauteur /20f);
 
         int colonnes = 8;
         int lignes = 8;
 
-        float size = Math.min((largeur / colonnes), (hauteur / lignes));
+        float size = Math.min(((largeur-(offsetX*2)) / colonnes), ((hauteur-(offsetY*2)) / lignes / 0.9f));
         float radius = size/2f;
 
-        cells.clear();
+        grille.clear();
 
         Shape hexagone = new Hexagone(new Point((int) (offsetX + radius),(int) (offsetY + radius)), radius).getHexagone();
 
         for (int ligne = 0; ligne < lignes; ligne++) {
-            float offset = size / 2f;
+            float offset = 0;
+            colonnes = 8;
 
             if (ligne % 2 == 0) {
-                offset = 0;
+                offset = size/2;
                 colonnes = 7;
             }
             for (int colonne = 0; colonne < colonnes; colonne++) {
-                AffineTransform at = AffineTransform.getTranslateInstance(offset + (colonne * size), ligne * (size * 0.8f));
+                AffineTransform at = AffineTransform.getTranslateInstance((colonne * size) + offset, ligne *size*0.9f);
                 Area area = new Area(hexagone);
                 area = area.createTransformedArea(at);
 
-                cells.add(area);
+                grille.add(area);
             }
         }
 
@@ -140,18 +128,41 @@ public class BanquiseGraphique extends JComponent {
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-        if (highlighted != null) {
-            g2d.setColor(Color.BLUE);
-            g2d.fill(highlighted);
-        }
-        g2d.setColor(Color.BLACK);
 
-        BufferedImage bfi = hexagonePoisson3;
+        BufferedImage bfi = hexagoneVide;
 
-        for (Shape cell : cells) {
+        int i = 0;
+        int j = 0;
+        for (Shape cell : grille) {
+
+            if(jeu.getCase(i,j).estMange()){
+                bfi = hexagoneVide;
+            }else if(jeu.getCase(i,j).getNbPoissons() == 1){
+                bfi = hexagonePoisson1;
+            }else if(jeu.getCase(i,j).getNbPoissons() == 2){
+                bfi = hexagonePoisson2;
+            }else if(jeu.getCase(i,j).getNbPoissons() == 3){
+                bfi = hexagonePoisson3;
+            }
+
             bfi = getTexturedImage(bfi, cell);
             g2d.drawImage(bfi, cell.getBounds().x, cell.getBounds().y, null);
+
+            j++;
+
+            if(i%2 == 0){
+                if(j >= 7) {
+                    i = i + 1;
+                    j = 0;
+                }
+            }else{
+                if(j >= 8) {
+                    i = i + 1;
+                    j = 0;
+                }
+            }
         }
+
         g2d.dispose();
     }
 

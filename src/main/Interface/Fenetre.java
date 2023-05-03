@@ -17,9 +17,7 @@ public class Fenetre implements Runnable {
     Jeu j;
     public Fenetre(){
         menu = new JPanel();
-        ArrayList<Joueur> a = new ArrayList<>();
-        //a.add(new Joueur(1,0));
-        j = null;
+        j = new Jeu(2);
     }
     public void run(){
         jf = new JFrame();
@@ -28,7 +26,12 @@ public class Fenetre implements Runnable {
 
         jf.setMinimumSize(new Dimension(600, 800));
         //menu.add(new BanquiseGraphique(j));
-        jf.add(new BanquiseGraphique(j));
+        BanquiseGraphique bq = new BanquiseGraphique(j);
+        bq.setVisible(true);
+        jf.add(bq);
+
+        jf.getContentPane().setBackground(Color.GRAY);
+
 
 
         jf.setVisible(true);

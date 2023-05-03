@@ -100,7 +100,7 @@ public class Jeu{
 
 
     // Init du jeu de base
-    Jeu(int nbJoueur){
+    public Jeu(int nbJoueur){
         this(nbJoueur,8,8);
         
     }
@@ -182,7 +182,7 @@ public class Jeu{
         for(int i = 1; i<=60; i++){
             if(i<= 30){
                 listeNombre.add(1);
-            }else if(i <50){
+            }else if(i <=50){
                 listeNombre.add(2);
             }else{
                 listeNombre.add(3);
