@@ -90,6 +90,8 @@ public class Jeu{
 
 
 
+            //TO DO : recuperer le tableau
+
 
 
 
