@@ -3,12 +3,14 @@ package Interface;
 import javax.swing.*;
 import java.awt.*;
 
-public class Aide{
+public class Aide extends JPanel{
 
-    public Aide(){
-        JFrame jf = new JFrame("aide");
-        jf.setMinimumSize(new Dimension(200, 150));
-        jf.setVisible(true);
+    public Aide(JFrame jf){
+        setLayout(new BorderLayout());
+        JLabel b = new JLabel("Oui");
+        this.add(b, BorderLayout.SOUTH);
+
     }
+
 
 }

@@ -9,19 +9,15 @@ import java.lang.reflect.InvocationTargetException;
 
 public class Fenetre implements Runnable {
     private Controleur c;
-    private Menu m;
-    private JFrame jf;
-    private JPanel menu;
-    private SpringLayout l;
+    private MenuP m;
+    private Selection sel;
+    public JFrame jf;
+
+    public WorkingPane workingPane;
+
 
     public static void demarrer(Controleur ctrl){
-        try {
-            SwingUtilities.invokeAndWait(new Fenetre(ctrl));
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        }
+            SwingUtilities.invokeLater(new Fenetre(ctrl));
 
     }
 
@@ -29,18 +25,19 @@ public class Fenetre implements Runnable {
     public Fenetre(Controleur ctrl){
         ctrl.ajouteInterface(this);
         this.c = ctrl;
-        menu = new JPanel();
+
     }
+
     public void run(){
         jf = new JFrame();
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
         jf.setMinimumSize(new Dimension(600, 800));
-        menu.add(new MenuP(this.c));
-        jf.add(menu);
+        m = new MenuP(this.c);
+        sel = new Selection();
+        workingPane = new WorkingPane(m, sel);
 
-
+        jf.add(workingPane);
         jf.setVisible(true);
     }
 

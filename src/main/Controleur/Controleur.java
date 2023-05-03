@@ -16,8 +16,9 @@ public class Controleur{
         this.window = window;
     }
 
-    public void demarrerRegles(){
-        Aide a = new Aide();
+    public void toggleHelp(){
+        this.window.workingPane.toggleBackingPane();
+
     }
 
 }
