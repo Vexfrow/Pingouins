@@ -13,9 +13,6 @@ public class MainTest {
         Jeu j = new Jeu(2);
 
 
-        j.sauvegarder(null);
-
-
 
         // Placement des pingouins pour le joueur 1
         System.out.println("Au tour de " + j.quelJoueur() + "\nPlacement pingouin en (0,0)\n");
@@ -27,6 +24,12 @@ public class MainTest {
         System.out.println("\n" + j.toString() + "\n");
         System.out.println(j.getListeJoueur());
 
+
+
+
+        //coups
+        //Coup cp = new Coup(0,5,new Pingouin(0,0), false);
+
         System.out.println("\nAu tour de " + j.quelJoueur());
         System.out.println("Coup (0,4)");
         Coup cp = new Coup(0,4,new Pingouin(0,0), false);
@@ -34,6 +37,8 @@ public class MainTest {
         System.out.println("\n" + j.toString() + "\n");
         System.out.println(j.getListeJoueur());
 
+
+        //cp = new Coup(0,5,new Pingouin(1,0), false);
 
         System.out.println("Au tour de " + j.quelJoueur());
         System.out.println("Coup (3,1)");
@@ -59,6 +64,8 @@ public class MainTest {
         System.out.println("\n" + j.toString() + "\n");
         System.out.println(j.getListeJoueur());
 
+        //j.sauvegarder(null);
+
 
         System.out.println("Refais coup");
         j.refaire();
@@ -68,6 +75,8 @@ public class MainTest {
         System.out.println("\n" + j.toString() + "\n");
         System.out.println(j.getListeJoueur());
 
+
+        //j.sauvegarder(null);
 
         // // Placement des pingouins pour le joueur 2
         // j.placePingouin(1, 1, j2);

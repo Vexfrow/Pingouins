@@ -18,7 +18,6 @@ public class Jeu{
     private ArrayList<Coup> coupAnnule;
     private ArrayList<Joueur> listeJoueur;
 
-
     private int nbLignes; // taille du tableau
     private int nbColonnes; // taille du tableau
 
@@ -27,67 +26,107 @@ public class Jeu{
 
     private int joueurCourant = 1;  // En supposant que c'est le joueur 1 qui commence compris entre 1 et nbJoueur-1 inclus
 
+
     /*
      * Construction du jeu avec une sauvegarde
      */
     Jeu(String name){
 
         try {
-    		
-    		//init des arrays
-    		coupAnnule = new ArrayList<Coup>();
-        	coupJoue = new ArrayList<Coup>();
 
+            name = "test.txt";
+    
+            //init des arrays
+            coupAnnule = new ArrayList<Coup>();
+            coupJoue = new ArrayList<Coup>();
+            listeJoueur = new ArrayList<Joueur>();
 
-        	//ouverture fichier
-    		FileReader reader = new FileReader(name);
-    		BufferedReader bufferedReader = new BufferedReader(reader);
+       	    //ouverture fichier
+            FileReader reader = new FileReader(name);
+            BufferedReader bufferedReader = new BufferedReader(reader);
 
-    		String line;
+            String line;
 
-    		//recuperer le nombre de ligne
-    		line = bufferedReader.readLine();
-    		nbLignes = Integer.parseInt(line);
+            //recuperer le nombre de joueurs
+            line = bufferedReader.readLine();
+            this.nbJoueur = Integer.parseInt(line);
 
-    		//recuperer le nombre de collone
-    		line = bufferedReader.readLine();
-    		nbColonnes = Integer.parseInt(line);
+            //recuperer le nombre de lignes
+            line = bufferedReader.readLine();
+            this.nbLignes = Integer.parseInt(line);
 
+            //recuperer le nombre de collones
+            line = bufferedReader.readLine();
+            this.nbColonnes = Integer.parseInt(line);
+
+            // taille du tableau de la matrice
+            this.nbColonnes = nbColonnes*2-1; 
+    
+            Joueur player;
+            int i = 1;
+    
+            //init des joueurs
+            while(i <= nbJoueur){
+                player = new Joueur(i,0);
+                listeJoueur.add(player);
+                i++;
+            }
+    
+            //nombre de pingouin en fonction du nombre de joueurs
+            if(nbJoueur == 2){
+                this.nbPingouin =4;
+            }else if (nbJoueur == 3){
+                this.nbPingouin =3;
+            } else {
+                this.nbPingouin =2;
+            }
+    
             //creation terrain
-
-    		//terrainCourant = new int[nbligne][nbcolonne];
-
+    		terrainInitiale = new Cases[nbLignes][nbColonnes*2-1];
+            terrainCourant = new Cases[nbLignes][nbColonnes*2-1];
 
             //recuperer le terrain
 
-            //save le terrrain
-            //terrainInitiale = 
+
+
+
+
+
+
+
+            //save le terrrain initiale
+            terrainInitiale = clonerTerrain(terrainCourant);
 
 
     		//recuprer tous les coups à jouer
     		while ((line = bufferedReader.readLine()) != null && (!line.equals("b"))) {
 
-    				//split la ligne
-    				String[] parts = line.split(" ");
+                //split la ligne
+                String[] parts = line.split(" ");
 
-    				//creer un nouveau coup
-    				//Coup cp = new Coup(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
+                Pingouin ping = new Pingouin(Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
 
-    				//jouer le coup
-    				//joue(cp);
+                //definir un nouveau  coup
+                Coup cp = new Coup(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), ping , Boolean.parseBoolean(parts[4]));
+
+                //jouer le coup
+                joue(cp);
 
     	    }
 
     		//recuprere les dernieres lignes du fichier
     		while ((line = bufferedReader.readLine()) != null && (!line.equals("b"))) {
 
-    			//split les lignes
+    			//split la ligne
 				String[] parts = line.split(" ");
+
+                Pingouin ping = new Pingouin(Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
+
 				//definir un nouveau  coup
-				//Coup cp = new Coup(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
+				Coup cp = new Coup(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), ping , Boolean.parseBoolean(parts[4]));
 
 				//ajoute le coup à l'arraylist annule
-				//coupAnnule.add(cp);
+				coupAnnule.add(cp);
 
 	    }
 
@@ -477,8 +516,8 @@ public class Jeu{
      */
     public boolean peutJouer(Coup cp){
 
-        int ligne = cp.getPingouin().getLigne();
-        int colonne = cp.getPingouin().getColonne();
+        int ligne = cp.getLigne();
+        int colonne = cp.getColonne();
 
         //tableau des position des cases accessibles
         ArrayList<Position> casesAccessible = getCaseAccessible(cp.getPingouin());
@@ -493,6 +532,7 @@ public class Jeu{
 
         //parcours de tout le tableau de position et comparaison des coordonée du coup et de la case accessible
         while( index <casesAccessible.size() && casesAccessible.get(index).x !=ligne && casesAccessible.get(index).y != colonne){
+            System.out.println("\n" + casesAccessible.get(index).x + " et y: "+ casesAccessible.get(index).y );
             //System.out.println("\n" + casesAccessible.get(index).x + " et y: "+ casesAccessible.get(index).y );
             //System.out.println("\n" + casesAccessible.get(index).x + " et y: "+ casesAccessible.get(index).y );
             index++;    
@@ -699,6 +739,7 @@ public class Jeu{
         return (!(coupJoue.size() < 1));
     } 
 
+
     /**
      * Annule un coup
      */
@@ -739,7 +780,6 @@ public class Jeu{
             this.listeJoueur = j.getListeJoueur();
             this.joueurCourant = j.quelJoueur();
         }
-    
 
     }
 
@@ -782,46 +822,47 @@ public class Jeu{
 
 			FileWriter w = new FileWriter("test.txt");
 			
-            //stockage des diffferentes valeurs
+                //stockage des diffferentes informations e bases
             w.write(nbJoueur + "\n");
 			w.write(nbLignes + "\n");
-			w.write(nbColonnes + "\n");
+			w.write(((nbColonnes-1)/2) + "\n");
 
-
-
-
-
-            //stocker le terrain de base
-            String result = "Plateau:\n[";
+                //stocker le terrain de base
+            String result = "";
 		    String sep = "";
+            String tmp = "";
 
             //boucle sur toutes les lignes
             for (int i=0; i<terrainCourant.length; i++) {
-                result += sep + Arrays.toString(terrainCourant[i]);
-                sep = "\n ";
+                tmp = Arrays.toString(terrainCourant[i]);
+                result += sep + tmp.substring(1, tmp.length() -1);
+                sep = "\n";
             }
-
-
-
-
 
             w.write(result + "\n");
 
-			//stocker tous les coups joues
+
+
+            //marque pour indiquer que la suite sont des coups annules
+			w.write("b\n");
+
+			    //stocker tous les coups joues
 			int tailleList = coupJoue.size();
+
+            System.out.println("taille liste coup = " + tailleList);
 
 			//stocke tous les coups
 			for(int i = 0; i< tailleList; i++) {
-				w.write(coupJoue.get(i).getLigne() + " "+ coupJoue.get(i).getColonne() + " " + coupJoue.get(i).getPingouin()+ " "+ coupJoue.get(i).estPlace() + "\n");
+				w.write(coupJoue.get(i).getLigne() + " "+ coupJoue.get(i).getColonne() + " " + coupJoue.get(i).getPingouin().getLigne()+ " " + coupJoue.get(i).getPingouin().getColonne() + " " + coupJoue.get(i).estPlace() + "\n");
 			}
 
-			//marque pour indiquer que la suite sont des coups annules
+			    //marque pour indiquer que la suite sont des coups annules
 			w.write("b\n");
 
-			//stocker tous les coups annules
+			    //stocker tous les coups annules
 			int tailleLista = coupAnnule.size();
 			for(int i = 0; i< tailleLista; i++) {
-				w.write(coupAnnule.get(i).getLigne() + " "+ coupAnnule.get(i).getColonne()+ " " + coupAnnule.get(i).getPingouin() + " " + coupJoue.get(i).estPlace() +"\n");
+				w.write(coupAnnule.get(i).getLigne() + " "+ coupAnnule.get(i).getColonne()+ " " + coupAnnule.get(i).getPingouin().getColonne()+ " " + coupAnnule.get(i).getPingouin().getLigne() + " " + coupJoue.get(i).estPlace() +"\n");
 			}
 
 			//fermer le fichier
@@ -844,8 +885,6 @@ public class Jeu{
 			sep = "\n ";
 		}
 		result += 	"]\nEtat:" +
-                //"\n- Jeu en cours ? : " + jeuEnCours +
-                //"\n- Joueur courant : " + joueurCourant +
 				"\n- peut annuler : " + peutAnnuler() +
 				"\n- peut refaire : " + peutRefaire();
 		return result;
