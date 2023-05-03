@@ -36,7 +36,7 @@ public class BanquiseGraphique extends JComponent {
 
     private BufferedImage chargeImage(String nom) {
         try {
-            InputStream in = new FileInputStream("rsc/images/" + nom + ".png");
+            InputStream in = new FileInputStream("resources/assets/plateau/" + nom + ".png");
             return ImageIO.read(in);
         } catch (Exception e) {
             System.out.println("Fichier \"" + nom + "\" introuvable");
@@ -61,6 +61,7 @@ public class BanquiseGraphique extends JComponent {
         BufferedImage buffered = new BufferedImage((int)r.getWidth(), (int)r.getHeight(),BufferedImage.TYPE_INT_ARGB);
         //On remplace la nouvelle image par la version redimensionnée de l'image que l'on souhaite mettre
         buffered.getGraphics().drawImage(imageTmp, 0, 0, null);
+        src.getGraphics().dispose();
 
         //TODO : Verifier l'utilité de ce bout de code
 //        Graphics g = buffered.getGraphics();

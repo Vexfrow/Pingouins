@@ -15,6 +15,8 @@ public class Hexagone{
         this.hexagone = createHexagon();
     }
 
+
+    //Permet de créer un hexagone à partir d'un point correspondant à son centre, et sa taille : radius, qui correspond à la distance entre le centre et un des angles.
     private Polygon createHexagon() {
         Polygon polygon = new Polygon();
 
