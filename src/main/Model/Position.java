@@ -12,4 +12,9 @@ public class Position {
         this.y = y;
     }
 
+    public String toString(){
+        String resultat = "(" + x + "," + y + ")";
+        return resultat;
+    }
+
 }

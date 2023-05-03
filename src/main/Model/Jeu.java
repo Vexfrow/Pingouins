@@ -483,6 +483,10 @@ public class Jeu{
         //tableau des position des cases accessibles
         ArrayList<Position> casesAccessible = getCaseAccessible(cp.getPingouin());
 
+        for (int i = 0; i < casesAccessible.size() - 1; i++){
+            System.out.print(casesAccessible.get(i).toString() + " ");
+        }
+
         //System.out.println("taille des casses accessible est de :" + casesAccessible.size());
 
         int index = 0;
