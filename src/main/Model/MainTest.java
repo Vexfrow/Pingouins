@@ -15,41 +15,66 @@ public class MainTest {
 
 
         // Placement des pingouins pour le joueur 1
+        System.out.println("Au tour de " + j.quelJoueur() + "\nPlacement pingouin en (0,0)\n");
         j.placePingouin(0, 0);
         System.out.println("\n" + j.toString() + "\n");
 
+        System.out.println("Au tour de " + j.quelJoueur() + "\nPlacement pingouin en (1,0)\n");
         j.placePingouin(1, 0);
         System.out.println("\n" + j.toString() + "\n");
+        System.out.println(j.getListeJoueur());
 
 
 
 
         //coups
-        Coup cp = new Coup(0,5,new Pingouin(0,0), false);
+        //Coup cp = new Coup(0,5,new Pingouin(0,0), false);
+
+        System.out.println("\nAu tour de " + j.quelJoueur());
+        System.out.println("Coup (0,4)");
+        Coup cp = new Coup(0,4,new Pingouin(0,0), false);
         j.joue(cp);
         System.out.println("\n" + j.toString() + "\n");
+        System.out.println(j.getListeJoueur());
 
 
-        cp = new Coup(0,5,new Pingouin(1,0), false);
+        //cp = new Coup(0,5,new Pingouin(1,0), false);
+
+        System.out.println("Au tour de " + j.quelJoueur());
+        System.out.println("Coup (3,1)");
+        cp = new Coup(3,1,new Pingouin(1,0), false);
         j.joue(cp);
         System.out.println("\n" + j.toString() + "\n");
+        System.out.println(j.getListeJoueur());
 
-        cp = new Coup(3,1,new Pingouin(0,5), false);
+
+        System.out.println("Au tour de " + j.quelJoueur());
+        System.out.println("Coup (3,1)");
+        cp = new Coup(3,1,new Pingouin(0,4), false);
         j.joue(cp);
         System.out.println("\n" + j.toString() + "\n");
+        System.out.println(j.getListeJoueur());
 
+
+        System.out.println("Annule coup");
         j.annule();
         System.out.println("\n" + j.toString() + "\n");
+        System.out.println("Annule coup");
         j.annule();
         System.out.println("\n" + j.toString() + "\n");
+        System.out.println(j.getListeJoueur());
 
-        j.sauvegarder(null);
+        //j.sauvegarder(null);
 
+
+        System.out.println("Refais coup");
         j.refaire();
         System.out.println("\n" + j.toString() + "\n");
-
+        System.out.println("Refais coup");
         j.refaire();
         System.out.println("\n" + j.toString() + "\n");
+        System.out.println(j.getListeJoueur());
+
 
         //j.sauvegarder(null);
 

@@ -212,7 +212,7 @@ public class Jeu{
 
         //nombre de pingouin en fonction du nombre de joueurs
         if(nbJoueur == 2){
-            this.nbPingouin =4;
+            this.nbPingouin =1;
         }else if (nbJoueur == 3){
             this.nbPingouin =3;
         } else {
@@ -529,9 +529,10 @@ public class Jeu{
         //parcours de tout le tableau de position et comparaison des coordonée du coup et de la case accessible
         while( index <casesAccessible.size() && casesAccessible.get(index).x !=ligne && casesAccessible.get(index).y != colonne){
             System.out.println("\n" + casesAccessible.get(index).x + " et y: "+ casesAccessible.get(index).y );
+            //System.out.println("\n" + casesAccessible.get(index).x + " et y: "+ casesAccessible.get(index).y );
+            //System.out.println("\n" + casesAccessible.get(index).x + " et y: "+ casesAccessible.get(index).y );
             index++;    
         }
-
         return (index != casesAccessible.size());
     }
 
@@ -628,7 +629,7 @@ public class Jeu{
             y++;
             x--;
         }
-
+        
         return caseAccessible;
     }
 
@@ -647,9 +648,18 @@ public class Jeu{
         if (peutJouer(cp)){
             Cases caseArrive = getCase(l,c);
             Joueur joueur = listeJoueur.get(joueurCourant-1);
+            if (joueur == null){
+                System.out.println("Oh non!\n");
+            }
 
             Pingouin ping = cp.getPingouin();
+            if (ping == null){
+                System.out.println("Oh non non!\n");
+            }
             ping = joueur.getPingouin(ping);
+            if (ping == null){
+                System.out.println("Oh no!\n");
+            }
 
             Cases caseDep = getCase(ping.getLigne(),ping.getColonne());
             joueur.setScore(joueur.getScore()+caseDep.getNbPoissons());
