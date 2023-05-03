@@ -13,23 +13,24 @@ public class MainTest {
         Jeu j = new Jeu(2);
 
 
-        j.sauvegarder(null);
-
-
 
         // Placement des pingouins pour le joueur 1
         j.placePingouin(0, 0);
         System.out.println("\n" + j.toString() + "\n");
+
         j.placePingouin(1, 0);
         System.out.println("\n" + j.toString() + "\n");
 
 
+
+
+        //coups
         Coup cp = new Coup(0,5,new Pingouin(0,0), false);
         j.joue(cp);
         System.out.println("\n" + j.toString() + "\n");
 
 
-        cp = new Coup(3,1,new Pingouin(1,0), false);
+        cp = new Coup(0,5,new Pingouin(1,0), false);
         j.joue(cp);
         System.out.println("\n" + j.toString() + "\n");
 
@@ -42,11 +43,15 @@ public class MainTest {
         j.annule();
         System.out.println("\n" + j.toString() + "\n");
 
+        j.sauvegarder(null);
+
         j.refaire();
         System.out.println("\n" + j.toString() + "\n");
 
         j.refaire();
         System.out.println("\n" + j.toString() + "\n");
+
+        //j.sauvegarder(null);
 
         // // Placement des pingouins pour le joueur 2
         // j.placePingouin(1, 1, j2);
