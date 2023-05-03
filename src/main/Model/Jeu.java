@@ -155,7 +155,7 @@ public class Jeu{
 
         //nombre de pingouin en fonction du nombre de joueurs
         if(nbJoueur == 2){
-            this.nbPingouin =4;
+            this.nbPingouin =1;
         }else if (nbJoueur == 3){
             this.nbPingouin =3;
         } else {
@@ -367,9 +367,6 @@ public class Jeu{
 
 
     // Renvoie 1 si on peut jouer le coup cp, 0 sinon.
-    // (Il faut que la case soit libre (donc qu'elle existe 
-    // encore et qu'aucun pingouin ne soit dessus) et qu'elle soit atteignable)
-    // A TERMINER (reste les diagonales)
     public boolean peutJouer(Coup cp){
         int ligne = cp.getPingouin().getLigne();
         int colonne = cp.getPingouin().getColonne();
@@ -380,10 +377,9 @@ public class Jeu{
         //System.out.println("taille des casses accessible est de :" + casesAccessible.size());
 
         while( index <casesAccessible.size() && casesAccessible.get(index).x !=ligne && casesAccessible.get(index).y != colonne){
-            System.out.println("\n" + casesAccessible.get(index).x + " et y: "+ casesAccessible.get(index).y );
+            //System.out.println("\n" + casesAccessible.get(index).x + " et y: "+ casesAccessible.get(index).y );
             index++;    
         }
-
         return (index != casesAccessible.size());
     }
 
@@ -404,7 +400,7 @@ public class Jeu{
         Position position;
         Cases cases;
 
-        //sauvegarder la postion du pingouin et conversion des coordonée en case du plateau
+        //sauvegarder la postion du pingouin et conversion des coordonnees en case du plateau
         if((ping.getLigne()%2 ==0)){
             yPing = ping.getColonne()*2+1;
         }else {
@@ -491,9 +487,18 @@ public class Jeu{
         if (peutJouer(cp)){
             Cases caseArrive = getCase(l,c);
             Joueur joueur = listeJoueur.get(joueurCourant-1);
+            if (joueur == null){
+                System.out.println("Oh non!\n");
+            }
 
             Pingouin ping = cp.getPingouin();
+            if (ping == null){
+                System.out.println("Oh non non!\n");
+            }
             ping = joueur.getPingouin(ping);
+            if (ping == null){
+                System.out.println("Oh no!\n");
+            }
 
             Cases caseDep = getCase(ping.getLigne(),ping.getColonne());
             joueur.setScore(joueur.getScore()+caseDep.getNbPoissons());
