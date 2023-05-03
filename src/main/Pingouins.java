@@ -8,7 +8,7 @@ public class Pingouins {
     public static void main (String args[]){
         Fenetre window = new Fenetre();
 
-        Controleur c = new Controleur(window);
+        Controleur c = new Controleur();
         SwingUtilities.invokeLater(window);
 
     }

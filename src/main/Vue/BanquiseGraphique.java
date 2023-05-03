@@ -32,9 +32,9 @@ public class BanquiseGraphique extends JComponent {
 
     public BanquiseGraphique(Jeu jeu){
         j = jeu;
-        hexagonePoisson1 = chargeImage("hexagoneP1");
-        hexagonePoisson2 = chargeImage("hexagoneP2");
-        hexagonePoisson3 = chargeImage("hexagoneP3");
+        hexagonePoisson1 = chargeImage("casePoissons1");
+        hexagonePoisson2 = chargeImage("casePoissons2");
+        hexagonePoisson3 = chargeImage("casePoissons3");
         hexagonePingouinR = chargeImage("pingouinRouge");
     }
 
