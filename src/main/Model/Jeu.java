@@ -13,6 +13,7 @@ public class Jeu{
 
     private Cases [][] terrainInitiale;
     private Cases [][] terrainCourant;
+
     private ArrayList<Coup> coupJoue;
     private ArrayList<Coup> coupAnnule;
     private ArrayList<Joueur> listeJoueur;
@@ -20,6 +21,7 @@ public class Jeu{
 
     private int nbLignes; // taille du tableau
     private int nbColonnes; // taille du tableau
+
     private int nbJoueur;
     private int nbPingouin;
 
@@ -101,20 +103,24 @@ public class Jeu{
     Jeu(int nbJoueur){
         this(nbJoueur,8,8);
         
-
     }
 
 
     // Constructeur pour la methode annule()
-    Jeu(Cases [][]terrainInitiale, int nbJoueur, int nbLigneTab, int nbColTab){ 
+    Jeu(Cases [][]terrainInitiale, int nbJoueur, int nbLigneTab, int nbColTab){
+        //cloner le terrain pour pouvoir avoir le terrian de base
         this.terrainInitiale = clonerTerrain(terrainInitiale);
         this.terrainCourant = clonerTerrain(terrainInitiale);
-        System.out.println(this.terrainInitiale);
+
+        //System.out.println(this.terrainInitiale);
+
         coupAnnule = new ArrayList<Coup>();
         coupJoue = new ArrayList<Coup>();
         listeJoueur = new ArrayList<Joueur>();
+
         Joueur player;
         int i = 1;
+
         while(i <= nbJoueur){
             player = new Joueur(i,0);
             listeJoueur.add(player);
@@ -140,17 +146,27 @@ public class Jeu{
 
         Joueur player;
         int i = 1;
+
         while(i <= nbJoueur){
             player = new Joueur(i,0);
             listeJoueur.add(player);
             i++;
         }
 
-        this.nbPingouin =1;
+        //nombre de pingouin en fonction du nombre de joueurs
+        if(nbJoueur == 2){
+            this.nbPingouin =4;
+        }else if (nbJoueur == 3){
+            this.nbPingouin =3;
+        } else {
+            this.nbPingouin =2;
+        }
+
         this.nbJoueur = nbJoueur;
         this.nbColonnes = nbColonnes*2-1; // taille du tableau
         this.nbLignes = nbLignes;          // taille du tableau contenant le terrain
 
+        //initialisation du terrain
         terrainAleatoire(nbLignes, nbColonnes);
     }
 
@@ -162,10 +178,11 @@ public class Jeu{
         //array list pour la liste des valeurs possibles pour le nb de poisson
         ArrayList<Integer> listeNombre = new ArrayList<Integer>();
 
+        //init les cases
         for(int i = 1; i<=60; i++){
-            if(i<= 60){
-                listeNombre.add(1); // ATTENTION MODIFI2!!!
-            }else if(i <60){
+            if(i<= 30){
+                listeNombre.add(1);
+            }else if(i <50){
                 listeNombre.add(2);
             }else{
                 listeNombre.add(3);
@@ -174,6 +191,7 @@ public class Jeu{
 
         Random rand = new Random();
 
+        //placer les cases
         while( l < nbLignes ){
 
             if( l%2 ==1 ){// si ligne impaire
@@ -196,9 +214,6 @@ public class Jeu{
     }
 
 
-
-
-
     // Renvoie 1 si un pingouin est present sur une case specifique
     public boolean pingouinPresent(int l,int c){
         return (getCase(l,c).pingouinPresent()!= 0);
@@ -209,33 +224,44 @@ public class Jeu{
     public void placePingouin(int l, int c){
         int joueurCourant = quelJoueur(); 
         Joueur joueur = listeJoueur.get(joueurCourant-1);
+
         if( (joueur.listePingouin.size() < nbPingouin) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1){
             Pingouin ping = new Pingouin(l,c);
             joueur.listePingouin.add(ping);
+
             Cases cases = getCase(l,c);
             cases.setPingouin(joueurCourant);
+
             switchJoueur();
+
             Coup cp = new Coup(l,c,ping,true);
             coupJoue.add(cp);
             coupAnnule = new ArrayList<Coup>();
+
         }else{
             System.out.println("Impossible de placer le pingouin ici");
         }
     }
+
 
     private void placePingouinAnnuler(Coup cp){
         int joueurCourant = quelJoueur(); 
         Joueur joueur = listeJoueur.get(joueurCourant-1);
         int l = cp.getLigne();
         int c = cp.getColonne();
+
         if( (joueur.listePingouin.size() < nbPingouin) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1){
             Pingouin ping = new Pingouin(l,c);
             joueur.listePingouin.add(ping);
+
             Cases cases = getCase(l,c);
             cases.setPingouin(joueurCourant);
+
             switchJoueur();
+
             Coup coup = new Coup(l,c,ping,true);
             coupJoue.add(cp);
+
         }else{
             System.out.println("Impossible de placer le pingouin ici");
         }
@@ -249,12 +275,15 @@ public class Jeu{
         Cases [][] terrainClone;
         Cases caseCourante;
         Cases cases;
+
         Pingouin ping;
+
         int nbl = terrainInitiale.length;
         int nbc = terrainInitiale[0].length;
 
         //creation de la nouvelle matrice
         terrainClone = new Cases[nbl][nbc];
+
         int c;
         int l=0;
         
@@ -296,12 +325,15 @@ public class Jeu{
     // Colonne compris entre [0, nbColonne[, colonne est la position sur le terrain hexagonal
     public Cases getCase(int ligne, int colonne){
         if(this.nbLignes > ligne && ligne >=0 && this.nbColonnes > colonne && colonne >= 0){
+
             if( ligne%2 ==1 ){// si ligne impaire
                 return terrainCourant[ligne][colonne*2];
             }else{ // ligne paire
                 return terrainCourant[ligne][colonne*2+1];
             }
+
         } else {
+
             System.out.println("impossible de récuperer la case ligne: "+ligne+ ", colonne:"+colonne + "");
             return null;
         }
@@ -310,11 +342,13 @@ public class Jeu{
     // Attribut une case a une case du terrain
     public void setCase(Cases cases, int ligne, int colonne){
         if(this.nbLignes > ligne && ligne >=0 && this.nbColonnes > colonne && colonne >= 0){
+
             if( ligne%2 ==1 ){// si ligne impaire
                 terrainCourant[ligne][colonne*2] = cases;
             }else{ // ligne paire
                 terrainCourant[ligne][colonne*2+1] = cases;
             }
+
         }else{
             System.out.println("impossible de mettre à jour la case ligne: " + ligne +", colonne:" + colonne );
         }
@@ -339,13 +373,17 @@ public class Jeu{
     public boolean peutJouer(Coup cp){
         int ligne = cp.getPingouin().getLigne();
         int colonne = cp.getPingouin().getColonne();
+
         ArrayList<Position> casesAccessible = getCaseAccessible(cp.getPingouin());
         int index = 0;
-        System.out.println("taille des casses accessible est de :" + casesAccessible.size());
+
+        //System.out.println("taille des casses accessible est de :" + casesAccessible.size());
+
         while( index <casesAccessible.size() && casesAccessible.get(index).x !=ligne && casesAccessible.get(index).y != colonne){
             System.out.println("\n" + casesAccessible.get(index).x + " et y: "+ casesAccessible.get(index).y );
             index++;    
         }
+
         return (index != casesAccessible.size());
     }
 
@@ -354,8 +392,8 @@ public class Jeu{
         return (x < this.nbLignes && x >= 0 && y < this.nbColonnes && y >= 0);
     }
 
-        /**
-        Donne les cases accessibles a un pingoin
+    /**
+     *Donne les cases accessibles a un pingoin
      */
     public ArrayList<Position> getCaseAccessible(Pingouin ping){
         int yPing;
@@ -389,7 +427,6 @@ public class Jeu{
             caseAccessible.add(position);
             y = y+2;
         }
-        
 
         //droite à gauche
         y=yPing-2;
@@ -398,7 +435,6 @@ public class Jeu{
             caseAccessible.add(position);
             y = y-2;
         }
-        
         
         //bas gauche
         y = yPing -1;
@@ -409,6 +445,7 @@ public class Jeu{
             y--;
             x++;
         }
+
         //bas droite
         y = yPing +1;
         x = xPing +1;
@@ -438,6 +475,7 @@ public class Jeu{
             y++;
             x--;
         }
+
         return caseAccessible;
     }
 
@@ -526,7 +564,8 @@ public class Jeu{
     /**
      * Annule un coup
      */
-    public void annule(){    
+    public void annule(){   
+
         if(peutAnnuler()){
 
             Cases[][] terrainInit = clonerTerrain(this.terrainInitiale);
@@ -546,6 +585,7 @@ public class Jeu{
                 }
                 i++;
             }
+
             this.terrainCourant = j.getTerrain();
             this.listeJoueur = j.getListeJoueur();
             this.joueurCourant = j.quelJoueur();
@@ -562,6 +602,7 @@ public class Jeu{
 
     // Refait un coup annule
     public void refaire(){
+        
         if(peutRefaire()){
             Coup cp = coupAnnule.get(coupAnnule.size()-1);
             if(cp.place == true){
