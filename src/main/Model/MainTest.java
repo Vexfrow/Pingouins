@@ -15,11 +15,11 @@ public class MainTest {
 
 
         // Placement des pingouins pour le joueur 1
-        System.out.println("Au tour de " + j.quelJoueur() + "\nPlacement pingouin en (0,0)\n");
+        System.out.println("Au tour de " + j.quelJoueur() + "\nPlacement pingouin en (0,0)");
         j.placePingouin(0, 0);
         System.out.println("\n" + j.toString() + "\n");
 
-        System.out.println("Au tour de " + j.quelJoueur() + "\nPlacement pingouin en (1,0)\n");
+        System.out.println("\n Au tour de " + j.quelJoueur() + "\nPlacement pingouin en (1,0)");
         j.placePingouin(1, 0);
         System.out.println("\n" + j.toString() + "\n");
         System.out.println(j.getListeJoueur());
