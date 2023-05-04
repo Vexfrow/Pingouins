@@ -343,12 +343,12 @@ public class Jeu{
             Cases cases = getCase(l,c);
             cases.setPingouin(joueurCourant);
 
-            //changment joueur
+            //changement joueur
             switchJoueur();
 
-            //joeu un nouveau coup
+            //joue un nouveau coup
             Coup coup = new Coup(l,c,ping,true);
-            coupJoue.add(coup);
+            //coupJoue.add(coup);
 
         }else{
             System.out.println("Impossible de placer le pingouin ici");
@@ -444,6 +444,17 @@ public class Jeu{
      */
     public ArrayList<Joueur> getListeJoueur(){
         return this.listeJoueur;
+    }
+
+    /* Deux méthodes suivantes pour les tests, les enlever
+     * si necessaire
+     */
+    public ArrayList<Coup> getListeCoupsAnnules(){
+        return this.coupAnnule;
+    }
+
+    public ArrayList<Coup> getListeCoupsJoues(){
+        return this.coupJoue;
     }
 
 
@@ -652,7 +663,9 @@ public class Jeu{
         if (peutJouer(cp)){
             Cases caseArrive = getCase(l,c);
             Joueur joueur = listeJoueur.get(joueurCourant-1);
+
             Pingouin ping = cp.getPingouin();
+            ping = joueur.getPingouin(ping);
 
             Cases caseDep = getCase(ping.getLigne(),ping.getColonne());
             joueur.setScore(joueur.getScore()+caseDep.getNbPoissons());
@@ -670,7 +683,7 @@ public class Jeu{
             //init d'un nouveau tableau de coup Annuler
             coupAnnule = new ArrayList<Coup>();
 
-            //changment du joueur
+            //changement du joueur
             switchJoueur();
 
         }
@@ -710,7 +723,7 @@ public class Jeu{
             caseArrive.setPingouin(joueurCourant);
 
             
-            coupJoue.add(cp);
+            //coupJoue.add(cp);
 
             switchJoueur();
 
