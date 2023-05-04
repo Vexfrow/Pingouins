@@ -7,6 +7,16 @@ public class MainTest {
     public static void main(String[] args){
         // Creation du jeu de bas
 
+
+        //save
+
+        //Jeu j = new Jeu(null);
+        //System.out.println(j.toString());
+
+
+        ///*
+        
+        
         // Initialisation du jeu
         Jeu j = new Jeu(2);
 
