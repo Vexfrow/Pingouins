@@ -1,7 +1,6 @@
 package Interface;
 
 import Controleur.Controleur;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +8,6 @@ import java.awt.event.*;
 import java.io.FileInputStream;
 
 public class MenuP extends JPanel {
-    private Controleur c;
     private JButton partieRapide;
     private JButton partiePersonnalisee;
     private JButton chargerPartie;
@@ -18,9 +16,11 @@ public class MenuP extends JPanel {
     private Image img;
     private SpringLayout layout;
     private  JLabel menu;
+    private Controleur c;
 
-    public MenuP(Controleur c){
+    public MenuP(Controleur ctrl){
         super();
+        this.c = ctrl;
         //Création des éléments
         try{
             img = (Image)ImageIO.read(new FileInputStream("resource/assets/menu/Titre.png"));
@@ -34,11 +34,11 @@ public class MenuP extends JPanel {
         regles = new JButton("Règles");
 
         layout = new SpringLayout();
-        menu = new JLabel(new ImageIcon(img));
+        menu = new JLabel();
         this.setLayout(layout);
 
         setMenu();
-        this.c = c;
+
 
 
     }
@@ -51,16 +51,15 @@ public class MenuP extends JPanel {
     }
 
     private void setMenu(){
-        //Peinture
+        //Colorization
         Color reglesColor = new Color(0xFDCF76);
         Color partieRapideColor = new Color(0x155D85);
         Color partiPersonnaliseeColor = new Color(0x2678A7);
         Color chargerPartieColor = new Color(0x4D88A9);
         Color tutorielColor = new Color(0x7292A4);
 
-
-        this.setBackground(new Color(0x88C9D1));
-        //menu.setIcon(new ImageIcon(img));
+        this.setBackground(GameConstants.BACKGROUND_COLOR);
+        menu.setIcon(new ImageIcon(img));
         regles.setBackground(reglesColor);
         partieRapide.setBackground(partieRapideColor);
         partiePersonnalisee.setBackground(partiPersonnaliseeColor);
@@ -73,7 +72,6 @@ public class MenuP extends JPanel {
         tutoriel.setForeground(Color.WHITE);
 
 
-
         //Ajouts
         this.add(menu);
         this.add(partieRapide);
@@ -82,12 +80,15 @@ public class MenuP extends JPanel {
         this.add(tutoriel);
         this.add(regles);
 
-        Dimension boutonTaille = new Dimension(200, 50);
+        Dimension boutonTaille = new Dimension(200, 75);
         partieRapide.setPreferredSize(boutonTaille);
         partiePersonnalisee.setPreferredSize(boutonTaille);
         chargerPartie.setPreferredSize(boutonTaille);
         tutoriel.setPreferredSize(boutonTaille);
+        regles.setPreferredSize(new Dimension(150, 50));
 
+        //Placement
+        //Par rapport à la fenetre
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, partieRapide, 0 , SpringLayout.HORIZONTAL_CENTER, this);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, partiePersonnalisee, 0 , SpringLayout.HORIZONTAL_CENTER, this);
         layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, chargerPartie, 0 , SpringLayout.HORIZONTAL_CENTER, this);
@@ -104,12 +105,18 @@ public class MenuP extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, partieRapide, 20, SpringLayout.SOUTH, menu );
 
         //Commande
-        regles.addMouseListener(new MouseAdapter() {
+        regles.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                c.toggleHelp();
+            public void actionPerformed(ActionEvent e) {
                 toggleButtons();
+                c.toggleHelp();
+            }
+        });
 
+        partiePersonnalisee.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.switchSel();
             }
         });
     }
