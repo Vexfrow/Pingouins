@@ -16,11 +16,14 @@ public class Fenetre implements Runnable {
     private CollecteurEvenements c;
     private MenuP menu;
     private Selection selection;
+    private GameBoard gb;
     public JFrame jf;
 
     public WorkingPane workingPane;
 
     BanquiseGraphique bq;
+
+    Jeu jeu;
 
 
     public static void demarrer(Controleur ctrl){
@@ -32,11 +35,14 @@ public class Fenetre implements Runnable {
         this.c = ctrl;
         c.setInterface(this);
 
-        Jeu j = new Jeu(2);
-        bq = new BanquiseGraphique(j);
-        bq.addMouseListener(new AdaptateurSourisPlateau(bq, c));
-        c.setPlateauJeu(bq);
-        c.setJeu(j);
+        this.menu = new MenuP(this.c);
+        this.selection = new Selection(this.c);
+
+        jeu = new Jeu(2);
+        this.gb = new GameBoard(jeu, c);
+
+
+
     }
 
     public void run(){
@@ -44,13 +50,11 @@ public class Fenetre implements Runnable {
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jf.setMinimumSize(new Dimension(800, 600));
-        this.menu = new MenuP(this.c);
-        this.selection = new Selection(this.c);
-        //workingPane = new WorkingPane(this.menu);
 
-        jf.add(bq);
+        workingPane = new WorkingPane(this.gb);
+
+        jf.add(workingPane);
         jf.setVisible(true);
-        jf.getContentPane().setBackground(Color.CYAN);
     }
 
 
@@ -62,6 +66,8 @@ public class Fenetre implements Runnable {
             case 2:
                 this.workingPane.changePanel(this.selection);
                 break;
+            case 3 :
+                this.workingPane.changePanel(this.gb);
             default:
                 System.err.println("Erreur dans l'affichage choisi");
                 break;

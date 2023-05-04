@@ -40,7 +40,7 @@ public class Selection extends JPanel {
         }
 
         setSelection();
-        this.repaint();
+        //this.repaint();
 
     }
 

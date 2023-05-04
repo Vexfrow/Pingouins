@@ -85,7 +85,10 @@ public class BanquiseGraphique extends JComponent {
         BufferedImage buffered = new BufferedImage((int) r.getWidth(), (int) r.getHeight(), BufferedImage.TYPE_INT_ARGB);
         //On remplace la nouvelle image par la version redimensionnée de l'image que l'on souhaite mettre
         buffered.getGraphics().drawImage(imageTmp, 0, 0, null);
+
+        //imageTmp.getGraphics().dispose();
         src.getGraphics().dispose();
+        buffered.getGraphics().dispose();
 
         //TODO : Verifier l'utilité de ce bout de code
 //        Graphics g = buffered.getGraphics();
@@ -161,10 +164,6 @@ public class BanquiseGraphique extends JComponent {
         int i = 0;
         int j = 0;
         for (Shape cell : grille) {
-//            g2d.setColor(getColor(jeu.getCase(i, j)));
-//            g2d.fill(cell);
-//
-//            g2d.draw(cell);
 
             bfi = getTexturedImage(getBfi(jeu.getCase(i, j)), cell);
             g2d.drawImage(bfi, cell.getBounds().x, cell.getBounds().y, null);
@@ -223,23 +222,5 @@ public class BanquiseGraphique extends JComponent {
         return grille;
     }
 
-    private Color getColor(Cases c){
-        Color couleur;
-        if (c.estMange()) {
-            couleur = Color.BLACK;
-        } else if (c.pingouinPresent() == 0) {
-            if (c.getNbPoissons() == 1)
-                couleur = Color.GREEN;
-            else if (c.getNbPoissons() == 2)
-                couleur = Color.MAGENTA;
-            else if (c.getNbPoissons() == 3)
-                couleur = Color.orange;
-        } else if (c.pingouinPresent() == 1) {
-                couleur = Color.red;
-        } else if (c.pingouinPresent() == 2) {
-                couleur = Color.BLUE;
-        }
 
-        return null;
-    }
 }

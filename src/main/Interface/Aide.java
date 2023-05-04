@@ -13,7 +13,7 @@ public class Aide extends JComponent{
         setLayout(new BorderLayout());
         image = new JLabel();
         try{
-            aideImg = (Image) ImageIO.read(new FileInputStream("resource/assets/menus/Aide.png"));
+            aideImg = (Image) ImageIO.read(new FileInputStream("resources/assets/menus/Aide.png"));
         }catch(Exception e){
             System.out.println("une erreur " + e);
         }

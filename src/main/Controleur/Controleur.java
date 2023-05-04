@@ -41,6 +41,10 @@ public class Controleur implements CollecteurEvenements {
         window.switchPanel(1);
     }
 
+    public void switchGameBoard(){
+        window.switchPanel(3);
+    }
+
 
 
     @Override
@@ -76,30 +80,6 @@ public class Controleur implements CollecteurEvenements {
         }
     }
 
-    private void joueCoupPhase2(int i, int j) {
-        if(!selection){
-            if(jeu.pingouinPresent(i,j) && jeu.getCase(i,j).pingouinPresent() == tourJoueur){
-                selection = true;
-                selectionPX = i;
-                selectionPY = j;
-                System.out.println("X =" +i +"; Y =" + j + " ; selectionné");
-            }
-        }else{
-            if(jeu.pingouinPresent(i,j)){
-                System.out.println("Peut pas");
-            }else{
-                Pingouin p = new Pingouin(selectionPX,selectionPY);
-                Coup c = new Coup(i,j,p,false);
-                jeu.joue(c);
-                System.out.println("Coup joué");
-                selection = false;
-
-                tourJoueur = (tourJoueur == 1) ? 2 : 1;
-            }
-        }
-
-    }
-
 
     public void setPlateauJeu(BanquiseGraphique bq){
         plateauJeu = bq;
@@ -114,10 +94,35 @@ public class Controleur implements CollecteurEvenements {
     }
 
     private void joueCoupPhase1(int i, int j){
-        jeu.placePingouin(i,j);
+        jeu.placePingouin(i, j);
         pingouinPlace++;
 
         if(pingouinPlace >= 8)
             phaseJeu = 2;
+    }
+
+
+    private void joueCoupPhase2(int i, int j) {
+        if(!selection){
+            if(jeu.pingouinPresent(i,j) && jeu.getCase(i,j).pingouinPresent() == tourJoueur){
+                selection = true;
+                selectionPX = i;
+                selectionPY = j;
+                System.out.println("X =" +i +"; Y =" + j + " ; selectionné");
+            }
+        }else{
+            Pingouin p = new Pingouin(selectionPX,selectionPY);
+            Coup c = new Coup(i,j,p,false);
+            if(jeu.peutJouer(c)){
+                jeu.joue(c);
+                tourJoueur = (tourJoueur == 1) ? 2 : 1;
+                System.out.println("Coup joué");
+            }else{
+                System.out.println("Coup impossible");
+            }
+            selection = false;
+
+        }
+
     }
 }
