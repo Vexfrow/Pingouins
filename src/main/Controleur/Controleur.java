@@ -21,9 +21,8 @@ public class Controleur{
 
     }
 
-    public void switchSel(){
-        window.switchPanel(2);
-    }
+    public void switchSel(){window.switchPanel(2);}
+
     public void switchMenu(){
         window.switchPanel(1);
     }
