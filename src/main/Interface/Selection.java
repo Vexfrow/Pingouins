@@ -1,33 +1,43 @@
 package Interface;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import Controleur.Controleur;
+import Vue.CollecteurEvenements;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileInputStream;
 
 
 public class Selection extends JPanel {
     private SpringLayout layout;
     private  JLabel menu;
-    private Controleur c;
+    private CollecteurEvenements c;
     private JButton retour;
     private JButton sauvegarde;
     private JButton valide;
+    private Image flecheRetour;
 
 
 
 
 
-    public Selection(Controleur ctrl){
+    public Selection(CollecteurEvenements ctrl){
 
         this.c = ctrl;
-        retour = new JButton("<---");
+        retour = new JButton();
+        retour.setContentAreaFilled(false);
         sauvegarde = new JButton("<html>Sauvegarder comme<br>option par défaut<br>(Partie rapide)</html>");
         valide = new JButton("<html> Lancer la Partie</html>");
-
+        try{
+            flecheRetour = (Image) ImageIO.read(new FileInputStream("resources/assets/menus/flecheRetour.png"));
+        }catch(Exception e){
+            System.out.println("une erreur " + e);
+        }
 
         setSelection();
         this.repaint();
@@ -49,19 +59,18 @@ public class Selection extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.anchor = GridBagConstraints.WEST;
+        retour.setIcon(new ImageIcon(flecheRetour));
         this.add(retour, gbc );
 
-
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.gridx = 0;
+
+        gbc.gridx = 1;
         gbc.gridy = 1;
-        gbc.gridheight = 3;
-        gbc.gridwidth = 4;
-        JLabel j = new JLabel("Selection des Joueurs");
-        j.setFont(new Font("Arial", Font.BOLD, 50));
-        j.setHorizontalTextPosition(SwingConstants.CENTER);
-        j.setVerticalTextPosition(SwingConstants.CENTER);
+        gbc.gridheight = 1;
+        gbc.gridwidth = 2;
+        gbc.weightx = 2;
+        JLabel j = new JLabel("Selection des Joueurs", SwingConstants.CENTER);
+        j.setFont(new Font("Helvetica", Font.BOLD, 50));
         this.add(j, gbc);
 
 
@@ -119,7 +128,7 @@ public class Selection extends JPanel {
         retour.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                c.switchMenu();
+                //c.switchMenu();
             }
         });
     }

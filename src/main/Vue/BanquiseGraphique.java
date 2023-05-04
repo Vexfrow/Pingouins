@@ -12,7 +12,6 @@ import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +28,6 @@ public class BanquiseGraphique extends JComponent {
 
     public BanquiseGraphique(Jeu jeu) {
         this.jeu = jeu;
-
-        jeu.placePingouin(3, 3);
 
         //Todo : trouver une meilleure manière que charger toutes les images directement
         hPoisson1 = chargeImage("casePoissons1");
@@ -104,7 +101,8 @@ public class BanquiseGraphique extends JComponent {
 
     public void misAJour(Jeu jeu) {
         this.jeu = jeu;
-        majPlateau();
+        //majPlateau();
+        repaint();
     }
 
 
@@ -154,6 +152,7 @@ public class BanquiseGraphique extends JComponent {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
 
+
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
 
@@ -162,10 +161,14 @@ public class BanquiseGraphique extends JComponent {
         int i = 0;
         int j = 0;
         for (Shape cell : grille) {
-
+//            g2d.setColor(getColor(jeu.getCase(i, j)));
+//            g2d.fill(cell);
+//
+//            g2d.draw(cell);
 
             bfi = getTexturedImage(getBfi(jeu.getCase(i, j)), cell);
             g2d.drawImage(bfi, cell.getBounds().x, cell.getBounds().y, null);
+
 
             j++;
 
@@ -213,5 +216,30 @@ public class BanquiseGraphique extends JComponent {
                 bfi = hPingouinB3;
         }
         return bfi;
+    }
+
+
+    public List<Shape> getPlateauJeu(){
+        return grille;
+    }
+
+    private Color getColor(Cases c){
+        Color couleur;
+        if (c.estMange()) {
+            couleur = Color.BLACK;
+        } else if (c.pingouinPresent() == 0) {
+            if (c.getNbPoissons() == 1)
+                couleur = Color.GREEN;
+            else if (c.getNbPoissons() == 2)
+                couleur = Color.MAGENTA;
+            else if (c.getNbPoissons() == 3)
+                couleur = Color.orange;
+        } else if (c.pingouinPresent() == 1) {
+                couleur = Color.red;
+        } else if (c.pingouinPresent() == 2) {
+                couleur = Color.BLUE;
+        }
+
+        return null;
     }
 }

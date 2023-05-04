@@ -252,9 +252,9 @@ public class Jeu{
     }
 
 
-    /*
-     * Construction du jeu avec un nombre de joueur uniquement
-     */
+
+     // Construction du jeu avec un nombre de joueur uniquement
+
     public Jeu(int nbJoueur){
         this(nbJoueur,8,8);
     }
@@ -574,7 +574,7 @@ public class Jeu{
     public ArrayList<Joueur> getListeJoueur(){
         return this.listeJoueur;
     }
-    
+
     /* Deux méthodes suivantes pour les tests, les enlever
      * si necessaire
      */
