@@ -34,7 +34,7 @@ public class Selection extends JPanel {
         sauvegarde = new JButton("<html>Sauvegarder comme<br>option par défaut<br>(Partie rapide)</html>");
         valide = new JButton("<html> Lancer la Partie</html>");
         try{
-            flecheRetour = (Image) ImageIO.read(new FileInputStream("resource/assets/menus/flecheRetour.png"));
+            flecheRetour = (Image) ImageIO.read(new FileInputStream("resources/assets/menus/flecheRetour.png"));
         }catch(Exception e){
             System.out.println("une erreur " + e);
         }
