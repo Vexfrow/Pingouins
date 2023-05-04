@@ -59,7 +59,7 @@ public class IATroisPoissons extends IAJoueur{
     public Coup elaboreCoup(){
         Random r = new Random();
         ArrayList<Coup> coupPossible = new ArrayList<Coup>();
-        int joueurCourant = this.j.quelJoueur()-1;
+        int joueurCourant = this.j.getJoueur()-1;
 
         ArrayList<Pingouin> listePingouin = this.j.getListeJoueur().get(joueurCourant).getListePingouin();
         ArrayList<Position> listePos = new ArrayList<Position>();

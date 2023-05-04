@@ -104,7 +104,7 @@ public class BanquiseGraphique extends JComponent {
 
     public void misAJour(Jeu jeu) {
         this.jeu = jeu;
-        //majPlateau();
+        majPlateau();
         repaint();
     }
 

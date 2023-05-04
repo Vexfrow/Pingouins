@@ -412,7 +412,7 @@ public class Jeu{
     public boolean placePingouin(int l, int c){
 
         //récupération du joueur courant
-        int joueurCourant = quelJoueur();
+        int joueurCourant = getJoueur();
         Joueur joueur = listeJoueur.get(joueurCourant-1);
 
         //vérfication du placment
@@ -450,7 +450,7 @@ public class Jeu{
     private boolean placePingouinAnnuler(Coup cp){
 
         //récupération joueur
-        int joueurCourant = quelJoueur();
+        int joueurCourant = getJoueur();
         Joueur joueur = listeJoueur.get(joueurCourant-1);
 
         //récupération coordonnée coup
@@ -638,7 +638,7 @@ public class Jeu{
     /*
      * Donne le joueur courant
      */
-    public int quelJoueur(){
+    public int getJoueur(){
         return joueurCourant;
     }
 
@@ -683,7 +683,7 @@ public class Jeu{
 
         //on cherche le pinguoin dans la liste des pingouins du joueur
         int k =0;
-        while(p.get(k) != cp.getPingouin() && k <p.size()){
+        while(k <p.size() && p.get(k).equals(cp.getPingouin())){
             k++;
         }
 
@@ -810,7 +810,7 @@ public class Jeu{
         int l = cp.getLigne();   //Coord ou le pingouin doit aller
         int c = cp.getColonne(); //Coord ou le pingouin doit aller
 
-        int joueurCourant = quelJoueur();
+        int joueurCourant = getJoueur();
 
         if (peutJouer(cp)){
             Cases caseArrive = getCase(l,c);
@@ -859,7 +859,7 @@ public class Jeu{
         int l = cp.getLigne();   //Coord ou le pingouin doit aller
         int c = cp.getColonne(); //Coord ou le pingouin doit aller
 
-        int joueurCourant = quelJoueur();
+        int joueurCourant = getJoueur();
 
         if (peutJouer(cp)){
             Cases caseArrive = getCase(l,c);
@@ -950,7 +950,7 @@ public class Jeu{
 
             this.terrainCourant = j.getTerrain();
             this.listeJoueur = j.getListeJoueur();
-            this.joueurCourant = j.quelJoueur();
+            this.joueurCourant = j.getJoueur();
         }
 
     }

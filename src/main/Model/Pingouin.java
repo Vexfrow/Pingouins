@@ -47,4 +47,9 @@ public class Pingouin {
         return resultat;
     }
 
+
+    public boolean equals(Pingouin p){
+        return (p.colonne == this.colonne && p.ligne == this.ligne);
+    }
+
 }
