@@ -1,10 +1,16 @@
 package Interface;
 
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import Interface.GameConstants;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
+
+import java.io.FileInputStream;
 
 public class IconeSelection extends JPanel {
     public Color color;
@@ -12,6 +18,7 @@ public class IconeSelection extends JPanel {
     public int coorX;
     public int coorY;
     public int size;
+
 
     private final int MAX = 3;
     private final String VIDE = "Vide";
@@ -24,6 +31,8 @@ public class IconeSelection extends JPanel {
     private JButton gauche;
     private JButton droite;
     private JLabel type;
+    private Image pengouin;
+    private JLabel icon;
 
 
 
@@ -31,12 +40,32 @@ public class IconeSelection extends JPanel {
 
         this.setBackground(GameConstants.BACKGROUND_COLOR);
         this.color = color;
+        final int r = GameConstants.ROUGE.getRGB();
+        final int g = GameConstants.VERT.getRGB();
+        int b = GameConstants.BLEU.getRGB();
+        int y = GameConstants.JAUNE.getRGB();
         this.size = size;
         this.rotation = 0;
+
+        try{
+            if(this.color.getRGB() == r){
+                pengouin = (Image) ImageIO.read(new FileInputStream("resource/assets/menus/pingouinRouge.png"));
+            }else if(this.color.getRGB() == g){
+                pengouin = (Image) ImageIO.read(new FileInputStream("resource/assets/menus/pingouinVert.png"));
+            }else if(this.color.getRGB() == b){
+                pengouin = (Image) ImageIO.read(new FileInputStream("resource/assets/menus/pingouinBleu.png"));
+            }else if(this.color.getRGB() == y){
+                pengouin = (Image) ImageIO.read(new FileInputStream("resource/assets/menus/pingouinJaune.png"));
+            }
+
+        }catch(Exception e){
+            System.out.println("une erreur " + e);
+        }
 
         Dimension taille = getSize();
         gauche  = new JButton("<--");
         droite = new JButton("-->");
+        icon = new JLabel(new ImageIcon(pengouin));
         gauche.setBackground(new Color(0x2678A7));
         gauche.setForeground(Color.WHITE);
         gauche.setPreferredSize(new Dimension(50, 30));
@@ -49,7 +78,7 @@ public class IconeSelection extends JPanel {
         type.setBackground(Color.WHITE);
         type.setOpaque(true);
 
-
+        //this.add(icon);
         this.add(gauche);
         this.add(droite);
         this.add(type);
@@ -83,6 +112,10 @@ public class IconeSelection extends JPanel {
         Dimension taille = getSize();
         this.coorX = taille.width/2;
         this.coorY = taille.height/2 - 100;
+
+
+        //icon.setLocation(coorX, coorY);
+
 
         double angle_deg;
         double angle_rad;
