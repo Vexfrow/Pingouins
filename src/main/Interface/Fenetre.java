@@ -9,8 +9,8 @@ import java.lang.reflect.InvocationTargetException;
 
 public class Fenetre implements Runnable {
     private Controleur c;
-    private MenuP m;
-    private Selection sel;
+    private MenuP menu;
+    private Selection selection;
     public JFrame jf;
 
     public WorkingPane workingPane;
@@ -18,7 +18,6 @@ public class Fenetre implements Runnable {
 
     public static void demarrer(Controleur ctrl){
             SwingUtilities.invokeLater(new Fenetre(ctrl));
-
     }
 
 
@@ -32,13 +31,29 @@ public class Fenetre implements Runnable {
         jf = new JFrame();
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        jf.setMinimumSize(new Dimension(600, 800));
-        m = new MenuP(this.c);
-        sel = new Selection();
-        workingPane = new WorkingPane(m, sel);
+        jf.setMinimumSize(new Dimension(800, 600));
+        this.menu = new MenuP(this.c);
+        this.selection = new Selection(this.c);
+        workingPane = new WorkingPane(this.menu);
 
         jf.add(workingPane);
         jf.setVisible(true);
+    }
+
+
+    public void switchPanel(int ecran){
+        switch(ecran){
+            case 1:
+                this.workingPane.changePanel(this.menu);
+                break;
+            case 2:
+                this.workingPane.changePanel(this.selection);
+                break;
+            default:
+                System.err.println("Erreur dans l'affichage choisi");
+                break;
+        }
+
     }
 
 

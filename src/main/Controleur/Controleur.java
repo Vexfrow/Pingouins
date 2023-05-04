@@ -17,8 +17,15 @@ public class Controleur{
     }
 
     public void toggleHelp(){
-        this.window.workingPane.toggleBackingPane();
+        //this.window.workingPane.toggleBackingPane();
 
+    }
+
+    public void switchSel(){
+        window.switchPanel(2);
+    }
+    public void switchMenu(){
+        window.switchPanel(1);
     }
 
 }
