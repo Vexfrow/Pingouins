@@ -9,6 +9,16 @@ public class MainTest {
     public static void main(String[] args){
         // Creation du jeu de bas
 
+
+        //save
+
+        //Jeu j = new Jeu(null);
+        //System.out.println(j.toString());
+
+
+        ///*
+        
+        
         // Initialisation du jeu
         Jeu j = new Jeu(2);
 
@@ -64,7 +74,7 @@ public class MainTest {
         System.out.println("\n" + j.toString() + "\n");
         System.out.println(j.getListeJoueur());
 
-        //j.sauvegarder(null);
+       //j.sauvegarder(null);
 
 
         System.out.println("Refais coup");
@@ -77,6 +87,10 @@ public class MainTest {
 
 
         //j.sauvegarder(null);
+
+        //*/
+
+        
 
         // // Placement des pingouins pour le joueur 2
         // j.placePingouin(1, 1, j2);

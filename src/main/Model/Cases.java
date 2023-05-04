@@ -54,8 +54,8 @@ public class Cases {
     @Override
     public String toString() {
 
-        //return  "" +getNbPoissons();
-        return estMange() + "/" + getNbPoissons() + "/" + pingouinPresent() ;
+        return  "" +getNbPoissons();
+        //return estMange() + "/" + getNbPoissons() + "/" + pingouinPresent() ;
     }
 
 }
