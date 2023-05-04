@@ -17,7 +17,7 @@ public class Controleur{
     }
 
     public void toggleHelp(){
-        this.window.workingPane.toggleBackingPane();
+        //this.window.workingPane.toggleBackingPane();
 
     }
 

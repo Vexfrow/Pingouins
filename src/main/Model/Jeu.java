@@ -35,7 +35,7 @@ public class Jeu{
         try {
 
             name = "test.txt";
-    
+
             //init des arrays
             coupAnnule = new ArrayList<Coup>();
             coupJoue = new ArrayList<Coup>();
@@ -60,18 +60,18 @@ public class Jeu{
             this.nbColonnes = Integer.parseInt(line);
 
             // taille du tableau de la matrice
-            this.nbColonnes = nbColonnes*2-1; 
-    
+            this.nbColonnes = nbColonnes*2-1;
+
             Joueur player;
             int i = 1;
-    
+
             //init des joueurs
             while(i <= nbJoueur){
                 player = new Joueur(i,0);
                 listeJoueur.add(player);
                 i++;
             }
-    
+
             //nombre de pingouin en fonction du nombre de joueurs
             if(nbJoueur == 2){
                 this.nbPingouin =4;
@@ -80,7 +80,7 @@ public class Jeu{
             } else {
                 this.nbPingouin =2;
             }
-    
+
             //creation terrain
     		terrainInitiale = new Cases[nbLignes][nbColonnes*2-1];
             terrainCourant = new Cases[nbLignes][nbColonnes*2-1];
@@ -142,12 +142,11 @@ public class Jeu{
     }
 
 
-    /*
-     * Construction du jeu avec un nombre de joueur uniquement
-     */
+
+     // Construction du jeu avec un nombre de joueur uniquement
+
     Jeu(int nbJoueur){
         this(nbJoueur,8,8);
-        
     }
 
 
@@ -296,7 +295,7 @@ public class Jeu{
     public void placePingouin(int l, int c){
 
         //récupération du joueur courant
-        int joueurCourant = quelJoueur(); 
+        int joueurCourant = quelJoueur();
         Joueur joueur = listeJoueur.get(joueurCourant-1);
 
         //vérfication du placment
@@ -304,7 +303,6 @@ public class Jeu{
             Pingouin ping = new Pingouin(l,c);
             joueur.listePingouin.add(ping);
 
-            //récupération et placement du pingouin sur la case
             Cases cases = getCase(l,c);
             cases.setPingouin(joueurCourant);
 
@@ -328,7 +326,7 @@ public class Jeu{
     private void placePingouinAnnuler(Coup cp){
 
         //récupération joueur
-        int joueurCourant = quelJoueur(); 
+        int joueurCourant = quelJoueur();
         Joueur joueur = listeJoueur.get(joueurCourant-1);
 
         //récupération coordonnée coup
@@ -341,7 +339,7 @@ public class Jeu{
             Pingouin ping = new Pingouin(l,c);
             joueur.listePingouin.add(ping);
 
-            
+
             Cases cases = getCase(l,c);
             cases.setPingouin(joueurCourant);
 
@@ -728,7 +726,7 @@ public class Jeu{
      */
     public boolean peutAnnuler(){
         return (!(coupJoue.size() < 1));
-    } 
+    }
 
 
     /**
