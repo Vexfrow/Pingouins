@@ -142,10 +142,10 @@ public class Jeu{
     }
 
 
-
-     // Construction du jeu avec un nombre de joueur uniquement
-
-    Jeu(int nbJoueur){
+    /*
+     * Construction du jeu avec un nombre de joueur uniquement
+     */
+    public Jeu(int nbJoueur){
         this(nbJoueur,8,8);
     }
 
@@ -213,7 +213,7 @@ public class Jeu{
 
         //nombre de pingouin en fonction du nombre de joueurs
         if(nbJoueur == 2){
-            this.nbPingouin =1;
+            this.nbPingouin =4;
         }else if (nbJoueur == 3){
             this.nbPingouin =3;
         } else {
@@ -663,6 +663,7 @@ public class Jeu{
         if (peutJouer(cp)){
             Cases caseArrive = getCase(l,c);
             Joueur joueur = listeJoueur.get(joueurCourant-1);
+
             Pingouin ping = cp.getPingouin();
             ping = joueur.getPingouin(ping);
 
