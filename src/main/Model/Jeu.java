@@ -145,7 +145,7 @@ public class Jeu{
 
      // Construction du jeu avec un nombre de joueur uniquement
 
-    Jeu(int nbJoueur){
+    public Jeu(int nbJoueur){
         this(nbJoueur,8,8);
     }
 
@@ -213,7 +213,7 @@ public class Jeu{
 
         //nombre de pingouin en fonction du nombre de joueurs
         if(nbJoueur == 2){
-            this.nbPingouin =1;
+            this.nbPingouin =4;
         }else if (nbJoueur == 3){
             this.nbPingouin =3;
         } else {

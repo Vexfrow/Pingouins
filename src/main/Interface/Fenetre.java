@@ -4,16 +4,23 @@ import javax.swing.*;
 
 import Controleur.Controleur;
 import Interface.MenuP;
+import Model.Jeu;
+import Vue.AdaptateurSourisPlateau;
+import Vue.BanquiseGraphique;
+import Vue.CollecteurEvenements;
+
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 
 public class Fenetre implements Runnable {
-    private Controleur c;
+    private CollecteurEvenements c;
     private MenuP menu;
     private Selection selection;
     public JFrame jf;
 
     public WorkingPane workingPane;
+
+    BanquiseGraphique bq;
 
 
     public static void demarrer(Controleur ctrl){
@@ -22,9 +29,14 @@ public class Fenetre implements Runnable {
 
 
     public Fenetre(Controleur ctrl){
-        ctrl.ajouteInterface(this);
         this.c = ctrl;
+        c.setInterface(this);
 
+        Jeu j = new Jeu(2);
+        bq = new BanquiseGraphique(j);
+        bq.addMouseListener(new AdaptateurSourisPlateau(bq, c));
+        c.setPlateauJeu(bq);
+        c.setJeu(j);
     }
 
     public void run(){
@@ -34,10 +46,11 @@ public class Fenetre implements Runnable {
         jf.setMinimumSize(new Dimension(800, 600));
         this.menu = new MenuP(this.c);
         this.selection = new Selection(this.c);
-        workingPane = new WorkingPane(this.menu);
+        //workingPane = new WorkingPane(this.menu);
 
-        jf.add(workingPane);
+        jf.add(bq);
         jf.setVisible(true);
+        jf.getContentPane().setBackground(Color.CYAN);
     }
 
 

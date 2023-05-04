@@ -6,9 +6,9 @@ import java.lang.reflect.InvocationTargetException;
 
 public class Pingouins {
     public static void main (String args[]){
-        Fenetre window = new Fenetre();
 
         Controleur c = new Controleur();
+        Fenetre window = new Fenetre(c);
         SwingUtilities.invokeLater(window);
 
     }
