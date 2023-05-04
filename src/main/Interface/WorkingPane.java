@@ -4,27 +4,20 @@ import javax.swing.*;
 import java.awt.*;
 
 public class WorkingPane extends JLayeredPane {
+    public final int CURRENT_LEVEL = 10;
     private final BackingPane backingPane;
-
-    private JPanel menu;
-
-    private JPanel selection;
-
+    private JPanel actuel;
     private JPanel game;
-    public WorkingPane(JPanel m, JPanel s){
+    public WorkingPane(JPanel m){
         setLayout(new CardLayout());
-        this.menu = m;
-        this.selection = s;
+        this.actuel = m;
         backingPane = new BackingPane();
         backingPane.setVisible(false);
+        this.add(actuel);
+        this.add(backingPane);
+        this.setLayer(actuel, CURRENT_LEVEL);
+        this.setLayer(backingPane, POPUP_LAYER);
 
-        add(this.menu);
-        add(this.selection);
-
-        add(backingPane);
-
-
-        setLayer(backingPane, highestLayer() + 1);
 
     }
 
@@ -32,7 +25,22 @@ public class WorkingPane extends JLayeredPane {
         backingPane.setVisible(!backingPane.isVisible());
     }
 
-    public void changePanel(JPanel J){
+    public void changePanel(JPanel j){
+        this.remove(actuel);
+        setPanelLayer(j);
+    }
+
+    public void setPanelLayer(JPanel j){
+        this.remove(actuel);
+        this.remove(backingPane);
+        this.actuel = j;
+        this.add(actuel);
+        this.add(backingPane);
+        this.setLayer(actuel, CURRENT_LEVEL);
+        this.setLayer(backingPane, POPUP_LAYER);
+        this.revalidate();
+        this.repaint();
 
     }
+
 }

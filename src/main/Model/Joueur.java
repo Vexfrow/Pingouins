@@ -38,12 +38,14 @@ public class Joueur {
 
     public Pingouin getPingouin(Pingouin ping){
         int i =0;
-        while( i< listePingouin.size() && ping.getLigne() != listePingouin.get(i).getLigne() &&  ping.getColonne() != listePingouin.get(i).getColonne()){
+        while( i< listePingouin.size() && (ping.getLigne() != listePingouin.get(i).getLigne() ||  ping.getColonne() != listePingouin.get(i).getColonne()) ){
             i++;
         }
-        
-        //possible qu'il ya ait une erreur si on attenteins null
-        return listePingouin.get(i);
+        if(i == listePingouin.size()){
+            return null;
+        }else{
+            return listePingouin.get(i);
+        }
     }
 
 
