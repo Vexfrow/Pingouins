@@ -61,7 +61,7 @@ public class Coup {
     //afficher un coup
     @Override
     public String toString() {
-        String string = "x= " + x + "y = " + y;
+        String string = "x= " + x + " y = " + y;
         return string;
     }
 
