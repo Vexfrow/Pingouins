@@ -23,8 +23,85 @@ public class Jeu{
 
     private int nbJoueur;
     private int nbPingouin;
+    private int nbPingouinPlace;
+
+    private boolean jeuTermine = false;
+
 
     private int joueurCourant = 1;  // En supposant que c'est le joueur 1 qui commence compris entre 1 et nbJoueur-1 inclus
+
+
+    /*
+     * Annonce si le jeu est terminé
+     */
+    public boolean estTermine(){
+        return this.jeuTermine;
+    }
+
+    /*
+     * Met à jour la variable Jeutermine si les pingouins ne peuvent plus bouger
+     */
+    public boolean jeuTermine(){
+        
+        //creation de la liste des pingouins
+        ArrayList<Pingouin> p = new ArrayList<>();
+
+        //parcours de tous les joueurs
+        for(int i =0; i< listeJoueur.size(); i++){
+            
+            //on recupere le joueur
+            Joueur j = listeJoueur.get(i);
+
+            //parcours de tous les pingouins d'un joueur
+            for(int k = 0; k<j.listePingouin.size(); k++){
+                //ajout à la liste des pingouins
+                p.add(j.listePingouin.get(k));
+            }
+
+        }
+
+        boolean termine = true;
+        int l = 0;
+
+        //parcour tous les pingouins pour savoir si ils sont bloqués
+        while(l < p.size() && termine){
+            //regarde si le pingouin est bloqué
+            termine = estPinguoinBloque(p.get(l));
+            l++;
+        }
+
+        jeuTermine = termine;
+
+        this.jeuTermine = jeuTermine;
+
+        return jeuTermine;
+
+    }
+
+
+    //public boolean peutJouer
+
+
+    /*
+     * Annonce si le pinguoin est bloqué (true) ou non (false)
+     */
+    public boolean estPinguoinBloque(Pingouin ping){
+        ArrayList<Position> casesAccesible = getCaseAccessible(ping);
+        return (casesAccesible.size() == 0);
+    }
+
+
+    /*
+     * Annonce s'il reste des pingouin a placer
+     */
+    public boolean pingouinTousPlace(){
+        return (nbPingouinPlace == 0);
+    }
+
+
+
+
+
 
 
     /*
@@ -34,12 +111,14 @@ public class Jeu{
 
         try {
 
+            //pour le test
             name = "test.txt";
 
             //init des arrays
             coupAnnule = new ArrayList<Coup>();
             coupJoue = new ArrayList<Coup>();
             listeJoueur = new ArrayList<Joueur>();
+
 
        	    //ouverture fichier
             FileReader reader = new FileReader(name);
@@ -60,8 +139,8 @@ public class Jeu{
             this.nbColonnes = Integer.parseInt(line);
 
             // taille du tableau de la matrice
-            this.nbColonnes = nbColonnes*2-1;
-
+            this.nbColonnes = nbColonnes*2+1; 
+    
             Joueur player;
             int i = 1;
 
@@ -75,44 +154,73 @@ public class Jeu{
             //nombre de pingouin en fonction du nombre de joueurs
             if(nbJoueur == 2){
                 this.nbPingouin =4;
+                this.nbPingouinPlace = this.nbPingouin*2;
             }else if (nbJoueur == 3){
                 this.nbPingouin =3;
+                this.nbPingouinPlace = this.nbPingouin*3;
             } else {
                 this.nbPingouin =2;
+                this.nbPingouinPlace = this.nbPingouin*4;
             }
+    
+                //creation terrain
+    		terrainInitiale = new Cases[nbLignes][nbColonnes];
+            terrainCourant = new Cases[nbLignes][nbColonnes];
 
-            //creation terrain
-    		terrainInitiale = new Cases[nbLignes][nbColonnes*2-1];
-            terrainCourant = new Cases[nbLignes][nbColonnes*2-1];
+                //recuperer le terrain
+            int l =0;
+            int c =0;
 
-            //recuperer le terrain
+            //recuprer toutes les lignes du tableau
+    		while ((line = bufferedReader.readLine()) != null && (!line.equals("b"))) {
 
+                //split la ligne
+                String[] parts = line.split(", ");
 
+                c=0;
 
+                //récupére toute la ligne !!!! omg c trop bien
+                for(int m =0; m < parts.length; m++){
+                    if(!parts[m].equals("null")){
+                        Cases cases = new Cases(false, Integer.parseInt(parts[m]), 0);
+                        
+                        //place la case précédement crée à la bonne place
+                        setCase(cases, l, c);
+                        c++;
+                        
+                    }
+                    
+                }
 
-            //TO DO : recuperer le tableau
+                l++;
 
-
-
-
+    	    }
 
             //save le terrrain initiale
             terrainInitiale = clonerTerrain(terrainCourant);
 
 
+            /* 
     		//recuprer tous les coups à jouer
     		while ((line = bufferedReader.readLine()) != null && (!line.equals("b"))) {
 
                 //split la ligne
                 String[] parts = line.split(" ");
 
-                Pingouin ping = new Pingouin(Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
+                Pingouin ping = new Pingouin(Integer.parseInt(parts[4]), Integer.parseInt(parts[5]));
 
                 //definir un nouveau  coup
-                Coup cp = new Coup(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), ping , Boolean.parseBoolean(parts[4]));
+                Coup cp = new Coup(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3]), ping , Boolean.parseBoolean(parts[6]));
+                System.out.println(cp);
 
-                //jouer le coup
-                joue(cp);
+                if(Boolean.parseBoolean(parts[6])){
+                    placePingouin(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
+                }else{
+                    //jouer le coup
+
+                    //bug ici
+                    joue(cp);
+                }
 
     	    }
 
@@ -122,15 +230,17 @@ public class Jeu{
     			//split la ligne
 				String[] parts = line.split(" ");
 
-                Pingouin ping = new Pingouin(Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
+                Pingouin ping = new Pingouin(Integer.parseInt(parts[4]), Integer.parseInt(parts[5]));
 
 				//definir un nouveau  coup
-				Coup cp = new Coup(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), ping , Boolean.parseBoolean(parts[4]));
+				Coup cp = new Coup(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]),Integer.parseInt(parts[2]), Integer.parseInt(parts[3]), ping , Boolean.parseBoolean(parts[6]));
 
 				//ajoute le coup à l'arraylist annule
 				coupAnnule.add(cp);
 
-	    }
+	        }
+
+            */
 
     		//fermer le fichier
     		reader.close();
@@ -142,9 +252,9 @@ public class Jeu{
     }
 
 
-    /*
-     * Construction du jeu avec un nombre de joueur uniquement
-     */
+
+     // Construction du jeu avec un nombre de joueur uniquement
+
     public Jeu(int nbJoueur){
         this(nbJoueur,8,8);
     }
@@ -176,10 +286,13 @@ public class Jeu{
         //nombre de pingouin en fonction du nombre de joueurs
         if(nbJoueur == 2){
             this.nbPingouin =4;
+            this.nbPingouinPlace = this.nbPingouin*2;
         }else if (nbJoueur == 3){
             this.nbPingouin =3;
+            this.nbPingouinPlace = this.nbPingouin*3;
         } else {
             this.nbPingouin =2;
+            this.nbPingouinPlace = this.nbPingouin*4;
         }
 
         this.nbColonnes = nbColTab;
@@ -214,14 +327,18 @@ public class Jeu{
         //nombre de pingouin en fonction du nombre de joueurs
         if(nbJoueur == 2){
             this.nbPingouin =4;
+            this.nbPingouinPlace = this.nbPingouin*2;
         }else if (nbJoueur == 3){
             this.nbPingouin =3;
+            this.nbPingouinPlace = this.nbPingouin*3;
         } else {
             this.nbPingouin =2;
+            this.nbPingouinPlace = this.nbPingouin*4;
         }
 
+
         this.nbJoueur = nbJoueur;
-        this.nbColonnes = nbColonnes*2-1; // taille du tableau
+        this.nbColonnes = nbColonnes*2-1; // taille du tableau               ??????????????????????????????????????????????????????????????????????????????
         this.nbLignes = nbLignes;          // taille du tableau contenant le terrain
 
         //initialisation du terrain
@@ -292,14 +409,14 @@ public class Jeu{
     /*
      * Place un pingouin sur la case l, c
      */
-    public void placePingouin(int l, int c){
+    public boolean placePingouin(int l, int c){
 
         //récupération du joueur courant
         int joueurCourant = quelJoueur();
         Joueur joueur = listeJoueur.get(joueurCourant-1);
 
         //vérfication du placment
-        if( (joueur.listePingouin.size() < nbPingouin) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1){
+        if( (joueur.listePingouin.size() < nbPingouin) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1 && !pingouinTousPlace()){
             Pingouin ping = new Pingouin(l,c);
             joueur.listePingouin.add(ping);
 
@@ -314,8 +431,15 @@ public class Jeu{
             coupJoue.add(cp);
             coupAnnule = new ArrayList<Coup>();
 
+            //System.out.println("Pingouin placé en "+ l +" "+ c);
+
+            nbPingouinPlace--;
+
+            return true;
+
         }else{
             System.out.println("Impossible de placer le pingouin ici");
+            return false;
         }
 
     }
@@ -323,7 +447,7 @@ public class Jeu{
     /*
      * Refait le dernier coup de placement de Pingouin annulé
      */
-    private void placePingouinAnnuler(Coup cp){
+    private boolean placePingouinAnnuler(Coup cp){
 
         //récupération joueur
         int joueurCourant = quelJoueur();
@@ -334,7 +458,7 @@ public class Jeu{
         int c = cp.getColonne();
 
 
-        if( (joueur.listePingouin.size() < nbPingouin) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1){
+        if( (joueur.listePingouin.size() < nbPingouin) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1 && !pingouinTousPlace()){
             //création pingouin et ajout liste pingouin joueur
             Pingouin ping = new Pingouin(l,c);
             joueur.listePingouin.add(ping);
@@ -343,15 +467,20 @@ public class Jeu{
             Cases cases = getCase(l,c);
             cases.setPingouin(joueurCourant);
 
-            //changment joueur
+            //changement joueur
             switchJoueur();
 
-            //joeu un nouveau coup
+            //joue un nouveau coup
             Coup coup = new Coup(l,c,ping,true);
             coupJoue.add(coup);
 
+            nbPingouinPlace--;
+
+            return true;
+
         }else{
             System.out.println("Impossible de placer le pingouin ici");
+            return false;
         }
     }
 
@@ -446,6 +575,17 @@ public class Jeu{
         return this.listeJoueur;
     }
 
+    /* Deux méthodes suivantes pour les tests, les enlever
+     * si necessaire
+     */
+    public ArrayList<Coup> getListeCoupsAnnules(){
+        return this.coupAnnule;
+    }
+
+    public ArrayList<Coup> getListeCoupsJoues(){
+        return this.coupJoue;
+    }
+
 
     /*
      * Donne la case à la ligne, collone données
@@ -496,7 +636,7 @@ public class Jeu{
     }
 
     /*
-     * Donne le joeur courant
+     * Donne le joueur courant
      */
     public int quelJoueur(){
         return joueurCourant;
@@ -504,7 +644,7 @@ public class Jeu{
 
 
     /*
-     * Donne le numéro du joeur suivant
+     * Donne le numéro du joueur suivant
      */
     public void switchJoueur(){
         joueurCourant = (joueurCourant % nbJoueur) + 1;
@@ -522,18 +662,41 @@ public class Jeu{
         //tableau des position des cases accessibles
         ArrayList<Position> casesAccessible = getCaseAccessible(cp.getPingouin());
 
-        //System.out.println("taille des casses accessible est de :" + casesAccessible.size()+ "on va en (x,y)=("+ligne+","+colonne+")");
+        //System.out.println("taille des casses accessible est de: " + casesAccessible.size()+ " on va en (x,y)=("+ligne+","+colonne+")");
 
         int index = 0;
 
         //parcours de tout le tableau de position et comparaison des coordonée du coup et de la case accessible
         while( index <casesAccessible.size() && (casesAccessible.get(index).x !=ligne || casesAccessible.get(index).y != colonne)){
             //System.out.println("\n" + casesAccessible.get(index).x + " et y: "+ casesAccessible.get(index).y );
-            //System.out.println("\n" + casesAccessible.get(index).x + " et y: "+ casesAccessible.get(index).y );
-            //System.out.println("\n" + casesAccessible.get(index).x + " et y: "+ casesAccessible.get(index).y );
             index++;    
         }
-        return (index != casesAccessible.size());
+
+        //regarde si c'est au bon tour de jeu
+
+        //récupére l'objet  joueur courant
+
+        Joueur j = listeJoueur.get(joueurCourant-1);
+
+        ArrayList<Pingouin> p = new ArrayList<>();
+        p = j.listePingouin;
+
+        //on cherche le pinguoin dans la liste des pingouins du joueur
+        int k =0;
+        while(p.get(k) != cp.getPingouin() && k <p.size()){
+            k++;
+        }
+
+        boolean bonPinguoin = false;
+
+        //on a trouvé le pingouin en question
+        if(k<p.size()){
+            bonPinguoin = true;
+        } else {
+            System.out.println("Le pingouin choisit n'est pas déplacable pour le moment");
+        }
+        
+        return (index != casesAccessible.size() && bonPinguoin);
     }
 
 
@@ -654,7 +817,11 @@ public class Jeu{
             Joueur joueur = listeJoueur.get(joueurCourant-1);
 
             Pingouin ping = cp.getPingouin();
+
+            // regarder si on a les meme adresse pour les deux lignes précédentes ......................................................
             ping = joueur.getPingouin(ping);
+
+            System.out.println("Pingouin coup = "+cp.getPingouin());
 
             Cases caseDep = getCase(ping.getLigne(),ping.getColonne());
             joueur.setScore(joueur.getScore()+caseDep.getNbPoissons());
@@ -672,12 +839,15 @@ public class Jeu{
             //init d'un nouveau tableau de coup Annuler
             coupAnnule = new ArrayList<Coup>();
 
-            //changment du joueur
+            //changement du joueur
             switchJoueur();
+
+            System.out.println("Pingouin coup = "+cp.getPingouin());
 
         }
         else {
-            System.out.println("Impossible de jouer\n");
+            System.out.println("Impossible de jouer");
+            
         }
 
     }
@@ -697,8 +867,14 @@ public class Jeu{
             Cases caseArrive = getCase(l,c);
             Joueur joueur = listeJoueur.get(joueurCourant-1);
 
+            
+
             Pingouin ping = cp.getPingouin();
             ping = joueur.getPingouin(ping);
+
+            //conservaton d'ou vient le pingouin
+            cp.getPingouin().setLigne(ping.getLigne());
+            cp.getPingouin().setColonne(ping.getColonne());
 
             Cases caseDep = getCase(ping.getLigne(),ping.getColonne());
             joueur.setScore(joueur.getScore()+caseDep.getNbPoissons());
@@ -706,13 +882,17 @@ public class Jeu{
             caseDep.setPingouin(0);
             caseDep.setMange(true);
 
+            
+
+            //modification du pingouin
             ping.setLigne(l);
             ping.setColonne(c);
+            
+            //modification cases
             caseDep.setNbPoissons(0);
             caseArrive.setPingouin(joueurCourant);
-
             
-            coupJoue.add(cp);
+            //coupJoue.add(cp);
 
             switchJoueur();
 
@@ -752,6 +932,9 @@ public class Jeu{
             coupJoue.remove(coupJoue.size()-1);
 
             int i = 0;
+
+            //remise à zéro du nombre de pinguoin à placer
+            this.nbPingouinPlace =nbPingouin;
 
             //on rejoue tous les coups jusqu'à l'avant dernier
             while(i < coupJoue.size()){
@@ -833,7 +1016,9 @@ public class Jeu{
             w.write(result + "\n");
 
 
-
+            /*
+        
+             
             //marque pour indiquer que la suite sont des coups annules
 			w.write("b\n");
 
@@ -842,9 +1027,9 @@ public class Jeu{
 
             System.out.println("taille liste coup = " + tailleList);
 
-			//stocke tous les coups
+			    //stocke tous les coups
 			for(int i = 0; i< tailleList; i++) {
-				w.write(coupJoue.get(i).getLigne() + " "+ coupJoue.get(i).getColonne() + " " + coupJoue.get(i).getPingouin().getLigne()+ " " + coupJoue.get(i).getPingouin().getColonne() + " " + coupJoue.get(i).estPlace() + "\n");
+				w.write(coupJoue.get(i).getLigne() + " "+ coupJoue.get(i).getColonne() +" "+ coupJoue.get(i).getAncienX() + " " + coupJoue.get(i).getAncienY() + " " + coupJoue.get(i).getPingouin().getLigne()+ " " + coupJoue.get(i).getPingouin().getColonne() + " " + coupJoue.get(i).estPlace() + "\n");
 			}
 
 			    //marque pour indiquer que la suite sont des coups annules
@@ -853,10 +1038,12 @@ public class Jeu{
 			    //stocker tous les coups annules
 			int tailleLista = coupAnnule.size();
 			for(int i = 0; i< tailleLista; i++) {
-				w.write(coupAnnule.get(i).getLigne() + " "+ coupAnnule.get(i).getColonne()+ " " + coupAnnule.get(i).getPingouin().getColonne()+ " " + coupAnnule.get(i).getPingouin().getLigne() + " " + coupJoue.get(i).estPlace() +"\n");
+				w.write(coupAnnule.get(i).getLigne() + " "+ coupAnnule.get(i).getColonne()+ " " + coupAnnule.get(i).getAncienX() + " " + coupAnnule.get(i).getAncienY() + " " + coupAnnule.get(i).getPingouin().getColonne()+ " " + coupAnnule.get(i).getPingouin().getLigne() + " " + coupJoue.get(i).estPlace() +"\n");
 			}
 
-			//fermer le fichier
+            */
+
+			    //fermer le fichier
 			w.close();
 
 		} catch (IOException e) {
@@ -875,9 +1062,17 @@ public class Jeu{
 			result += sep + Arrays.toString(terrainCourant[i]);
 			sep = "\n ";
 		}
+        
+
 		result += 	"]\nEtat:" +
 				"\n- peut annuler : " + peutAnnuler() +
 				"\n- peut refaire : " + peutRefaire();
+
+        //terrain init
+        //for (int i=0; i<terrainInitiale.length; i++) {
+        //    result += sep + Arrays.toString(terrainInitiale[i]);
+        //    sep = "\n ";
+        //}
 		return result;
     }
     

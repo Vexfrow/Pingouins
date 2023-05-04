@@ -8,7 +8,7 @@ public class AdaptateurSourisPlateau extends MouseAdapter {
     BanquiseGraphique banquiseGraphique;
     CollecteurEvenements collecteurEvenements;
 
-    AdaptateurSourisPlateau(BanquiseGraphique bGraphique, CollecteurEvenements cEvenements) {
+    public AdaptateurSourisPlateau(BanquiseGraphique bGraphique, CollecteurEvenements cEvenements) {
         banquiseGraphique = bGraphique;
         collecteurEvenements = cEvenements;
     }
@@ -18,7 +18,6 @@ public class AdaptateurSourisPlateau extends MouseAdapter {
 
         int coupX = e.getX();
         int coupY = e.getY();
-        System.out.println("Test x = " + coupX + "; y = " + coupY);
         collecteurEvenements.clicSourisPlateau(coupX, coupY);
     }
 

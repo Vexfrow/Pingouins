@@ -12,7 +12,6 @@ import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +28,6 @@ public class BanquiseGraphique extends JComponent {
 
     public BanquiseGraphique(Jeu jeu) {
         this.jeu = jeu;
-
-        jeu.placePingouin(3, 3);
 
         //Todo : trouver une meilleure manière que charger toutes les images directement
         hPoisson1 = chargeImage("casePoissons1");
@@ -88,7 +85,10 @@ public class BanquiseGraphique extends JComponent {
         BufferedImage buffered = new BufferedImage((int) r.getWidth(), (int) r.getHeight(), BufferedImage.TYPE_INT_ARGB);
         //On remplace la nouvelle image par la version redimensionnée de l'image que l'on souhaite mettre
         buffered.getGraphics().drawImage(imageTmp, 0, 0, null);
+
+        //imageTmp.getGraphics().dispose();
         src.getGraphics().dispose();
+        buffered.getGraphics().dispose();
 
         //TODO : Verifier l'utilité de ce bout de code
 //        Graphics g = buffered.getGraphics();
@@ -104,7 +104,8 @@ public class BanquiseGraphique extends JComponent {
 
     public void misAJour(Jeu jeu) {
         this.jeu = jeu;
-        majPlateau();
+        //majPlateau();
+        repaint();
     }
 
 
@@ -154,6 +155,7 @@ public class BanquiseGraphique extends JComponent {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
 
+
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
 
@@ -163,9 +165,9 @@ public class BanquiseGraphique extends JComponent {
         int j = 0;
         for (Shape cell : grille) {
 
-
             bfi = getTexturedImage(getBfi(jeu.getCase(i, j)), cell);
             g2d.drawImage(bfi, cell.getBounds().x, cell.getBounds().y, null);
+
 
             j++;
 
@@ -214,4 +216,11 @@ public class BanquiseGraphique extends JComponent {
         }
         return bfi;
     }
+
+
+    public List<Shape> getPlateauJeu(){
+        return grille;
+    }
+
+
 }

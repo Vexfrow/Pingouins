@@ -1,6 +1,8 @@
 package Interface;
 
 import Controleur.Controleur;
+import Vue.CollecteurEvenements;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -16,14 +18,14 @@ public class MenuP extends JPanel {
     private Image img;
     private SpringLayout layout;
     private  JLabel menu;
-    private Controleur c;
+    private CollecteurEvenements c;
 
-    public MenuP(Controleur ctrl){
+    public MenuP(CollecteurEvenements ctrl){
         super();
         this.c = ctrl;
         //Création des éléments
         try{
-            img = (Image)ImageIO.read(new FileInputStream("resource/assets/menu/Titre.png"));
+            img = (Image)ImageIO.read(new FileInputStream("resources/assets/menus/Titre.png"));
         }catch(Exception e){
             System.out.println("une erreur " + e);
         }
@@ -51,6 +53,15 @@ public class MenuP extends JPanel {
     }
 
     private void setMenu(){
+        //Button
+        partiePersonnalisee.setBorderPainted(false);
+        chargerPartie.setBorderPainted(false);
+        tutoriel.setBorderPainted(false);
+        partieRapide.setBorderPainted(false);
+        regles.setBorderPainted(false);
+
+
+
         //Colorization
         Color reglesColor = new Color(0xFDCF76);
         Color partieRapideColor = new Color(0x155D85);
@@ -80,11 +91,11 @@ public class MenuP extends JPanel {
         this.add(tutoriel);
         this.add(regles);
 
-        Dimension boutonTaille = new Dimension(200, 75);
-        partieRapide.setPreferredSize(boutonTaille);
-        partiePersonnalisee.setPreferredSize(boutonTaille);
-        chargerPartie.setPreferredSize(boutonTaille);
-        tutoriel.setPreferredSize(boutonTaille);
+
+        partieRapide.setPreferredSize(GameConstants.boutonTaille);
+        partiePersonnalisee.setPreferredSize(GameConstants.boutonTaille);
+        chargerPartie.setPreferredSize(GameConstants.boutonTaille);
+        tutoriel.setPreferredSize(GameConstants.boutonTaille);
         regles.setPreferredSize(new Dimension(150, 50));
 
         //Placement
@@ -109,14 +120,14 @@ public class MenuP extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 toggleButtons();
-                c.toggleHelp();
+               // c.toggleHelp();
             }
         });
 
         partiePersonnalisee.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                c.switchSel();
+                //c.switchSel();
             }
         });
     }
