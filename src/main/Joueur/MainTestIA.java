@@ -26,7 +26,7 @@ public class MainTestIA{
         
         System.out.println(j);
 
-        while(i< 4){
+        while( !j.pingouinTousPlace()){
 
             pos = ia.elaborePlacement();
             j.placePingouin(pos.x, pos.y);
@@ -41,24 +41,31 @@ public class MainTestIA{
         System.out.println(j);
 
 
-         i =0;
-        while(i < 10){
+        i =0;
+        while(!j.jeuTermine()){
             cp = ia.elaboreCoup();
             if(cp == null){
-                break;
+                j.switchJoueur();
+            } else {
+                j.joue(cp);
             }
-            j.joue(cp);
+            
             System.out.println(cp);
 
 
             cp= ia2.elaboreCoup();
             if(cp == null){
-                break;
+                j.switchJoueur();
+            } else {
+                j.joue(cp);
             }
-            j.joue(cp);
+           
             System.out.println(cp);
 
         }
+
+        System.out.println("score j1 = "+ j.getScore(1));
+        System.out.println("score j2 = "+ j.getScore(2));
 
         System.out.println(j);
 
