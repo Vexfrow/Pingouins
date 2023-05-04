@@ -4,6 +4,7 @@ import java.util.Random;
 import Model.Coup;
 import Model.Jeu;
 import Model.Position;
+import Model.Joueur;
 import Model.Cases;
 import Model.Pingouin;
 import java.util.ArrayList;
@@ -11,11 +12,11 @@ import java.util.ArrayList;
 
 
 
-public class IAAleatoire extends Joueur{
+public class IAAleatoire extends IAJoueur{
     Random r;
 
 
-    IAAleatoire(Jeu j){
+    public IAAleatoire(Jeu j){
         super(j);
     }
 
@@ -44,7 +45,7 @@ public class IAAleatoire extends Joueur{
 
             //boucle sur toutes les colonnes
             while( c < (nbc)){
-                caseCourant = terrainCourant[l][c];
+                caseCourant = j.getCase(l,c);
                 if(caseCourant.getNbPoissons()==1 && caseCourant.pingouinPresent() == 0){
                     posCourant = new Position(l,c);
                     posPossible.add(posCourant);
@@ -59,43 +60,36 @@ public class IAAleatoire extends Joueur{
     
 
 
-
+    @Override
     public Coup elaboreCoup(){
         Random r = new Random();
         ArrayList<Coup> coupPossible = new ArrayList<Coup>();
-        int joueurCourant = this.j.quelJoueur();
-        ArrayList<Pingouin> listePingouin = this.j.getListeJoueur().get(joueurCourant).getListePingouin();
+        int joueurCourant = this.j.quelJoueur()-1;
+        ArrayList<Joueur> listeJoueur =this.j.getListeJoueur();
+        ArrayList<Pingouin> listePingouin = listeJoueur.get(joueurCourant).getListePingouin();
         ArrayList<Position> listePos;
+        Coup cp;
         int i = 0;
         int j = 0;
+
         while( i < listePingouin.size()){
+            listePos = null;
             listePos = this.j.getCaseAccessible(listePingouin.get(i));
+            j=0;
             while(j < listePos.size()){
-                coupPossible.add( new Coup(listePos.get(j).x , listePos.get(j).y , listePingouin.get(i), false) );
+                cp = new Coup(listePos.get(j).x , listePos.get(j).y , listePingouin.get(i), false) ;
+                coupPossible.add(cp);
                 j++;
             }
             i++;
 
         }
-        return coupPossible.get(r.nextInt(coupPossible.size()));
-
+        System.out.println(coupPossible.size());
+        if(coupPossible.size()==0){
+            return null;
+        }else{
+            return coupPossible.get(r.nextInt(coupPossible.size()));
+        }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

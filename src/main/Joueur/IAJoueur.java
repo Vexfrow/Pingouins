@@ -5,11 +5,11 @@ import Model.Position;
 import Model.Coup;
 
 
-public abstract class Joueur {
+public abstract class IAJoueur {
     Jeu j;
     public String name;
 
-    Joueur(Jeu j){
+    IAJoueur(Jeu j){
         this.j = j;
     }
 
