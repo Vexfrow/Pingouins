@@ -2,9 +2,6 @@ package Model;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import Model.Position;
-
 
 public class mainModel {
     
@@ -23,6 +20,10 @@ public class mainModel {
 
         System.out.println(p.contains(paa));
 
+        // Initialisation du jeu
+        Jeu j = new Jeu(2);
+
+        System.out.println(j.getNbCases());
         /*
 
 

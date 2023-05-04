@@ -31,6 +31,10 @@ public class Coup {
         return this.pingouin;
     }
 
+    public boolean estPlace(){
+        return this.place;
+    }
+
 
         // Setters 
 
