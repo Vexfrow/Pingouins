@@ -211,7 +211,7 @@ public class Jeu{
 
                 //definir un nouveau  coup
                 Coup cp = new Coup(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3]), ping , Boolean.parseBoolean(parts[6]));
-                System.out.println(cp);
+
 
                 if(Boolean.parseBoolean(parts[6])){
                     placePingouin(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
@@ -821,7 +821,6 @@ public class Jeu{
             // regarder si on a les meme adresse pour les deux lignes précédentes ......................................................
             ping = joueur.getPingouin(ping);
 
-            System.out.println("Pingouin coup = "+cp.getPingouin());
 
             Cases caseDep = getCase(ping.getLigne(),ping.getColonne());
             joueur.setScore(joueur.getScore()+caseDep.getNbPoissons());
@@ -842,7 +841,6 @@ public class Jeu{
             //changement du joueur
             switchJoueur();
 
-            System.out.println("Pingouin coup = "+cp.getPingouin());
 
         }
         else {

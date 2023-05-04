@@ -14,7 +14,69 @@ public class MainTestIA{
 
 
     public static void main(String[] args){
-        
+        testerIA(10000);
+    }
+
+    public static void testerIA(int nbPartie){
+        int i = 0;
+        int winj1 =0;
+        int winj2 =0;
+        IAJoueur ia1;
+        IAJoueur ia2;
+        Coup cp;
+        Position pos;
+
+
+        while ( i < nbPartie){
+            Jeu j = new Jeu(2);
+
+            ia1 = new IATroisPoissons(j);
+            ia2 = new IAAleatoire(j);
+
+            while(!j.pingouinTousPlace()){
+
+                pos = ia1.elaborePlacement();
+                j.placePingouin(pos.x, pos.y);
+                
+                pos = ia2.elaborePlacement();
+                j.placePingouin(pos.x,pos.y);
+
+            }
+            while(!j.jeuTermine()){
+                cp = ia1.elaboreCoup();
+
+                if(cp == null){
+                   j.switchJoueur();
+                }else{
+                    j.joue(cp);
+                }
+
+
+
+                cp= ia2.elaboreCoup();
+                if(cp == null){
+                   j.switchJoueur();
+                }else{
+                    j.joue(cp);
+                }
+
+
+            }
+
+            if(j.getScore(1) > j.getScore(2)){
+                winj1++;
+            }else if(j.getScore(1) < j.getScore(2)){
+                winj2++;
+            }
+
+            System.out.println( "nb partie joué "+i + "  j1: "+j.getScore(1)+"     j2: " +j.getScore(2) );
+            i++;
+        }
+        System.out.println( "j1 gagne: "+ winj1+ "   j2 gagne: "+ winj2);
+
+    }
+
+    public static void test(){
         Jeu j = new Jeu(2);
         int i =0;
         
@@ -26,7 +88,7 @@ public class MainTestIA{
         
         System.out.println(j);
 
-        while( !j.pingouinTousPlace()){
+        while(i< 4){
 
             pos = ia.elaborePlacement();
             j.placePingouin(pos.x, pos.y);
@@ -41,33 +103,29 @@ public class MainTestIA{
         System.out.println(j);
 
 
-        i =0;
-        while(!j.jeuTermine()){
+         i =0;
+        while(i < 10){
             cp = ia.elaboreCoup();
             if(cp == null){
-                j.switchJoueur();
-            } else {
-                j.joue(cp);
+                break;
             }
-            
+            j.joue(cp);
             System.out.println(cp);
 
 
             cp= ia2.elaboreCoup();
             if(cp == null){
-                j.switchJoueur();
-            } else {
-                j.joue(cp);
+                break;
             }
-           
+            j.joue(cp);
             System.out.println(cp);
 
         }
 
-        System.out.println("score j1 = "+ j.getScore(1));
-        System.out.println("score j2 = "+ j.getScore(2));
-
         System.out.println(j);
 
     }
+
+
+
 }

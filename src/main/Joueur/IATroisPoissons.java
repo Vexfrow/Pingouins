@@ -88,7 +88,6 @@ public class IATroisPoissons extends IAJoueur{
             }
             nbpoisson--;
         }
-        System.out.println(coupPossible.size());
         if(coupPossible.size()==0){
             return null;
         }else{

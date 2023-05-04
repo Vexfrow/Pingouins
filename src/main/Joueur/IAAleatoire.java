@@ -83,7 +83,6 @@ public class IAAleatoire extends IAJoueur{
             i++;
 
         }
-        System.out.println(coupPossible.size());
         if(coupPossible.size()==0){
             return null;
         }else{
