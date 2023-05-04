@@ -19,7 +19,7 @@ public class MainTestIA{
         int i =0;
         
         IAJoueur ia = new IAAleatoire(j);
-        IAJoueur ia2 = new IAAleatoire(j);
+        IAJoueur ia2 = new IATroisPoissons(j);
         Position pos;
         Coup cp;
 
