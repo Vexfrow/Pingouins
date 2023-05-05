@@ -7,7 +7,7 @@ public class MainTest {
     public static void main(String[] args){
 
         // Initialisation du jeu
-        Jeu j = new Jeu(2);
+        JeuAvance j = new JeuAvance(2);
 
         
         // Placement des pingouins 
