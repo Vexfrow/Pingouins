@@ -461,6 +461,11 @@ public class JeuAvance extends Jeu{
     }
 
 
+    public Jeu toJeu(){
+        return new Jeu(this.terrainCourant, this.listeJoueur, this.nbLignes, this.nbColonnes, this.nbJoueur, this.nbPingouinJoueur, this.nbPingouinPlace, this.joueurCourant);
+        
+    }
+
     public String toString(){
         String result = "Plateau:\n[";
 		String sep = "";

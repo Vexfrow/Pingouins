@@ -26,7 +26,22 @@ public class Jeu{
 
     }
 
+    public Jeu(Cases[][] terrain, ArrayList<Joueur> ar, int l, int c, int j, int pj, int pp, int jc){
+        Cases [][] terrainCourant = terrain;
+        ArrayList<Joueur> listeJoueur = ar;
+
+        int nbLignes = l; // taille du tableau
+         int nbColonnes = c; // taille du tableau
+
+         int nbJoueur = j;
+         int nbPingouinJoueur = pj;
+         int nbPingouinPlace = pp;
+
+         int joueurCourant = jc;
+    }
+
     public Jeu(Jeu jeu){
+        System.out.println(jeu.clonerTerrain(jeu.getTerrain()));
         this.terrainCourant = jeu.clonerTerrain(jeu.getTerrain());
 
         int i = 0;
