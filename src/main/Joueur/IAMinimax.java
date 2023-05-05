@@ -24,6 +24,8 @@ public class IAMinimax extends IAJoueur{
 
     @Override
     public Position elaborePlacement(){
+
+
         
         return null;
     }
@@ -33,5 +35,24 @@ public class IAMinimax extends IAJoueur{
         return null;
     }
 
+    public int minimax(Configuration config, int depth, boolean maxmin){
+        int value =0;
+        if(depth ==0 || config.jeu.jeuTermine()){
+            return H(config);
 
+        }if(true){
+
+        }
+        if(maxmin){
+            value = -10000;
+
+
+        }
+        return value;
+    }
+
+    public int H(Configuration config){
+        int value = 0;
+        return value;
+    }
 }
