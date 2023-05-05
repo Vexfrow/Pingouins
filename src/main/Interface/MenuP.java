@@ -120,14 +120,14 @@ public class MenuP extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 toggleButtons();
-               // c.toggleHelp();
+                c.toggleHelp();
             }
         });
 
         partiePersonnalisee.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //c.switchSel();
+                c.switchSel();
             }
         });
     }

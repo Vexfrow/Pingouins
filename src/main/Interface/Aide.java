@@ -74,11 +74,7 @@ public class Aide extends JPanel{
         Dimension d = getRootPane().getContentPane().getSize();
         int width = (int)(d.width*(0.6));
         int height = (int)(d.height*(0.7));
-        System.out.println(d.height + " Apres calcul " + height);
         setSize(new Dimension(width, height));
-        setLocation((int)((d.width/2) - width/2), (int)((d.height/2) - height/2));
-
-        System.out.println(getLocation());
         setAide();
         image.setIcon(new ImageIcon(aideImg));
         flecheGauche.setIcon(new ImageIcon(flecheLeft));

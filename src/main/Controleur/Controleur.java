@@ -53,7 +53,7 @@ public class Controleur implements CollecteurEvenements {
     public void clicSourisPlateau(int coupX, int coupY) {
 
 
-        if(jeu.estTermine()){
+        if(jeu.jeuTermine()){
             System.out.println("Test");
         }else{
             for(int i = 0; i < plateauJeu.getPlateauJeu().size();i++) {

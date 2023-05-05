@@ -2,6 +2,7 @@ package Joueur;
 
 import Model.Coup;
 import Model.Jeu;
+import Model.JeuAvance;
 import Model.Position;
 import Model.Cases;
 import Model.Pingouin;
@@ -14,7 +15,7 @@ public class MainTestIA{
 
 
     public static void main(String[] args){
-        testerIA(10000);
+        testerIA(100000);
     }
 
     public static void testerIA(int nbPartie){
@@ -28,9 +29,9 @@ public class MainTestIA{
 
 
         while ( i < nbPartie){
-            Jeu j = new Jeu(2);
+            JeuAvance j = new JeuAvance(2);
 
-            ia1 = new IATroisPoissons(j);
+            ia1 = new IAAleatoire(j);
             ia2 = new IAAleatoire(j);
 
             while(!j.pingouinTousPlace()){
@@ -68,8 +69,6 @@ public class MainTestIA{
             }else if(j.getScore(1) < j.getScore(2)){
                 winj2++;
             }
-
-            System.out.println( "nb partie joué "+i + "  j1: "+j.getScore(1)+"     j2: " +j.getScore(2) );
             i++;
         }
         System.out.println( "j1 gagne: "+ winj1+ "   j2 gagne: "+ winj2);
@@ -77,7 +76,7 @@ public class MainTestIA{
     }
 
     public static void test(){
-        Jeu j = new Jeu(2);
+        JeuAvance j = new JeuAvance(2);
         int i =0;
         
         IAJoueur ia = new IAAleatoire(j);
