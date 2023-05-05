@@ -3,6 +3,7 @@ package Joueur;
 import java.util.Random;
 import Model.Coup;
 import Model.Jeu;
+import Model.JeuAvance;
 import Model.Position;
 import Model.Joueur;
 import Model.Cases;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 
 public class IAMinimax extends IAJoueur{
 
-    IAMinimax(Jeu j){
+    IAMinimax(JeuAvance j){
         super(j);
     }
 
@@ -23,6 +24,7 @@ public class IAMinimax extends IAJoueur{
 
     @Override
     public Position elaborePlacement(){
+        
         return null;
     }
     
