@@ -13,5 +13,4 @@ public interface CollecteurEvenements {
 
     void setJeu(Jeu jeu);
 
-    void startGame();
 }

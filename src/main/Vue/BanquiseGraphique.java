@@ -23,11 +23,19 @@ public class BanquiseGraphique extends JComponent {
     BufferedImage hPingouinV1, hPingouinV2, hPingouinV3;
     BufferedImage hPingouinJ1, hPingouinJ2, hPingouinJ3;
 
+    TexturePaint paintFont;
+
     private Jeu jeu;
     private List<Shape> grille;
 
     public BanquiseGraphique(Jeu jeu) {
         this.jeu = jeu;
+
+        Rectangle r = new Rectangle(0,0, 750, 750);
+        paintFont = new TexturePaint(chargeImage("fondMer"),r);
+
+
+
 
         //Todo : trouver une meilleure manière que charger toutes les images directement
         hPoisson1 = chargeImage("casePoissons1");
@@ -76,7 +84,7 @@ public class BanquiseGraphique extends JComponent {
         Rectangle r = shp.getBounds();
 
         //On récupère une version redimensionnée de l'image
-        Image imageTmp = src.getScaledInstance((int) r.getWidth(), (int) r.getHeight(), BufferedImage.SCALE_REPLICATE);
+        Image imageTmp = src.getScaledInstance((int) r.getWidth(), (int) r.getHeight(), BufferedImage.SCALE_FAST);
         //On crée une nouvelle image bufferisé
         BufferedImage buffered = new BufferedImage((int) r.getWidth(), (int) r.getHeight(), BufferedImage.TYPE_INT_ARGB);
         //On remplace la nouvelle image par la version redimensionnée de l'image que l'on souhaite mettre
@@ -149,7 +157,11 @@ public class BanquiseGraphique extends JComponent {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g.create();
+        Graphics2D g2d = (Graphics2D) g;
+
+        g2d.setPaint(paintFont);
+        g2d.fill(this.getBounds());
+
 
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -157,29 +169,16 @@ public class BanquiseGraphique extends JComponent {
 
         BufferedImage bfi = hVide;
 
-        int i = 0;
-        int j = 0;
-        for (Shape cell : grille) {
+        for (int i = 0; i < grille.size(); i++) {
 
-            bfi = getTexturedImage(getBfi(jeu.getCase(i, j)), cell);
+            Point coordHexa = getCoordFromNumber(i);
+            Shape cell = grille.get(i);
+
+            bfi = getTexturedImage(getBfi(jeu.getCase(coordHexa.x, coordHexa.y)), cell);
             g2d.drawImage(bfi, cell.getBounds().x, cell.getBounds().y, null);
 
 
-            j++;
-
-            if (i % 2 == 0) {
-                if (j >= 7) {
-                    i = i + 1;
-                    j = 0;
-                }
-            } else {
-                if (j >= 8) {
-                    i = i + 1;
-                    j = 0;
-                }
-            }
         }
-
         g2d.dispose();
     }
 
@@ -219,4 +218,33 @@ public class BanquiseGraphique extends JComponent {
     }
 
 
+    public Point getCoordFromNumber(int number){
+        int i = 0;
+        int j =0;
+
+        while(number > 0){
+            j++;
+
+
+            if(i%2 == 0){
+                if(j >= 7){
+                   i++;
+                   j=0;
+                }
+            }else{
+                if(j >= 8){
+                    i++;
+                    j=0;
+                }
+            }
+
+            number--;
+        }
+
+
+        return new Point(i,j);
+    }
+
+
 }
+

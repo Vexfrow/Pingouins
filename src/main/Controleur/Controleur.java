@@ -8,7 +8,7 @@ import Vue.AdaptateurSourisPlateau;
 import Vue.BanquiseGraphique;
 import Vue.CollecteurEvenements;
 
-import java.awt.Shape;
+import java.awt.*;
 
 public class Controleur implements CollecteurEvenements {
 
@@ -20,12 +20,15 @@ public class Controleur implements CollecteurEvenements {
     int phaseJeu;
 
     boolean selection;
-    int selectionPX;
-    int selectionPY;
-
-    int tourJoueur;
+    Point selectionP;
 
     public Controleur(){
+        phaseJeu = 1;
+        selection = false;
+        selectionP = null;
+        jeu = null;
+        window = null;
+        plateauJeu = null;
 
     }
 
@@ -53,41 +56,27 @@ public class Controleur implements CollecteurEvenements {
         if(jeu.estTermine()){
             System.out.println("Test");
         }else{
+            for(int i = 0; i < plateauJeu.getPlateauJeu().size();i++) {
+                Shape cell = plateauJeu.getPlateauJeu().get(i);
 
-        }
-        int k = 0;
-        int l = 0;
-        for(int i = 0 ; i < 60 ; i++){
-            Shape cell = plateauJeu.getPlateauJeu().get(i);
-            if(cell.contains(coupX, coupY)){
-                if(phaseJeu == 1){
-                    joueCoupPhase1(k,l);
-                }else{
-                    joueCoupPhase2(k,l);
-                }
-                plateauJeu.misAJour(jeu);
-                break;
-            }
-
-            l++;
-
-            if (k % 2 == 0) {
-                if (l >= 7) {
-                    k = k + 1;
-                    l = 0;
-                }
-            } else {
-                if (l >= 8) {
-                    k = k + 1;
-                    l = 0;
+                if (cell.contains(coupX, coupY)) {
+                    if (phaseJeu == 1) {
+                        joueCoupPhase1(plateauJeu.getCoordFromNumber(i));
+                    } else {
+                        joueCoupPhase2(plateauJeu.getCoordFromNumber(i));
+                    }
+                    plateauJeu.misAJour(jeu);
+                    break;
                 }
             }
+
         }
     }
 
 
     public void setPlateauJeu(BanquiseGraphique bq){
         plateauJeu = bq;
+        plateauJeu.addMouseListener(new AdaptateurSourisPlateau(plateauJeu, this));
     }
 
     public void setJeu(Jeu j){
@@ -98,44 +87,34 @@ public class Controleur implements CollecteurEvenements {
         this.window = window;
     }
 
-    private void joueCoupPhase1(int i, int j){
-        jeu.placePingouin(i, j);
+    private void joueCoupPhase1(Point p){
+        jeu.placePingouin(p.x, p.y);
+
+        if(jeu.pingouinTousPlace()){
+            phaseJeu = 2;
+        }
     }
 
 
-    private void joueCoupPhase2(int i, int j) {
+    private void joueCoupPhase2(Point p) {
         if(!selection){
-            if(jeu.pingouinPresent(i,j) && jeu.getCase(i,j).pingouinPresent() == tourJoueur){
+            if(jeu.pingouinPresent(p.x, p.y) && jeu.getCase(p.x, p.y).pingouinPresent() == jeu.getJoueur()){
                 selection = true;
-                selectionPX = i;
-                selectionPY = j;
-                System.out.println("X =" +i +"; Y =" + j + " ; selectionné");
+                selectionP = p;
+
+                System.out.println("X =" +p.x +"; Y =" + p.y + " ; selectionné");
             }
         }else{
-            Pingouin p = new Pingouin(selectionPX,selectionPY);
-            Coup c = new Coup(i,j,p,false);
+            Pingouin pingouin = new Pingouin(selectionP.x, selectionP.y);
+            Coup c = new Coup(p.x, p.y,pingouin,false);
             if(jeu.peutJouer(c)){
                 jeu.joue(c);
-                tourJoueur = jeu.getJoueur();
             }else{
                 System.out.println("Coup impossible");
             }
             selection = false;
-
         }
 
     }
 
-    public void startGame(){
-        phaseJeu = 1;
-        plateauJeu.addMouseListener(new AdaptateurSourisPlateau(plateauJeu, this));
-//        while(!jeu.pingouinTousPlace()){
-//            plateauJeu.addMouseListener(new AdaptateurSourisPlateau(plateauJeu, this));
-//        }
-//        phaseJeu = 2;
-//        while(true){
-//
-//        }
-
-    }
 }

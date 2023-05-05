@@ -1,8 +1,7 @@
 package Interface;
 
-import Controleur.Controleur;
 import Model.Jeu;
-import Vue.AdaptateurSourisPlateau;
+import Model.Pingouin;
 import Vue.BanquiseGraphique;
 import Vue.CollecteurEvenements;
 
@@ -49,11 +48,32 @@ public class GameBoard extends JPanel {
         boutonPanel.add(bPause);
         boutonPanel.add(bSuggestion);
 
-        menuGame.setBackground(Color.blue);
+
+        JTextArea taScore1 = new JTextArea("Score 1 : ");
+        JTextArea taScore2 = new JTextArea("Score 2 : ");
+        JTextArea taScore3 = new JTextArea("Score 3 : ");
+        JTextArea taScore4 = new JTextArea("Score 4 : ");
+
+        taScore1.setWrapStyleWord(true);
+        taScore1.setBackground(Color.red);
+
+        taScore2.setWrapStyleWord(true);
+        taScore2.setBackground(Color.blue);
+
+        taScore3.setWrapStyleWord(true);
+        taScore3.setBackground(Color.green);
+
+        taScore4.setWrapStyleWord(true);
+        taScore4.setBackground(Color.yellow);
+
         menuGame.add(boutonPanel);
 
+        menuGame.add(taScore1);
+        menuGame.add(taScore2);
+        menuGame.add(taScore3);
+        menuGame.add(taScore4);
 
-
+        menuGame.setBackground(Color.blue);
     }
 
 
@@ -61,7 +81,12 @@ public class GameBoard extends JPanel {
         this.add(bq, BorderLayout.CENTER);
         this.add(menuGame, BorderLayout.EAST);
         this.setBackground(Color.CYAN);
+    }
+
+
+    public void majScore(int joueur, int addScore){
 
     }
+
 
 }
