@@ -14,7 +14,7 @@ public class MainTestIA{
 
 
     public static void main(String[] args){
-        testerIA(10000);
+        testerIA(443000);
     }
 
     public static void testerIA(int nbPartie){
@@ -30,7 +30,7 @@ public class MainTestIA{
         while ( i < nbPartie){
             Jeu j = new Jeu(2);
 
-            ia1 = new IATroisPoissons(j);
+            ia1 = new IAAleatoire(j);
             ia2 = new IAAleatoire(j);
 
             while(!j.pingouinTousPlace()){
@@ -68,8 +68,6 @@ public class MainTestIA{
             }else if(j.getScore(1) < j.getScore(2)){
                 winj2++;
             }
-
-            System.out.println( "nb partie joué "+i + "  j1: "+j.getScore(1)+"     j2: " +j.getScore(2) );
             i++;
         }
         System.out.println( "j1 gagne: "+ winj1+ "   j2 gagne: "+ winj2);
