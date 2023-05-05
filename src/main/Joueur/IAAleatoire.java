@@ -74,7 +74,7 @@ public class IAAleatoire extends IAJoueur{
 
         while( i < listePingouin.size()){
             listePos = null;
-            listePos = this.j.getCaseAccessible(listePingouin.get(i));
+            listePos = this.j.getCaseAccessible(listePingouin.get(i).getLigne(),listePingouin.get(i).getColonne());
             j=0;
             while(j < listePos.size()){
                 cp = new Coup(listePos.get(j).x , listePos.get(j).y , listePingouin.get(i), false) ;

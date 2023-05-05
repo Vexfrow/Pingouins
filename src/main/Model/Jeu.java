@@ -1,12 +1,6 @@
 package Model;
 
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.util.Arrays;
-import java.util.Random;
 import java.util.ArrayList;
 
 public class Jeu{
@@ -52,7 +46,7 @@ public class Jeu{
      * Annonce si le pinguoin est bloqué (true) ou non (false)
      */
     public boolean estPingouinBloque(Pingouin ping){
-        ArrayList<Position> casesAccesible = getCaseAccessible(ping);
+        ArrayList<Position> casesAccesible = getCaseAccessible(ping.getLigne(), ping.getColonne());
         return (casesAccesible.size() == 0);
     }
 
@@ -165,7 +159,7 @@ public class Jeu{
 
         int ligne = cp.getLigne();
         int colonne = cp.getColonne();
-        ArrayList<Position> casesAccessible = getCaseAccessible(cp.getPingouin());
+        ArrayList<Position> casesAccessible = getCaseAccessible(cp.getPingouin().getLigne(), cp.getPingouin().getColonne());
         int index = 0;
         while( index <casesAccessible.size() && (casesAccessible.get(index).x !=ligne || casesAccessible.get(index).y != colonne)){
             index++;    
@@ -192,19 +186,19 @@ public class Jeu{
     }
 
 
-    public ArrayList<Position> getCaseAccessible(Pingouin ping){
-        int yPing, xPing, x, y;
+    public ArrayList<Position> getCaseAccessible(int i, int j){
+        int yInit, xInit, x, y;
 
         Position position;
         Cases cases;
-        if((ping.getLigne()%2 ==0)){
-            yPing = ping.getColonne()*2+1;
+        if((i%2 ==0)){
+            yInit = j*2+1;
         }else {
-            yPing = ping.getColonne()*2;
+            yInit = j*2;
         }
-        xPing = ping.getLigne();
-        x = xPing;
-        y = yPing;
+        xInit = i;
+        x = xInit;
+        y = yInit;
         ArrayList<Position> caseAccessible = new ArrayList<Position>();
         //gauche à droite   
         y+=2;
@@ -215,15 +209,15 @@ public class Jeu{
             y = y+2;
         }
         //droite à gauche
-        y=yPing-2;
+        y=yInit-2;
         while(coordValideTab(x,y) && (cases = terrainCourant[x][y]) != null && !cases.estMange() && cases.pingouinPresent()==0){
             position = new Position(x, y/2);
             caseAccessible.add(position);
             y = y-2;
         }
         //bas gauche
-        y = yPing -1;
-        x = xPing +1;
+        y = yInit -1;
+        x = xInit +1;
         while(coordValideTab(x,y) && (cases = terrainCourant[x][y]) != null && !cases.estMange() && cases.pingouinPresent()==0){
             position = new Position(x, y/2);
             caseAccessible.add(position);
@@ -231,8 +225,8 @@ public class Jeu{
             x++;
         }
         //bas droite
-        y = yPing +1;
-        x = xPing +1;
+        y = yInit +1;
+        x = xInit +1;
         while(coordValideTab(x,y) && (cases = terrainCourant[x][y]) != null && !cases.estMange() && cases.pingouinPresent()==0){
             position = new Position(x, y/2);
             caseAccessible.add(position);
@@ -240,8 +234,8 @@ public class Jeu{
             x++;
         }
         //haut gauche
-        y = yPing -1;
-        x = xPing -1;
+        y = yInit -1;
+        x = xInit -1;
         while(coordValideTab(x,y) && (cases = terrainCourant[x][y]) != null && !cases.estMange() && cases.pingouinPresent()==0){
             position = new Position(x, y/2);
             caseAccessible.add(position);
@@ -249,8 +243,8 @@ public class Jeu{
             x--;
         }
         //haut droite
-        y = yPing +1;
-        x = xPing -1;
+        y = yInit +1;
+        x = xInit -1;
         while(coordValideTab(x,y) && (cases = terrainCourant[x][y]) != null && !cases.estMange() && cases.pingouinPresent()==0){
             position = new Position(x, y/2);
             caseAccessible.add(position);

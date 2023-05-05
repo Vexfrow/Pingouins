@@ -5,6 +5,7 @@ import Interface.GameBoard;
 import Model.Coup;
 import Model.Jeu;
 import Model.Pingouin;
+import Model.Position;
 import Vue.AdaptateurSourisPlateau;
 import Vue.BanquiseGraphique;
 import Vue.CollecteurEvenements;
@@ -21,7 +22,11 @@ public class Controleur implements CollecteurEvenements {
     int phaseJeu;
 
     boolean selection;
-    Point selectionP;
+    Position selectionP;
+
+    int info;
+
+    int etat;
 
     public Controleur(){
         phaseJeu = 1;
@@ -30,6 +35,8 @@ public class Controleur implements CollecteurEvenements {
         jeu = null;
         window = null;
         plateauJeu = null;
+        etat = BanquiseGraphique.ETAT_PLACEMENTP;
+        info = 0;
 
     }
 
@@ -61,8 +68,14 @@ public class Controleur implements CollecteurEvenements {
                         joueCoupPhase1(plateauJeu.getBq().getCoordFromNumber(i));
                     } else {
                         joueCoupPhase2(plateauJeu.getBq().getCoordFromNumber(i));
+                        if(selection)
+                            info = i;
+                        else
+                            info = jeu.getJoueur();
+
                     }
-                    plateauJeu.misAJour(jeu);
+
+                    plateauJeu.misAJour(jeu, etat, info);
                     break;
                 }
             }
@@ -83,22 +96,26 @@ public class Controleur implements CollecteurEvenements {
         this.window = window;
     }
 
-    private void joueCoupPhase1(Point p){
-        jeu.placePingouin(p.x, p.y);
+    private void joueCoupPhase1(Position p){
+        if(jeu.peutPlacer(p.x, p.y))
+            jeu.placePingouin(p.x, p.y);
+        else
+            System.out.println("Peut pas placer ici");
 
         if(jeu.pingouinTousPlace()){
             phaseJeu = 2;
+            etat = BanquiseGraphique.ETAT_SELECTIONP;
         }
     }
 
 
-    private void joueCoupPhase2(Point p) {
+    private void joueCoupPhase2(Position p) {
         if(!selection){
             if(jeu.pingouinPresent(p.x, p.y) && jeu.getCase(p.x, p.y).pingouinPresent() == jeu.getJoueur()){
                 selection = true;
                 selectionP = p;
+                etat = BanquiseGraphique.ETAT_CHOIXC;
 
-                System.out.println("X =" +p.x +"; Y =" + p.y + " ; selectionné");
             }
         }else{
             Pingouin pingouin = new Pingouin(selectionP.x, selectionP.y);
@@ -109,6 +126,7 @@ public class Controleur implements CollecteurEvenements {
                 System.out.println("Coup impossible");
             }
             selection = false;
+            etat = BanquiseGraphique.ETAT_SELECTIONP;
 
             if(jeu.jeuTermine()){
                 phaseJeu = 3;
