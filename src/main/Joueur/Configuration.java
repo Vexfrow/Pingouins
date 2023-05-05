@@ -20,7 +20,7 @@ public class Configuration{
     }
 
     public Configuration cloner(){
-        return (new Configuration(jeu.cloner(),coup.cloner()));
+        return (new Configuration(jeu.cloner()));
     }
 
     public static ArrayList<Configuration> coupFils(Configuration config){
@@ -35,6 +35,8 @@ public class Configuration{
             for(int j =0; j < positionList.size(); j ++){
                 Configuration prochainConfig = neo.cloner();
                 Coup cp = new Coup(positionList.get(j).x, positionList.get(j).y, alp.get(i), false);
+                System.out.println(cp);
+                System.out.println(prochainConfig.jeu);
                 prochainConfig.jeu.joue(cp);
                 prochainConfig.coup = cp;
                 configList.add(prochainConfig);
