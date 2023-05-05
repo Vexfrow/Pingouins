@@ -26,7 +26,6 @@ public class GameBoard extends JPanel {
         menuGame = new JPanel();
 
         collecteur = c;
-        bq.addMouseListener(new AdaptateurSourisPlateau(bq, collecteur));
         collecteur.setPlateauJeu(bq);
         collecteur.setJeu(j);
 
@@ -64,7 +63,5 @@ public class GameBoard extends JPanel {
         this.setBackground(Color.CYAN);
 
     }
-
-
 
 }

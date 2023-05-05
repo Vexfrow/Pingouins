@@ -18,10 +18,10 @@ import java.util.List;
 public class BanquiseGraphique extends JComponent {
 
     BufferedImage hPoisson1, hPoisson2, hPoisson3, hVide;
-    BufferedImage hPingouinR, hPingouinR1, hPingouinR2, hPingouinR3;
-    BufferedImage hPingouinB, hPingouinB1, hPingouinB2, hPingouinB3;
-    BufferedImage hPingouinV, hPingouinV1, hPingouinV2, hPingouinV3;
-    BufferedImage hPingouinJ, hPingouinJ1, hPingouinJ2, hPingouinJ3;
+    BufferedImage hPingouinR1, hPingouinR2, hPingouinR3;
+    BufferedImage hPingouinB1, hPingouinB2, hPingouinB3;
+    BufferedImage hPingouinV1, hPingouinV2, hPingouinV3;
+    BufferedImage hPingouinJ1, hPingouinJ2, hPingouinJ3;
 
     private Jeu jeu;
     private List<Shape> grille;
@@ -35,22 +35,18 @@ public class BanquiseGraphique extends JComponent {
         hPoisson3 = chargeImage("casePoissons3");
         hVide = chargeImage("caseVide");
 
-        hPingouinR = chargeImage("caseRouge");
         hPingouinR1 = chargeImage("caseRouge1");
         hPingouinR2 = chargeImage("caseRouge2");
         hPingouinR3 = chargeImage("caseRouge3");
 
-        hPingouinV = chargeImage("caseVert");
         hPingouinV1 = chargeImage("caseVert1");
         hPingouinV2 = chargeImage("caseVert2");
         hPingouinV3 = chargeImage("caseVert3");
 
-        hPingouinB = chargeImage("caseBleu");
         hPingouinB1 = chargeImage("caseBleu1");
         hPingouinB2 = chargeImage("caseBleu2");
         hPingouinB3 = chargeImage("caseBleu3");
 
-        hPingouinJ = chargeImage("caseJaune");
         hPingouinJ1 = chargeImage("caseJaune1");
         hPingouinJ2 = chargeImage("caseJaune2");
         hPingouinJ3 = chargeImage("caseJaune3");
