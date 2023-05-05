@@ -31,7 +31,7 @@ public class Configuration{
         ArrayList<Configuration> configList = new ArrayList<Configuration>();
         for(int i = 0; i < alp.size(); i++){
 
-            positionList = neo.jeu.getCaseAccessible(alp.get(i));
+            positionList = neo.jeu.getCaseAccessible(alp.get(i).getLigne(), alp.get(i).getColonne());
             for(int j =0; j < positionList.size(); j ++){
                 Configuration prochainConfig = neo.cloner();
                 Coup cp = new Coup(positionList.get(j).x, positionList.get(j).y, alp.get(i), false);
