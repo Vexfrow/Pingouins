@@ -4,6 +4,9 @@ import javax.swing.*;
 
 import Controleur.Controleur;
 import Interface.MenuP;
+import Model.Jeu;
+import Vue.BanquiseGraphique;
+
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 
@@ -11,6 +14,7 @@ public class Fenetre implements Runnable {
     private Controleur c;
     private MenuP menu;
     private Selection selection;
+    private GameBoard gameBoard;
     public JFrame jf;
 
     public WorkingPane workingPane;
@@ -48,7 +52,10 @@ public class Fenetre implements Runnable {
                 break;
             case 2:
                 this.workingPane.changePanel(this.selection);
+                this.selection.changeIcon();
                 break;
+            case 3:
+                this.workingPane.changePanel(this.gameBoard);
             default:
                 System.err.println("Erreur dans l'affichage choisi");
                 break;

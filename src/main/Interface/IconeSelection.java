@@ -49,13 +49,13 @@ public class IconeSelection extends JPanel {
 
         try{
             if(this.color.getRGB() == r){
-                pengouin = (Image) ImageIO.read(new FileInputStream("resource/assets/menus/pingouinRouge.png"));
+                pengouin = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/pingouinRouge.png"));
             }else if(this.color.getRGB() == g){
-                pengouin = (Image) ImageIO.read(new FileInputStream("resource/assets/menus/pingouinVert.png"));
+                pengouin = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/pingouinVert.png"));
             }else if(this.color.getRGB() == b){
-                pengouin = (Image) ImageIO.read(new FileInputStream("resource/assets/menus/pingouinBleu.png"));
+                pengouin = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/pingouinBleu.png"));
             }else if(this.color.getRGB() == y){
-                pengouin = (Image) ImageIO.read(new FileInputStream("resource/assets/menus/pingouinJaune.png"));
+                pengouin = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/pingouinJaune.png"));
             }
 
         }catch(Exception e){

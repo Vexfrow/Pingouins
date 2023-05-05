@@ -8,6 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
 import java.io.FileInputStream;
 
 
@@ -28,18 +31,21 @@ public class Selection extends JPanel {
 
         this.c = ctrl;
         retour = new JButton();
-        retour.setContentAreaFilled(false);
         sauvegarde = new JButton("<html>Sauvegarder comme<br>option par défaut<br>(Partie rapide)</html>");
         valide = new JButton("<html> Lancer la Partie</html>");
+
         try{
-            flecheRetour = (Image) ImageIO.read(new FileInputStream("resource/assets/menus/flecheRetour.png"));
+            flecheRetour = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheRetour.png"));
         }catch(Exception e){
             System.out.println("une erreur " + e);
         }
-
         setSelection();
-        this.repaint();
 
+    }
+
+    public Image reScale(Dimension d, Image img){
+        Image neoImg = img.getScaledInstance(d.width, d.height, Image.SCALE_AREA_AVERAGING) ;
+        return neoImg;
     }
 
     public void setSelection(){
@@ -48,7 +54,9 @@ public class Selection extends JPanel {
         valide.setBackground(new Color(60, 60, 100));
         sauvegarde.setPreferredSize(new Dimension(200, 80));
         retour.setBorderPainted(false);
-        retour.setBackground(GameConstants.BACKGROUND_COLOR);
+        retour.setContentAreaFilled(false);
+        retour.setPreferredSize(new Dimension(100, 52));
+
 
 
         this.setLayout(new GridBagLayout());
@@ -57,8 +65,8 @@ public class Selection extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.anchor = GridBagConstraints.WEST;
-        retour.setIcon(new ImageIcon(flecheRetour));
         this.add(retour, gbc );
+
 
         gbc.fill = GridBagConstraints.BOTH;
 
@@ -115,13 +123,6 @@ public class Selection extends JPanel {
         valide.setForeground(Color.WHITE);
 
 
-
-
-
-
-
-
-
         //Action sur les boutons
         retour.addActionListener(new ActionListener() {
             @Override
@@ -131,4 +132,11 @@ public class Selection extends JPanel {
         });
     }
 
+    public void changeIcon(){
+            retour.setIcon(new ImageIcon(flecheRetour));
+
+    }
 }
+
+
+

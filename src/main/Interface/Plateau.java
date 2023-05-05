@@ -27,10 +27,6 @@ public class Plateau implements Runnable {
     @Override
     public void run() {
         banquise = new BanquiseGraphique(jeu);
-        
-
-
-
 
     }
 }
