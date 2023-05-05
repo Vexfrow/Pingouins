@@ -25,7 +25,7 @@ public class MenuP extends JPanel {
         this.c = ctrl;
         //Création des éléments
         try{
-            img = (Image)ImageIO.read(new FileInputStream("resources/assets/menus/Titre.png"));
+            img = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/Titre.png"));
         }catch(Exception e){
             System.out.println("une erreur " + e);
         }
@@ -120,14 +120,14 @@ public class MenuP extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 toggleButtons();
-               // c.toggleHelp();
+                c.toggleHelp();
             }
         });
 
         partiePersonnalisee.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //c.switchSel();
+                c.switchSel();
             }
         });
     }

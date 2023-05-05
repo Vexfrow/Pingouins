@@ -16,12 +16,10 @@ public class Fenetre implements Runnable {
     private CollecteurEvenements c;
     private MenuP menu;
     private Selection selection;
-    private GameBoard gb;
+    private GameBoard gameBoard;
     public JFrame jf;
 
     public WorkingPane workingPane;
-
-    BanquiseGraphique bq;
 
     Jeu jeu;
 
@@ -39,7 +37,7 @@ public class Fenetre implements Runnable {
         this.selection = new Selection(this.c);
 
         jeu = new Jeu(2);
-        this.gb = new GameBoard(jeu, c);
+        this.gameBoard = new GameBoard(jeu, c);
 
 
 
@@ -50,9 +48,8 @@ public class Fenetre implements Runnable {
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jf.setMinimumSize(new Dimension(800, 600));
-
-        workingPane = new WorkingPane(this.gb);
-
+        workingPane = new WorkingPane(this.menu);
+        c.startGame();
         jf.add(workingPane);
         jf.setVisible(true);
     }
@@ -65,9 +62,11 @@ public class Fenetre implements Runnable {
                 break;
             case 2:
                 this.workingPane.changePanel(this.selection);
+                this.selection.changeIcon();
                 break;
-            case 3 :
-                this.workingPane.changePanel(this.gb);
+            case 3:
+                this.workingPane.changePanel(this.gameBoard);
+
             default:
                 System.err.println("Erreur dans l'affichage choisi");
                 break;

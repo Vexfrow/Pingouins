@@ -26,7 +26,6 @@ public class WorkingPane extends JLayeredPane {
     }
 
     public void changePanel(JPanel j){
-        this.remove(actuel);
         setPanelLayer(j);
     }
 
