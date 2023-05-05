@@ -39,6 +39,9 @@ public class MainTest {
         System.out.println("Liste coupJoue: " + j.getListeCoupsJoues());
 
 
+        //Ne fonctionne plus à partir ici : doit pas utiliser un new pingouin dans le constructeur de coup
+
+        /*
         // Coups
         System.out.println("\nAu tour de " + j.quelJoueur());
         System.out.println("Coup (0,4)");
@@ -106,22 +109,25 @@ public class MainTest {
         System.out.println(j.getListeJoueur());
         System.out.println("Liste coupJoue: " + j.getListeCoupsJoues());
 
+
+        */
+
         //pour la sauvegarde
 
-
-        /* 
+        
         //sauvegarder
 
-        /!\ bien verifier le toString de la méthode Cases : besoin du return pour
+
+        /*
+        // /!\ bien verifier le toString de la méthode Cases : besoin du return pour
 
         j.sauvegarder("test.txt");
         
         System.out.println("\n\n");
 
         //refaire un jeu avec sauvegarde
-        Jeu j2 = new Jeu("test.txt");
+        JeuAvance j2 = new JeuAvance("test.txt");
         System.out.println(j2.toString());
-
         */
 
     }

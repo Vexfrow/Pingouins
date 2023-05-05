@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class JeuAvance extends Jeu{
 
-    private Cases [][] terrainInitiale;
+    //private Cases [][] terrainInitiale;
     private ArrayList<Coup> coupJoue;
     private ArrayList<Coup> coupAnnule;
 
@@ -188,8 +188,7 @@ public class JeuAvance extends Jeu{
         int l = 0;
         int c,r;
         ArrayList<Integer> listeNombre = new ArrayList<Integer>();
-
-    /*
+    
         for(int i = 1; i<=60; i++){
             if(i<= 30){
                 listeNombre.add(1);
@@ -199,14 +198,7 @@ public class JeuAvance extends Jeu{
                 listeNombre.add(3);
             }
         }
-        */
-
-
-        for(int i = 1; i<=60; i++){
-            listeNombre.add(1);
-        }
-
-
+        
         Random rand = new Random();
         while( l < nbLignes ){
             if( l%2 ==1 ){

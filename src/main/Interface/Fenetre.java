@@ -41,7 +41,6 @@ public class Fenetre implements Runnable {
         this.gameBoard = new GameBoard(jeu, c);
 
 
-
     }
 
     public void run(){
@@ -49,8 +48,8 @@ public class Fenetre implements Runnable {
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jf.setMinimumSize(new Dimension(800, 600));
-        workingPane = new WorkingPane(this.menu);
-        c.startGame();
+
+        workingPane = new WorkingPane(this.gameBoard);
         jf.add(workingPane);
         jf.setVisible(true);
     }

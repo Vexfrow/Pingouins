@@ -30,13 +30,16 @@ public class Jeu{
         boolean termine = true;
         int l = 0;
         while(l < p.size() && termine){
-            termine = estPinguoinBloque(p.get(l));
+            termine = estPingouinBloque(p.get(l));
             l++;
         }
         return termine;
     }
 
-    public boolean estPinguoinBloque(Pingouin ping){
+    /*
+     * Annonce si le pinguoin est bloqué (true) ou non (false)
+     */
+    public boolean estPingouinBloque(Pingouin ping){
         ArrayList<Position> casesAccesible = getCaseAccessible(ping);
         return (casesAccesible.size() == 0);
     }
@@ -294,6 +297,10 @@ public class Jeu{
         } else {
             System.out.println("Impossible de jouer");
         }
+    }
+
+    public boolean peutPlacer(int i, int j){
+        return(getCase(i,j).pingouinPresent() == 0 && getCase(i,j).getNbPoissons() == 1);
     }
 
 }
