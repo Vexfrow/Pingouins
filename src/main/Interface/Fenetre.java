@@ -5,19 +5,25 @@ import javax.swing.*;
 import Controleur.Controleur;
 import Interface.MenuP;
 import Model.Jeu;
+import Vue.AdaptateurSourisPlateau;
 import Vue.BanquiseGraphique;
+import Vue.CollecteurEvenements;
 
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 
 public class Fenetre implements Runnable {
-    private Controleur c;
+    private CollecteurEvenements c;
     private MenuP menu;
     private Selection selection;
     private GameBoard gameBoard;
     public JFrame jf;
 
     public WorkingPane workingPane;
+
+    BanquiseGraphique bq;
+
+    Jeu jeu;
 
 
     public static void demarrer(Controleur ctrl){
@@ -26,8 +32,16 @@ public class Fenetre implements Runnable {
 
 
     public Fenetre(Controleur ctrl){
-        ctrl.ajouteInterface(this);
         this.c = ctrl;
+        c.setInterface(this);
+
+        this.menu = new MenuP(this.c);
+        this.selection = new Selection(this.c);
+
+        jeu = new Jeu(2);
+        this.gb = new GameBoard(jeu, c);
+
+
 
     }
 
@@ -36,9 +50,8 @@ public class Fenetre implements Runnable {
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jf.setMinimumSize(new Dimension(800, 600));
-        this.menu = new MenuP(this.c);
-        this.selection = new Selection(this.c);
-        workingPane = new WorkingPane(this.menu);
+
+        workingPane = new WorkingPane(this.gb);
 
         jf.add(workingPane);
         jf.setVisible(true);
@@ -56,6 +69,7 @@ public class Fenetre implements Runnable {
                 break;
             case 3:
                 this.workingPane.changePanel(this.gameBoard);
+
             default:
                 System.err.println("Erreur dans l'affichage choisi");
                 break;

@@ -3,6 +3,8 @@ package Interface;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import Controleur.Controleur;
+import Vue.CollecteurEvenements;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +19,7 @@ import java.io.FileInputStream;
 public class Selection extends JPanel {
     private SpringLayout layout;
     private  JLabel menu;
-    private Controleur c;
+    private CollecteurEvenements c;
     private JButton retour;
     private JButton sauvegarde;
     private JButton valide;
@@ -27,7 +29,7 @@ public class Selection extends JPanel {
 
 
 
-    public Selection(Controleur ctrl){
+    public Selection(CollecteurEvenements ctrl){
 
         this.c = ctrl;
         retour = new JButton();
@@ -127,7 +129,7 @@ public class Selection extends JPanel {
         retour.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                c.switchMenu();
+                //c.switchMenu();
             }
         });
     }

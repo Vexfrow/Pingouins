@@ -1,6 +1,8 @@
 package Interface;
 
 import Controleur.Controleur;
+import Vue.CollecteurEvenements;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -16,9 +18,9 @@ public class MenuP extends JPanel {
     private Image img;
     private SpringLayout layout;
     private  JLabel menu;
-    private Controleur c;
+    private CollecteurEvenements c;
 
-    public MenuP(Controleur ctrl){
+    public MenuP(CollecteurEvenements ctrl){
         super();
         this.c = ctrl;
         //Création des éléments
@@ -118,14 +120,14 @@ public class MenuP extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 toggleButtons();
-                c.toggleHelp();
+               // c.toggleHelp();
             }
         });
 
         partiePersonnalisee.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                c.switchSel();
+                //c.switchSel();
             }
         });
     }
