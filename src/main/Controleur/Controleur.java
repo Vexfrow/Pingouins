@@ -1,6 +1,7 @@
 package Controleur;
 
 import Interface.Fenetre;
+import Interface.GameBoard;
 import Model.Coup;
 import Model.Jeu;
 import Model.Pingouin;
@@ -13,7 +14,7 @@ import java.awt.*;
 public class Controleur implements CollecteurEvenements {
 
     private Fenetre window;
-    private BanquiseGraphique plateauJeu;
+    private GameBoard plateauJeu;
 
     private Jeu jeu;
 
@@ -52,18 +53,14 @@ public class Controleur implements CollecteurEvenements {
     @Override
     public void clicSourisPlateau(int coupX, int coupY) {
 
-
-        if(jeu.jeuTermine()){
-            System.out.println("Test");
-        }else{
-            for(int i = 0; i < plateauJeu.getPlateauJeu().size();i++) {
-                Shape cell = plateauJeu.getPlateauJeu().get(i);
+            for(int i = 0; i < plateauJeu.getBq().getPlateauJeu().size();i++) {
+                Shape cell = plateauJeu.getBq().getPlateauJeu().get(i);
 
                 if (cell.contains(coupX, coupY)) {
                     if (phaseJeu == 1) {
-                        joueCoupPhase1(plateauJeu.getCoordFromNumber(i));
+                        joueCoupPhase1(plateauJeu.getBq().getCoordFromNumber(i));
                     } else {
-                        joueCoupPhase2(plateauJeu.getCoordFromNumber(i));
+                        joueCoupPhase2(plateauJeu.getBq().getCoordFromNumber(i));
                     }
                     plateauJeu.misAJour(jeu);
                     break;
@@ -71,12 +68,11 @@ public class Controleur implements CollecteurEvenements {
             }
 
         }
-    }
 
 
-    public void setPlateauJeu(BanquiseGraphique bq){
-        plateauJeu = bq;
-        plateauJeu.addMouseListener(new AdaptateurSourisPlateau(plateauJeu, this));
+    public void setPlateauJeu(GameBoard gb){
+        plateauJeu = gb;
+        plateauJeu.getBq().addMouseListener(new AdaptateurSourisPlateau(plateauJeu.getBq(), this));
     }
 
     public void setJeu(Jeu j){
@@ -113,6 +109,10 @@ public class Controleur implements CollecteurEvenements {
                 System.out.println("Coup impossible");
             }
             selection = false;
+
+            if(jeu.jeuTermine()){
+                phaseJeu = 3;
+            }
         }
 
     }
