@@ -5,22 +5,11 @@ package Model;
 public class MainTest {
     
     public static void main(String[] args){
-        // Creation du jeu de bas
 
-
-        //save
-
-        //Jeu j = new Jeu(null);
-        //System.out.println(j.toString());
-
-
-        ///*
-        
-        
         // Initialisation du jeu
         Jeu j = new Jeu(2);
 
-
+        
         // Placement des pingouins 
         System.out.println("Au tour de " + j.quelJoueur() + "\nPlacement pingouin en (0,0)");
         j.placePingouin(0, 0);
@@ -28,6 +17,7 @@ public class MainTest {
         System.out.println(j.getListeJoueur());
         System.out.println("Liste coupJoue: " + j.getListeCoupsJoues());
 
+        // Annule refait
         System.out.println("\nAu tour de " + j.quelJoueur());
         System.out.println("Annule coup");
         j.annule();
@@ -80,7 +70,7 @@ public class MainTest {
         System.out.println("\n" + j.toString() + "\n");
         System.out.println(j.getListeJoueur());
         System.out.println("Liste coupJoue: " + j.getListeCoupsJoues());
-
+    
         System.out.println("\nAu tour de " + j.quelJoueur());
         System.out.println("Refais coup");
         j.refaire();
@@ -116,7 +106,24 @@ public class MainTest {
         System.out.println(j.getListeJoueur());
         System.out.println("Liste coupJoue: " + j.getListeCoupsJoues());
 
-        //j.sauvegarder(null);
+        //pour la sauvegarde
+
+
+        /* 
+        //sauvegarder
+
+        /!\ bien verifier le toString de la méthode Cases : besoin du return pour
+
+        j.sauvegarder("test.txt");
         
+        System.out.println("\n\n");
+
+        //refaire un jeu avec sauvegarde
+        Jeu j2 = new Jeu("test.txt");
+        System.out.println(j2.toString());
+
+        */
+
     }
+
 }
