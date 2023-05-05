@@ -6,9 +6,12 @@ import java.awt.*;
 public class BackingPane extends JPanel {
     private Aide aide;
     public BackingPane() {
+        setLayout(new BorderLayout());
         setOpaque(false);
+
         aide = new Aide();
-        add(aide);
+        add(aide, BorderLayout.CENTER);
+
 
 
     }

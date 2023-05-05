@@ -129,14 +129,13 @@ public class Selection extends JPanel {
         retour.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //c.switchMenu();
+                c.switchMenu();
             }
         });
     }
 
     public void changeIcon(){
             retour.setIcon(new ImageIcon(flecheRetour));
-
     }
 }
 

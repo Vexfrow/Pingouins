@@ -13,5 +13,14 @@ public interface CollecteurEvenements {
 
     void setJeu(Jeu jeu);
 
+    void switchSel();
+
+    void switchMenu();
+
+    void switchGameBoard();
+
+    void toggleHelp();
+
     void startGame();
+
 }
