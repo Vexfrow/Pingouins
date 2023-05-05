@@ -39,7 +39,7 @@ public class Fenetre implements Runnable {
         this.selection = new Selection(this.c);
 
         jeu = new Jeu(2);
-        this.gb = new GameBoard(jeu, c);
+        this.gameBoard = new GameBoard(jeu, c);
 
 
 
@@ -51,7 +51,7 @@ public class Fenetre implements Runnable {
         jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jf.setMinimumSize(new Dimension(800, 600));
 
-        workingPane = new WorkingPane(this.gb);
+        workingPane = new WorkingPane(this.menu);
 
         jf.add(workingPane);
         jf.setVisible(true);
