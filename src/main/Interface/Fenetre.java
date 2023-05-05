@@ -16,7 +16,7 @@ public class Fenetre implements Runnable {
     private CollecteurEvenements c;
     private MenuP menu;
     private Selection selection;
-    private GameBoard gb;
+    private GameBoard gameBoard;
     public JFrame jf;
 
     public WorkingPane workingPane;
@@ -63,9 +63,11 @@ public class Fenetre implements Runnable {
                 break;
             case 2:
                 this.workingPane.changePanel(this.selection);
+                this.selection.changeIcon();
                 break;
-            case 3 :
-                this.workingPane.changePanel(this.gb);
+            case 3:
+                this.workingPane.changePanel(this.gameBoard);
+
             default:
                 System.err.println("Erreur dans l'affichage choisi");
                 break;

@@ -65,8 +65,7 @@ public class IAAleatoire extends IAJoueur{
         Random r = new Random();
         ArrayList<Coup> coupPossible = new ArrayList<Coup>();
         int joueurCourant = this.j.getJoueur()-1;
-        ArrayList<Joueur> listeJoueur =this.j.getListeJoueur();
-        ArrayList<Pingouin> listePingouin = listeJoueur.get(joueurCourant).getListePingouin();
+        ArrayList<Pingouin> listePingouin = this.j.getListeJoueur().get(joueurCourant).getListePingouin();
         ArrayList<Position> listePos;
         Coup cp;
         int i = 0;
@@ -84,7 +83,6 @@ public class IAAleatoire extends IAJoueur{
             i++;
 
         }
-        System.out.println(coupPossible.size());
         if(coupPossible.size()==0){
             return null;
         }else{

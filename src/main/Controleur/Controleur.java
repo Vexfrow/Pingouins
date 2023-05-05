@@ -30,7 +30,7 @@ public class Controleur implements CollecteurEvenements {
     }
 
     public void toggleHelp(){
-        //this.window.workingPane.toggleBackingPane();
+        this.window.workingPane.toggleBackingPane();
 
     }
 

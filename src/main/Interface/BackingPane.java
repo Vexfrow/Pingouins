@@ -9,13 +9,16 @@ public class BackingPane extends JPanel {
         setOpaque(false);
         aide = new Aide();
         add(aide);
+
+
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(new Color(128, 128, 128, 192));
+
+        g.setColor(GameConstants.BACKGROUND_GRISEE);
         g.fillRect(0, 0, getWidth(), getHeight());
-        aide.repaint();
+
     }
 }
