@@ -1,12 +1,5 @@
 package Model;
 
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.util.Arrays;
-import java.util.Random;
 import java.util.ArrayList;
 
 public class Jeu{
@@ -18,7 +11,7 @@ public class Jeu{
     protected int nbColonnes; // taille du tableau
 
     protected int nbJoueur;
-    protected int nbPingouin;
+    protected int nbPingouinJoueur;
     protected int nbPingouinPlace;
 
     protected int joueurCourant = 1;  // En supposant que c'est le joueur 1 qui commence compris entre 1 et nbJoueur-1 inclus
@@ -46,7 +39,7 @@ public class Jeu{
         this.nbLignes = jeu.getNbLigne();
         this.nbColonnes = jeu.getNbColonne();
         this.nbJoueur = jeu.getNbJoueur();
-        this.nbPingouin = jeu.getNbPingouin();
+        this.nbPingouinJoueur = jeu.getNbPingouinJoueur();
         this.nbPingouinPlace = jeu.getNbPingouinPlace();
         this.joueurCourant = jeu.getJoueurCourant();
 
@@ -69,7 +62,6 @@ public class Jeu{
             l++;
         }
         return termine;
-
     }
 
     /*
@@ -80,15 +72,11 @@ public class Jeu{
         return (casesAccesible.size() == 0);
     }
 
-
     
      //Annonce s'il reste des pingouin a placer
     public boolean pingouinTousPlace(){
         return (nbPingouinPlace == 0);
     }
-
-
-
 
     public boolean pingouinPresent(int l,int c){
         return (getCase(l,c).pingouinPresent()!= 0);
@@ -99,7 +87,7 @@ public class Jeu{
         int joueurCourant = getJoueur();
         Joueur joueur = listeJoueur.get(joueurCourant-1);
 
-        if( (joueur.listePingouin.size() < nbPingouin) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1 && !pingouinTousPlace()){
+        if( (joueur.listePingouin.size() < nbPingouinJoueur) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1 && !pingouinTousPlace()){
             Pingouin ping = new Pingouin(l,c);
             joueur.listePingouin.add(ping);
             Cases cases = getCase(l,c);
@@ -115,12 +103,11 @@ public class Jeu{
 
     }
 
-
-
     public int getScore(int joueur){
         Joueur j = listeJoueur.get(joueur-1);
         return j.getScore();
     }
+
 
     public int getNbCases(){
         int nbCases = 0;
@@ -141,9 +128,11 @@ public class Jeu{
         return nbCases;
     }
 
+
     public Cases [][] getTerrain(){
         return terrainCourant;
     }
+
 
     public ArrayList<Joueur> getListeJoueur(){
         return this.listeJoueur;
@@ -175,19 +164,38 @@ public class Jeu{
 
         int ligne = cp.getLigne();
         int colonne = cp.getColonne();
+
         ArrayList<Position> casesAccessible = getCaseAccessible(cp.getPingouin());
+
+
         int index = 0;
+
         while( index <casesAccessible.size() && (casesAccessible.get(index).x !=ligne || casesAccessible.get(index).y != colonne)){
             index++;    
         }
+
+
+
         Joueur j = listeJoueur.get(joueurCourant-1);
         ArrayList<Pingouin> p = new ArrayList<>();
         p = j.listePingouin;
+
+        //BUG ICI
+
         int k =0;
         while(k <p.size() && p.get(k).equals(cp.getPingouin())){
             k++;
+            System.out.println(p.get(k));
         }
+
+        //System.out.println("K  "+ index);
+        //System.out.println("TAILLE PINGOUIN  "+ p.size());
+
+        //RIEN DANS LA LISTE DE PINGOUIN DU JOUEUR
+
+
         boolean bonPinguoin = false;
+        
         if(k<p.size()){
             bonPinguoin = true;
         } else {
@@ -216,6 +224,7 @@ public class Jeu{
         x = xPing;
         y = yPing;
         ArrayList<Position> caseAccessible = new ArrayList<Position>();
+
         //gauche à droite   
         y+=2;
         while(coordValideTab(x,y) && (cases = terrainCourant[x][y]) != null && !cases.estMange() && cases.pingouinPresent()==0){
@@ -224,6 +233,7 @@ public class Jeu{
             caseAccessible.add(position);
             y = y+2;
         }
+
         //droite à gauche
         y=yPing-2;
         while(coordValideTab(x,y) && (cases = terrainCourant[x][y]) != null && !cases.estMange() && cases.pingouinPresent()==0){
@@ -231,6 +241,7 @@ public class Jeu{
             caseAccessible.add(position);
             y = y-2;
         }
+
         //bas gauche
         y = yPing -1;
         x = xPing +1;
@@ -240,6 +251,7 @@ public class Jeu{
             y--;
             x++;
         }
+
         //bas droite
         y = yPing +1;
         x = xPing +1;
@@ -249,6 +261,7 @@ public class Jeu{
             y++;
             x++;
         }
+
         //haut gauche
         y = yPing -1;
         x = xPing -1;
@@ -258,6 +271,7 @@ public class Jeu{
             y--;
             x--;
         }
+        
         //haut droite
         y = yPing +1;
         x = xPing -1;
@@ -270,6 +284,7 @@ public class Jeu{
         return caseAccessible;
     }
 
+    
     public void joue(Coup cp){
         int l = cp.getLigne();   //Coord ou le pingouin doit aller
         int c = cp.getColonne(); //Coord ou le pingouin doit aller
@@ -293,12 +308,9 @@ public class Jeu{
             caseDep.setNbPoissons(0);
             caseArrive.setPingouin(joueurCourant);
             switchJoueur();
-        }
-        else {
+        } else {
             System.out.println("Impossible de jouer");
-            
         }
-
     }
 
 
@@ -352,8 +364,8 @@ public class Jeu{
         return this.nbJoueur;
     }
 
-    public int getNbPingouin(){
-        return this.nbPingouin;
+    public int getNbPingouinJoueur(){
+        return this.nbPingouinJoueur;
     }
     
     public int getNbPingouinPlace(){
@@ -368,5 +380,4 @@ public class Jeu{
         return(getCase(i,j).pingouinPresent() == 0 && getCase(i,j).getNbPoissons() == 1);
     }
 
-    
 }
