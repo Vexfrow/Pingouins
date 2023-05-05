@@ -11,9 +11,12 @@ import java.util.ArrayList;
 
 public class JeuAvance extends Jeu{
 
+
     private Cases [][] terrainInitiale;
     private ArrayList<Coup> coupJoue;
     private ArrayList<Coup> coupAnnule;
+
+
 
     JeuAvance(String name){
         try {
@@ -29,6 +32,7 @@ public class JeuAvance extends Jeu{
 
             line = bufferedReader.readLine();
             this.nbLignes = Integer.parseInt(line);
+            
             line = bufferedReader.readLine();
             this.nbColonnes = Integer.parseInt(line);
             this.nbColonnes = nbColonnes*2+1; 
@@ -43,17 +47,19 @@ public class JeuAvance extends Jeu{
             }
 
             if(nbJoueur == 2){
-                this.nbPingouin =4;
-                this.nbPingouinPlace = this.nbPingouin*2;
+                this.nbPingouinJoueur =4;
+                this.nbPingouinPlace = nbPingouinJoueur*2;
             }else if (nbJoueur == 3){
-                this.nbPingouin =3;
-                this.nbPingouinPlace = this.nbPingouin*3;
+                this.nbPingouinJoueur =3;
+                this.nbPingouinPlace = nbPingouinJoueur*3;
             } else {
-                this.nbPingouin =2;
-                this.nbPingouinPlace = this.nbPingouin*4;
+                this.nbPingouinJoueur =2;
+                this.nbPingouinPlace = nbPingouinJoueur*4;
             }
+
     		terrainInitiale = new Cases[nbLignes][nbColonnes];
             terrainCourant = new Cases[nbLignes][nbColonnes];
+
             int l =0;
             int c =0;
     		while ((line = bufferedReader.readLine()) != null && (!line.equals("b"))) {
@@ -70,6 +76,42 @@ public class JeuAvance extends Jeu{
                 l++;
     	    }
             terrainInitiale = clonerTerrain(terrainCourant);
+            
+    		//recuprer tous les coups à jouer
+    		while ((line = bufferedReader.readLine()) != null && (!line.equals("b"))) {
+
+                //split la ligne
+                String[] parts = line.split(" ");
+
+                Pingouin ping = new Pingouin(Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
+
+                //definir un nouveau  coup
+                Coup cp = new Coup(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), ping , Boolean.parseBoolean(parts[4]));
+
+                System.out.println(cp);
+
+                if(Boolean.parseBoolean(parts[4])){
+                    placePingouin(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
+                }else{
+                    //jouer le coup
+                    joue(cp);
+                }
+    	    }
+
+    		//recuprere les dernieres lignes du fichier
+    		while ((line = bufferedReader.readLine()) != null && (!line.equals("b"))) {
+
+				String[] parts = line.split(" ");
+
+                Pingouin ping = new Pingouin(Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
+
+				Coup cp = new Coup(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), ping , Boolean.parseBoolean(parts[4]));
+
+				//ajoute le coup à l'arraylist annule
+				coupAnnule.add(cp);
+
+	        }
+
     		reader.close();
 		} catch (IOException e) {
 			System.out.print("Erreur : " + e);
@@ -97,14 +139,14 @@ public class JeuAvance extends Jeu{
             i++;
         }
         if(nbJoueur == 2){
-            this.nbPingouin =4;
-            this.nbPingouinPlace = this.nbPingouin*2;
+            this.nbPingouinJoueur =4;
+            this.nbPingouinPlace = this.nbPingouinJoueur*2;
         }else if (nbJoueur == 3){
-            this.nbPingouin =3;
-            this.nbPingouinPlace = this.nbPingouin*3;
+            this.nbPingouinJoueur =3;
+            this.nbPingouinPlace = this.nbPingouinJoueur*3;
         } else {
-            this.nbPingouin =2;
-            this.nbPingouinPlace = this.nbPingouin*4;
+            this.nbPingouinJoueur =2;
+            this.nbPingouinPlace = this.nbPingouinJoueur*4;
         }
         this.nbColonnes = nbColTab;
         this.nbLignes = nbLigneTab;
@@ -112,7 +154,7 @@ public class JeuAvance extends Jeu{
 
     }
 
-    JeuAvance(int nbJoueur, int nbLignes, int nbColonnes){
+    public JeuAvance(int nbJoueur, int nbLignes, int nbColonnes){
         terrainInitiale = new Cases[nbLignes][nbColonnes*2-1];
         terrainCourant = new Cases[nbLignes][nbColonnes*2-1];
 
@@ -129,14 +171,14 @@ public class JeuAvance extends Jeu{
             i++;
         }
         if(nbJoueur == 2){
-            this.nbPingouin =4;
-            this.nbPingouinPlace = this.nbPingouin*2;
+            this.nbPingouinJoueur =4;
+            this.nbPingouinPlace = this.nbPingouinJoueur*2;
         }else if (nbJoueur == 3){
-            this.nbPingouin =3;
-            this.nbPingouinPlace = this.nbPingouin*3;
+            this.nbPingouinJoueur =3;
+            this.nbPingouinPlace = this.nbPingouinJoueur*3;
         } else {
-            this.nbPingouin =2;
-            this.nbPingouinPlace = this.nbPingouin*4;
+            this.nbPingouinJoueur =2;
+            this.nbPingouinPlace = this.nbPingouinJoueur*4;
         }
         this.nbJoueur = nbJoueur;
         this.nbColonnes = nbColonnes*2-1;
@@ -149,6 +191,7 @@ public class JeuAvance extends Jeu{
         int l = 0;
         int c,r;
         ArrayList<Integer> listeNombre = new ArrayList<Integer>();
+    
         for(int i = 1; i<=60; i++){
             if(i<= 30){
                 listeNombre.add(1);
@@ -158,7 +201,7 @@ public class JeuAvance extends Jeu{
                 listeNombre.add(3);
             }
         }
-
+        
         Random rand = new Random();
         while( l < nbLignes ){
             if( l%2 ==1 ){
@@ -177,12 +220,41 @@ public class JeuAvance extends Jeu{
         }
     }
 
+    public void setCase(Cases cases, int ligne, int colonne){
+        if(this.nbLignes > ligne && ligne >=0 && this.nbColonnes > colonne && colonne >= 0){
+            if( ligne%2 ==1 ){
+                terrainCourant[ligne][colonne*2] = cases;
+                terrainInitiale[ligne][colonne*2] = cases;
+            }else{
+                terrainCourant[ligne][colonne*2+1] = cases;
+                terrainInitiale[ligne][colonne*2+1] = cases;
+            }
+
+        }else{
+            System.out.println("impossible de mettre à jour la case ligne: " + ligne +", colonne:" + colonne );
+        }
+    }
+
+    public ArrayList<Coup> getListeCoupsAnnules(){
+        return this.coupAnnule;
+    }
+
+    
+    public ArrayList<Coup> getListeCoupsJoues(){
+        return this.coupJoue;
+    }
+
+    public int quelJoueur(){
+        return joueurCourant;
+    }
+    
+
 
     public boolean placePingouin(int l, int c){
         int joueurCourant = getJoueur();
         Joueur joueur = listeJoueur.get(joueurCourant-1);
 
-        if( (joueur.listePingouin.size() < nbPingouin) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1 && !pingouinTousPlace()){
+        if( (joueur.listePingouin.size() < nbPingouinJoueur) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1 && !pingouinTousPlace()){
             Pingouin ping = new Pingouin(l,c);
             joueur.listePingouin.add(ping);
             Cases cases = getCase(l,c);
@@ -209,7 +281,7 @@ public class JeuAvance extends Jeu{
         int l = cp.getLigne();
         int c = cp.getColonne();
 
-        if( (joueur.listePingouin.size() < nbPingouin) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1 && !pingouinTousPlace()){
+        if( (joueur.listePingouin.size() < nbPingouinJoueur) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1 && !pingouinTousPlace()){
             Pingouin ping = new Pingouin(l,c);
             joueur.listePingouin.add(ping);
             Cases cases = getCase(l,c);
@@ -223,35 +295,6 @@ public class JeuAvance extends Jeu{
             System.out.println("Impossible de placer le pingouin ici");
             return false;
         }
-    }
-
-    public Cases [][] clonerTerrain(Cases [][] terrainInitiale){
-
-        Cases [][] terrainClone;
-        Cases caseCourante;
-        Cases cases;
-
-        int nbl = terrainInitiale.length;
-        int nbc = terrainInitiale[0].length;
-        terrainClone = new Cases[nbl][nbc];
-
-        int c;
-        int l=0;
-        while( l < nbl){
-            if( l%2 ==1 ){
-                c = 0;
-            }else{ 
-                c = 1;
-            }
-            while( c < (nbc)){
-                caseCourante = terrainInitiale[l][c];
-                cases = new Cases(caseCourante.estMange(), caseCourante.getNbPoissons(), caseCourante.pingouinPresent());
-                terrainClone[l][c] = cases;
-                c+=2;
-            }
-            l++;
-        }
-        return terrainClone;
     }
 
     @Override
@@ -333,7 +376,7 @@ public class JeuAvance extends Jeu{
             coupAnnule.add(coupJoue.get(coupJoue.size()-1));
             coupJoue.remove(coupJoue.size()-1);
             int i = 0;
-            this.nbPingouinPlace =nbPingouin;
+            this.nbPingouinPlace =nbPingouinJoueur;
 
             while(i < coupJoue.size()){
                 cp = coupJoue.get(i);
@@ -364,8 +407,9 @@ public class JeuAvance extends Jeu{
                 placePingouinAnnuler(coupAnnule.get(coupAnnule.size()-1));
             }else{
                 joueAnnuler(coupAnnule.get(coupAnnule.size()-1));
+                coupJoue.add(cp);
             }
-            coupJoue.add(cp);
+            
             coupAnnule.remove(coupAnnule.size()-1);
         }
     }
@@ -375,7 +419,9 @@ public class JeuAvance extends Jeu{
      */
     public void sauvegarder(String name){
         try {
-			FileWriter w = new FileWriter("test.txt");
+
+			FileWriter w = new FileWriter(name);
+			
             w.write(nbJoueur + "\n");
 			w.write(nbLignes + "\n");
 			w.write(((nbColonnes-1)/2) + "\n");
@@ -389,13 +435,37 @@ public class JeuAvance extends Jeu{
                 sep = "\n";
             }
             w.write(result + "\n");
+
+            //marque pour indiquer que la suite sont des coups annules
+			w.write("b\n");
+
+			int tailleList = coupJoue.size();
+
+            System.out.println("taille liste coup = " + tailleList);
+
+			for(int i = 0; i< tailleList; i++) {
+				w.write(coupJoue.get(i).getLigne() + " "+ coupJoue.get(i).getColonne()  + " " + coupJoue.get(i).getPingouin().getLigne()+ " " + coupJoue.get(i).getPingouin().getColonne() + " " + coupJoue.get(i).estPlace() + "\n");
+			}
+
+			w.write("b\n");
+
+			int tailleLista = coupAnnule.size();
+			for(int i = 0; i< tailleLista; i++) {
+				w.write(coupAnnule.get(i).getLigne() + " "+ coupAnnule.get(i).getColonne() + " " + coupAnnule.get(i).getPingouin().getColonne()+ " " + coupAnnule.get(i).getPingouin().getLigne() + " " + coupJoue.get(i).estPlace() +"\n");
+			}
+
 			w.close();
 		} catch (IOException e) {
 			System.out.print("Erreur : " + e);
 		}
     }
 
-    
+
+    public Jeu toJeu(){
+        return new Jeu(this.terrainCourant, this.listeJoueur, this.nbLignes, this.nbColonnes, this.nbJoueur, this.nbPingouinJoueur, this.nbPingouinPlace, this.joueurCourant);
+        
+    }
+
     public String toString(){
         String result = "Plateau:\n[";
 		String sep = "";

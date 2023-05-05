@@ -53,9 +53,9 @@ public class Cases {
     //afficher une case
     @Override
     public String toString() {
-
-        //return  "" +getNbPoissons();
-        return estMange() + "/" + getNbPoissons() + "/" + pingouinPresent() ;
+        //ce retrurn est pour la sauvegarde
+        return  "" +getNbPoissons();
+        //return estMange() + "/" + getNbPoissons() + "/" + pingouinPresent() ;
     }
 
 }
