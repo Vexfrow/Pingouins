@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 public class Jeu{
 
-    protected Cases [][] terrainInitiale;
     protected Cases [][] terrainCourant;
     protected ArrayList<Joueur> listeJoueur;
 
@@ -28,6 +27,31 @@ public class Jeu{
     /*
      * Met à jour la variable Jeutermine si les pingouins ne peuvent plus bouger
      */
+
+
+    public Jeu(){
+
+    }
+
+    public Jeu(Jeu jeu){
+        this.terrainCourant = jeu.clonerTerrain(jeu.getTerrain());
+
+        int i = 0;
+        this.listeJoueur = new ArrayList<Joueur>();
+        while( i < jeu.getListeJoueur().size()){
+            this.listeJoueur.add(jeu.getListeJoueur().get(i).cloner());
+            i++;
+        }
+        
+        this.nbLignes = jeu.getNbLigne();
+        this.nbColonnes = jeu.getNbColonne();
+        this.nbJoueur = jeu.getNbJoueur();
+        this.nbPingouin = jeu.getNbPingouin();
+        this.nbPingouinPlace = jeu.getNbPingouinPlace();
+        this.joueurCourant = jeu.getJoueurCourant();
+
+    }
+
     public boolean jeuTermine(){
         
         ArrayList<Pingouin> p = new ArrayList<>();
@@ -138,20 +162,6 @@ public class Jeu{
         }
     }
 
-    public void setCase(Cases cases, int ligne, int colonne){
-        if(this.nbLignes > ligne && ligne >=0 && this.nbColonnes > colonne && colonne >= 0){
-            if( ligne%2 ==1 ){
-                terrainCourant[ligne][colonne*2] = cases;
-                terrainInitiale[ligne][colonne*2] = cases;
-            }else{
-                terrainCourant[ligne][colonne*2+1] = cases;
-                terrainInitiale[ligne][colonne*2+1] = cases;
-            }
-
-        }else{
-            System.out.println("impossible de mettre à jour la case ligne: " + ligne +", colonne:" + colonne );
-        }
-    }
 
     public int getJoueur(){
         return joueurCourant;
@@ -289,6 +299,69 @@ public class Jeu{
             
         }
 
+    }
+
+
+    public Cases [][] clonerTerrain(Cases [][] terrainInitiale){
+
+        Cases [][] terrainClone;
+        Cases caseCourante;
+        Cases cases;
+
+        int nbl = terrainInitiale.length;
+        int nbc = terrainInitiale[0].length;
+        terrainClone = new Cases[nbl][nbc];
+
+        int c;
+        int l=0;
+        while( l < nbl){
+            if( l%2 ==1 ){
+                c = 0;
+            }else{ 
+                c = 1;
+            }
+            while( c < (nbc)){
+                caseCourante = terrainInitiale[l][c];
+                cases = new Cases(caseCourante.estMange(), caseCourante.getNbPoissons(), caseCourante.pingouinPresent());
+                terrainClone[l][c] = cases;
+                c+=2;
+            }
+            l++;
+        }
+        return terrainClone;
+    }
+
+
+    public Jeu cloner(){
+        
+        Jeu j = new Jeu(this);
+        return j;
+
+
+    }
+
+    public int getNbLigne(){
+        return this.nbLignes;
+    }
+
+    public int getNbColonne(){
+        return this.nbColonnes;
+    }
+
+    public int getNbJoueur(){
+        return this.nbJoueur;
+    }
+
+    public int getNbPingouin(){
+        return this.nbPingouin;
+    }
+    
+    public int getNbPingouinPlace(){
+        return this.nbPingouinPlace;
+    }
+
+    public int getJoueurCourant(){
+        return joueurCourant;
     }
 
     

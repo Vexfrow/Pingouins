@@ -15,6 +15,8 @@ public class JeuAvance extends Jeu{
     private ArrayList<Coup> coupJoue;
     private ArrayList<Coup> coupAnnule;
 
+
+
     JeuAvance(String name){
         try {
             coupAnnule = new ArrayList<Coup>();
@@ -112,7 +114,7 @@ public class JeuAvance extends Jeu{
 
     }
 
-    JeuAvance(int nbJoueur, int nbLignes, int nbColonnes){
+    public JeuAvance(int nbJoueur, int nbLignes, int nbColonnes){
         terrainInitiale = new Cases[nbLignes][nbColonnes*2-1];
         terrainCourant = new Cases[nbLignes][nbColonnes*2-1];
 
@@ -177,6 +179,21 @@ public class JeuAvance extends Jeu{
         }
     }
 
+    public void setCase(Cases cases, int ligne, int colonne){
+        if(this.nbLignes > ligne && ligne >=0 && this.nbColonnes > colonne && colonne >= 0){
+            if( ligne%2 ==1 ){
+                terrainCourant[ligne][colonne*2] = cases;
+                terrainInitiale[ligne][colonne*2] = cases;
+            }else{
+                terrainCourant[ligne][colonne*2+1] = cases;
+                terrainInitiale[ligne][colonne*2+1] = cases;
+            }
+
+        }else{
+            System.out.println("impossible de mettre à jour la case ligne: " + ligne +", colonne:" + colonne );
+        }
+    }
+
 
     public boolean placePingouin(int l, int c){
         int joueurCourant = getJoueur();
@@ -223,35 +240,6 @@ public class JeuAvance extends Jeu{
             System.out.println("Impossible de placer le pingouin ici");
             return false;
         }
-    }
-
-    public Cases [][] clonerTerrain(Cases [][] terrainInitiale){
-
-        Cases [][] terrainClone;
-        Cases caseCourante;
-        Cases cases;
-
-        int nbl = terrainInitiale.length;
-        int nbc = terrainInitiale[0].length;
-        terrainClone = new Cases[nbl][nbc];
-
-        int c;
-        int l=0;
-        while( l < nbl){
-            if( l%2 ==1 ){
-                c = 0;
-            }else{ 
-                c = 1;
-            }
-            while( c < (nbc)){
-                caseCourante = terrainInitiale[l][c];
-                cases = new Cases(caseCourante.estMange(), caseCourante.getNbPoissons(), caseCourante.pingouinPresent());
-                terrainClone[l][c] = cases;
-                c+=2;
-            }
-            l++;
-        }
-        return terrainClone;
     }
 
     @Override
@@ -395,7 +383,7 @@ public class JeuAvance extends Jeu{
 		}
     }
 
-    
+
     public String toString(){
         String result = "Plateau:\n[";
 		String sep = "";
