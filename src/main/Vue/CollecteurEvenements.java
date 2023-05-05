@@ -21,4 +21,6 @@ public interface CollecteurEvenements {
 
     void toggleHelp();
 
+    void startGame();
+
 }

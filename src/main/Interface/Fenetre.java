@@ -21,8 +21,6 @@ public class Fenetre implements Runnable {
 
     public WorkingPane workingPane;
 
-    BanquiseGraphique bq;
-
     Jeu jeu;
 
 
@@ -50,9 +48,8 @@ public class Fenetre implements Runnable {
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jf.setMinimumSize(new Dimension(800, 600));
-
         workingPane = new WorkingPane(this.menu);
-
+        c.startGame();
         jf.add(workingPane);
         jf.setVisible(true);
     }

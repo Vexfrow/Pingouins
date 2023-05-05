@@ -4,6 +4,7 @@ import Interface.Fenetre;
 import Model.Coup;
 import Model.Jeu;
 import Model.Pingouin;
+import Vue.AdaptateurSourisPlateau;
 import Vue.BanquiseGraphique;
 import Vue.CollecteurEvenements;
 
@@ -17,7 +18,6 @@ public class Controleur implements CollecteurEvenements {
     private Jeu jeu;
 
     int phaseJeu;
-    int pingouinPlace;
 
     boolean selection;
     int selectionPX;
@@ -26,8 +26,7 @@ public class Controleur implements CollecteurEvenements {
     int tourJoueur;
 
     public Controleur(){
-        phaseJeu = 1;
-        tourJoueur = 1;
+
     }
 
     public void toggleHelp(){
@@ -50,6 +49,12 @@ public class Controleur implements CollecteurEvenements {
     @Override
     public void clicSourisPlateau(int coupX, int coupY) {
 
+
+        if(jeu.estTermine()){
+            System.out.println("Test");
+        }else{
+
+        }
         int k = 0;
         int l = 0;
         for(int i = 0 ; i < 60 ; i++){
@@ -95,10 +100,6 @@ public class Controleur implements CollecteurEvenements {
 
     private void joueCoupPhase1(int i, int j){
         jeu.placePingouin(i, j);
-        pingouinPlace++;
-
-        if(pingouinPlace >= 8)
-            phaseJeu = 2;
     }
 
 
@@ -115,14 +116,26 @@ public class Controleur implements CollecteurEvenements {
             Coup c = new Coup(i,j,p,false);
             if(jeu.peutJouer(c)){
                 jeu.joue(c);
-                tourJoueur = (tourJoueur == 1) ? 2 : 1;
-                System.out.println("Coup joué");
+                tourJoueur = jeu.getJoueur();
             }else{
                 System.out.println("Coup impossible");
             }
             selection = false;
 
         }
+
+    }
+
+    public void startGame(){
+        phaseJeu = 1;
+        plateauJeu.addMouseListener(new AdaptateurSourisPlateau(plateauJeu, this));
+//        while(!jeu.pingouinTousPlace()){
+//            plateauJeu.addMouseListener(new AdaptateurSourisPlateau(plateauJeu, this));
+//        }
+//        phaseJeu = 2;
+//        while(true){
+//
+//        }
 
     }
 }
