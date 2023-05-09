@@ -90,7 +90,7 @@ public class JeuAvance extends Jeu{
                 //definir un nouveau  coup
                 Coup cp = new Coup(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), ping , Boolean.parseBoolean(parts[4]));
 
-                System.out.println(cp);
+                //System.out.println(cp);
 
                 if(Boolean.parseBoolean(parts[4])){
                     placePingouin(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
@@ -214,7 +214,10 @@ public class JeuAvance extends Jeu{
 
 
     public void setCase(Cases cases, int ligne, int colonne){
-        if(coordValideTab(ligne, colonne)){
+        int val = 0;
+        if (ligne%2==0)
+            val = 1;
+        if(coordValideTab(ligne, colonne*2+val)){
             if( ligne%2 ==1 ){
                 terrainCourant[ligne][colonne*2] = cases;
                 terrainInitiale[ligne][colonne*2] = cases;
@@ -245,7 +248,7 @@ public class JeuAvance extends Jeu{
 
 
     public boolean placePingouin(int l, int c){
-        int joueurCourant = getJoueur();
+        int joueurCourant = getJoueurCourant();
         Joueur joueur = listeJoueur.get(joueurCourant-1);
 
         if( (joueur.listePingouin.size() < nbPingouinJoueur) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1 && !pingouinTousPlace()){
@@ -271,7 +274,7 @@ public class JeuAvance extends Jeu{
 
     private boolean placePingouinAnnuler(Coup cp){
 
-        int joueurCourant = getJoueur();
+        int joueurCourant = getJoueurCourant();
         Joueur joueur = listeJoueur.get(joueurCourant-1);
         int l = cp.getLigne();
         int c = cp.getColonne();
@@ -297,7 +300,7 @@ public class JeuAvance extends Jeu{
     public void joue(Coup cp){
         int l = cp.getLigne();   //Coord ou le pingouin doit aller
         int c = cp.getColonne(); //Coord ou le pingouin doit aller
-        int joueurCourant = getJoueur();
+        int joueurCourant = getJoueurCourant();
 
         if (peutJouer(cp)){
             Cases caseArrive = getCase(l,c);
@@ -322,7 +325,7 @@ public class JeuAvance extends Jeu{
             switchJoueur();
         }
         else {
-            System.out.println("Impossible de jouer");
+            System.out.println("JeuA: joue() - Impossible de jouer");
             
         }
     }
@@ -333,7 +336,7 @@ public class JeuAvance extends Jeu{
         int l = cp.getLigne();   //Coord ou le pingouin doit aller
         int c = cp.getColonne(); //Coord ou le pingouin doit aller
 
-        int joueurCourant = getJoueur();
+        int joueurCourant = getJoueurCourant();
 
         if (peutJouer(cp)){
             Cases caseArrive = getCase(l,c);
@@ -360,7 +363,7 @@ public class JeuAvance extends Jeu{
 
             switchJoueur();
         }else {
-            System.out.println("Impossible de jouer\n");
+            System.out.println("JeuA: joueAnnuler() - Impossible de jouer\n");
         }
     }
 
@@ -392,7 +395,7 @@ public class JeuAvance extends Jeu{
             }
             this.terrainCourant = j.getTerrain();
             this.listeJoueur = j.getListeJoueur();
-            this.joueurCourant = j.getJoueur();
+            this.joueurCourant = j.getJoueurCourant();
         }
     }
 

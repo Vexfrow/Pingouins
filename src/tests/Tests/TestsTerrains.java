@@ -3,7 +3,7 @@ package test.Tests;
 import Model.JeuAvance;
 import Model.Cases;
 
-public class MyTestsTerrains {
+public class TestsTerrains {
 
     public static void main(String[] args){
 
@@ -33,11 +33,12 @@ public class MyTestsTerrains {
         jeu.setCase(c, 0, 0);
         assert (c == jeu.getCase(0, 0));
         jeu.setCase(c, 0, 7);
+        assert jeu.getCase(0,7) == null: "Case (0,7) en dehors du terrain";
 
 
         // Test sauvegarde
-        jeu.sauvegarder("src/test/Terrains/terrainNonFixe.txt");
-        JeuAvance jeuSauve = new JeuAvance("src/test/Terrains/terrainNonFixe.txt");
+        jeu.sauvegarder("src/tests/Terrains/terrainNonFixe.txt");
+        JeuAvance jeuSauve = new JeuAvance("src/tests/Terrains/terrainNonFixe.txt");
 
         for(int i = 0; i < jeu.getTerrain().length; i++){
             for (int j = 0; j < jeu.getTerrain()[0].length/2; j++){
