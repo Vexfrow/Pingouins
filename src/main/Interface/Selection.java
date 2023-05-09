@@ -25,17 +25,12 @@ public class Selection extends JPanel {
     private JButton valide;
     private Image flecheRetour;
 
-
-
-
-
     public Selection(CollecteurEvenements ctrl){
 
         this.c = ctrl;
         retour = new JButton();
         sauvegarde = new JButton("<html>Sauvegarder comme<br>option par défaut<br>(Partie rapide)</html>");
         valide = new JButton("<html> Lancer la Partie</html>");
-
         try{
             flecheRetour = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheRetour.png"));
         }catch(Exception e){
@@ -130,6 +125,13 @@ public class Selection extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 c.switchMenu();
+            }
+        });
+
+        valide.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.switchGameBoard();
             }
         });
     }

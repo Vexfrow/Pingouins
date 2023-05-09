@@ -61,13 +61,13 @@ public class IAMinimax extends IAJoueur{
     @Override
     public Coup elaboreCoup(){
         Configuration conf = new Configuration(this.j.toJeu());
-        System.out.println(conf);
+
         ArrayList<Configuration> fils = Configuration.coupFils(conf);
         int max = 0;
         int temp = 0;
         Coup coupMax = null;
         for(int i = 0; i < fils.size(); i++){
-            if((temp = minimax(fils.get(i), 2, true)) > max ){
+            if((temp = minimax(fils.get(i), 1, true)) > max ){
                 max =temp;
                 coupMax = fils.get(i).coup;
             }
@@ -84,7 +84,7 @@ public class IAMinimax extends IAJoueur{
             return H(config);
 
         }if(fils.size()==0){
-            return minimax(config,depth,!max);
+            return minimax(config,depth-1,!max);
 
         }
         if(max){

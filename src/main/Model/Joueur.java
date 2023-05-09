@@ -20,6 +20,7 @@ public class Joueur {
 
 
     public Joueur cloner(){
+        //System.out.println("Here");
         Joueur joueur = new Joueur(numeroJoueur, score);
         ArrayList<Pingouin> listePing = new ArrayList<Pingouin>();
         Pingouin pingouinPrefere;

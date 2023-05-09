@@ -2,6 +2,7 @@ package Model;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Jeu{
 
@@ -28,8 +29,11 @@ public class Jeu{
     }
 
     public Jeu(Cases[][] terrain, ArrayList<Joueur> ar, int l, int c, int j, int pj, int pp, int jc){
-        terrainCourant = terrain;
-        listeJoueur = ar;
+        terrainCourant = clonerTerrain(terrain);
+        listeJoueur = new ArrayList<Joueur>();
+        for(int i =0; i < ar.size(); i++){
+            listeJoueur.add(ar.get(i).cloner());
+        }
 
         nbLignes = l; // taille du tableau
         nbColonnes = c; // taille du tableau
@@ -42,7 +46,6 @@ public class Jeu{
     }
 
     public Jeu(Jeu jeu){
-        System.out.println(jeu.clonerTerrain(jeu.getTerrain()));
         this.terrainCourant = jeu.clonerTerrain(jeu.getTerrain());
 
         int i = 0;
@@ -146,7 +149,7 @@ public class Jeu{
 
 
     public Cases [][] getTerrain(){
-        return terrainCourant;
+        return this.terrainCourant;
     }
 
 
@@ -199,7 +202,7 @@ public class Jeu{
         int k =0;
         while(k <p.size() && p.get(k).equals(cp.getPingouin())){
             k++;
-            System.out.println(p.get(k));
+            //System.out.println(p.get(k));
         }
 
         //System.out.println("K  "+ index);
@@ -359,8 +362,8 @@ public class Jeu{
 
 
     public Jeu cloner(){
-
-        Jeu j = new Jeu(this);
+        Jeu j = new Jeu(this.terrainCourant, this.listeJoueur, this.nbLignes, this.nbColonnes, this.nbJoueur,
+         this.nbPingouinJoueur, this.nbPingouinPlace, this.joueurCourant);
         return j;
 
 
@@ -393,5 +396,16 @@ public class Jeu{
     public boolean peutPlacer(int i, int j){
         return(getCase(i,j).pingouinPresent() == 0 && getCase(i,j).getNbPoissons() == 1);
     }
+/*
+    public String toString(){
+        String result = "Plateau:\n[";
+		String sep = "";
+		for (int i=0; i<terrainCourant.length; i++) {
+			result += sep + Arrays.toString(terrainCourant[i]);
+			sep = "\n ";
+		}
+        return result;
+    }
+    */
 
 }
