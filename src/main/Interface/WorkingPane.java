@@ -14,6 +14,7 @@ public class WorkingPane extends JLayeredPane {
         backingPane = new BackingPane();
         backingPane.setVisible(false);
         this.add(actuel);
+
         this.add(backingPane);
         this.setLayer(actuel, CURRENT_LEVEL);
         this.setLayer(backingPane, POPUP_LAYER);
