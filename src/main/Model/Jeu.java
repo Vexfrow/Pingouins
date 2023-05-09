@@ -29,8 +29,11 @@ public class Jeu{
     }
 
     public Jeu(Cases[][] terrain, ArrayList<Joueur> ar, int l, int c, int j, int pj, int pp, int jc){
-        terrainCourant = terrain;
-        listeJoueur = ar;
+        terrainCourant = clonerTerrain(terrain);
+        listeJoueur = new ArrayList<Joueur>();
+        for(int i =0; i < ar.size(); i++){
+            listeJoueur.add(ar.get(i).cloner());
+        }
 
         nbLignes = l; // taille du tableau
         nbColonnes = c; // taille du tableau
@@ -393,7 +396,7 @@ public class Jeu{
     public boolean peutPlacer(int i, int j){
         return(getCase(i,j).pingouinPresent() == 0 && getCase(i,j).getNbPoissons() == 1);
     }
-
+/*
     public String toString(){
         String result = "Plateau:\n[";
 		String sep = "";
@@ -403,5 +406,6 @@ public class Jeu{
 		}
         return result;
     }
+    */
 
 }

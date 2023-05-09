@@ -39,13 +39,14 @@ public class Pingouin {
         this.colonne = y;
     }
 
-
+    
     // Affiche la position du pingouin
     public String toString(){
         String resultat = "ping: (";
         resultat += getLigne() + ", " + getColonne() + ")";
         return resultat;
     }
+    
 
 
     public boolean equals(Pingouin p){
