@@ -17,6 +17,7 @@ public class Controleur implements CollecteurEvenements {
     private Fenetre window;
     private GameBoard plateauJeu;
 
+//    private ToastMessage toastMessage;
     private Jeu jeu;
 
     int phaseJeu;
