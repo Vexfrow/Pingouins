@@ -15,7 +15,7 @@ public class MainTestIA{
 
 
     public static void main(String[] args){
-        testerIA(100000);
+        testerIA(1);
     }
 
     public static void testerIA(int nbPartie){
@@ -32,7 +32,7 @@ public class MainTestIA{
             JeuAvance j = new JeuAvance(2);
 
             ia1 = new IAAleatoire(j);
-            ia2 = new IAAleatoire(j);
+            ia2 = new IAMinimax(j);
 
             while(!j.pingouinTousPlace()){
 
@@ -80,7 +80,7 @@ public class MainTestIA{
         int i =0;
         
         IAJoueur ia = new IAAleatoire(j);
-        IAJoueur ia2 = new IATroisPoissons(j);
+        IAJoueur ia2 = new IAMinimax(j);
         Position pos;
         Coup cp;
 

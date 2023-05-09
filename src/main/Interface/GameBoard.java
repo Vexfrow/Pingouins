@@ -84,14 +84,15 @@ public class GameBoard extends JPanel {
     }
 
 
-    public void misAJour(Jeu j){
+    public void misAJour(Jeu j, int etat, int hexagone){
         jeu = j;
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
             System.out.println(i);
             listScore.get(i).setText("Score Joueur "+(i+1)+" : \n\t"+ jeu.getListeJoueur().get(i).getScore());
         }
-        bq.misAJour(j);
+        bq.misAJour(j,etat, hexagone);
     }
+
 
     public BanquiseGraphique getBq(){
         return bq;

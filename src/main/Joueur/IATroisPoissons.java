@@ -75,7 +75,7 @@ public class IATroisPoissons extends IAJoueur{
         while(nbpoisson > 0 && (coupPossible.size()==0)){
             i = 0;
             while( i < listePingouin.size()){
-                listePos = this.j.getCaseAccessible(listePingouin.get(i));
+                listePos = this.j.getCaseAccessible(listePingouin.get(i).getLigne(),listePingouin.get(i).getColonne());
                 k=0;
                 while(k < listePos.size()){
                     cases = j.getCase(listePos.get(k).x , listePos.get(k).y);

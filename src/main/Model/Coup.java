@@ -64,7 +64,7 @@ public class Coup {
     //afficher un coup
     @Override
     public String toString() {
-        String string = "x=" + x + " y=" + y + " " + pingouin+ " place="+ place;
+        String string = "x=" + x + ", y=" + y + " " + pingouin+ " place="+ place;
         return string;
     }
 
