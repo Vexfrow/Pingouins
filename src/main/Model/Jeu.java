@@ -81,6 +81,25 @@ public class Jeu{
             termine = estPingouinBloque(p.get(l));
             l++;
         }
+
+        //si le jeu est terminé on récupére tous les points sous les pingouins
+        if(termine){
+            for(int i =0; i< listeJoueur.size(); i++){
+                Joueur j = listeJoueur.get(i);
+
+                for(int k = 0; k<j.listePingouin.size(); k++){
+                    Pingouin ping = j.listePingouin.get(k);
+                    Cases casesCourante = getCase(ping.getLigne(), ping.getColonne());
+
+                    j.setScore(j.getScore() + casesCourante.getNbPoissons());
+                    j.setNbCasesMange(j.getNbCasesMange() +1);
+
+                    casesCourante.setMange(true);
+                    casesCourante.setNbPoissons(0);
+                }
+            }
+        }
+
         return termine;
     }
 
@@ -238,14 +257,14 @@ public class Jeu{
         p = j.listePingouin;
 
         int k =0;
-        while(k <p.size() && p.get(k).equals(cp.getPingouin())){
+
+        while(k < p.size() && p.get(k).equals(cp.getPingouin())){
             k++;
-            //System.out.println(p.get(k));
         }
 
         boolean bonPinguoin = false;
 
-        if(k<p.size()){
+        if(k<p.size() && p.get(k).equals(cp.getPingouin())){
             bonPinguoin = true;
         } else {
             System.out.println("Le pingouin choisit n'est pas déplacable pour le moment");
