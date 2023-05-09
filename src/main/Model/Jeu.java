@@ -95,7 +95,7 @@ public class Jeu{
                     j.setNbCasesMange(j.getNbCasesMange() +1);
 
                     casesCourante.setMange(true);
-                    casesCourante.setNbPoissons(0);
+                    casesCourante.setNbPoissons(0); 
                 }
             }
         }
