@@ -1,31 +1,42 @@
 package Controleur;
 
 import Interface.Fenetre;
+import Interface.GameBoard;
 import Model.Coup;
 import Model.Jeu;
 import Model.Pingouin;
+import Model.Position;
 import Vue.AdaptateurSourisPlateau;
 import Vue.BanquiseGraphique;
 import Vue.CollecteurEvenements;
 
-import java.awt.Shape;
+import java.awt.*;
 
 public class Controleur implements CollecteurEvenements {
 
     private Fenetre window;
-    private BanquiseGraphique plateauJeu;
+    private GameBoard plateauJeu;
 
     private Jeu jeu;
 
     int phaseJeu;
 
     boolean selection;
-    int selectionPX;
-    int selectionPY;
+    Position selectionP;
 
-    int tourJoueur;
+    int info;
+
+    int etat;
 
     public Controleur(){
+        phaseJeu = 1;
+        selection = false;
+        selectionP = null;
+        jeu = null;
+        window = null;
+        plateauJeu = null;
+        etat = BanquiseGraphique.ETAT_PLACEMENTP;
+        info = 0;
 
     }
 
@@ -49,45 +60,32 @@ public class Controleur implements CollecteurEvenements {
     @Override
     public void clicSourisPlateau(int coupX, int coupY) {
 
+            for(int i = 0; i < plateauJeu.getBq().getPlateauJeu().size();i++) {
+                Shape cell = plateauJeu.getBq().getPlateauJeu().get(i);
 
-        if(jeu.estTermine()){
-            System.out.println("Test");
-        }else{
+                if (cell.contains(coupX, coupY)) {
+                    if (phaseJeu == 1) {
+                        joueCoupPhase1(plateauJeu.getBq().getCoordFromNumber(i));
+                    } else {
+                        joueCoupPhase2(plateauJeu.getBq().getCoordFromNumber(i));
+                        if(selection)
+                            info = i;
+                        else
+                            info = jeu.getJoueur();
 
-        }
-        int k = 0;
-        int l = 0;
-        for(int i = 0 ; i < 60 ; i++){
-            Shape cell = plateauJeu.getPlateauJeu().get(i);
-            if(cell.contains(coupX, coupY)){
-                if(phaseJeu == 1){
-                    joueCoupPhase1(k,l);
-                }else{
-                    joueCoupPhase2(k,l);
-                }
-                plateauJeu.misAJour(jeu);
-                break;
-            }
+                    }
 
-            l++;
-
-            if (k % 2 == 0) {
-                if (l >= 7) {
-                    k = k + 1;
-                    l = 0;
-                }
-            } else {
-                if (l >= 8) {
-                    k = k + 1;
-                    l = 0;
+                    plateauJeu.misAJour(jeu, etat, info);
+                    break;
                 }
             }
+
         }
-    }
 
 
-    public void setPlateauJeu(BanquiseGraphique bq){
-        plateauJeu = bq;
+    public void setPlateauJeu(GameBoard gb){
+        plateauJeu = gb;
+        plateauJeu.getBq().addMouseListener(new AdaptateurSourisPlateau(plateauJeu.getBq(), this));
     }
 
     public void setJeu(Jeu j){
@@ -98,44 +96,43 @@ public class Controleur implements CollecteurEvenements {
         this.window = window;
     }
 
-    private void joueCoupPhase1(int i, int j){
-        jeu.placePingouin(i, j);
+    private void joueCoupPhase1(Position p){
+        if(jeu.peutPlacer(p.x, p.y))
+            jeu.placePingouin(p.x, p.y);
+        else
+            System.out.println("Peut pas placer ici");
+
+        if(jeu.pingouinTousPlace()){
+            phaseJeu = 2;
+            etat = BanquiseGraphique.ETAT_SELECTIONP;
+        }
     }
 
 
-    private void joueCoupPhase2(int i, int j) {
+    private void joueCoupPhase2(Position p) {
         if(!selection){
-            if(jeu.pingouinPresent(i,j) && jeu.getCase(i,j).pingouinPresent() == tourJoueur){
+            if(jeu.pingouinPresent(p.x, p.y) && jeu.getCase(p.x, p.y).pingouinPresent() == jeu.getJoueur()){
                 selection = true;
-                selectionPX = i;
-                selectionPY = j;
-                System.out.println("X =" +i +"; Y =" + j + " ; selectionné");
+                selectionP = p;
+                etat = BanquiseGraphique.ETAT_CHOIXC;
+
             }
         }else{
-            Pingouin p = new Pingouin(selectionPX,selectionPY);
-            Coup c = new Coup(i,j,p,false);
+            Pingouin pingouin = new Pingouin(selectionP.x, selectionP.y);
+            Coup c = new Coup(p.x, p.y,pingouin,false);
             if(jeu.peutJouer(c)){
                 jeu.joue(c);
-                tourJoueur = jeu.getJoueur();
             }else{
                 System.out.println("Coup impossible");
             }
             selection = false;
+            etat = BanquiseGraphique.ETAT_SELECTIONP;
 
+            if(jeu.jeuTermine()){
+                phaseJeu = 3;
+            }
         }
 
     }
 
-    public void startGame(){
-        phaseJeu = 1;
-        plateauJeu.addMouseListener(new AdaptateurSourisPlateau(plateauJeu, this));
-//        while(!jeu.pingouinTousPlace()){
-//            plateauJeu.addMouseListener(new AdaptateurSourisPlateau(plateauJeu, this));
-//        }
-//        phaseJeu = 2;
-//        while(true){
-//
-//        }
-
-    }
 }

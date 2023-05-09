@@ -6,8 +6,6 @@ public class Joueur {
 
     private int numeroJoueur;
     private int score;
-
-    //liste des pingouins pour le joueur
     public ArrayList<Pingouin> listePingouin;
 
     // Constructeur de joueur
@@ -20,9 +18,21 @@ public class Joueur {
     }
 
 
-    // Renvoie 1 si tous les pingouins pour un joueur sont tous places sur le plateau
 
-        // Getters
+    public Joueur cloner(){
+        Joueur joueur = new Joueur(numeroJoueur, score);
+        ArrayList<Pingouin> listePing = new ArrayList<Pingouin>();
+        Pingouin pingouinPrefere;
+        int i = 0;
+        while(i < this.listePingouin.size()){
+            pingouinPrefere = this.listePingouin.get(i).cloner();
+            listePing.add(pingouinPrefere);
+            i++;
+        }
+        joueur.listePingouin = listePing;
+        return joueur;
+    }
+
 
     public int getNumeroJoueur() {
         return numeroJoueur;

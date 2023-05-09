@@ -1,13 +1,14 @@
 package Vue;
 
 import Interface.Fenetre;
+import Interface.GameBoard;
 import Model.Jeu;
 
 public interface CollecteurEvenements {
 
     void clicSourisPlateau(int coupX, int coupY);
 
-    void setPlateauJeu(BanquiseGraphique bq);
+    void setPlateauJeu(GameBoard bq);
 
     void setInterface(Fenetre window);
 
@@ -21,6 +22,5 @@ public interface CollecteurEvenements {
 
     void toggleHelp();
 
-    void startGame();
 
 }

@@ -4,6 +4,7 @@ package Joueur;
 import java.util.Random;
 import Model.Coup;
 import Model.Jeu;
+import Model.JeuAvance;
 import Model.Position;
 import Model.Cases;
 import Model.Pingouin;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 
 public class IATroisPoissons extends IAJoueur{
 
-    IATroisPoissons(Jeu j){
+    IATroisPoissons(JeuAvance j){
         super(j);
     }
 
@@ -74,7 +75,7 @@ public class IATroisPoissons extends IAJoueur{
         while(nbpoisson > 0 && (coupPossible.size()==0)){
             i = 0;
             while( i < listePingouin.size()){
-                listePos = this.j.getCaseAccessible(listePingouin.get(i));
+                listePos = this.j.getCaseAccessible(listePingouin.get(i).getLigne(),listePingouin.get(i).getColonne());
                 k=0;
                 while(k < listePos.size()){
                     cases = j.getCase(listePos.get(k).x , listePos.get(k).y);

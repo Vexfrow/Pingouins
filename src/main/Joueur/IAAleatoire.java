@@ -3,6 +3,7 @@ package Joueur;
 import java.util.Random;
 import Model.Coup;
 import Model.Jeu;
+import Model.JeuAvance;
 import Model.Position;
 import Model.Joueur;
 import Model.Cases;
@@ -16,7 +17,7 @@ public class IAAleatoire extends IAJoueur{
     Random r;
 
 
-    public IAAleatoire(Jeu j){
+    public IAAleatoire(JeuAvance j){
         super(j);
     }
 
@@ -27,7 +28,7 @@ public class IAAleatoire extends IAJoueur{
     @Override
     public Position elaborePlacement(){
         Random r = new Random();
-        Cases[][] terrainCourant = this.j.clonerTerrain(this.j.getTerrain());
+        Cases[][] terrainCourant = this.j.getTerrain();
         ArrayList<Position> posPossible = new ArrayList<Position>();
         Cases caseCourant;
         Position posCourant;
@@ -73,7 +74,7 @@ public class IAAleatoire extends IAJoueur{
 
         while( i < listePingouin.size()){
             listePos = null;
-            listePos = this.j.getCaseAccessible(listePingouin.get(i));
+            listePos = this.j.getCaseAccessible(listePingouin.get(i).getLigne(),listePingouin.get(i).getColonne());
             j=0;
             while(j < listePos.size()){
                 cp = new Coup(listePos.get(j).x , listePos.get(j).y , listePingouin.get(i), false) ;

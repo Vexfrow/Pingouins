@@ -5,6 +5,7 @@ import javax.swing.*;
 import Controleur.Controleur;
 import Interface.MenuP;
 import Model.Jeu;
+import Model.JeuAvance;
 import Vue.AdaptateurSourisPlateau;
 import Vue.BanquiseGraphique;
 import Vue.CollecteurEvenements;
@@ -21,7 +22,7 @@ public class Fenetre implements Runnable {
 
     public WorkingPane workingPane;
 
-    Jeu jeu;
+    JeuAvance jeu;
 
 
     public static void demarrer(Controleur ctrl){
@@ -36,9 +37,8 @@ public class Fenetre implements Runnable {
         this.menu = new MenuP(this.c);
         this.selection = new Selection(this.c);
 
-        jeu = new Jeu(2);
+        jeu = new JeuAvance(2);
         this.gameBoard = new GameBoard(jeu, c);
-
 
 
     }
@@ -48,8 +48,8 @@ public class Fenetre implements Runnable {
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jf.setMinimumSize(new Dimension(800, 600));
-        workingPane = new WorkingPane(this.menu);
-        c.startGame();
+
+        workingPane = new WorkingPane(this.gameBoard);
         jf.add(workingPane);
         jf.setVisible(true);
     }
