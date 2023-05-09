@@ -19,7 +19,7 @@ public class JeuAvance extends Jeu{
 
 
 
-    JeuAvance(String name){
+    public JeuAvance(String name){
         try {
             coupAnnule = new ArrayList<Coup>();
             coupJoue = new ArrayList<Coup>();
@@ -214,7 +214,7 @@ public class JeuAvance extends Jeu{
 
 
     public void setCase(Cases cases, int ligne, int colonne){
-        if(this.nbLignes > ligne && ligne >=0 && this.nbColonnes > colonne && colonne >= 0){
+        if(coordValideTab(ligne, colonne)){
             if( ligne%2 ==1 ){
                 terrainCourant[ligne][colonne*2] = cases;
                 terrainInitiale[ligne][colonne*2] = cases;

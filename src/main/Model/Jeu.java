@@ -173,7 +173,10 @@ public class Jeu{
 
 
     public Cases getCase(int ligne, int colonne){
-        if(coordValideTab(ligne, colonne)){
+        int val = 0;
+        if (ligne%2==0)
+            val = 1;
+        if(coordValideTab(ligne, colonne*2+val)){
             if( ligne%2 ==1 ){
                 return terrainCourant[ligne][colonne*2];
             }else{
@@ -245,7 +248,7 @@ public class Jeu{
 
         boolean bonPinguoin = false;
 
-        if(k<p.size()){
+        if(k<p.size() && p.get(k).equals(cp.getPingouin())){
             bonPinguoin = true;
         } else {
             System.out.println("Le pingouin choisit n'est pas déplacable pour le moment");
