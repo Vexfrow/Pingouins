@@ -59,7 +59,9 @@ public class GameBoard extends JPanel {
         bPause.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 collecteur.togglePause();
+                System.out.println("Etat Apres " + collecteur.getEtatBackPane());
             }
         });
         boutonPanel.add(bSuggestion);

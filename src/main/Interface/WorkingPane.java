@@ -27,12 +27,7 @@ public class WorkingPane extends JLayeredPane {
     }
 
     public void toggleBackingPane(int i){
-        System.out.println("Etat" + collecteur.getEtatBackPane());
-        System.out.println("is pause " +backingPane.menuToPause(i));
-        if(!backingPane.isVisible() || !backingPane.menuToPause(i)){
-            backingPane.setVisible(!backingPane.isVisible());
-        }
-
+        backingPane.setVisible(!backingPane.isVisible());
     }
 
     public void changePanel(JPanel j){

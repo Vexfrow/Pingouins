@@ -59,8 +59,10 @@ public class Aide extends JPanel{
             public void actionPerformed(ActionEvent e) {
 
                 if(collecteur.getEtatBackPane() == 2){
+                    System.out.println("HErre");
                     collecteur.togglePause();
                 }else{
+                    System.out.println("ICI");
                     collecteur.toggleHelp();
                 }
 

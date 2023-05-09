@@ -96,7 +96,7 @@ public class BanquiseGraphique extends JComponent {
         buffered.getGraphics().drawImage(imageTmp, 0, 0, null);
 
         if(redTaint){
-            Color c = new Color(10,0,0,255);
+            Color c = new Color(200,0,0,100);
             for (int x = 0; x < buffered.getWidth(); x++) {
                 for (int y = 0; y < buffered.getHeight(); y++) {
                     Color pixelColor = new Color(buffered.getRGB(x, y), true);
