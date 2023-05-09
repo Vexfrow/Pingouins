@@ -103,12 +103,12 @@ public class GameBoard extends JPanel {
     }
 
 
-    public void misAJour(JeuAvance j, int etat, int hexagone){
+    public void misAJour(JeuAvance j,  int hexagone){
         jeu = j;
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
             listScore.get(i).setText("Score Joueur "+(i+1)+" : \n\t"+ jeu.getListeJoueur().get(i).getScore() + "\n\t" +jeu.getListeJoueur().get(i).getNbCasesMange());
         }
-        bq.misAJour(jeu,etat, hexagone);
+        bq.misAJour(jeu, hexagone);
     }
 
     public void misAJour(){

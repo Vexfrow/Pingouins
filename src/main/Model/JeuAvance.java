@@ -12,10 +12,23 @@ import java.util.ArrayList;
 public class JeuAvance extends Jeu{
 
 
+
+    public final static int ETAT_INITIAL = 0; //Etat de base
+    public final static int ETAT_PLACEMENTP = 1; //Highlight sur les hexagones disponibles pour placer le pingouin
+    public final static int ETAT_SELECTIONP = 2; //Highlight sur les pingouins que le joueur peut utiliser
+    public final static int ETAT_CHOIXC = 3;//Highlight sur les hexagones disponibles pour déplacer le pingouin choisi
+    public final static int ETAT_FINAL = 4;
+
+
+
     private Cases [][] terrainInitiale;
     private ArrayList<Coup> coupJoue;
     private ArrayList<Coup> coupAnnule;
     public int [] scoreSave;
+
+    private Position selectionP;
+    private boolean selection;
+    int etat;
 
 
 
@@ -176,6 +189,10 @@ public class JeuAvance extends Jeu{
         this.nbColonnes = nbColonnes*2-1;
         this.nbLignes = nbLignes;
         terrainAleatoire(nbLignes, nbColonnes);
+
+        selection = false;
+        selectionP = null;
+        etat = ETAT_INITIAL;
     }
     
 
@@ -259,6 +276,11 @@ public class JeuAvance extends Jeu{
             coupJoue.add(cp);
             coupAnnule = new ArrayList<Coup>();
             nbPingouinPlace--;
+
+            if(nbPingouinPlace == 0){
+                etat = ETAT_SELECTIONP;
+            }
+
             return true;
 
         }else{
@@ -509,4 +531,32 @@ public class JeuAvance extends Jeu{
 		return result;
     }
 
+
+    public void setSelectionP(Position p) {
+        selection = true;
+        selectionP = p;
+        etat = ETAT_CHOIXC;
+    }
+
+    public void unsetSelectionP() {
+        selection = false;
+        selectionP = null;
+        etat = ETAT_SELECTIONP;
+    }
+
+    public boolean getSelection() {
+        return selection;
+    }
+
+    public Position getSelectionP() {
+        return selectionP;
+    }
+
+    public int getEtat() {
+        return etat;
+    }
+
+    public void startGame() {
+        etat = ETAT_PLACEMENTP;
+    }
 }
