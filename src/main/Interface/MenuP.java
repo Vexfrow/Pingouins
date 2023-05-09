@@ -1,6 +1,5 @@
 package Interface;
 
-import Controleur.Controleur;
 import Vue.CollecteurEvenements;
 
 import javax.imageio.ImageIO;
@@ -15,7 +14,8 @@ public class MenuP extends JPanel {
     private JButton chargerPartie;
     private JButton tutoriel;
     private JButton regles;
-    private Image img;
+    private Image titre;
+    private Image hint;
     private SpringLayout layout;
     private  JLabel menu;
     private CollecteurEvenements c;
@@ -25,7 +25,8 @@ public class MenuP extends JPanel {
         this.c = ctrl;
         //Création des éléments
         try{
-            img = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/Aide.png"));
+            titre = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/Titre.png"));
+            hint = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonRegles.png"));
         }catch(Exception e){
             System.out.println("une erreur " + e);
         }
@@ -33,7 +34,7 @@ public class MenuP extends JPanel {
         partieRapide = new JButton("Partie Rapide");
         chargerPartie = new JButton("Charger Partie");
         tutoriel = new JButton("Tutoriel");
-        regles = new JButton("Règles");
+        regles = new JButton();
 
         layout = new SpringLayout();
         menu = new JLabel();
@@ -52,6 +53,12 @@ public class MenuP extends JPanel {
         return source.getScaledInstance(x, y, java.awt.Image.SCALE_AREA_AVERAGING);
     }
 
+    private Image reScale(Image source, float percent){
+        ImageIcon ic = new ImageIcon(source);
+
+        return source.getScaledInstance((int)(ic.getIconWidth()*percent), (int)(ic.getIconHeight()*percent), java.awt.Image.SCALE_AREA_AVERAGING);
+    }
+
     private void setMenu(){
         //Button
         partiePersonnalisee.setBorderPainted(false);
@@ -59,7 +66,7 @@ public class MenuP extends JPanel {
         tutoriel.setBorderPainted(false);
         partieRapide.setBorderPainted(false);
         regles.setBorderPainted(false);
-
+        regles.setContentAreaFilled(false);
 
 
         //Colorization
@@ -70,12 +77,12 @@ public class MenuP extends JPanel {
         Color tutorielColor = new Color(0x7292A4);
 
         this.setBackground(GameConstants.BACKGROUND_COLOR);
-        menu.setIcon(new ImageIcon(img));
-        regles.setBackground(reglesColor);
+        menu.setIcon(new ImageIcon(titre));
         partieRapide.setBackground(partieRapideColor);
         partiePersonnalisee.setBackground(partiPersonnaliseeColor);
         chargerPartie.setBackground(chargerPartieColor);
         tutoriel.setBackground(tutorielColor);
+
 
         partieRapide.setForeground(Color.WHITE);
         partiePersonnalisee.setForeground(Color.WHITE);
@@ -96,7 +103,6 @@ public class MenuP extends JPanel {
         partiePersonnalisee.setPreferredSize(GameConstants.boutonTaille);
         chargerPartie.setPreferredSize(GameConstants.boutonTaille);
         tutoriel.setPreferredSize(GameConstants.boutonTaille);
-        regles.setPreferredSize(new Dimension(150, 50));
 
         //Placement
         //Par rapport à la fenetre
@@ -130,6 +136,13 @@ public class MenuP extends JPanel {
                 c.switchSel();
             }
         });
+
+        partieRapide.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.switchGameBoard();
+            }
+        });
     }
 
 
@@ -139,6 +152,20 @@ public class MenuP extends JPanel {
         partiePersonnalisee.setEnabled(!partiePersonnalisee.isEnabled());
         partieRapide.setEnabled(!partieRapide.isEnabled());
 
+    }
+
+    public Image reScale(Dimension d, Image img){
+        Image neoImg = img.getScaledInstance(d.width, d.height, Image.SCALE_AREA_AVERAGING) ;
+        return neoImg;
+    }
+
+    @Override
+    protected void paintComponent(Graphics g){
+        super.paintComponent(g);
+        ImageIcon c = new ImageIcon(hint);
+        regles.setPreferredSize(new Dimension(c.getIconWidth(), c.getIconHeight()));
+        regles.setLocation(getSize().width - c.getIconWidth(), getSize().height - c.getIconHeight());
+        regles.setIcon(c);
     }
 
 }
