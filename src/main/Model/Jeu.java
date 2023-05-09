@@ -180,7 +180,7 @@ public class Jeu{
                 return terrainCourant[ligne][colonne*2+1];
             }
         } else {
-            System.out.println("impossible de récuperer la case ligne: "+ligne+ ", colonne:"+colonne + "");
+            System.out.println("impossible de récuperer la case ligne: "+ligne+ ", colonne:"+colonne);
             return null;
         }
     }
@@ -201,19 +201,19 @@ public class Jeu{
         //recup joueur courant
         Joueur joueur = listeJoueur.get(joueurCourant-1);
 
-        //init liste des pingouisn avec la liste des pingouins
+        //init liste des pingouins avec la liste des pingouins
         pingJoueur = joueur.getListePingouin();
 
         int i =0;
-        boolean passeTour = true;
+        boolean passeTour = (pingJoueur.size()!=0);
 
         while(i< pingJoueur.size() && passeTour){
             passeTour = estPingouinBloque(pingJoueur.get(i));
+            i++;
         }
         
         //Attention à la récursivité ici ??
-        if(passeTour && jeuTermine()){
-
+        if(passeTour && !jeuTermine()){
             System.out.println("Switch joueur bloqué");
             switchJoueur();
         }

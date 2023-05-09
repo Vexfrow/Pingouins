@@ -1,9 +1,6 @@
 package Vue;
 
-import Model.Jeu;
-import Model.Cases;
-import Model.Pingouin;
-import Model.Position;
+import Model.*;
 
 
 import javax.imageio.ImageIO;
@@ -114,14 +111,19 @@ public class BanquiseGraphique extends JComponent {
         src.getGraphics().dispose();
         buffered.getGraphics().dispose();
 
-        return buffered;
+        return src;
     }
 
 
-    public void misAJour(Jeu jeu, int etat, int info) {
+    public void misAJour(JeuAvance jeu, int etat, int info) {
         this.jeu = jeu;
         this.etat = etat;
         this.hexagone = info;
+        repaint();
+    }
+
+    public void misAJour(JeuAvance jeu) {
+        this.jeu = jeu;
         repaint();
     }
 
@@ -169,7 +171,6 @@ public class BanquiseGraphique extends JComponent {
     }
 
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setPaint(paintFont);
@@ -213,9 +214,6 @@ public class BanquiseGraphique extends JComponent {
             g2d.drawImage(bfi, cell.getBounds().x, cell.getBounds().y, null);
 
         }
-
-
-        g2d.dispose();
     }
 
 

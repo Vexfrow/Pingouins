@@ -2,10 +2,7 @@ package Controleur;
 
 import Interface.Fenetre;
 import Interface.GameBoard;
-import Model.Coup;
-import Model.Jeu;
-import Model.Pingouin;
-import Model.Position;
+import Model.*;
 import Vue.AdaptateurSourisPlateau;
 import Vue.BanquiseGraphique;
 import Vue.CollecteurEvenements;
@@ -18,7 +15,7 @@ public class Controleur implements CollecteurEvenements {
     private GameBoard plateauJeu;
 
 //    private ToastMessage toastMessage;
-    private Jeu jeu;
+    private JeuAvance jeu;
 
     int phaseJeu;
 
@@ -89,7 +86,7 @@ public class Controleur implements CollecteurEvenements {
         plateauJeu.getBq().addMouseListener(new AdaptateurSourisPlateau(plateauJeu.getBq(), this));
     }
 
-    public void setJeu(Jeu j){
+    public void setJeu(JeuAvance j){
         jeu = j;
     }
 
