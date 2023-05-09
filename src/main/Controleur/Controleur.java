@@ -18,7 +18,6 @@ public class Controleur implements CollecteurEvenements {
 
     int info;
 
-    //int etat;
 
     public Controleur(){
         jeu = null;
@@ -54,7 +53,6 @@ public class Controleur implements CollecteurEvenements {
                 if (jeu.getEtat() == JeuAvance.ETAT_PLACEMENTP) {
                     joueCoupPhase1(plateauJeu.getBq().getCoordFromNumber(i));
                 } else if(jeu.getEtat() == JeuAvance.ETAT_SELECTIONP || jeu.getEtat() == JeuAvance.ETAT_CHOIXC){
-                    System.out.println("Test cellule");
                     joueCoupPhase2(plateauJeu.getBq().getCoordFromNumber(i));
                     if(jeu.getSelection())
                         info = i;
