@@ -22,5 +22,10 @@ public interface CollecteurEvenements {
 
     void toggleHelp();
 
+    void togglePause();
+
+    int getEtatBackPane();
+
+
 
 }

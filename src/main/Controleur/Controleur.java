@@ -1,5 +1,5 @@
 package Controleur;
-
+import Interface.MenuP;
 import Interface.Fenetre;
 import Interface.GameBoard;
 import Model.Coup;
@@ -16,7 +16,6 @@ public class Controleur implements CollecteurEvenements {
 
     private Fenetre window;
     private GameBoard plateauJeu;
-
     private Jeu jeu;
 
     int phaseJeu;
@@ -41,13 +40,26 @@ public class Controleur implements CollecteurEvenements {
     }
 
     public void toggleHelp(){
-        this.window.workingPane.toggleBackingPane();
+        if(window.workingPane.actuel instanceof MenuP){
+            window.getMenu().activateButton();
+        }
+        this.window.workingPane.switchBackPane(1);
+        this.window.workingPane.toggleBackingPane(1);
+
+
+
+    }
+
+    public void togglePause(){
+        this.window.workingPane.toggleBackingPane(2);
+        this.window.workingPane.switchBackPane(2);
 
     }
 
     public void switchSel(){window.switchPanel(2);}
 
     public void switchMenu(){
+        window.getMenu().activateButton();
         window.switchPanel(1);
     }
 
@@ -134,5 +146,10 @@ public class Controleur implements CollecteurEvenements {
         }
 
     }
+
+    public int getEtatBackPane(){
+        return this.window.workingPane.getEtatofBackPane();
+    }
+
 
 }

@@ -6,6 +6,8 @@ import Vue.CollecteurEvenements;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class GameBoard extends JPanel {
@@ -54,6 +56,12 @@ public class GameBoard extends JPanel {
         JButton bSuggestion = new JButton("Suggestion");
 
         boutonPanel.add(bPause);
+        bPause.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                collecteur.togglePause();
+            }
+        });
         boutonPanel.add(bSuggestion);
 
         menuGame.add(boutonPanel);

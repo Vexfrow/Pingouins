@@ -45,6 +45,9 @@ public class Selection extends JPanel {
         return neoImg;
     }
 
+
+
+
     public void setSelection(){
         valide.setPreferredSize(new Dimension(200, 80));
         valide.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -88,11 +91,11 @@ public class Selection extends JPanel {
         gbc.weightx = 1;
         gbc.weighty = 3;
 
-        IconeSelection p1 = new IconeSelection(Color.BLUE, 100);
+        IconeSelection p1 = new IconeSelection(Color.RED, 100);
         this.add(p1, gbc);
 
         gbc.gridx = 1;
-        IconeSelection p2 = new IconeSelection(Color.RED, 100);
+        IconeSelection p2 = new IconeSelection(Color.BLUE, 100);
         this.add(p2, gbc);
 
         gbc.gridx = 2;

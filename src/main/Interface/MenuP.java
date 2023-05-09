@@ -40,6 +40,10 @@ public class MenuP extends JPanel {
         menu = new JLabel();
         this.setLayout(layout);
 
+        ImageIcon c = new ImageIcon(hint);
+        System.out.println(c.getIconWidth() + " h -> " + c.getIconHeight());
+        regles.setPreferredSize(new Dimension(c.getIconWidth(), c.getIconHeight() ));
+
         setMenu();
 
 
@@ -125,8 +129,8 @@ public class MenuP extends JPanel {
         regles.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                toggleButtons();
                 c.toggleHelp();
+                toggleButtons();
             }
         });
 
@@ -151,7 +155,15 @@ public class MenuP extends JPanel {
         tutoriel.setEnabled(!tutoriel.isEnabled());
         partiePersonnalisee.setEnabled(!partiePersonnalisee.isEnabled());
         partieRapide.setEnabled(!partieRapide.isEnabled());
+        regles.setEnabled(!regles.isEnabled());
+    }
 
+    public void activateButton(){
+        chargerPartie.setEnabled(true);
+        tutoriel.setEnabled(true);
+        partiePersonnalisee.setEnabled(true);
+        partieRapide.setEnabled(true);
+        regles.setEnabled(true);
     }
 
     public Image reScale(Dimension d, Image img){
@@ -163,9 +175,10 @@ public class MenuP extends JPanel {
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         ImageIcon c = new ImageIcon(hint);
-        regles.setPreferredSize(new Dimension(c.getIconWidth(), c.getIconHeight()));
+        //System.out.println(regles.getSize());
         regles.setLocation(getSize().width - c.getIconWidth(), getSize().height - c.getIconHeight());
         regles.setIcon(c);
+
     }
 
 }

@@ -37,10 +37,6 @@ public class Fenetre implements Runnable {
         this.menu = new MenuP(this.c);
         this.selection = new Selection(this.c);
 
-        jeu = new JeuAvance(2);
-        this.gameBoard = new GameBoard(jeu, c);
-
-
     }
 
     public void run(){
@@ -49,7 +45,7 @@ public class Fenetre implements Runnable {
         jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jf.setMinimumSize(new Dimension(800, 600));
 
-        workingPane = new WorkingPane(this.gameBoard);
+        workingPane = new WorkingPane(this.menu, this.c);
         jf.add(workingPane);
         jf.setVisible(true);
     }
@@ -65,6 +61,9 @@ public class Fenetre implements Runnable {
                 this.selection.changeIcon();
                 break;
             case 3:
+                this.jeu = new JeuAvance(2);
+                gameBoard = new GameBoard(jeu, c);
+                c.setJeu(jeu);
                 this.workingPane.changePanel(this.gameBoard);
 
             default:
@@ -72,6 +71,10 @@ public class Fenetre implements Runnable {
                 break;
         }
 
+    }
+
+    public MenuP getMenu(){
+        return this.menu;
     }
 
 
