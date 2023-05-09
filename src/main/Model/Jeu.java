@@ -17,6 +17,7 @@ public class Jeu{
 
     protected int joueurCourant = 1;  // En supposant que c'est le joueur 1 qui commence compris entre 1 et nbJoueur-1 inclus
 
+
     public boolean jeuTermine(){
         
         ArrayList<Pingouin> p = new ArrayList<>();
@@ -36,6 +37,7 @@ public class Jeu{
         return termine;
     }
 
+
     /*
      * Annonce si le pinguoin est bloqué (true) ou non (false)
      */
@@ -49,6 +51,7 @@ public class Jeu{
     public boolean pingouinTousPlace(){
         return (nbPingouinPlace == 0);
     }
+
 
     public boolean pingouinPresent(int l,int c){
         return (getCase(l,c).pingouinPresent()!= 0);
@@ -85,6 +88,7 @@ public class Jeu{
         int nbCases = 0;
         int l =0;
         int c =0;
+
         while( l < this.nbLignes){
             if( l%2 ==1 ){
                 c = 0;
@@ -97,6 +101,7 @@ public class Jeu{
             }
             l++;
         }
+
         return nbCases;
     }
 
@@ -110,6 +115,7 @@ public class Jeu{
         return this.listeJoueur;
     }
 
+
     public Cases getCase(int ligne, int colonne){
         if(coordValideTab(ligne, colonne)){
             if( ligne%2 ==1 ){
@@ -122,6 +128,7 @@ public class Jeu{
             return null;
         }
     }
+
 
     public void setCase(Cases cases, int ligne, int colonne){
         if(this.nbLignes > ligne && ligne >=0 && this.nbColonnes > colonne && colonne >= 0){
@@ -138,13 +145,51 @@ public class Jeu{
         }
     }
 
+
     public int getJoueur(){
         return joueurCourant;
     }
 
+
+    //switchJoueur si le joueur ne peut pas joueur
     public void switchJoueur(){
+
+        /*
+
+        idée : soit faire dans cette fonction ou soit declarer une nouvelle fonction et regarder à chaque fois que l'on appelle sxitch joueur si il faut ou nn switch le joueur
+        idée 2 à privilégier ???????
+
+
+        ArrayList<Pingouin> pingJoueur = new ArrayList<>();
+
+        //recup joueur courant
+        Joueur joueur= listeJoueur.get(joueurCourant-1);
+
+        //init liste des pingouisn avec la liste des pingouins
+        pingJoueur = joueur.getListePingouin();
+
+
+        boolean passeTour =true;
+        int i =0;
+
+
+        while(i< nbPingouinJoueur && passeTour){
+            passeTour = estPingouinBloque(pingJoueur.get(i));
+        }
+        
+        if(passeTour){
+            joueurCourant = (joueurCourant % nbJoueur) + 1;
+        }
+        
+
+
+
+        */
+
         joueurCourant = (joueurCourant % nbJoueur) + 1;
+
     }
+
 
     public boolean peutJouer(Coup cp){
 
@@ -160,25 +205,15 @@ public class Jeu{
             index++;    
         }
 
-
-
         Joueur j = listeJoueur.get(joueurCourant-1);
         ArrayList<Pingouin> p = new ArrayList<>();
         p = j.listePingouin;
-
-        //BUG ICI
 
         int k =0;
         while(k <p.size() && p.get(k).equals(cp.getPingouin())){
             k++;
             System.out.println(p.get(k));
         }
-
-        //System.out.println("K  "+ index);
-        //System.out.println("TAILLE PINGOUIN  "+ p.size());
-
-        //RIEN DANS LA LISTE DE PINGOUIN DU JOUEUR
-
 
         boolean bonPinguoin = false;
         
@@ -187,6 +222,7 @@ public class Jeu{
         } else {
             System.out.println("Le pingouin choisit n'est pas déplacable pour le moment");
         }
+
         return (index != casesAccessible.size() && bonPinguoin);
     }
 
