@@ -1,9 +1,6 @@
 package Vue;
 
-import Model.Jeu;
-import Model.Cases;
-import Model.Pingouin;
-import Model.Position;
+import Model.*;
 
 
 import javax.imageio.ImageIO;
@@ -20,11 +17,6 @@ import java.util.Objects;
 
 public class BanquiseGraphique extends JComponent {
 
-    public final static int ETAT_INITIAL = 0; //Etat de base
-    public final static int ETAT_PLACEMENTP = 1; //Highlight sur les hexagones disponibles pour placer le pingouin
-    public final static int ETAT_SELECTIONP = 2; //Highlight sur les pingouins que le joueur peut utiliser
-    public final static int ETAT_CHOIXC = 3;//Highlight sur les hexagones disponibles pour déplacer le pingouin choisi
-
     BufferedImage hPoisson1, hPoisson2, hPoisson3, hVide;
     BufferedImage hPingouinR1, hPingouinR2, hPingouinR3;
     BufferedImage hPingouinB1, hPingouinB2, hPingouinB3;
@@ -36,12 +28,12 @@ public class BanquiseGraphique extends JComponent {
     int etat;
     int hexagone;
 
-    private Jeu jeu;
+    private JeuAvance jeu;
     private ArrayList<Shape> plateau;
 
-    public BanquiseGraphique(Jeu jeu) {
+    public BanquiseGraphique(JeuAvance jeu) {
         this.jeu = jeu;
-        this.etat = ETAT_INITIAL;
+        this.etat = jeu.getEtat();
 
         Rectangle r = new Rectangle(0,0, 750, 750);
         paintFont = new TexturePaint(chargeImage("fondMer"),r);
@@ -118,10 +110,15 @@ public class BanquiseGraphique extends JComponent {
     }
 
 
-    public void misAJour(Jeu jeu, int etat, int info) {
+    public void misAJour(JeuAvance jeu, int info) {
         this.jeu = jeu;
-        this.etat = etat;
+        this.etat = jeu.getEtat();
         this.hexagone = info;
+        repaint();
+    }
+
+    public void misAJour(JeuAvance jeu) {
+        this.jeu = jeu;
         repaint();
     }
 
@@ -169,7 +166,6 @@ public class BanquiseGraphique extends JComponent {
     }
 
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setPaint(paintFont);
@@ -181,10 +177,10 @@ public class BanquiseGraphique extends JComponent {
         ArrayList<Position> listHexagone = null;
         ArrayList<Position> listPingouinPos = null;
 
-        if(etat == ETAT_CHOIXC) {
+        if(etat == JeuAvance.ETAT_CHOIXC) {
             Position infoP = getCoordFromNumber(hexagone);
             listHexagone = jeu.getCaseAccessible(infoP.x, infoP.y);
-        }else if(etat == ETAT_SELECTIONP){
+        }else if(etat == JeuAvance.ETAT_SELECTIONP){
             ArrayList<Pingouin> listPingouin = jeu.getListeJoueur().get(jeu.getJoueur()-1).listePingouin;
             listPingouinPos = new ArrayList<>();
             for(Pingouin p : listPingouin){
@@ -200,11 +196,11 @@ public class BanquiseGraphique extends JComponent {
             Cases c = jeu.getCase(coordHexa.x, coordHexa.y);
             Shape cell = plateau.get(i);
 
-            if(etat == ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0){
+            if(etat == JeuAvance.ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0){
                 bfi = getTexturedImage(getBfi(c), cell, true);
-            }else if(etat == ETAT_CHOIXC && Objects.requireNonNull(listHexagone).contains(coordHexa)){
+            }else if(etat == JeuAvance.ETAT_CHOIXC && Objects.requireNonNull(listHexagone).contains(coordHexa)){
                 bfi = getTexturedImage(getBfi(c), cell, true);
-            }else if(etat == ETAT_SELECTIONP && Objects.requireNonNull(listPingouinPos).contains(coordHexa)){
+            }else if(etat == JeuAvance.ETAT_SELECTIONP && Objects.requireNonNull(listPingouinPos).contains(coordHexa)){
                 bfi = getTexturedImage(getBfi(c), cell, true);
             }else{
                 bfi = getTexturedImage(getBfi(c), cell, false);
@@ -213,9 +209,6 @@ public class BanquiseGraphique extends JComponent {
             g2d.drawImage(bfi, cell.getBounds().x, cell.getBounds().y, null);
 
         }
-
-
-        g2d.dispose();
     }
 
 

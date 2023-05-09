@@ -25,7 +25,7 @@ public class Jeu{
 
     public Jeu(Cases[][] terrain, ArrayList<Joueur> ar, int l, int c, int j, int pj, int pp, int jc){
         terrainCourant = clonerTerrain(terrain);
-        listeJoueur = new ArrayList<Joueur>();
+        listeJoueur = new ArrayList<>();
         for(int i =0; i < ar.size(); i++){
             listeJoueur.add(ar.get(i).cloner());
         }
@@ -202,7 +202,7 @@ public class Jeu{
                 return terrainCourant[ligne][colonne*2+1];
             }
         } else {
-            System.out.println("impossible de récuperer la case ligne: "+ligne+ ", colonne:"+colonne + "");
+            System.out.println("impossible de récuperer la case ligne: "+ligne+ ", colonne:"+colonne);
             return null;
         }
     }
@@ -218,19 +218,19 @@ public class Jeu{
         //recup joueur courant
         Joueur joueur = listeJoueur.get(joueurCourant-1);
 
-        //init liste des pingouisn avec la liste des pingouins
+        //init liste des pingouins avec la liste des pingouins
         pingJoueur = joueur.getListePingouin();
 
         int i =0;
-        boolean passeTour = true;
+        boolean passeTour = (pingJoueur.size()!=0);
 
         while(i< pingJoueur.size() && passeTour){
             passeTour = estPingouinBloque(pingJoueur.get(i));
+            i++;
         }
         
         //Attention à la récursivité ici ??
-        if(passeTour && jeuTermine()){
-
+        if(passeTour && !jeuTermine()){
             System.out.println("Switch joueur bloqué");
             switchJoueur();
         }
@@ -245,7 +245,7 @@ public class Jeu{
         ArrayList<Position> casesAccessible = getCaseAccessible(cp.getPingouin().getLigne(), cp.getPingouin().getColonne());
         int index = 0;
 
-        while( index <casesAccessible.size() && (casesAccessible.get(index).x !=ligne || casesAccessible.get(index).y != colonne)){
+        while( index < casesAccessible.size() && (casesAccessible.get(index).x !=ligne || casesAccessible.get(index).y != colonne)){
             index++;    
         }
 
@@ -445,6 +445,7 @@ public class Jeu{
     public boolean peutPlacer(int i, int j){
         return(getCase(i,j).pingouinPresent() == 0 && getCase(i,j).getNbPoissons() == 1);
     }
+
 /*
     public String toString(){
         String result = "Plateau:\n[";
