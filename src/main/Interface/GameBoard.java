@@ -27,7 +27,7 @@ public class GameBoard extends JPanel {
     private ArrayList<JTextArea> listScore;
 
 
-    GameBoard(JeuAvance j, CollecteurEvenements c){
+    public GameBoard(JeuAvance j, CollecteurEvenements c){
         bq = new BanquiseGraphique(j);
         gamePanel = new JPanel();
         menuGame = new JPanel();
@@ -46,6 +46,7 @@ public class GameBoard extends JPanel {
         setMenuGame();
         setGamePanel();
     }
+
 
 
 

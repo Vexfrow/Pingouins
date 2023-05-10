@@ -43,6 +43,7 @@ public class Fenetre implements Runnable {
         ar.add(new Joueur(1,0,0,true));
         ar.add(new Joueur(2,0,0,true));
         jeu = new JeuAvance(ar);
+        //jeu = new JeuAvance(2);
         this.gameBoard = new GameBoard(jeu, c);
 
 
@@ -82,6 +83,10 @@ public class Fenetre implements Runnable {
 
     public MenuP getMenu(){
         return this.menu;
+    }
+
+    public void setGameBoard(GameBoard gb){
+        gameBoard = gb;
     }
 
 
