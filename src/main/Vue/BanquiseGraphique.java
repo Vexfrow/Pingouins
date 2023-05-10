@@ -2,7 +2,6 @@ package Vue;
 
 import Model.*;
 
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +25,6 @@ public class BanquiseGraphique extends JComponent {
     TexturePaint paintFont;
 
     int etat;
-    int hexagone;
 
     private JeuAvance jeu;
     private ArrayList<Shape> plateau;
@@ -75,7 +73,7 @@ public class BanquiseGraphique extends JComponent {
     }
 
 
-    public static BufferedImage getTexturedImage(BufferedImage src, Shape shp, boolean redTaint) {
+    public static BufferedImage getTexturedImage(BufferedImage src, Shape shp, boolean highlight) {
         Rectangle r = shp.getBounds();
 
         //On récupère une version redimensionnée de l'image
@@ -87,8 +85,8 @@ public class BanquiseGraphique extends JComponent {
         //On remplace la nouvelle image par la version redimensionnée de l'image que l'on souhaite mettre
         buffered.getGraphics().drawImage(imageTmp, 0, 0, null);
 
-        if(redTaint){
-            Color c = new Color(200,0,0,100);
+        if(highlight){
+            Color c = new Color(251,241,28,100);
             for (int x = 0; x < buffered.getWidth(); x++) {
                 for (int y = 0; y < buffered.getHeight(); y++) {
                     Color pixelColor = new Color(buffered.getRGB(x, y), true);
@@ -110,15 +108,9 @@ public class BanquiseGraphique extends JComponent {
     }
 
 
-    public void misAJour(JeuAvance jeu, int info) {
-        this.jeu = jeu;
-        this.etat = jeu.getEtat();
-        this.hexagone = info;
-        repaint();
-    }
-
     public void misAJour(JeuAvance jeu) {
         this.jeu = jeu;
+        this.etat = jeu.getEtat();
         repaint();
     }
 
@@ -178,10 +170,10 @@ public class BanquiseGraphique extends JComponent {
         ArrayList<Position> listPingouinPos = null;
 
         if(etat == JeuAvance.ETAT_CHOIXC) {
-            Position infoP = getCoordFromNumber(hexagone);
+            Position infoP = jeu.getSelectionP();
             listHexagone = jeu.getCaseAccessible(infoP.x, infoP.y);
         }else if(etat == JeuAvance.ETAT_SELECTIONP){
-            ArrayList<Pingouin> listPingouin = jeu.getListeJoueur().get(jeu.getJoueur()-1).listePingouin;
+            ArrayList<Pingouin> listPingouin = jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).listePingouin;
             listPingouinPos = new ArrayList<>();
             for(Pingouin p : listPingouin){
                 listPingouinPos.add(new Position(p.getLigne(), p.getColonne()));
@@ -225,18 +217,32 @@ public class BanquiseGraphique extends JComponent {
                 bfi = hPoisson3;
         } else if (c.pingouinPresent() == 1) {
             if (c.getNbPoissons() == 1)
-                bfi = hPingouinR1;
-            else if (c.getNbPoissons() == 2)
-                bfi = hPingouinR2;
-            else if (c.getNbPoissons() == 3)
-                bfi = hPingouinR3;
-        } else if (c.pingouinPresent() == 2) {
-            if (c.getNbPoissons() == 1)
                 bfi = hPingouinB1;
             else if (c.getNbPoissons() == 2)
                 bfi = hPingouinB2;
             else if (c.getNbPoissons() == 3)
                 bfi = hPingouinB3;
+        } else if (c.pingouinPresent() == 2) {
+            if (c.getNbPoissons() == 1)
+                bfi = hPingouinR1;
+            else if (c.getNbPoissons() == 2)
+                bfi = hPingouinR2;
+            else if (c.getNbPoissons() == 3)
+                bfi = hPingouinR3;
+        } else if (c.pingouinPresent() == 3) {
+            if (c.getNbPoissons() == 1)
+                bfi = hPingouinV1;
+            else if (c.getNbPoissons() == 2)
+                bfi = hPingouinV2;
+            else if (c.getNbPoissons() == 3)
+                bfi = hPingouinV3;
+        } else if (c.pingouinPresent() == 4) {
+            if (c.getNbPoissons() == 1)
+                bfi = hPingouinJ1;
+            else if (c.getNbPoissons() == 2)
+                bfi = hPingouinJ2;
+            else if (c.getNbPoissons() == 3)
+                bfi = hPingouinJ3;
         }
         return bfi;
     }

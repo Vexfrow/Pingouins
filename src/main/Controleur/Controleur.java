@@ -4,7 +4,6 @@ import Interface.Fenetre;
 import Interface.GameBoard;
 import Model.*;
 import Vue.AdaptateurSourisPlateau;
-import Vue.BanquiseGraphique;
 import Vue.CollecteurEvenements;
 
 import java.awt.*;
@@ -13,18 +12,13 @@ public class Controleur implements CollecteurEvenements {
 
     private Fenetre window;
     private GameBoard plateauJeu;
-
     private JeuAvance jeu;
-
-    int info;
 
 
     public Controleur(){
         jeu = null;
         window = null;
         plateauJeu = null;
-        info = 0;
-
     }
 
     //change est a true si il faut toggle la backingPane
@@ -73,16 +67,12 @@ public class Controleur implements CollecteurEvenements {
                     joueCoupPhase1(plateauJeu.getBq().getCoordFromNumber(i));
                 } else if(jeu.getEtat() == JeuAvance.ETAT_SELECTIONP || jeu.getEtat() == JeuAvance.ETAT_CHOIXC){
                     joueCoupPhase2(plateauJeu.getBq().getCoordFromNumber(i));
-                    if(jeu.getSelection())
-                        info = i;
-                    else
-                        info = jeu.getJoueur();
 
                 }else if (jeu.getEtat() == JeuAvance.ETAT_FINAL){
-                    System.out.println("Test etat final");
+                    System.out.println("Test état final");
                 }
 
-                plateauJeu.misAJour(jeu, info);
+                plateauJeu.misAJour(jeu);
                 break;
             }
         }
@@ -114,7 +104,7 @@ public class Controleur implements CollecteurEvenements {
 
     private void joueCoupPhase2(Position p) {
         if(!jeu.getSelection()){
-            if(jeu.pingouinPresent(p.x, p.y) && jeu.getCase(p.x, p.y).pingouinPresent() == jeu.getJoueur()){
+            if(jeu.pingouinPresent(p.x, p.y) && jeu.getCase(p.x, p.y).pingouinPresent() == jeu.getJoueurCourant()){
                 jeu.setSelectionP(p);
             }
         }else{

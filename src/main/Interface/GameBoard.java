@@ -1,6 +1,5 @@
 package Interface;
 
-import Model.Jeu;
 import Model.JeuAvance;
 import Vue.BanquiseGraphique;
 import Vue.CollecteurEvenements;
@@ -58,8 +57,8 @@ public class GameBoard extends JPanel {
         bPause.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jeu.annule();
-                misAJour();
+//                jeu.annule();
+//                misAJour();
             }
         });
         JButton bSuggestion = new JButton("Suggestion");
@@ -67,8 +66,8 @@ public class GameBoard extends JPanel {
         bSuggestion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jeu.refaire();
-                misAJour();
+//                jeu.refaire();
+//                misAJour();
             }
         });
 
@@ -85,20 +84,52 @@ public class GameBoard extends JPanel {
 
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
 
-            JTextArea jta = new JTextArea("Score Joueur "+(i+1)+" : \n\t"+ jeu.getListeJoueur().get(i).getScore() + "\n\t" +jeu.getListeJoueur().get(i).getNbCasesMange());
-
+            JTextArea jta = new JTextArea("Joueur "+(i+1)+" : \nNombre de poissons : "+ jeu.getListeJoueur().get(i).getScore() + "\nNombre de cases : " +jeu.getListeJoueur().get(i).getNbCasesMange());
+            jta.setEditable(false);
+            if(i == 3)
+                jta.setForeground(Color.BLACK);
+            else
+                jta.setForeground(Color.WHITE);
             switch (i) {
-                case 0 -> jta.setBackground(Color.red);
-                case 1 -> jta.setBackground(Color.blue);
-                case 2 -> jta.setBackground(Color.green);
-                case 3 -> jta.setBackground(Color.yellow);
+                case 0 -> jta.setBackground(new Color(0xEC1C24));
+                case 1 -> jta.setBackground(new Color(0x3F48CC));
+                case 2 -> jta.setBackground(new Color(0x0ED145));
+                case 3 -> jta.setBackground(new Color(0xFFF200));
             }
             jta.setWrapStyleWord(true);
             listScore.add(jta);
             menuGame.add(jta);
         }
 
-        menuGame.setBackground(Color.blue);
+
+
+        JButton bAnnuler = new JButton("Annuler");
+
+        bAnnuler.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jeu.annule();
+                misAJour();
+            }
+        });
+
+        JButton bRefaire = new JButton("Refaire");
+
+        bRefaire.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jeu.refaire();
+                misAJour();
+            }
+        });
+        JPanel boutonPanel2 = new JPanel();
+        boutonPanel2.setLayout(new BoxLayout(boutonPanel2, BoxLayout.X_AXIS));
+
+        boutonPanel2.add(bAnnuler);
+        boutonPanel2.add(bRefaire);
+
+        menuGame.add(boutonPanel2);
+
     }
 
 
@@ -109,17 +140,37 @@ public class GameBoard extends JPanel {
     }
 
 
-    public void misAJour(JeuAvance j,  int hexagone){
+    public void misAJour(JeuAvance j){
         jeu = j;
+
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
-            listScore.get(i).setText("Score Joueur "+(i+1)+" : \n\t"+ jeu.getListeJoueur().get(i).getScore() + "\n\t" +jeu.getListeJoueur().get(i).getNbCasesMange());
+            listScore.get(i).setText("Joueur "+(i+1)+" : \nNombre de poissons : "+ jeu.getListeJoueur().get(i).getScore() + "\nNombre de cases : " +jeu.getListeJoueur().get(i).getNbCasesMange());
         }
-        bq.misAJour(jeu, hexagone);
+
+
+        String message;
+        ToastComponent tc = null;
+        if(j.getEtat() == JeuAvance.ETAT_SELECTIONP) {
+            message = "C'est au tour du joueur " + j.getJoueurCourant() + " de jouer";
+            tc = new ToastComponent(message, getWidth() / 2 - 20, 0);
+        }else if(j.getEtat() == JeuAvance.ETAT_FINAL){
+            message = "Partie terminé";
+            tc = new ToastComponent(message, getWidth()/2-20, 0);
+        }else if(j.getEtat() == JeuAvance.ETAT_PLACEMENTP){
+            message = "C'est au tour du joueur " + j.getJoueurCourant() + " de placer un pingouin";
+            tc = new ToastComponent(message, getWidth()/2-20, 0);
+        }
+
+        if(tc != null)
+            tc.showtoast();
+
+
+        bq.misAJour(jeu);
     }
 
     public void misAJour(){
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
-            listScore.get(i).setText("Score Joueur "+(i+1)+" : \n\t"+ jeu.getListeJoueur().get(i).getScore() + "\n\t" +jeu.getListeJoueur().get(i).getNbCasesMange());
+            listScore.get(i).setText("Joueur "+(i+1)+" : \nNombre de poissons : "+ jeu.getListeJoueur().get(i).getScore() + "\nNombre de cases : " +jeu.getListeJoueur().get(i).getNbCasesMange());
         }
         bq.misAJour(jeu);
     }
