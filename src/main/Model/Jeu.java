@@ -125,7 +125,7 @@ public class Jeu{
 
 
     public boolean placePingouin(int l, int c){
-        int joueurCourant = getJoueur();
+        int joueurCourant = getJoueurCourant();
         Joueur joueur = listeJoueur.get(joueurCourant-1);
 
         if( (joueur.listePingouin.size() < nbPingouinJoueur) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1 && !pingouinTousPlace()){
@@ -208,11 +208,6 @@ public class Jeu{
     }
 
 
-    public int getJoueur(){
-        return joueurCourant;
-    }
-
-
     //switchJoueur si le joueur ne peut pas joueur
     public void switchJoueur(){
 
@@ -236,7 +231,7 @@ public class Jeu{
         
         //Attention à la récursivité ici ??
         if(passeTour && !jeuTermine()){
-            System.out.println("Switch joueur bloqué");
+            //System.out.println("Switch joueur bloqué");
             switchJoueur();
         }
 
@@ -244,7 +239,6 @@ public class Jeu{
 
 
     public boolean peutJouer(Coup cp){
-
         int ligne = cp.getLigne();
         int colonne = cp.getColonne();
 
@@ -267,13 +261,13 @@ public class Jeu{
 
         boolean bonPinguoin = false;
 
-        if(k<p.size() && p.get(k).equals(cp.getPingouin())){
+        if(k<p.size() ){
             bonPinguoin = true;
         } else {
             System.out.println("Le pingouin choisit n'est pas déplacable pour le moment");
         }
 
-        return (index != casesAccessible.size() && bonPinguoin);
+        return (index != casesAccessible.size() && bonPinguoin && nbPingouinPlace == 0);
     }
 
 
@@ -360,7 +354,7 @@ public class Jeu{
     public void joue(Coup cp){
         int l = cp.getLigne();   //Coord ou le pingouin doit aller
         int c = cp.getColonne(); //Coord ou le pingouin doit aller
-        int joueurCourant = getJoueur();
+        int joueurCourant = getJoueurCourant();
 
         if (peutJouer(cp)){
             Cases caseArrive = getCase(l,c);
@@ -381,7 +375,7 @@ public class Jeu{
             caseArrive.setPingouin(joueurCourant);
             switchJoueur();
         } else {
-            System.out.println("Impossible de jouer");
+            System.out.println("Jeu: joue() - Impossible de jouer");
         }
     }
 

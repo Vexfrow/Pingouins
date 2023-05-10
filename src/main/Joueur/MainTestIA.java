@@ -7,15 +7,18 @@ import Model.Position;
 import Model.Cases;
 import Model.Pingouin;
 import java.util.ArrayList;
+
 import Joueur.IAAleatoire;
 import Joueur.IAJoueur;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 
 public class MainTestIA{
 
 
     public static void main(String[] args){
-        testerIA(100);
+        testerIA(200);
     }
 
     public static void testerIA(int nbPartie){
@@ -50,6 +53,7 @@ public class MainTestIA{
                    j.switchJoueur();
                 }else{
                     j.joue(cp);
+                    //System.out.println( "j1 JOUE ");
                 }
 
 
@@ -59,6 +63,7 @@ public class MainTestIA{
                    j.switchJoueur();
                 }else{
                     j.joue(cp);
+                    //System.out.println( "j2 JOUE ");
                 }
 
 
@@ -66,12 +71,15 @@ public class MainTestIA{
 
             if(j.getScore(1) > j.getScore(2)){
                 winj1++;
+                System.out.println( "j1 gagne ");
             }else if(j.getScore(1) < j.getScore(2)){
                 winj2++;
+                System.out.println( "j2 gagne ");
             }
             i++;
         }
         System.out.println( "j1 gagne: "+ winj1+ "   j2 gagne: "+ winj2);
+        System.out.println("j1 gagne avec " + (winj1*100)/(winj2 + winj1)+"% de chance" +"\nj2 gagne avec " + (winj2*100)/(winj2 + winj1)+"% de chance");
 
     }
 

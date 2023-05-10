@@ -173,7 +173,7 @@ public class BanquiseGraphique extends JComponent {
             Position infoP = jeu.getSelectionP();
             listHexagone = jeu.getCaseAccessible(infoP.x, infoP.y);
         }else if(etat == JeuAvance.ETAT_SELECTIONP){
-            ArrayList<Pingouin> listPingouin = jeu.getListeJoueur().get(jeu.getJoueur()-1).listePingouin;
+            ArrayList<Pingouin> listPingouin = jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).listePingouin;
             listPingouinPos = new ArrayList<>();
             for(Pingouin p : listPingouin){
                 listPingouinPos.add(new Position(p.getLigne(), p.getColonne()));
