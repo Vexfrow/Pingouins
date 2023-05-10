@@ -67,7 +67,7 @@ public class JeuAvance extends Jeu{
                 i++;
             }
 
-            //intit le nombre de pingouin a placer et le nombre de pingouin par joueur
+            //init le nombre de pingouins à placer et le nombre de pingouins par joueur
             initNbPingouins(nbJoueur);
 
             terrainInitiale = new Cases[nbLignes][nbColonnes];

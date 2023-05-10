@@ -147,24 +147,6 @@ public class GameBoard extends JPanel {
             listScore.get(i).setText("Joueur "+(i+1)+" : \nNombre de poissons : "+ jeu.getListeJoueur().get(i).getScore() + "\nNombre de cases : " +jeu.getListeJoueur().get(i).getNbCasesMange());
         }
 
-
-        String message;
-        ToastComponent tc = null;
-        if(j.getEtat() == JeuAvance.ETAT_SELECTIONP) {
-            message = "C'est au tour du joueur " + j.getJoueurCourant() + " de jouer";
-            tc = new ToastComponent(message, getWidth() / 2 - 20, 0);
-        }else if(j.getEtat() == JeuAvance.ETAT_FINAL){
-            message = "Partie terminé";
-            tc = new ToastComponent(message, getWidth()/2-20, 0);
-        }else if(j.getEtat() == JeuAvance.ETAT_PLACEMENTP){
-            message = "C'est au tour du joueur " + j.getJoueurCourant() + " de placer un pingouin";
-            tc = new ToastComponent(message, getWidth()/2-20, 0);
-        }
-
-        if(tc != null)
-            tc.showtoast();
-
-
         bq.misAJour(jeu);
     }
 

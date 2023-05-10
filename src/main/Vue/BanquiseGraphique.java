@@ -73,20 +73,14 @@ public class BanquiseGraphique extends JComponent {
     }
 
 
-    public static BufferedImage getTexturedImage(BufferedImage src, Shape shp, boolean highlight) {
+    public static BufferedImage highlightImage (BufferedImage src, Shape shp, boolean highlight) {
         Rectangle r = shp.getBounds();
-
-        //On récupère une version redimensionnée de l'image
-        Image imageTmp = src.getScaledInstance((int) r.getWidth(), (int) r.getHeight(), BufferedImage.SCALE_FAST);
 
         //On crée une nouvelle image bufferisé
         BufferedImage buffered = new BufferedImage((int) r.getWidth(), (int) r.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
-        //On remplace la nouvelle image par la version redimensionnée de l'image que l'on souhaite mettre
-        buffered.getGraphics().drawImage(imageTmp, 0, 0, null);
-
         if(highlight){
-            Color c = new Color(251,241,28,100);
+            Color c = new Color(0xE7B8F4);
             for (int x = 0; x < buffered.getWidth(); x++) {
                 for (int y = 0; y < buffered.getHeight(); y++) {
                     Color pixelColor = new Color(buffered.getRGB(x, y), true);
@@ -100,8 +94,6 @@ public class BanquiseGraphique extends JComponent {
             }
         }
 
-
-        src.getGraphics().dispose();
         buffered.getGraphics().dispose();
 
         return buffered;
@@ -184,21 +176,21 @@ public class BanquiseGraphique extends JComponent {
 
         for (int i = 0; i < plateau.size(); i++) {
 
-            Position coordHexa = getCoordFromNumber(i);
+            Position coordHexa = getPosFromNumber(i);
             Cases c = jeu.getCase(coordHexa.x, coordHexa.y);
             Shape cell = plateau.get(i);
 
-            if(etat == JeuAvance.ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0){
-                bfi = getTexturedImage(getBfi(c), cell, true);
-            }else if(etat == JeuAvance.ETAT_CHOIXC && Objects.requireNonNull(listHexagone).contains(coordHexa)){
-                bfi = getTexturedImage(getBfi(c), cell, true);
-            }else if(etat == JeuAvance.ETAT_SELECTIONP && Objects.requireNonNull(listPingouinPos).contains(coordHexa)){
-                bfi = getTexturedImage(getBfi(c), cell, true);
-            }else{
-                bfi = getTexturedImage(getBfi(c), cell, false);
-            }
+//            if(etat == JeuAvance.ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0){
+//                bfi = getTexturedImage(getBfi(c), cell, true);
+//            }else if(etat == JeuAvance.ETAT_CHOIXC && Objects.requireNonNull(listHexagone).contains(coordHexa)){
+//                bfi = getTexturedImage(getBfi(c), cell, true);
+//            }else if(etat == JeuAvance.ETAT_SELECTIONP && Objects.requireNonNull(listPingouinPos).contains(coordHexa)){
+//                bfi = getTexturedImage(getBfi(c), cell, true);
+//            }else{
+//                bfi = getTexturedImage(getBfi(c), cell, false);
+//            }
 
-            g2d.drawImage(bfi, cell.getBounds().x, cell.getBounds().y, null);
+            g2d.drawImage(getBfi(c), cell.getBounds().x, cell.getBounds().y, cell.getBounds().width, cell.getBounds().height, null);
 
         }
     }
@@ -217,18 +209,18 @@ public class BanquiseGraphique extends JComponent {
                 bfi = hPoisson3;
         } else if (c.pingouinPresent() == 1) {
             if (c.getNbPoissons() == 1)
-                bfi = hPingouinB1;
-            else if (c.getNbPoissons() == 2)
-                bfi = hPingouinB2;
-            else if (c.getNbPoissons() == 3)
-                bfi = hPingouinB3;
-        } else if (c.pingouinPresent() == 2) {
-            if (c.getNbPoissons() == 1)
                 bfi = hPingouinR1;
             else if (c.getNbPoissons() == 2)
                 bfi = hPingouinR2;
             else if (c.getNbPoissons() == 3)
                 bfi = hPingouinR3;
+        } else if (c.pingouinPresent() == 2) {
+            if (c.getNbPoissons() == 1)
+                bfi = hPingouinB1;
+            else if (c.getNbPoissons() == 2)
+                bfi = hPingouinB2;
+            else if (c.getNbPoissons() == 3)
+                bfi = hPingouinB3;
         } else if (c.pingouinPresent() == 3) {
             if (c.getNbPoissons() == 1)
                 bfi = hPingouinV1;
@@ -253,7 +245,7 @@ public class BanquiseGraphique extends JComponent {
     }
 
 
-    public Position getCoordFromNumber(int number){
+    public Position getPosFromNumber(int number){
         int i = 0;
         int j =0;
 

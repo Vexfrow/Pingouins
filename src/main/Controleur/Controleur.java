@@ -63,9 +63,9 @@ public class Controleur implements CollecteurEvenements {
 
             if (cell.contains(coupX, coupY)) {
                 if (jeu.getEtat() == JeuAvance.ETAT_PLACEMENTP) {
-                    joueCoupPhase1(plateauJeu.getBq().getCoordFromNumber(i));
+                    joueCoupPhase1(plateauJeu.getBq().getPosFromNumber(i));
                 } else if(jeu.getEtat() == JeuAvance.ETAT_SELECTIONP || jeu.getEtat() == JeuAvance.ETAT_CHOIXC){
-                    joueCoupPhase2(plateauJeu.getBq().getCoordFromNumber(i));
+                    joueCoupPhase2(plateauJeu.getBq().getPosFromNumber(i));
 
                 }else if (jeu.getEtat() == JeuAvance.ETAT_FINAL){
                     System.out.println("Test état final");
