@@ -19,7 +19,14 @@ public class JeuAvance extends Jeu{
     protected Cases [][] terrainInitiale;
     protected ArrayList<Coup> coupJoue;
     protected ArrayList<Coup> coupAnnule;
+
+    //tableau pour stocker les scores de chaque joueur au chargement
     public int [] scoreSave;
+
+
+    //tableau pour récupere si les joeurs sont des IA ou non
+    public boolean [] IATab;
+
 
     private Position selectionP;
     private boolean selection;
@@ -32,9 +39,6 @@ public class JeuAvance extends Jeu{
 
     public JeuAvance(String name){
         try {
-            coupAnnule = new ArrayList<Coup>();
-            coupJoue = new ArrayList<Coup>();
-            listeJoueur = new ArrayList<Joueur>();
 
             FileReader reader = new FileReader(name);
             BufferedReader bufferedReader = new BufferedReader(reader);
@@ -50,6 +54,10 @@ public class JeuAvance extends Jeu{
             this.nbColonnes = Integer.parseInt(line);
             this.nbColonnes = nbColonnes*2+1; 
 
+
+            initArrays(nbJoueur);
+
+
             //récup le score des joueurs
             scoreSave = new int [nbJoueur];
 
@@ -58,11 +66,19 @@ public class JeuAvance extends Jeu{
                 scoreSave[i] = Integer.parseInt(line);
             }
 
+
+            //récup le type des joeurs (IA ou non)
+            for(int i=0; i<nbJoueur; i++){
+                line = bufferedReader.readLine();
+                IATab[i] = Boolean.parseBoolean(line);
+            }
+            
+
             Joueur player;
             int i = 1;
 
             while(i <= nbJoueur){
-                player = new Joueur(i,0,0);
+                player = new Joueur(i,0,0, IATab[i-1]);
                 listeJoueur.add(player);
                 i++;
             }
@@ -139,7 +155,7 @@ public class JeuAvance extends Jeu{
         this.terrainInitiale = clonerTerrain(terrainInitiale);
         this.terrainCourant = clonerTerrain(terrainInitiale);
 
-        initArrays();
+        initArrays(nbJoueur);
 
         initNbJoueur(nbJoueur);
 
@@ -160,7 +176,7 @@ public class JeuAvance extends Jeu{
         terrainInitiale = new Cases[nbLignes][nbColonnes*2-1];
         terrainCourant = new Cases[nbLignes][nbColonnes*2-1];
 
-        initArrays();
+        initArrays(nbJoueur);
 
         initNbJoueur(nbJoueur);
 
@@ -177,10 +193,38 @@ public class JeuAvance extends Jeu{
 
     }
 
+    //constructeru avec une liste de joueur
+    public JeuAvance(ArrayList<Joueur> ar, int nbLignes, int nbColonnes){
+
+        terrainInitiale = new Cases[nbLignes][nbColonnes*2-1];
+        terrainCourant = new Cases[nbLignes][nbColonnes*2-1];
+
+        initArrays(ar.size());
+
+        for(int i =0; i < ar.size(); i++){
+            listeJoueur.add(ar.get(i).cloner());
+
+            //stock si le joeur est une IA ou non
+            IATab[i] = ar.get(i).estIA();
+        }
+
+        initNbPingouins(ar.size());
+
+        this.nbColonnes = nbColonnes*2-1;
+        this.nbLignes = nbLignes;
+
+        terrainAleatoire(nbLignes, nbColonnes);
+
+        selection = false;
+        selectionP = null;
+        etat = ETAT_INITIAL;
+    
+    }
+
     public JeuAvance(Cases[][] terrain, ArrayList<Joueur> ar, int l, int c, int j, int pj, int pp, int jc){
         terrainCourant = clonerTerrain(terrain);
 
-        initArrays();
+        initArrays(ar.size());
 
         for(int i =0; i < ar.size(); i++){
             listeJoueur.add(ar.get(i).cloner());
@@ -204,18 +248,23 @@ public class JeuAvance extends Jeu{
         Joueur player;
 
         while(i <= nbJoueur){
-            player = new Joueur(i,0,0);
+            player = new Joueur(i,0,0, false);
             listeJoueur.add(player);
             i++;
+            //de base tous les joeurs ne sont pas des IAs
+            IATab[i-1] =false;
         }
+
         this.nbJoueur = nbJoueur;
     }
 
     //init les arrayLists de la classe
-    public void initArrays(){
+    public void initArrays(int nbJoueur){
         this.coupAnnule = new ArrayList<Coup>();
         this.coupJoue = new ArrayList<Coup>();
         this.listeJoueur = new ArrayList<Joueur>();
+
+        this.IATab = new boolean[nbJoueur];
     }
 
 
@@ -356,7 +405,7 @@ public class JeuAvance extends Jeu{
         }
     }
 
-    //bool IA a false pour chaque coup sauf pour IA
+
     public void joue(Coup cp){
         int l = cp.getLigne();   //Coord ou le pingouin doit aller
         int c = cp.getColonne(); //Coord ou le pingouin doit aller
@@ -387,7 +436,6 @@ public class JeuAvance extends Jeu{
                 coupJoue.add(cp);
                 coupAnnule = new ArrayList<Coup>();
             }
-
 
             switchJoueur();
             
@@ -513,6 +561,13 @@ public class JeuAvance extends Jeu{
             for(int i=0; i<nbJoueur; i++){
                 w.write(listeJoueur.get(i).getScore() + "\n");
             }
+
+
+            //stock le type des joueurs (IA ou non)
+            for(int i=0; i<nbJoueur; i++){
+                w.write(IATab+ "\n");
+            }
+            
 
             //stocker tout le terrain
             String result = "";

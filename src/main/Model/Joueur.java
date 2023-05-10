@@ -7,22 +7,27 @@ public class Joueur {
     private int numeroJoueur;
     private int score;
     private int nbCasesMange;
+
+    //vrai si joueur est une IA faux sinon par défaut faux
+    private boolean IA;
+
     public ArrayList<Pingouin> listePingouin;
 
     // Constructeur de joueur
     // Pour initialiser un joueur, on appelle avec score = 0
-    Joueur(int numeroJoueur, int score, int nbCasesMange){
+    Joueur(int numeroJoueur, int score, int nbCasesMange, boolean IA){
 
         this.numeroJoueur = numeroJoueur;
         this.score = score;
         this.nbCasesMange = nbCasesMange;
+        this.IA = IA;
         listePingouin = new ArrayList<Pingouin>();//init la liste des pingouins
     }
 
 
 
     public Joueur cloner(){
-        Joueur joueur = new Joueur(numeroJoueur, score, nbCasesMange);
+        Joueur joueur = new Joueur(numeroJoueur, score, nbCasesMange, IA);
         ArrayList<Pingouin> listePing = new ArrayList<Pingouin>();
         Pingouin pingouinPrefere;
         int i = 0;
@@ -48,6 +53,10 @@ public class Joueur {
 
     public int getNbCasesMange() {
         return nbCasesMange;
+    }
+
+    public boolean estIA(){
+        return IA;
     }
 
 
@@ -85,12 +94,14 @@ public class Joueur {
         this.nbCasesMange = nbCasesMange;
     }
 
+    public void setIA(boolean IA){
+        this.IA = IA;
+    }
 
     //afficher un joueur
     @Override
     public String toString() {
         return "Joueur = " + getNumeroJoueur() + ", score = " + getScore() + ", nombre cases mangés = " + getNbCasesMange() +", Pingouins  = " + getListePingouin().toString() ;
     }
-
     
 }
