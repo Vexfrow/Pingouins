@@ -37,7 +37,7 @@ public class Fenetre implements Runnable {
         this.menu = new MenuP(this.c);
         this.selection = new Selection(this.c);
 
-        jeu = new JeuAvance(4);
+        jeu = new JeuAvance(2);
         this.gameBoard = new GameBoard(jeu, c);
 
 
@@ -65,6 +65,7 @@ public class Fenetre implements Runnable {
                 this.selection.changeIcon();
                 break;
             case 3:
+
                 this.workingPane.changePanel(this.gameBoard);
                 break;
             default:
@@ -76,6 +77,10 @@ public class Fenetre implements Runnable {
 
     public MenuP getMenu(){
         return this.menu;
+    }
+
+    public void setGameBoard(GameBoard gb){
+        gameBoard = gb;
     }
 
 

@@ -125,9 +125,10 @@ public class Controleur implements CollecteurEvenements {
         return this.window.workingPane.getEtatBackPane();
     }
 
-    public void toggleBackingPane(){
-        this.window.workingPane.toggleBackingPane();
+    public void newGame(int j) {
+        jeu = new JeuAvance(j);
+        plateauJeu = new GameBoard(jeu, this);
+        this.window.setGameBoard(plateauJeu);
     }
-
 
 }

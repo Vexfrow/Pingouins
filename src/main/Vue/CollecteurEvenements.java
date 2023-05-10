@@ -27,8 +27,7 @@ public interface CollecteurEvenements {
 
     int getEtatBackPane();
 
-    void toggleBackingPane();
-
+    void newGame(int j);
 
 
 }
