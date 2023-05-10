@@ -2,7 +2,6 @@ package Model;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Jeu{
 
@@ -16,7 +15,7 @@ public class Jeu{
     protected int nbPingouinJoueur;
     protected int nbPingouinPlace;
 
-    protected int joueurCourant = 1;  // En supposant que c'est le joueur 1 qui commence compris entre 1 et nbJoueur-1 inclus
+    protected int joueurCourant = 1;  // En supposant que ce soit le joueur 1 qui commence compris entre 1 et nbJoueur-1 inclus
 
 
     public Jeu(){

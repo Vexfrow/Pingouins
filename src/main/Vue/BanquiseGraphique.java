@@ -231,18 +231,18 @@ public class BanquiseGraphique extends JComponent {
                 bfi = hPingouinR3;
         } else if (c.pingouinPresent() == 3) {
             if (c.getNbPoissons() == 1)
-                bfi = hPingouinJ1;
-            else if (c.getNbPoissons() == 2)
-                bfi = hPingouinJ2;
-            else if (c.getNbPoissons() == 3)
-                bfi = hPingouinJ3;
-        } else if (c.pingouinPresent() == 4) {
-            if (c.getNbPoissons() == 1)
                 bfi = hPingouinV1;
             else if (c.getNbPoissons() == 2)
                 bfi = hPingouinV2;
             else if (c.getNbPoissons() == 3)
                 bfi = hPingouinV3;
+        } else if (c.pingouinPresent() == 4) {
+            if (c.getNbPoissons() == 1)
+                bfi = hPingouinJ1;
+            else if (c.getNbPoissons() == 2)
+                bfi = hPingouinJ2;
+            else if (c.getNbPoissons() == 3)
+                bfi = hPingouinJ3;
         }
         return bfi;
     }
