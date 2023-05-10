@@ -289,13 +289,14 @@ public class Jeu{
         pingJoueur = joueur.getListePingouin();
 
         int i =0;
-        boolean passeTour = true;
+        boolean passeTour = (listeJoueur.get(joueurCourant-1).getListePingouin().size()!=0);
 
         while(i< pingJoueur.size() && passeTour){
             passeTour = estPingouinBloque(pingJoueur.get(i));
+            i++;
         }
         
-        if(passeTour && jeuTermine()){
+        if(passeTour && !jeuTermine()){
             if(!IA){
                 System.out.println("Switch joueur bloqué");
             }

@@ -193,6 +193,9 @@ public class JeuAvance extends Jeu{
 
     }
 
+    public JeuAvance(ArrayList<Joueur> ar){
+        this(ar, 8,8);
+    }
     //constructeru avec une liste de joueur
     public JeuAvance(ArrayList<Joueur> ar, int nbLignes, int nbColonnes){
 
@@ -200,6 +203,9 @@ public class JeuAvance extends Jeu{
         terrainCourant = new Cases[nbLignes][nbColonnes*2-1];
 
         initArrays(ar.size());
+
+        nbJoueur = ar.size();
+
 
         for(int i =0; i < ar.size(); i++){
             listeJoueur.add(ar.get(i).cloner());
@@ -250,9 +256,9 @@ public class JeuAvance extends Jeu{
         while(i <= nbJoueur){
             player = new Joueur(i,0,0, false);
             listeJoueur.add(player);
-            i++;
             //de base tous les joeurs ne sont pas des IAs
-            IATab[i-1] =false;
+            IATab[i-1] = false;
+            i++;
         }
 
         this.nbJoueur = nbJoueur;

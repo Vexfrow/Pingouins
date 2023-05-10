@@ -20,6 +20,8 @@ public class GameBoard extends JPanel {
 
     CollecteurEvenements collecteur;
 
+    Label messageTour;
+
     JeuAvance jeu;
 
     private ArrayList<JTextArea> listScore;
@@ -29,6 +31,7 @@ public class GameBoard extends JPanel {
         bq = new BanquiseGraphique(j);
         gamePanel = new JPanel();
         menuGame = new JPanel();
+        messageTour = new Label();
 
         listScore = new ArrayList<>();
 
@@ -81,6 +84,11 @@ public class GameBoard extends JPanel {
         boutonPanel.add(bSuggestion);
 
         menuGame.add(boutonPanel);
+
+        messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant());
+
+        menuGame.add(messageTour);
+
 
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
 
@@ -142,11 +150,10 @@ public class GameBoard extends JPanel {
 
     public void misAJour(JeuAvance j){
         jeu = j;
-
+        messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant());
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
             listScore.get(i).setText("Joueur "+(i+1)+" : \nNombre de poissons : "+ jeu.getListeJoueur().get(i).getScore() + "\nNombre de cases : " +jeu.getListeJoueur().get(i).getNbCasesMange());
         }
-
         bq.misAJour(jeu);
     }
 

@@ -8,11 +8,11 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class BanquiseGraphique extends JComponent {
 
@@ -21,6 +21,15 @@ public class BanquiseGraphique extends JComponent {
     BufferedImage hPingouinB1, hPingouinB2, hPingouinB3;
     BufferedImage hPingouinV1, hPingouinV2, hPingouinV3;
     BufferedImage hPingouinJ1, hPingouinJ2, hPingouinJ3;
+
+    BufferedImage hPoisson1hR, hPoisson2hR, hPoisson3hR;
+    BufferedImage hPoisson1hB, hPoisson2hB, hPoisson3hB;
+    BufferedImage hPoisson1hV, hPoisson2hV, hPoisson3hV;
+    BufferedImage hPoisson1hJ, hPoisson2hJ, hPoisson3hJ;
+    BufferedImage hPingouinR1h, hPingouinR2h, hPingouinR3h;
+    BufferedImage hPingouinB1h, hPingouinB2h, hPingouinB3h;
+    BufferedImage hPingouinV1h, hPingouinV2h, hPingouinV3h;
+    BufferedImage hPingouinJ1h, hPingouinJ2h, hPingouinJ3h;
 
     TexturePaint paintFont;
 
@@ -58,6 +67,38 @@ public class BanquiseGraphique extends JComponent {
         hPingouinJ2 = chargeImage("caseJaune2");
         hPingouinJ3 = chargeImage("caseJaune3");
 
+        hPoisson1hR = chargeImage("casePoissons1");
+        hPoisson2hR = chargeImage("casePoissons2");
+        hPoisson3hR = chargeImage("casePoissons3");
+
+        hPoisson1hB = chargeImage("casePoissons1");
+        hPoisson2hB = chargeImage("casePoissons2");
+        hPoisson3hB = chargeImage("casePoissons3");
+
+        hPoisson1hV = chargeImage("casePoissons1");
+        hPoisson2hV = chargeImage("casePoissons2");
+        hPoisson3hV = chargeImage("casePoissons3");
+
+        hPoisson1hJ = chargeImage("casePoissons1");
+        hPoisson2hJ = chargeImage("casePoissons2");
+        hPoisson3hJ = chargeImage("casePoissons3");
+
+        hPingouinR1h = chargeImage("caseRouge1");
+        hPingouinR2h = chargeImage("caseRouge2");
+        hPingouinR3h = chargeImage("caseRouge3");
+
+        hPingouinV1h = chargeImage("caseVert1");
+        hPingouinV2h = chargeImage("caseVert2");
+        hPingouinV3h = chargeImage("caseVert3");
+
+        hPingouinB1h = chargeImage("caseBleu1");
+        hPingouinB2h = chargeImage("caseBleu2");
+        hPingouinB3h = chargeImage("caseBleu3");
+
+        hPingouinJ1h = chargeImage("caseJaune1");
+        hPingouinJ2h = chargeImage("caseJaune2");
+        hPingouinJ3h = chargeImage("caseJaune3");
+
 
         plateau = new ArrayList<>(60);
     }
@@ -70,33 +111,6 @@ public class BanquiseGraphique extends JComponent {
             System.out.println("Fichier \"" + nom + "\" introuvable");
         }
         return null;
-    }
-
-
-    public static BufferedImage highlightImage (BufferedImage src, Shape shp, boolean highlight) {
-        Rectangle r = shp.getBounds();
-
-        //On crée une nouvelle image bufferisé
-        BufferedImage buffered = new BufferedImage((int) r.getWidth(), (int) r.getHeight(), BufferedImage.TYPE_INT_ARGB);
-
-        if(highlight){
-            Color c = new Color(0xE7B8F4);
-            for (int x = 0; x < buffered.getWidth(); x++) {
-                for (int y = 0; y < buffered.getHeight(); y++) {
-                    Color pixelColor = new Color(buffered.getRGB(x, y), true);
-                    int re = (pixelColor.getRed() + c.getRed()) / 2;
-                    int g = (pixelColor.getGreen() + c.getGreen()) / 2;
-                    int b = (pixelColor.getBlue() + c.getBlue()) / 2;
-                    int a = pixelColor.getAlpha();
-                    int rgba = (a << 24) | (re << 16) | (g << 8) | b;
-                    buffered.setRGB(x, y, rgba);
-                }
-            }
-        }
-
-        buffered.getGraphics().dispose();
-
-        return buffered;
     }
 
 
@@ -193,6 +207,7 @@ public class BanquiseGraphique extends JComponent {
             g2d.drawImage(getBfi(c), cell.getBounds().x, cell.getBounds().y, cell.getBounds().width, cell.getBounds().height, null);
 
         }
+
     }
 
 
@@ -266,6 +281,15 @@ public class BanquiseGraphique extends JComponent {
             number--;
         }
         return new Position(i,j);
+    }
+
+
+    public void sauvegardeBanquise(String nomFichier){
+        BufferedImage bi = new BufferedImage(this.getSize().width, this.getSize().height, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = bi.createGraphics();
+        this.paint(g);  //this == JComponent
+        g.dispose();
+        try{ImageIO.write(bi,"png",new File("resources/sauvegarde/"+nomFichier+".png"));}catch (Exception e) {}
     }
 
 

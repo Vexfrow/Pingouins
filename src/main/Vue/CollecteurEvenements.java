@@ -28,6 +28,8 @@ public interface CollecteurEvenements {
 
     void toggleBackingPane();
 
+    void startGame();
+
 
 
 }

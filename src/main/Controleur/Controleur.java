@@ -1,12 +1,19 @@
 package Controleur;
+
 import Interface.MenuP;
 import Interface.Fenetre;
 import Interface.GameBoard;
+import Joueur.IAJoueur;
+import Joueur.IAAleatoire;
+import Joueur.IATroisPoissons;
 import Model.*;
 import Vue.AdaptateurSourisPlateau;
 import Vue.CollecteurEvenements;
 
-import java.awt.*;
+import java.awt.Shape;
+import java.util.ArrayList;
+
+import static java.lang.Thread.sleep;
 
 public class Controleur implements CollecteurEvenements {
 
@@ -14,10 +21,14 @@ public class Controleur implements CollecteurEvenements {
     private GameBoard plateauJeu;
     private JeuAvance jeu;
 
+    private ArrayList<IAJoueur> listeIA;
+
     public Controleur(){
         jeu = null;
         window = null;
         plateauJeu = null;
+        listeIA = new ArrayList<>();
+
     }
 
     //change est a true si il faut toggle la backingPane
@@ -86,7 +97,8 @@ public class Controleur implements CollecteurEvenements {
 
     public void setJeu(JeuAvance j){
         jeu = j;
-        jeu.startGame();
+        listeIA.add(new IATroisPoissons(j));
+        listeIA.add(new IAAleatoire(j));
     }
 
     public void setInterface(Fenetre window){
@@ -98,6 +110,7 @@ public class Controleur implements CollecteurEvenements {
             jeu.placePingouin(p.x, p.y);
         else
             System.out.println("Peut pas placer ici");
+        joueCoup();
     }
 
 
@@ -117,6 +130,7 @@ public class Controleur implements CollecteurEvenements {
             }
             jeu.unsetSelectionP();
         }
+        joueCoup();
 
     }
 
@@ -128,5 +142,35 @@ public class Controleur implements CollecteurEvenements {
         this.window.workingPane.toggleBackingPane();
     }
 
+    public void startGame(){
+        jeu.startGame();
+        plateauJeu.getBq().misAJour(jeu);
+        joueCoup();
+    }
+
+
+    private void joueCoup(){
+        if(jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA()){
+            IAJoueur jia = listeIA.get(jeu.getJoueurCourant()-1);
+            System.out.println(jeu.getEtat());
+            if(jeu.getEtat() == JeuAvance.ETAT_PLACEMENTP){
+                System.out.println("Tdzdzest");
+                Position p = jia.elaborePlacement();
+                jeu.placePingouin(p.x,p.y);
+            }else{
+                Coup c = jia.elaboreCoup();
+                System.out.println("Coup = " + c + " ; plateau = " + jeu);
+                jeu.joue(c);
+            }
+            plateauJeu.misAJour(jeu);
+//            try {
+//                Thread.sleep(1000);
+//            }catch (InterruptedException e){
+//
+//            }
+            //joueCoup();
+        }
+
+    }
 
 }
