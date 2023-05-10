@@ -1,123 +1,22 @@
 package Model;
 
-
+import java.util.Arrays;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.ArrayList;
 
 public class JeuAvance extends Jeu{
 
-
-    private Cases [][] terrainInitiale;
-    private ArrayList<Coup> coupJoue;
-    private ArrayList<Coup> coupAnnule;
+    protected Cases [][] terrainInitiale;
+    protected ArrayList<Coup> coupJoue;
+    protected ArrayList<Coup> coupAnnule;
     public int [] scoreSave;
-
-
-
-    JeuAvance(String name){
-        try {
-            coupAnnule = new ArrayList<Coup>();
-            coupJoue = new ArrayList<Coup>();
-            listeJoueur = new ArrayList<Joueur>();
-
-            FileReader reader = new FileReader(name);
-            BufferedReader bufferedReader = new BufferedReader(reader);
-
-            String line;
-            line = bufferedReader.readLine();
-            this.nbJoueur = Integer.parseInt(line);
-
-            line = bufferedReader.readLine();
-            this.nbLignes = Integer.parseInt(line);
-            
-            line = bufferedReader.readLine();
-            this.nbColonnes = Integer.parseInt(line);
-            this.nbColonnes = nbColonnes*2+1; 
-
-            //récup le score des joueurs
-            scoreSave = new int [nbJoueur];
-
-            for(int i=0; i<nbJoueur; i++){
-                line = bufferedReader.readLine();
-                scoreSave[i] = Integer.parseInt(line);
-            }
     
-            Joueur player;
-            int i = 1;
+    //attribut pour la reflexion de l'IA
 
-            while(i <= nbJoueur){
-                player = new Joueur(i,0,0);
-                listeJoueur.add(player);
-                i++;
-            }
+    JeuAvance(){
 
-            //intit le nombre de pingouin a placer et le nombre de pingouin par joueur
-            initNbPingouins(nbJoueur);
-
-    		terrainInitiale = new Cases[nbLignes][nbColonnes];
-            terrainCourant = new Cases[nbLignes][nbColonnes];
-
-            int l =0;
-            int c =0;
-    		while ((line = bufferedReader.readLine()) != null && (!line.equals("b"))) {
-
-                String[] parts = line.split(", ");
-                c=0;
-                for(int m =0; m < parts.length; m++){
-                    if(!parts[m].equals("null")){
-                        Cases cases = new Cases(false, Integer.parseInt(parts[m]), 0);
-                        setCase(cases, l, c);
-                        c++;
-                    }
-                }
-                l++;
-    	    }
-            terrainInitiale = clonerTerrain(terrainCourant);
-            
-    		//recuprer tous les coups à jouer
-    		while ((line = bufferedReader.readLine()) != null && (!line.equals("b"))) {
-
-                //split la ligne
-                String[] parts = line.split(" ");
-
-                Pingouin ping = new Pingouin(Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
-
-                //definir un nouveau  coup
-                Coup cp = new Coup(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), ping , Boolean.parseBoolean(parts[4]));
-
-                System.out.println(cp);
-
-                if(Boolean.parseBoolean(parts[4])){
-                    placePingouin(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
-                }else{
-                    //jouer le coup
-                    joue(cp);
-                }
-    	    }
-
-    		//recuprere les dernieres lignes du fichier
-    		while ((line = bufferedReader.readLine()) != null && (!line.equals("b"))) {
-
-				String[] parts = line.split(" ");
-
-                Pingouin ping = new Pingouin(Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
-
-				Coup cp = new Coup(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), ping , Boolean.parseBoolean(parts[4]));
-
-				//ajoute le coup à l'arraylist annule
-				coupAnnule.add(cp);
-
-	        }
-
-    		reader.close();
-		} catch (IOException e) {
-			System.out.print("Erreur : " + e);
-		}
     }
 
 
@@ -125,29 +24,21 @@ public class JeuAvance extends Jeu{
         this(nbJoueur,8,8);
     }
 
-     //Constructeur pour la méthode annule
+
+    //Constructeur pour la méthode annule
     JeuAvance(Cases [][]terrainInitiale, int nbJoueur, int nbLigneTab, int nbColTab){
         this.terrainInitiale = clonerTerrain(terrainInitiale);
         this.terrainCourant = clonerTerrain(terrainInitiale);
 
-        coupAnnule = new ArrayList<Coup>();
-        coupJoue = new ArrayList<Coup>();
-        listeJoueur = new ArrayList<Joueur>();
+        initArrays();
 
-        Joueur player;
-        int i = 1;
-        while(i <= nbJoueur){
-            player = new Joueur(i,0,0);
-            listeJoueur.add(player);
-            i++;
-        }
+        initNbJoueur(nbJoueur);
 
         //intit le nombre de pingouin a placer et le nombre de pingouin par joueur
         initNbPingouins(nbJoueur);
 
         this.nbColonnes = nbColTab;
         this.nbLignes = nbLigneTab;
-        this.nbJoueur = nbJoueur;
 
     }
 
@@ -156,29 +47,69 @@ public class JeuAvance extends Jeu{
         terrainInitiale = new Cases[nbLignes][nbColonnes*2-1];
         terrainCourant = new Cases[nbLignes][nbColonnes*2-1];
 
-        coupAnnule = new ArrayList<Coup>();
-        coupJoue = new ArrayList<Coup>();
-        listeJoueur = new ArrayList<Joueur>();
+        initArrays();
 
-        Joueur player;
+        initNbJoueur(nbJoueur);
+
+        //intit le nombre de pingouin a placer et le nombre de pingouin par joueur
+        initNbPingouins(nbJoueur);
+
+        this.nbColonnes = nbColonnes*2-1;
+        this.nbLignes = nbLignes;
+        terrainAleatoire(nbLignes, nbColonnes);
+    }
+
+    public JeuAvance(Cases[][] terrain, ArrayList<Joueur> ar, int l, int c, int j, int pj, int pp, int jc){
+        terrainCourant = clonerTerrain(terrain);
+        listeJoueur = new ArrayList<Joueur>();
+        for(int i =0; i < ar.size(); i++){
+            listeJoueur.add(ar.get(i).cloner());
+        }
+
+        this.nbLignes = l; // taille du tableau
+        this.nbColonnes = c; // taille du tableau
+        this.nbJoueur = j;
+        this.nbPingouinJoueur = pj;
+        this.nbPingouinPlace = pp;
+        this.joueurCourant = jc;
+    }
+    
+    //init les joeurs et remplis la liste des joueurs
+    public void initNbJoueur(int nbJoueur){
         int i = 1;
+        Joueur player;
 
         while(i <= nbJoueur){
             player = new Joueur(i,0,0);
             listeJoueur.add(player);
             i++;
         }
-
-        //intit le nombre de pingouin a placer et le nombre de pingouin par joueur
-        initNbPingouins(nbJoueur);
-
         this.nbJoueur = nbJoueur;
-        this.nbColonnes = nbColonnes*2-1;
-        this.nbLignes = nbLignes;
-        terrainAleatoire(nbLignes, nbColonnes);
     }
-    
 
+    //init les arrayLists de la classe
+    public void initArrays(){
+        this.coupAnnule = new ArrayList<Coup>();
+        this.coupJoue = new ArrayList<Coup>();
+        this.listeJoueur = new ArrayList<Joueur>();
+    }
+
+
+    //Init les var nbPingouinJoeur et nbPingouinPlace
+    public void initNbPingouins(int nbJoueurs){
+        if(nbJoueurs == 2){
+            this.nbPingouinJoueur =4;
+            this.nbPingouinPlace = nbPingouinJoueur*2;
+        }else if (nbJoueurs == 3){
+            this.nbPingouinJoueur =3;
+            this.nbPingouinPlace = nbPingouinJoueur*3;
+        } else {
+            this.nbPingouinJoueur =2;
+            this.nbPingouinPlace = nbPingouinJoueur*4;
+        }
+    }
+
+    //cree un terrain avec nombre de poissons aléatoire
     public void terrainAleatoire(int nbLignes, int nbColonnes){
         int l = 0;
         int c,r;
@@ -213,6 +144,15 @@ public class JeuAvance extends Jeu{
     }
 
 
+    public ArrayList<Coup> getListeCoupsAnnules(){
+        return this.coupAnnule;
+    }
+
+    public ArrayList<Coup> getListeCoupsJoues(){
+        return this.coupJoue;
+    }
+
+
     public void setCase(Cases cases, int ligne, int colonne){
         if(this.nbLignes > ligne && ligne >=0 && this.nbColonnes > colonne && colonne >= 0){
             if( ligne%2 ==1 ){
@@ -222,28 +162,13 @@ public class JeuAvance extends Jeu{
                 terrainCourant[ligne][colonne*2+1] = cases;
                 terrainInitiale[ligne][colonne*2+1] = cases;
             }
-
         }else{
             System.out.println("impossible de mettre à jour la case ligne: " + ligne +", colonne:" + colonne );
         }
     }
 
-
-    public ArrayList<Coup> getListeCoupsAnnules(){
-        return this.coupAnnule;
-    }
-
     
-    public ArrayList<Coup> getListeCoupsJoues(){
-        return this.coupJoue;
-    }
-
-    public int quelJoueur(){
-        return joueurCourant;
-    }
-    
-
-
+    //bool IA vrai que pour les instances de l'IA : toujours false sinon
     public boolean placePingouin(int l, int c){
         int joueurCourant = getJoueur();
         Joueur joueur = listeJoueur.get(joueurCourant-1);
@@ -251,13 +176,19 @@ public class JeuAvance extends Jeu{
         if( (joueur.listePingouin.size() < nbPingouinJoueur) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1 && !pingouinTousPlace()){
             Pingouin ping = new Pingouin(l,c);
             joueur.listePingouin.add(ping);
+
             Cases cases = getCase(l,c);
             cases.setPingouin(joueurCourant);
+
             switchJoueur();
 
-            Coup cp = new Coup(l,c,ping,true);
-            coupJoue.add(cp);
-            coupAnnule = new ArrayList<Coup>();
+            //l'IA n'enregistre pas de coup lors de sa reflexion
+            if(!IA){
+                Coup cp = new Coup(l,c,ping,true);
+                coupJoue.add(cp);
+                coupAnnule = new ArrayList<Coup>();
+            }
+
             nbPingouinPlace--;
             return true;
 
@@ -265,7 +196,6 @@ public class JeuAvance extends Jeu{
             System.out.println("Impossible de placer le pingouin ici");
             return false;
         }
-
     }
 
 
@@ -282,21 +212,23 @@ public class JeuAvance extends Jeu{
             Cases cases = getCase(l,c);
             cases.setPingouin(joueurCourant);
             switchJoueur();
+
             Coup coup = new Coup(l,c,ping,true);
             coupJoue.add(coup);
             nbPingouinPlace--;
             return true;
+
         }else{
             System.out.println("Impossible de placer le pingouin ici");
             return false;
         }
     }
 
-
-    @Override
+    //bool IA a false pour chaque coup sauf pour IA
     public void joue(Coup cp){
         int l = cp.getLigne();   //Coord ou le pingouin doit aller
         int c = cp.getColonne(); //Coord ou le pingouin doit aller
+
         int joueurCourant = getJoueur();
 
         if (peutJouer(cp)){
@@ -315,15 +247,21 @@ public class JeuAvance extends Jeu{
 
             ping.setLigne(l);
             ping.setColonne(c);
+
             caseDep.setNbPoissons(0);
             caseArrive.setPingouin(joueurCourant);
-            coupJoue.add(cp);
-            coupAnnule = new ArrayList<Coup>();
+
+            //pour optimiser la réflexion de l'ia on ne stocke pas les coups
+            if(!IA){
+                coupJoue.add(cp);
+                coupAnnule = new ArrayList<Coup>();
+            }
+
+
             switchJoueur();
         }
         else {
             System.out.println("Impossible de jouer");
-            
         }
     }
 
@@ -338,9 +276,11 @@ public class JeuAvance extends Jeu{
         if (peutJouer(cp)){
             Cases caseArrive = getCase(l,c);
             Joueur joueur = listeJoueur.get(joueurCourant-1);
+
             Pingouin ping = cp.getPingouin();
             ping = joueur.getPingouin(ping);
 
+            //diff
             //conservaton d'ou vient le pingouin
             cp.getPingouin().setLigne(ping.getLigne());
             cp.getPingouin().setColonne(ping.getColonne());
@@ -402,9 +342,6 @@ public class JeuAvance extends Jeu{
     }
 
 
-    /*
-     * Refait le dernier coup précédement annulé
-     */
     public void refaire(){
         if(peutRefaire()){
             Coup cp = coupAnnule.get(coupAnnule.size()-1);
@@ -414,48 +351,36 @@ public class JeuAvance extends Jeu{
                 joueAnnuler(coupAnnule.get(coupAnnule.size()-1));
                 coupJoue.add(cp);
             }
-            
             coupAnnule.remove(coupAnnule.size()-1);
         }
     }
 
-    /*
-     * Init les var nbPingouinJoeur et nbPingouinPlace
-     */
-    public void initNbPingouins(int nbJoueurs){
-        if(nbJoueurs == 2){
-            this.nbPingouinJoueur =4;
-            this.nbPingouinPlace = nbPingouinJoueur*2;
-        }else if (nbJoueurs == 3){
-            this.nbPingouinJoueur =3;
-            this.nbPingouinPlace = nbPingouinJoueur*3;
-        } else {
-            this.nbPingouinJoueur =2;
-            this.nbPingouinPlace = nbPingouinJoueur*4;
-        }
+
+    public JeuAvance toJeu(){
+        return (new JeuAvance(this.terrainCourant, this.listeJoueur, this.nbLignes, this.nbColonnes, this.nbJoueur,
+         this.nbPingouinJoueur, this.nbPingouinPlace, this.joueurCourant));
+        
     }
 
-    /*
-     * Sauvegarde du jeu avec un nom de fichier
-     */
+    //Sauvegarde du jeu avec un nom de fichier
     public void sauvegarder(String name){
         try {
 
-			FileWriter w = new FileWriter(name);
-			
+            FileWriter w = new FileWriter(name);
+            
+            //stocker les infos de bases
             w.write(nbJoueur + "\n");
-			w.write(nbLignes + "\n");
-			w.write(((nbColonnes-1)/2) + "\n");
+            w.write(nbLignes + "\n");
+            w.write(((nbColonnes-1)/2) + "\n");
 
             //stock le score des joueurs
-
             for(int i=0; i<nbJoueur; i++){
                 w.write(listeJoueur.get(i).getScore() + "\n");
             }
 
-            
+            //stocker tout le terrain
             String result = "";
-		    String sep = "";
+            String sep = "";
             String tmp = "";
 
             for (int i=0; i<terrainCourant.length; i++) {
@@ -466,33 +391,33 @@ public class JeuAvance extends Jeu{
 
             w.write(result + "\n");
 
-            //marque pour indiquer que la suite sont des coups annules
-			w.write("b\n");
+            //marque pour indiquer que la suite sont des coups joués
+            w.write("b\n");
 
-			int tailleList = coupJoue.size();
+            //enregistrer tous les coups joués
+            int tailleList = coupJoue.size();
+            for(int i = 0; i< tailleList; i++) {
+                w.write(coupJoue.get(i).getLigne() + " "+ coupJoue.get(i).getColonne()  + " " + coupJoue.get(i).getPingouin().getLigne()+ " " + coupJoue.get(i).getPingouin().getColonne() + " " + coupJoue.get(i).estPlace() + "\n");
+            }
 
-			for(int i = 0; i< tailleList; i++) {
-				w.write(coupJoue.get(i).getLigne() + " "+ coupJoue.get(i).getColonne()  + " " + coupJoue.get(i).getPingouin().getLigne()+ " " + coupJoue.get(i).getPingouin().getColonne() + " " + coupJoue.get(i).estPlace() + "\n");
-			}
+            w.write("b\n");
 
-			w.write("b\n");
+            //enregistrer tous les coups annulés
+            int tailleLista = coupAnnule.size();
+            for(int i = 0; i< tailleLista; i++) {
+                w.write(coupAnnule.get(i).getLigne() + " "+ coupAnnule.get(i).getColonne() + " " + coupAnnule.get(i).getPingouin().getColonne()+ " " + coupAnnule.get(i).getPingouin().getLigne() + " " + coupJoue.get(i).estPlace() +"\n");
+            }
 
-			int tailleLista = coupAnnule.size();
-			for(int i = 0; i< tailleLista; i++) {
-				w.write(coupAnnule.get(i).getLigne() + " "+ coupAnnule.get(i).getColonne() + " " + coupAnnule.get(i).getPingouin().getColonne()+ " " + coupAnnule.get(i).getPingouin().getLigne() + " " + coupJoue.get(i).estPlace() +"\n");
-			}
-
-			w.close();
-		} catch (IOException e) {
-			System.out.print("Erreur : " + e);
-		}
+            w.close();
+        } catch (IOException e) {
+            System.out.print("Erreur : " + e);
+        }
     }
 
-
-    public Jeu toJeu(){
-        return (new Jeu(this.terrainCourant, this.listeJoueur, this.nbLignes, this.nbColonnes, this.nbJoueur,
-         this.nbPingouinJoueur, this.nbPingouinPlace, this.joueurCourant));
-        
+    public JeuAvance cloner(){
+        JeuAvance j = new JeuAvance(this.terrainCourant, this.listeJoueur, this.nbLignes, this.nbColonnes, this.nbJoueur,
+         this.nbPingouinJoueur, this.nbPingouinPlace, this.joueurCourant);
+        return j;
     }
 
 
@@ -508,5 +433,4 @@ public class JeuAvance extends Jeu{
 				"\n- peut refaire : " + peutRefaire();
 		return result;
     }
-
 }

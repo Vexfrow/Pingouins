@@ -6,16 +6,16 @@ import java.util.ArrayList;
 
 public class Configuration{
 
-    public Jeu jeu;
+    public JeuAvance jeu;
     public Coup coup;
 
 
-    Configuration(Jeu jeu, Coup coup){
+    Configuration(JeuAvance jeu, Coup coup){
         this.jeu = jeu;
         this.coup = coup;
     }
 
-    Configuration(Jeu jeu){
+    Configuration(JeuAvance jeu){
         this.jeu = jeu;
     }
 
@@ -27,7 +27,7 @@ public class Configuration{
         //System.out.println("\non entre dans Coupfils");
         Configuration neo = config.cloner();
         Configuration prochainConfig; 
-        ArrayList<Pingouin> alp = neo.jeu.getListeJoueur().get(neo.jeu.getJoueurCourant()-1).getListePingouin();
+        ArrayList<Pingouin> alp = neo.jeu.getListeJoueur().get(neo.jeu.getJoueur()-1).getListePingouin();
         ArrayList<Position> positionList;
         ArrayList<Configuration> configList = new ArrayList<Configuration>();
         for(int i = 0; i < alp.size(); i++){

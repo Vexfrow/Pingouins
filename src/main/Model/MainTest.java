@@ -11,28 +11,28 @@ public class MainTest {
 
         
         // Placement des pingouins 
-        System.out.println("Au tour de " + j.quelJoueur() + "\nPlacement pingouin en (0,0)");
+        System.out.println("Au tour de " + j.getJoueur() + "\nPlacement pingouin en (0,0)");
         j.placePingouin(0, 0);
         System.out.println("\n" + j.toString() + "\n");
         System.out.println(j.getListeJoueur());
         System.out.println("Liste coupJoue: " + j.getListeCoupsJoues());
 
         // Annule refait
-        System.out.println("\nAu tour de " + j.quelJoueur());
+        System.out.println("\nAu tour de " + j.getJoueur());
         System.out.println("Annule coup");
         j.annule();
         System.out.println("\n" + j.toString() + "\n");
         System.out.println(j.getListeJoueur());
         System.out.println("Liste coupJoue: " + j.getListeCoupsJoues());
 
-        System.out.println("\nAu tour de " + j.quelJoueur());
+        System.out.println("\nAu tour de " + j.getJoueur());
         System.out.println("Refais coup");
         j.refaire();
         System.out.println("\n" + j.toString() + "\n");
         System.out.println(j.getListeJoueur());
         System.out.println("Liste coupJoue: " + j.getListeCoupsJoues());
 
-        System.out.println("\n Au tour de " + j.quelJoueur() + "\nPlacement pingouin en (1,0)");
+        System.out.println("\n Au tour de " + j.getJoueur() + "\nPlacement pingouin en (1,0)");
         j.placePingouin(1, 0);
         System.out.println("\n" + j.toString() + "\n");
         System.out.println(j.getListeJoueur());
@@ -123,13 +123,13 @@ public class MainTest {
 
 
 
-        //j.sauvegarder("test.txt");
+        j.sauvegarder("test.txt");
         
         System.out.println("\n\n");
 
         
         //refaire un jeu avec sauvegarde
-        JeuAvance j2 = new JeuAvance("test.txt");
+        JeuSauvegarde j2 = new JeuSauvegarde("test.txt");
         System.out.println(j2.toString());
 
 

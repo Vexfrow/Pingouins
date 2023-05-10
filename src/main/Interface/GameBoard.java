@@ -1,6 +1,6 @@
 package Interface;
 
-import Model.Jeu;
+import Model.JeuAvance;
 import Vue.BanquiseGraphique;
 import Vue.CollecteurEvenements;
 
@@ -18,12 +18,12 @@ public class GameBoard extends JPanel {
 
     CollecteurEvenements collecteur;
 
-    Jeu jeu;
+    JeuAvance jeu;
 
     private ArrayList<JTextArea> listScore;
 
 
-    GameBoard(Jeu j, CollecteurEvenements c){
+    GameBoard(JeuAvance j, CollecteurEvenements c){
         bq = new BanquiseGraphique(j);
         gamePanel = new JPanel();
         menuGame = new JPanel();
@@ -84,7 +84,7 @@ public class GameBoard extends JPanel {
     }
 
 
-    public void misAJour(Jeu j, int etat, int hexagone){
+    public void misAJour(JeuAvance j, int etat, int hexagone){
         jeu = j;
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
             System.out.println(i);
