@@ -145,13 +145,13 @@ public class GameBoard extends JPanel {
         String message;
         ToastComponent tc = null;
         if(j.getEtat() == JeuAvance.ETAT_SELECTIONP) {
-            message = "C'est au tour du joueur " + j.getJoueur() + " de jouer";
+            message = "C'est au tour du joueur " + j.getJoueurCourant() + " de jouer";
             tc = new ToastComponent(message, getWidth() / 2 - 20, 0);
         }else if(j.getEtat() == JeuAvance.ETAT_FINAL){
             message = "Partie terminé";
             tc = new ToastComponent(message, getWidth()/2-20, 0);
         }else if(j.getEtat() == JeuAvance.ETAT_PLACEMENTP){
-            message = "C'est au tour du joueur " + j.getJoueur() + " de placer un pingouin";
+            message = "C'est au tour du joueur " + j.getJoueurCourant() + " de placer un pingouin";
             tc = new ToastComponent(message, getWidth()/2-20, 0);
         }
 
