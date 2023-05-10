@@ -231,7 +231,7 @@ public class Jeu{
         
         //Attention à la récursivité ici ??
         if(passeTour && !jeuTermine()){
-            System.out.println("Switch joueur bloqué");
+            //System.out.println("Switch joueur bloqué");
             switchJoueur();
         }
 

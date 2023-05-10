@@ -189,3 +189,9 @@ j2 gagne
 j2 gagne 
 j2 gagne 
 j2 gagne 
+j2 gagne 
+j2 gagne 
+j2 gagne 
+j2 gagne 
+j1 gagne 
+j1 gagne: 15   j2 gagne: 181

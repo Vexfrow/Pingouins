@@ -57,7 +57,7 @@ public class Controleur implements CollecteurEvenements {
                     if(jeu.getSelection())
                         info = i;
                     else
-                        info = jeu.getJoueur();
+                        info = jeu.getJoueurCourant();
 
                 }else if (jeu.getEtat() == JeuAvance.ETAT_FINAL){
                     System.out.println("Test etat final");
@@ -95,7 +95,7 @@ public class Controleur implements CollecteurEvenements {
 
     private void joueCoupPhase2(Position p) {
         if(!jeu.getSelection()){
-            if(jeu.pingouinPresent(p.x, p.y) && jeu.getCase(p.x, p.y).pingouinPresent() == jeu.getJoueur()){
+            if(jeu.pingouinPresent(p.x, p.y) && jeu.getCase(p.x, p.y).pingouinPresent() == jeu.getJoueurCourant()){
                 jeu.setSelectionP(p);
             }
         }else{
