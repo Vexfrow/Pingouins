@@ -3,6 +3,8 @@ package tests.Tests;
 import Model.JeuAvance;
 import Model.Cases;
 
+/* Programme test pour tout ce qui a trait au terrain */
+
 public class TestsTerrains {
 
     public static void main(String[] args){
