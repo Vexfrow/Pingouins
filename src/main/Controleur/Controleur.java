@@ -4,7 +4,6 @@ import Interface.Fenetre;
 import Interface.GameBoard;
 import Model.*;
 import Vue.AdaptateurSourisPlateau;
-import Vue.BanquiseGraphique;
 import Vue.CollecteurEvenements;
 
 import java.awt.*;
@@ -54,16 +53,12 @@ public class Controleur implements CollecteurEvenements {
                     joueCoupPhase1(plateauJeu.getBq().getCoordFromNumber(i));
                 } else if(jeu.getEtat() == JeuAvance.ETAT_SELECTIONP || jeu.getEtat() == JeuAvance.ETAT_CHOIXC){
                     joueCoupPhase2(plateauJeu.getBq().getCoordFromNumber(i));
-                    if(jeu.getSelection())
-                        info = i;
-                    else
-                        info = jeu.getJoueur();
 
                 }else if (jeu.getEtat() == JeuAvance.ETAT_FINAL){
-                    System.out.println("Test etat final");
+                    System.out.println("Test état final");
                 }
 
-                plateauJeu.misAJour(jeu, info);
+                plateauJeu.misAJour(jeu);
                 break;
             }
         }

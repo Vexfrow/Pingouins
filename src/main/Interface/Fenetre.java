@@ -37,7 +37,7 @@ public class Fenetre implements Runnable {
         this.menu = new MenuP(this.c);
         this.selection = new Selection(this.c);
 
-        jeu = new JeuAvance(2);
+        jeu = new JeuAvance(4);
         this.gameBoard = new GameBoard(jeu, c);
 
 

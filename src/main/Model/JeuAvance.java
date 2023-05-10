@@ -342,6 +342,11 @@ public class JeuAvance extends Jeu{
             coupJoue.add(cp);
             coupAnnule = new ArrayList<Coup>();
             switchJoueur();
+            
+            if(jeuTermine()){
+                etat = ETAT_FINAL;
+            }
+
         }
         else {
             System.out.println("Impossible de jouer");
