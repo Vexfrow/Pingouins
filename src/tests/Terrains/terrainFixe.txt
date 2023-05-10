@@ -5,6 +5,10 @@
 0
 0
 0
+false
+false
+false
+false
 null, 1, null, 2, null, 3, null, 2, null, 1, null, 2, null, 1, null
 2, null, 1, null, 3, null, 2, null, 2, null, 1, null, 2, null, 3
 null, 3, null, 2, null, 1, null, 3, null, 1, null, 1, null, 2, null

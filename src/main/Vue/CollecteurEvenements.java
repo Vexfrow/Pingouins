@@ -2,7 +2,6 @@ package Vue;
 
 import Interface.Fenetre;
 import Interface.GameBoard;
-import Model.Jeu;
 import Model.JeuAvance;
 
 public interface CollecteurEvenements {

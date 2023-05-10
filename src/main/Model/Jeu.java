@@ -15,9 +15,11 @@ public class Jeu{
     protected int nbPingouinJoueur;
     protected int nbPingouinPlace;
 
-    protected int joueurCourant = 1;  // En supposant que ce soit le joueur 1 qui commence compris entre 1 et nbJoueur-1 inclus
+    protected int joueurCourant = 1;  // En supposant que c'est le joueur 1 qui commence compris entre 1 et nbJoueur-1 inclus
+    protected boolean IA;
 
-
+    
+    //constructeur vide pour la classe fille
     public Jeu(){
 
     }
@@ -29,14 +31,12 @@ public class Jeu{
             listeJoueur.add(ar.get(i).cloner());
         }
 
-        nbLignes = l; // taille du tableau
-        nbColonnes = c; // taille du tableau
-
-        nbJoueur = j;
-        nbPingouinJoueur = pj;
-        nbPingouinPlace = pp;
-
-        joueurCourant = jc;
+        this.nbLignes = l; // taille du tableau
+        this.nbColonnes = c; // taille du tableau
+        this.nbJoueur = j;
+        this.nbPingouinJoueur = pj;
+        this.nbPingouinPlace = pp;
+        this.joueurCourant = jc;
     }
 
 
@@ -56,9 +56,7 @@ public class Jeu{
         this.nbPingouinJoueur = jeu.getNbPingouinJoueur();
         this.nbPingouinPlace = jeu.getNbPingouinPlace();
         this.joueurCourant = jeu.getJoueurCourant();
-
     }
-
 
     /*
      * True si le jeu est terminé False sinon
@@ -94,14 +92,13 @@ public class Jeu{
                     j.setNbCasesMange(j.getNbCasesMange() +1);
 
                     casesCourante.setMange(true);
-                    casesCourante.setNbPoissons(0);
+                    casesCourante.setNbPoissons(0); 
                 }
             }
         }
 
         return termine;
     }
-
 
     /*
      * Annonce si le pinguoin est bloqué (true) ou non (false)
@@ -111,131 +108,18 @@ public class Jeu{
         return (casesAccesible.size() == 0);
     }
 
-    
     //Annonce s'il reste des pingouin a placer
     public boolean pingouinTousPlace(){
         return (nbPingouinPlace == 0);
     }
 
-
     public boolean pingouinPresent(int l,int c){
         return (getCase(l,c).pingouinPresent()!= 0);
     }
 
-
-    public boolean placePingouin(int l, int c){
-        int joueurCourant = getJoueurCourant();
-        Joueur joueur = listeJoueur.get(joueurCourant-1);
-
-        if( (joueur.listePingouin.size() < nbPingouinJoueur) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1 && !pingouinTousPlace()){
-            Pingouin ping = new Pingouin(l,c);
-            joueur.listePingouin.add(ping);
-            Cases cases = getCase(l,c);
-            cases.setPingouin(joueurCourant);
-            switchJoueur();
-            nbPingouinPlace--;
-            return true;
-
-        }else{
-            System.out.println("Impossible de placer le pingouin ici");
-            return false;
-        }
-
+    public boolean peutPlacer(int i, int j){
+        return(getCase(i,j).pingouinPresent() == 0 && getCase(i,j).getNbPoissons() == 1);
     }
-
-
-    public int getScore(int joueur){
-        Joueur j = listeJoueur.get(joueur-1);
-        return j.getScore();
-    }
-
-    /*
-     * Donne le nombre de cases mangé par un joueur
-     */
-    public int getcasesMange(int joueur){
-        Joueur j = listeJoueur.get(joueur-1);
-        return j.getNbCasesMange();
-    }
-
-
-    public int getNbCases(){
-        int nbCases = 0;
-        int l =0;
-        int c =0;
-
-        while( l < this.nbLignes){
-            if( l%2 ==1 ){
-                c = 0;
-            }else{ 
-                c = 1;
-            }
-            while( c < this.nbColonnes){
-                nbCases++;
-                c+=2;
-            }
-            l++;
-        }
-
-        return nbCases;
-    }
-
-
-    public Cases [][] getTerrain(){
-        return this.terrainCourant;
-    }
-
-
-    public ArrayList<Joueur> getListeJoueur(){
-        return this.listeJoueur;
-    }
-
-
-    public Cases getCase(int ligne, int colonne){
-        int val = 0;
-        if (ligne%2==0)
-            val = 1;
-        if(coordValideTab(ligne, colonne*2+val)){
-            if( ligne%2 ==1 ){
-                return terrainCourant[ligne][colonne*2];
-            }else{
-                return terrainCourant[ligne][colonne*2+1];
-            }
-        } else {
-            System.out.println("impossible de récuperer la case ligne: "+ligne+ ", colonne:"+colonne);
-            return null;
-        }
-    }
-
-
-    //switchJoueur si le joueur ne peut pas joueur
-    public void switchJoueur(){
-
-        joueurCourant = (joueurCourant % nbJoueur) + 1;
-
-        ArrayList<Pingouin> pingJoueur = new ArrayList<>();
-
-        //recup joueur courant
-        Joueur joueur = listeJoueur.get(joueurCourant-1);
-
-        //init liste des pingouins avec la liste des pingouins
-        pingJoueur = joueur.getListePingouin();
-
-        int i =0;
-        boolean passeTour = (pingJoueur.size()!=0);
-
-        while(i< pingJoueur.size() && passeTour){
-            passeTour = estPingouinBloque(pingJoueur.get(i));
-            i++;
-        }
-        
-        //Attention à la récursivité ici ??
-        if(passeTour && !jeuTermine()){
-            //System.out.println("Switch joueur bloqué");
-            switchJoueur();
-        }
-
-    }
-
 
     public boolean peutJouer(Coup cp){
         int ligne = cp.getLigne();
@@ -269,152 +153,43 @@ public class Jeu{
         return (index != casesAccessible.size() && bonPinguoin && nbPingouinPlace == 0);
     }
 
-
     public boolean coordValideTab(int x,int y){
         return (x < this.nbLignes && x >= 0 && y < this.nbColonnes && y >= 0);
     }
 
-
-    public ArrayList<Position> getCaseAccessible(int i, int j){
-        int yInit, xInit, x, y;
-
-        Position position;
-        Cases cases;
-        if((i%2 ==0)){
-            yInit = j*2+1;
-        }else {
-            yInit = j*2;
-        }
-        xInit = i;
-        x = xInit;
-        y = yInit;
-        ArrayList<Position> caseAccessible = new ArrayList<Position>();
-
-        //gauche à droite
-        y+=2;
-        while(coordValideTab(x,y) && (cases = terrainCourant[x][y]) != null && !cases.estMange() && cases.pingouinPresent()==0){
-            position = new Position(x, y/2);
-            //ajout de la position de la case accesible
-            caseAccessible.add(position);
-            y = y+2;
-        }
-
-        //droite à gauche
-        y=yInit-2;
-        while(coordValideTab(x,y) && (cases = terrainCourant[x][y]) != null && !cases.estMange() && cases.pingouinPresent()==0){
-            position = new Position(x, y/2);
-            caseAccessible.add(position);
-            y = y-2;
-        }
-
-        //bas gauche
-        y = yInit -1;
-        x = xInit +1;
-        while(coordValideTab(x,y) && (cases = terrainCourant[x][y]) != null && !cases.estMange() && cases.pingouinPresent()==0){
-            position = new Position(x, y/2);
-            caseAccessible.add(position);
-            y--;
-            x++;
-        }
-
-        //bas droite
-        y = yInit +1;
-        x = xInit +1;
-        while(coordValideTab(x,y) && (cases = terrainCourant[x][y]) != null && !cases.estMange() && cases.pingouinPresent()==0){
-            position = new Position(x, y/2);
-            caseAccessible.add(position);
-            y++;
-            x++;
-        }
-
-        //haut gauche
-        y = yInit -1;
-        x = xInit -1;
-        while(coordValideTab(x,y) && (cases = terrainCourant[x][y]) != null && !cases.estMange() && cases.pingouinPresent()==0){
-            position = new Position(x, y/2);
-            caseAccessible.add(position);
-            y--;
-            x--;
-        }
-
-        //haut droite
-        y = yInit +1;
-        x = xInit -1;
-        while(coordValideTab(x,y) && (cases = terrainCourant[x][y]) != null && !cases.estMange() && cases.pingouinPresent()==0){
-            position = new Position(x, y/2);
-            caseAccessible.add(position);
-            y++;
-            x--;
-        }
-        return caseAccessible;
+    public int getScore(int joueur){
+        Joueur j = listeJoueur.get(joueur-1);
+        return j.getScore();
     }
 
-
-    public void joue(Coup cp){
-        int l = cp.getLigne();   //Coord ou le pingouin doit aller
-        int c = cp.getColonne(); //Coord ou le pingouin doit aller
-        int joueurCourant = getJoueurCourant();
-
-        if (peutJouer(cp)){
-            Cases caseArrive = getCase(l,c);
-            Joueur joueur = listeJoueur.get(joueurCourant-1);
-
-            Pingouin ping = cp.getPingouin();
-            ping = joueur.getPingouin(ping);
-
-            Cases caseDep = getCase(ping.getLigne(),ping.getColonne());
-            joueur.setScore(joueur.getScore()+caseDep.getNbPoissons());
- 
-            caseDep.setPingouin(0);
-            caseDep.setMange(true);
-
-            ping.setLigne(l);
-            ping.setColonne(c);
-            caseDep.setNbPoissons(0);
-            caseArrive.setPingouin(joueurCourant);
-            switchJoueur();
-        } else {
-            System.out.println("Jeu: joue() - Impossible de jouer");
-        }
+    public int getcasesMange(int joueur){
+        Joueur j = listeJoueur.get(joueur-1);
+        return j.getNbCasesMange();
     }
 
+    public int getNbCases(){
+        int nbCases = 0;
+        int l =0;
+        int c =0;
 
-    public Cases [][] clonerTerrain(Cases [][] terrainInitiale){
-
-        Cases [][] terrainClone;
-        Cases caseCourante;
-        Cases cases;
-
-        int nbl = terrainInitiale.length;
-        int nbc = terrainInitiale[0].length;
-        terrainClone = new Cases[nbl][nbc];
-
-        int c;
-        int l=0;
-        while( l < nbl){
-            if( l%2 ==1 ){
-                c = 0;
-            }else{
-                c = 1;
-            }
-            while( c < (nbc)){
-                caseCourante = terrainInitiale[l][c];
-                cases = new Cases(caseCourante.estMange(), caseCourante.getNbPoissons(), caseCourante.pingouinPresent());
-                terrainClone[l][c] = cases;
+        while( l < this.nbLignes){
+            c = getDecalage(l);
+            while( c < this.nbColonnes){
+                nbCases++;
                 c+=2;
             }
             l++;
         }
-        return terrainClone;
+
+        return nbCases;
     }
 
-
-    public Jeu cloner(){
-        Jeu j = new Jeu(this.terrainCourant, this.listeJoueur, this.nbLignes, this.nbColonnes, this.nbJoueur,
-         this.nbPingouinJoueur, this.nbPingouinPlace, this.joueurCourant);
-        return j;
-
-
+    public int getDecalage(int l){
+        if( l%2 ==1 ){
+            return 0;
+        }else{ 
+            return 1;
+        }
     }
 
     public int getNbLigne(){
@@ -441,9 +216,128 @@ public class Jeu{
         return joueurCourant;
     }
 
-    public boolean peutPlacer(int i, int j){
-        return(getCase(i,j).pingouinPresent() == 0 && getCase(i,j).getNbPoissons() == 1);
+    public Cases [][] getTerrain(){
+        return this.terrainCourant;
     }
+
+    public ArrayList<Joueur> getListeJoueur(){
+        return this.listeJoueur;
+    }
+
+    public Cases getCase(int ligne, int colonne){
+        int val = 0;
+        if (ligne%2==0)
+            val = 1;
+        if(coordValideTab(ligne, colonne*2+val)){
+            if( ligne%2 ==1 ){
+                return terrainCourant[ligne][colonne*2];
+            }else{
+                return terrainCourant[ligne][colonne*2+1];
+            }
+        } else {
+            System.out.println("impossible de récuperer la case ligne: "+ligne+ ", colonne:"+colonne + "");
+            return null;
+        }
+    }
+
+    public ArrayList<Position> getCaseAccessible(int i, int j) {
+        ArrayList<Position> caseAccessible = new ArrayList<>();
+        int[][] directions = {
+                {0, 2},  // droite
+                {0, -2}, // gauche
+                {1, -1}, // bas gauche
+                {1, 1},  // bas droite
+                {-1, -1},// haut gauche
+                {-1, 1}  // haut droite
+        };
+
+        int yInit;
+        if (i % 2 == 0) {
+            yInit = j * 2 + 1;
+        } else {
+            yInit = j * 2;
+        }
+
+        int xInit = i;
+
+        //recherhce dans toutes les directions
+        for (int[] direction : directions) {
+            int x = xInit + direction[0];
+            int y = yInit + direction[1];
+            while (coordValideTab(x, y)) {
+                Cases cases = terrainCourant[x][y];
+                if (cases == null || cases.estMange() || cases.pingouinPresent() != 0) {
+                    break;
+                }
+                caseAccessible.add(new Position(x, y / 2));
+                x += direction[0];
+                y += direction[1];
+            }
+        }
+
+        return caseAccessible;
+    }
+
+
+    //switchJoueur si le joueur ne peut pas joueur
+    public void switchJoueur(){
+
+        joueurCourant = (joueurCourant % nbJoueur) + 1;
+
+        ArrayList<Pingouin> pingJoueur = new ArrayList<>();
+
+        Joueur joueur = listeJoueur.get(joueurCourant-1);
+
+        //init liste des pingouisn avec la liste des pingouins
+        pingJoueur = joueur.getListePingouin();
+
+        int i =0;
+        boolean passeTour = true;
+
+        while(i< pingJoueur.size() && passeTour){
+            passeTour = estPingouinBloque(pingJoueur.get(i));
+        }
+        
+        if(passeTour && jeuTermine()){
+            if(!IA){
+                System.out.println("Switch joueur bloqué");
+            }
+            switchJoueur();
+        }
+    }
+
+
+    public Cases [][] clonerTerrain(Cases [][] terrainInitiale){
+
+        Cases [][] terrainClone;
+        Cases caseCourante;
+        Cases cases;
+
+        int nbl = terrainInitiale.length;
+        int nbc = terrainInitiale[0].length;
+        terrainClone = new Cases[nbl][nbc];
+
+        int c;
+        int l=0;
+        while( l < nbl){
+            c = getDecalage(l);
+            while( c < (nbc)){
+                caseCourante = terrainInitiale[l][c];
+                cases = new Cases(caseCourante.estMange(), caseCourante.getNbPoissons(), caseCourante.pingouinPresent());
+                terrainClone[l][c] = cases;
+                c+=2;
+            }
+            l++;
+        }
+        return terrainClone;
+    }
+
+    public Jeu cloner(){
+        Jeu j = new Jeu(this.terrainCourant, this.listeJoueur, this.nbLignes, this.nbColonnes, this.nbJoueur,
+         this.nbPingouinJoueur, this.nbPingouinPlace, this.joueurCourant);
+        return j;
+    }
+
 
 /*
     public String toString(){
@@ -456,5 +350,4 @@ public class Jeu{
         return result;
     }
     */
-
 }

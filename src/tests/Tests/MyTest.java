@@ -1,4 +1,4 @@
-package test.Tests;
+package tests.Tests;
 
 /* Tests sur un terrain fixe */
 

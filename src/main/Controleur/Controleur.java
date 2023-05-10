@@ -14,7 +14,6 @@ public class Controleur implements CollecteurEvenements {
     private GameBoard plateauJeu;
     private JeuAvance jeu;
 
-
     public Controleur(){
         jeu = null;
         window = null;
