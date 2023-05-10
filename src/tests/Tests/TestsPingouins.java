@@ -13,6 +13,7 @@ public class TestsPingouins {
 
         // On verifie qu'on ne peut pas placer de pingouins n'importe ou
         assert jeu.getListeJoueur().size() == 4: "Nombre de joueurs differents de 4";
+
         assert jeu.placePingouin(0, 7) == false: "Placement en (0,7) impossible";
         assert jeu.placePingouin(0, -1) == false: "Placement en (0,7) impossible";
         assert jeu.placePingouin(7, 0) == false: "Placement en (0,7) impossible";

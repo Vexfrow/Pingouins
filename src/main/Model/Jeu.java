@@ -173,7 +173,11 @@ public class Jeu{
         int c =0;
 
         while( l < this.nbLignes){
-            c = getDecalage(l);
+            if( l%2 ==1 ){
+                c = 0;
+            }else{ 
+                c = 1;
+            }
             while( c < this.nbColonnes){
                 nbCases++;
                 c+=2;
@@ -317,7 +321,11 @@ public class Jeu{
         int c;
         int l=0;
         while( l < nbl){
-            c = getDecalage(l);
+            if( l%2 ==1 ){
+                c = 0;
+            }else{ 
+                c = 1;
+            }
             while( c < (nbc)){
                 caseCourante = terrainInitiale[l][c];
                 cases = new Cases(caseCourante.estMange(), caseCourante.getNbPoissons(), caseCourante.pingouinPresent());

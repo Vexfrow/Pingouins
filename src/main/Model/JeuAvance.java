@@ -250,9 +250,9 @@ public class JeuAvance extends Jeu{
         while(i <= nbJoueur){
             player = new Joueur(i,0,0, false);
             listeJoueur.add(player);
-            i++;
             //de base tous les joeurs ne sont pas des IAs
             IATab[i-1] =false;
+            i++;
         }
 
         this.nbJoueur = nbJoueur;
@@ -565,7 +565,7 @@ public class JeuAvance extends Jeu{
 
             //stock le type des joueurs (IA ou non)
             for(int i=0; i<nbJoueur; i++){
-                w.write(IATab+ "\n");
+                w.write(IATab[i]+ "\n");
             }
             
 

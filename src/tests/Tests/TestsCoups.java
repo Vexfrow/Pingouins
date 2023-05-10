@@ -51,12 +51,12 @@ public class TestsCoups {
         JeuAvance game = new JeuAvance("src/tests/Terrains/terrainNonFixe.txt");
         //System.out.println(game.toString() + "\n" + game.getListeJoueur());
 
-        Pingouin ping = game.getListeJoueur().get(game.getJoueurCourant() - 1).getListePingouin().get(0);
-        System.out.println("\n" + ping);
-        Coup cp = new Coup(0,3,ping,false);
+        Pingouin ping2 = game.getListeJoueur().get(game.getJoueurCourant() - 1).getListePingouin().get(0);
+        System.out.println("\n" + ping2);
+        Coup cp2 = new Coup(0,3,ping2,false);
 
         System.out.println(game.getJoueurCourant());
-        game.joue(cp);
+        game.joue(cp2);
         game.sauvegarder("src/tests/Terrains/terrainNonFixe.txt");*/
 
         /*
