@@ -2,7 +2,6 @@ package Model;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Jeu{
 
@@ -27,7 +26,7 @@ public class Jeu{
 
     public Jeu(Cases[][] terrain, ArrayList<Joueur> ar, int l, int c, int j, int pj, int pp, int jc){
         terrainCourant = clonerTerrain(terrain);
-        listeJoueur = new ArrayList<Joueur>();
+        listeJoueur = new ArrayList<>();
         for(int i =0; i < ar.size(); i++){
             listeJoueur.add(ar.get(i).cloner());
         }
@@ -56,7 +55,7 @@ public class Jeu{
         this.nbJoueur = jeu.getNbJoueur();
         this.nbPingouinJoueur = jeu.getNbPingouinJoueur();
         this.nbPingouinPlace = jeu.getNbPingouinPlace();
-        this.joueurCourant = jeu.getJoueur();
+        this.joueurCourant = jeu.getJoueurCourant();
     }
 
     /*
@@ -123,14 +122,13 @@ public class Jeu{
     }
 
     public boolean peutJouer(Coup cp){
-
         int ligne = cp.getLigne();
         int colonne = cp.getColonne();
 
         ArrayList<Position> casesAccessible = getCaseAccessible(cp.getPingouin().getLigne(), cp.getPingouin().getColonne());
         int index = 0;
 
-        while( index <casesAccessible.size() && (casesAccessible.get(index).x !=ligne || casesAccessible.get(index).y != colonne)){
+        while( index < casesAccessible.size() && (casesAccessible.get(index).x !=ligne || casesAccessible.get(index).y != colonne)){
             index++;    
         }
 
@@ -146,7 +144,7 @@ public class Jeu{
 
         boolean bonPinguoin = false;
 
-        if(k<p.size() && p.get(k).equals(cp.getPingouin())){
+        if(k<p.size() ){
             bonPinguoin = true;
         } else {
             System.out.println("Le pingouin choisit n'est pas déplacable pour le moment");
@@ -214,7 +212,7 @@ public class Jeu{
         return this.nbPingouinPlace;
     }
 
-    public int getJoueur(){
+    public int getJoueurCourant(){
         return joueurCourant;
     }
 
@@ -276,9 +274,6 @@ public class Jeu{
 
         return caseAccessible;
     }
-
-
-    
 
 
     //switchJoueur si le joueur ne peut pas joueur

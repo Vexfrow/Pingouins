@@ -1,10 +1,6 @@
 package Vue;
 
-import Model.Jeu;
-import Model.Cases;
-import Model.Pingouin;
-import Model.Position;
-
+import Model.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -20,11 +16,6 @@ import java.util.Objects;
 
 public class BanquiseGraphique extends JComponent {
 
-    public final static int ETAT_INITIAL = 0; //Etat de base
-    public final static int ETAT_PLACEMENTP = 1; //Highlight sur les hexagones disponibles pour placer le pingouin
-    public final static int ETAT_SELECTIONP = 2; //Highlight sur les pingouins que le joueur peut utiliser
-    public final static int ETAT_CHOIXC = 3;//Highlight sur les hexagones disponibles pour déplacer le pingouin choisi
-
     BufferedImage hPoisson1, hPoisson2, hPoisson3, hVide;
     BufferedImage hPingouinR1, hPingouinR2, hPingouinR3;
     BufferedImage hPingouinB1, hPingouinB2, hPingouinB3;
@@ -34,14 +25,13 @@ public class BanquiseGraphique extends JComponent {
     TexturePaint paintFont;
 
     int etat;
-    int hexagone;
 
-    private Jeu jeu;
+    private JeuAvance jeu;
     private ArrayList<Shape> plateau;
 
-    public BanquiseGraphique(Jeu jeu) {
+    public BanquiseGraphique(JeuAvance jeu) {
         this.jeu = jeu;
-        this.etat = ETAT_INITIAL;
+        this.etat = jeu.getEtat();
 
         Rectangle r = new Rectangle(0,0, 750, 750);
         paintFont = new TexturePaint(chargeImage("fondMer"),r);
@@ -83,7 +73,7 @@ public class BanquiseGraphique extends JComponent {
     }
 
 
-    public static BufferedImage getTexturedImage(BufferedImage src, Shape shp, boolean redTaint) {
+    public static BufferedImage getTexturedImage(BufferedImage src, Shape shp, boolean highlight) {
         Rectangle r = shp.getBounds();
 
         //On récupère une version redimensionnée de l'image
@@ -95,8 +85,8 @@ public class BanquiseGraphique extends JComponent {
         //On remplace la nouvelle image par la version redimensionnée de l'image que l'on souhaite mettre
         buffered.getGraphics().drawImage(imageTmp, 0, 0, null);
 
-        if(redTaint){
-            Color c = new Color(200,0,0,100);
+        if(highlight){
+            Color c = new Color(251,241,28,100);
             for (int x = 0; x < buffered.getWidth(); x++) {
                 for (int y = 0; y < buffered.getHeight(); y++) {
                     Color pixelColor = new Color(buffered.getRGB(x, y), true);
@@ -118,10 +108,9 @@ public class BanquiseGraphique extends JComponent {
     }
 
 
-    public void misAJour(Jeu jeu, int etat, int info) {
+    public void misAJour(JeuAvance jeu) {
         this.jeu = jeu;
-        this.etat = etat;
-        this.hexagone = info;
+        this.etat = jeu.getEtat();
         repaint();
     }
 
@@ -169,7 +158,6 @@ public class BanquiseGraphique extends JComponent {
     }
 
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setPaint(paintFont);
@@ -181,11 +169,11 @@ public class BanquiseGraphique extends JComponent {
         ArrayList<Position> listHexagone = null;
         ArrayList<Position> listPingouinPos = null;
 
-        if(etat == ETAT_CHOIXC) {
-            Position infoP = getCoordFromNumber(hexagone);
+        if(etat == JeuAvance.ETAT_CHOIXC) {
+            Position infoP = jeu.getSelectionP();
             listHexagone = jeu.getCaseAccessible(infoP.x, infoP.y);
-        }else if(etat == ETAT_SELECTIONP){
-            ArrayList<Pingouin> listPingouin = jeu.getListeJoueur().get(jeu.getJoueur()-1).listePingouin;
+        }else if(etat == JeuAvance.ETAT_SELECTIONP){
+            ArrayList<Pingouin> listPingouin = jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).listePingouin;
             listPingouinPos = new ArrayList<>();
             for(Pingouin p : listPingouin){
                 listPingouinPos.add(new Position(p.getLigne(), p.getColonne()));
@@ -200,11 +188,11 @@ public class BanquiseGraphique extends JComponent {
             Cases c = jeu.getCase(coordHexa.x, coordHexa.y);
             Shape cell = plateau.get(i);
 
-            if(etat == ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0){
+            if(etat == JeuAvance.ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0){
                 bfi = getTexturedImage(getBfi(c), cell, true);
-            }else if(etat == ETAT_CHOIXC && Objects.requireNonNull(listHexagone).contains(coordHexa)){
+            }else if(etat == JeuAvance.ETAT_CHOIXC && Objects.requireNonNull(listHexagone).contains(coordHexa)){
                 bfi = getTexturedImage(getBfi(c), cell, true);
-            }else if(etat == ETAT_SELECTIONP && Objects.requireNonNull(listPingouinPos).contains(coordHexa)){
+            }else if(etat == JeuAvance.ETAT_SELECTIONP && Objects.requireNonNull(listPingouinPos).contains(coordHexa)){
                 bfi = getTexturedImage(getBfi(c), cell, true);
             }else{
                 bfi = getTexturedImage(getBfi(c), cell, false);
@@ -213,9 +201,6 @@ public class BanquiseGraphique extends JComponent {
             g2d.drawImage(bfi, cell.getBounds().x, cell.getBounds().y, null);
 
         }
-
-
-        g2d.dispose();
     }
 
 
@@ -232,18 +217,32 @@ public class BanquiseGraphique extends JComponent {
                 bfi = hPoisson3;
         } else if (c.pingouinPresent() == 1) {
             if (c.getNbPoissons() == 1)
-                bfi = hPingouinR1;
-            else if (c.getNbPoissons() == 2)
-                bfi = hPingouinR2;
-            else if (c.getNbPoissons() == 3)
-                bfi = hPingouinR3;
-        } else if (c.pingouinPresent() == 2) {
-            if (c.getNbPoissons() == 1)
                 bfi = hPingouinB1;
             else if (c.getNbPoissons() == 2)
                 bfi = hPingouinB2;
             else if (c.getNbPoissons() == 3)
                 bfi = hPingouinB3;
+        } else if (c.pingouinPresent() == 2) {
+            if (c.getNbPoissons() == 1)
+                bfi = hPingouinR1;
+            else if (c.getNbPoissons() == 2)
+                bfi = hPingouinR2;
+            else if (c.getNbPoissons() == 3)
+                bfi = hPingouinR3;
+        } else if (c.pingouinPresent() == 3) {
+            if (c.getNbPoissons() == 1)
+                bfi = hPingouinV1;
+            else if (c.getNbPoissons() == 2)
+                bfi = hPingouinV2;
+            else if (c.getNbPoissons() == 3)
+                bfi = hPingouinV3;
+        } else if (c.pingouinPresent() == 4) {
+            if (c.getNbPoissons() == 1)
+                bfi = hPingouinJ1;
+            else if (c.getNbPoissons() == 2)
+                bfi = hPingouinJ2;
+            else if (c.getNbPoissons() == 3)
+                bfi = hPingouinJ3;
         }
         return bfi;
     }

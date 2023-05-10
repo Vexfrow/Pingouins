@@ -8,8 +8,13 @@ import java.util.ArrayList;
 public class JeuSauvegarde extends JeuAvance{
     
 
+    public JeuSauvegarde(){
+
+    }
+    /*
+
     //Construction du jeu depuis une sauvegarde
-    JeuSauvegarde(String name){
+    public JeuSauvegarde(String name){
         try {
             coupAnnule = new ArrayList<Coup>();
             coupJoue = new ArrayList<Coup>();
@@ -105,5 +110,7 @@ public class JeuSauvegarde extends JeuAvance{
             System.out.print("Erreur : " + e);
         }
     }
+
+    */
 
 }

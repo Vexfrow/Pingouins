@@ -21,10 +21,10 @@ public class IconeSelection extends JPanel {
 
 
     private final int MAX = 3;
-    private final String VIDE = "Vide";
-    private final String HUMAIN = "Humain";
-    private final String IA_EASY = "IA Facile";
-    private final String IA_MEDIUM = "IA Moyenne";
+    public static final String VIDE = "Vide";
+    public static final String HUMAIN = "Humain";
+    public static final String IA_EASY = "IA Facile";
+    public static final String IA_MEDIUM = "IA Moyenne";
 
     private int rotation;
 
@@ -112,9 +112,14 @@ public class IconeSelection extends JPanel {
         Dimension taille = getSize();
         this.coorX = taille.width/2;
         this.coorY = taille.height/2 - 100;
+/*
+        Icon icon = new ImageIcon(pengouin);
+        JLabel j = new JLabel(icon);
+        add(j);
+        j.setLocation(coorX, coorY);
 
+ */
 
-        //icon.setLocation(coorX, coorY);
 
 
         double angle_deg;
@@ -171,6 +176,28 @@ public class IconeSelection extends JPanel {
         }
         System.err.println(res);
         type.setText(res);
+    }
+
+    public String getName(){
+        String res = "";
+        switch(rotation) {
+            case 0:
+                res = VIDE;
+                break;
+            case 1:
+                res = HUMAIN;
+                break;
+            case 2:
+                res = IA_EASY;
+                break;
+            case 3:
+                res = IA_MEDIUM;
+                break;
+            default:
+                res = "Erreur";
+                break;
+        }
+        return res;
     }
 
 

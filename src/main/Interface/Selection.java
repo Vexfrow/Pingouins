@@ -24,6 +24,7 @@ public class Selection extends JPanel {
     private JButton sauvegarde;
     private JButton valide;
     private Image flecheRetour;
+    private IconeSelection listJoueur[];
 
     public Selection(CollecteurEvenements ctrl){
 
@@ -36,6 +37,7 @@ public class Selection extends JPanel {
         }catch(Exception e){
             System.out.println("une erreur " + e);
         }
+        listJoueur = new IconeSelection[4];
         setSelection();
 
     }
@@ -44,6 +46,7 @@ public class Selection extends JPanel {
         Image neoImg = img.getScaledInstance(d.width, d.height, Image.SCALE_AREA_AVERAGING) ;
         return neoImg;
     }
+
 
     public void setSelection(){
         valide.setPreferredSize(new Dimension(200, 80));
@@ -88,11 +91,11 @@ public class Selection extends JPanel {
         gbc.weightx = 1;
         gbc.weighty = 3;
 
-        IconeSelection p1 = new IconeSelection(Color.BLUE, 100);
+        IconeSelection p1 = new IconeSelection(Color.RED, 100);
         this.add(p1, gbc);
 
         gbc.gridx = 1;
-        IconeSelection p2 = new IconeSelection(Color.RED, 100);
+        IconeSelection p2 = new IconeSelection(Color.BLUE, 100);
         this.add(p2, gbc);
 
         gbc.gridx = 2;
@@ -102,6 +105,13 @@ public class Selection extends JPanel {
         gbc.gridx = 3;
         IconeSelection p4 = new IconeSelection(Color.GREEN, 100);
         this.add(p4, gbc);
+
+        listJoueur[0] = p1;
+        listJoueur[1] = p1;
+        listJoueur[2] = p1;
+        listJoueur[3] = p1;
+
+
 
         gbc.fill = GridBagConstraints.CENTER;
         gbc.anchor = GridBagConstraints.CENTER;
@@ -138,6 +148,20 @@ public class Selection extends JPanel {
 
     public void changeIcon(){
             retour.setIcon(new ImageIcon(flecheRetour));
+    }
+
+
+    public int numberOfPlayer(){
+        int j = 0;
+        for(int i =0; i < 4; i++){
+            if(!listJoueur[i].getName().equals(IconeSelection.VIDE)){
+                j++;
+            }
+        }
+        return j;
+    }
+    public void getTypePlayer(){
+
     }
 }
 

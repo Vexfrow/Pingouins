@@ -1,17 +1,21 @@
 package Interface;
 
+import Vue.CollecteurEvenements;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class WorkingPane extends JLayeredPane {
     public final int CURRENT_LEVEL = 10;
     private final BackingPane backingPane;
-    private JPanel actuel;
-    private JPanel game;
-    public WorkingPane(JPanel m){
+    private CollecteurEvenements collecteur;
+    public JPanel actuel;
+
+    public WorkingPane(JPanel m, CollecteurEvenements c){
         setLayout(new CardLayout());
+        this.collecteur = c;
         this.actuel = m;
-        backingPane = new BackingPane();
+        backingPane = new BackingPane(this.collecteur);
         backingPane.setVisible(false);
         this.add(actuel);
 
@@ -23,12 +27,14 @@ public class WorkingPane extends JLayeredPane {
     }
 
     public void toggleBackingPane(){
+
         backingPane.setVisible(!backingPane.isVisible());
     }
 
     public void changePanel(JPanel j){
         setPanelLayer(j);
     }
+
 
     public void setPanelLayer(JPanel j){
         this.remove(actuel);
@@ -43,4 +49,16 @@ public class WorkingPane extends JLayeredPane {
 
     }
 
+    public void switchBackPane(int j){
+        backingPane.setPanelLayer(j);
+    }
+
+
+    public int getEtatBackPane(){
+        return backingPane.getPreviousState();
+    }
+
+    public void resetBackPane(){
+        backingPane.reset();
+    }
 }

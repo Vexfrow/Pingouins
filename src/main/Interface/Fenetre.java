@@ -37,7 +37,7 @@ public class Fenetre implements Runnable {
         this.menu = new MenuP(this.c);
         this.selection = new Selection(this.c);
 
-        jeu = new JeuAvance(2);
+        jeu = new JeuAvance(4);
         this.gameBoard = new GameBoard(jeu, c);
 
 
@@ -49,7 +49,7 @@ public class Fenetre implements Runnable {
         jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jf.setMinimumSize(new Dimension(800, 600));
 
-        workingPane = new WorkingPane(this.menu);
+        workingPane = new WorkingPane(this.menu, this.c);
         jf.add(workingPane);
         jf.setVisible(true);
     }
@@ -66,12 +66,16 @@ public class Fenetre implements Runnable {
                 break;
             case 3:
                 this.workingPane.changePanel(this.gameBoard);
-
+                break;
             default:
                 System.err.println("Erreur dans l'affichage choisi");
                 break;
         }
 
+    }
+
+    public MenuP getMenu(){
+        return this.menu;
     }
 
 

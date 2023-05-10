@@ -17,12 +17,15 @@ public class Position {
         return resultat;
     }
 
-
     public boolean equals(Object o){
         if(!(o instanceof Position p))
             return false;
 
         return (x == p.x && y == p.y);
+    }
+
+    public int hash(){
+        return this.x*100+y;
     }
 
 }

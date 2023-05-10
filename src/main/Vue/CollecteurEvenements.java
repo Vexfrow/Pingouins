@@ -20,7 +20,14 @@ public interface CollecteurEvenements {
 
     void switchGameBoard();
 
-    void toggleHelp();
+    void toggleHelp(boolean b);
+
+    void togglePause(boolean b);
+
+    int getEtatBackPane();
+
+    void toggleBackingPane();
+
 
 
 }
