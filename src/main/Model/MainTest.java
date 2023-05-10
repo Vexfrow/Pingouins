@@ -115,20 +115,23 @@ public class MainTest {
         //pour la sauvegarde
 
         
+
+        ///*
         //sauvegarder
-
-
-        /*
+        
         // /!\ bien verifier le toString de la méthode Cases : besoin du return pour
 
-        j.sauvegarder("test.txt");
+
+
+        //j.sauvegarder("test.txt");
         
         System.out.println("\n\n");
 
+        
         //refaire un jeu avec sauvegarde
         JeuAvance j2 = new JeuAvance("test.txt");
         System.out.println(j2.toString());
-        */
+
 
     }
 

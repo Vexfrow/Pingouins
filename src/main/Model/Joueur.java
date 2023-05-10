@@ -6,22 +6,23 @@ public class Joueur {
 
     private int numeroJoueur;
     private int score;
+    private int nbCasesMange;
     public ArrayList<Pingouin> listePingouin;
 
     // Constructeur de joueur
     // Pour initialiser un joueur, on appelle avec score = 0
-    Joueur(int numeroJoueur, int score){
+    Joueur(int numeroJoueur, int score, int nbCasesMange){
 
         this.numeroJoueur = numeroJoueur;
         this.score = score;
+        this.nbCasesMange = nbCasesMange;
         listePingouin = new ArrayList<Pingouin>();//init la liste des pingouins
     }
 
 
 
     public Joueur cloner(){
-        //System.out.println("Here");
-        Joueur joueur = new Joueur(numeroJoueur, score);
+        Joueur joueur = new Joueur(numeroJoueur, score, nbCasesMange);
         ArrayList<Pingouin> listePing = new ArrayList<Pingouin>();
         Pingouin pingouinPrefere;
         int i = 0;
@@ -39,13 +40,21 @@ public class Joueur {
         return numeroJoueur;
     }
 
+
     public int getScore() {
         return score;
     }
 
+
+    public int getNbCasesMange() {
+        return nbCasesMange;
+    }
+
+
     public ArrayList<Pingouin> getListePingouin() {
         return listePingouin;
     }
+
 
     public Pingouin getPingouin(Pingouin ping){
         int i =0;
@@ -66,15 +75,21 @@ public class Joueur {
         this.numeroJoueur = numeroJoueur;
     }
 
+
     public void setScore(int score) {
         this.score = score;
+    }
+
+    
+    public void setNbCasesMange(int nbCasesMange) {
+        this.nbCasesMange = nbCasesMange;
     }
 
 
     //afficher un joueur
     @Override
     public String toString() {
-        return "Joueur = " + getNumeroJoueur() + ", score = " + getScore() + ", Pingouins  = " + getListePingouin().toString() ;
+        return "Joueur = " + getNumeroJoueur() + ", score = " + getScore() + ", nombre cases mangés = " + getNbCasesMange() +", Pingouins  = " + getListePingouin().toString() ;
     }
 
     
