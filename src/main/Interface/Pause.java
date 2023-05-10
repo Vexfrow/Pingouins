@@ -53,14 +53,14 @@ public class Pause extends JPanel {
         reprendre.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                collecteur.togglePause();
+                collecteur.togglePause(true);
             }
         });
 
         regles.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                collecteur.toggleHelp();
+                collecteur.toggleHelp(false);
             }
         });
 

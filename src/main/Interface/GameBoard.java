@@ -1,6 +1,7 @@
 package Interface;
 
 import Model.Jeu;
+import Model.JeuAvance;
 import Vue.BanquiseGraphique;
 import Vue.CollecteurEvenements;
 
@@ -20,12 +21,12 @@ public class GameBoard extends JPanel {
 
     CollecteurEvenements collecteur;
 
-    Jeu jeu;
+    JeuAvance jeu;
 
     private ArrayList<JTextArea> listScore;
 
 
-    GameBoard(Jeu j, CollecteurEvenements c){
+    GameBoard(JeuAvance j, CollecteurEvenements c){
         bq = new BanquiseGraphique(j);
         gamePanel = new JPanel();
         menuGame = new JPanel();
@@ -53,15 +54,29 @@ public class GameBoard extends JPanel {
         boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.X_AXIS));
 
         JButton bPause = new JButton("Pause");
+
+        bPause.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jeu.annule();
+                misAJour();
+            }
+        });
         JButton bSuggestion = new JButton("Suggestion");
+
+        bSuggestion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jeu.refaire();
+                misAJour();
+            }
+        });
 
         boutonPanel.add(bPause);
         bPause.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                collecteur.togglePause();
-                System.out.println("Etat Apres " + collecteur.getEtatBackPane());
+                collecteur.togglePause(true);
             }
         });
         boutonPanel.add(bSuggestion);
@@ -70,7 +85,7 @@ public class GameBoard extends JPanel {
 
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
 
-            JTextArea jta = new JTextArea("Score Joueur "+(i+1)+" : \n\t"+ jeu.getListeJoueur().get(i).getScore());
+            JTextArea jta = new JTextArea("Score Joueur "+(i+1)+" : \n\t"+ jeu.getListeJoueur().get(i).getScore() + "\n\t" +jeu.getListeJoueur().get(i).getNbCasesMange());
 
             switch (i) {
                 case 0 -> jta.setBackground(Color.red);
@@ -94,19 +109,27 @@ public class GameBoard extends JPanel {
     }
 
 
-    public void misAJour(Jeu j, int etat, int hexagone){
+    public void misAJour(JeuAvance j,  int hexagone){
         jeu = j;
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
-            System.out.println(i);
-            listScore.get(i).setText("Score Joueur "+(i+1)+" : \n\t"+ jeu.getListeJoueur().get(i).getScore());
+            listScore.get(i).setText("Score Joueur "+(i+1)+" : \n\t"+ jeu.getListeJoueur().get(i).getScore() + "\n\t" +jeu.getListeJoueur().get(i).getNbCasesMange());
         }
-        bq.misAJour(j,etat, hexagone);
+        bq.misAJour(jeu, hexagone);
+    }
+
+    public void misAJour(){
+        for(int i = 0; i < jeu.getListeJoueur().size();i++){
+            listScore.get(i).setText("Score Joueur "+(i+1)+" : \n\t"+ jeu.getListeJoueur().get(i).getScore() + "\n\t" +jeu.getListeJoueur().get(i).getNbCasesMange());
+        }
+        bq.misAJour(jeu);
     }
 
 
     public BanquiseGraphique getBq(){
         return bq;
     }
+
+
 
 
 }

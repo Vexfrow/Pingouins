@@ -129,7 +129,7 @@ public class MenuP extends JPanel {
         regles.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                c.toggleHelp();
+                c.toggleHelp(true);
                 toggleButtons();
             }
         });

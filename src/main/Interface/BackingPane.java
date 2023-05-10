@@ -10,6 +10,7 @@ public class BackingPane extends JPanel {
     private CollecteurEvenements collecteur;
     private JPanel context;
     private int etat;
+    private int previousState;
 
     public BackingPane(CollecteurEvenements c) {
         this.collecteur = c;
@@ -34,10 +35,12 @@ public class BackingPane extends JPanel {
         if(j == 1){
             setBorder(new EmptyBorder(120, 300, 120, 300));
             this.context = new Aide(collecteur);
+            previousState = etat;
             this.etat = 1;
         }else if(j == 2){
             setBorder(new EmptyBorder(100, 600, 100, 600));
             this.context = new Pause(this.collecteur);
+            previousState = etat;
             this.etat = 2;
         }
         this.add(context);
@@ -46,12 +49,13 @@ public class BackingPane extends JPanel {
 
     }
 
-    //Renvoie vrai si on passe d'un menu Pause a un menu Aide et inversement. Renvoie faux si on toggle le meme menu
-    public boolean menuToPause(int i){
-        return i != etat;
+    public int getPreviousState(){
+        return previousState;
     }
 
-    public int getEtat(){
-        return etat;
+    public void reset(){
+        etat = 0;
+        previousState = 0;
     }
+
 }

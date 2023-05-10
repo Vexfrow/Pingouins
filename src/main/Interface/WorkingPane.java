@@ -26,7 +26,8 @@ public class WorkingPane extends JLayeredPane {
 
     }
 
-    public void toggleBackingPane(int i){
+    public void toggleBackingPane(){
+
         backingPane.setVisible(!backingPane.isVisible());
     }
 
@@ -53,7 +54,11 @@ public class WorkingPane extends JLayeredPane {
     }
 
 
-    public int getEtatofBackPane(){
-        return backingPane.getEtat();
+    public int getEtatBackPane(){
+        return backingPane.getPreviousState();
+    }
+
+    public void resetBackPane(){
+        backingPane.reset();
     }
 }

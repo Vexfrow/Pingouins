@@ -65,7 +65,7 @@ public class Fenetre implements Runnable {
                 gameBoard = new GameBoard(jeu, c);
                 c.setJeu(jeu);
                 this.workingPane.changePanel(this.gameBoard);
-
+                break;
             default:
                 System.err.println("Erreur dans l'affichage choisi");
                 break;
