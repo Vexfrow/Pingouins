@@ -163,14 +163,15 @@ public class Controleur implements CollecteurEvenements {
                         jeu.placePingouin(p.x,p.y);
                     }else{
                         Coup c = jia.elaboreCoup();
-                        jeu.joue(c);
+                        if(c!=null)
+                            jeu.joue(c);
                     }
-                    plateauJeu.misAJour(jeu);
                     try {
                         Thread.sleep(1000);
                     }catch (InterruptedException ignored){
 
                     }
+                    plateauJeu.misAJour(jeu);
                     run();
                 }
             }

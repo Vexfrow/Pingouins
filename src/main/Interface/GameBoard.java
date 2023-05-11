@@ -29,7 +29,7 @@ public class GameBoard extends JPanel {
 
     JeuAvance jeu;
 
-    BufferedImage poisson, hexagone;
+    BufferedImage poisson, hexagone, annuler, refaire, pause, suggestion;
 
     private ArrayList<JLabel> listScoreP;
     private ArrayList<JLabel> listScoreH;
@@ -54,6 +54,10 @@ public class GameBoard extends JPanel {
 
         poisson = chargeImage("poisson");
         hexagone = chargeImage("hexagone");
+        suggestion = chargeImage("boutonAstuce");
+        pause = chargeImage("boutonPause");
+        annuler = chargeImage("boutonAnnuler");
+        refaire = chargeImage("boutonRefaire");
 
         this.setLayout(new BorderLayout());
 
@@ -81,7 +85,9 @@ public class GameBoard extends JPanel {
         JPanel boutonPanel = new JPanel();
         boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.X_AXIS));
 
-        JButton bPause = new JButton("Pause");
+        JButton bPause = new JButton(new ImageIcon(pause));
+        bPause.setBorderPainted(false);
+        bPause.setContentAreaFilled(false);
         bPause.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -89,7 +95,9 @@ public class GameBoard extends JPanel {
             }
         });
 
-        JButton bSuggestion = new JButton("Suggestion");
+        JButton bSuggestion = new JButton(new ImageIcon(suggestion));
+        bSuggestion.setBorderPainted(false);
+        bSuggestion.setContentAreaFilled(false);
 
         boutonPanel.add(bPause);
 
@@ -134,19 +142,12 @@ public class GameBoard extends JPanel {
             imageP.add(hexaP);
             mainP.add(imageP);
 
-            JTextArea textArea = new JTextArea("Joueur "+(i+1));
-            textArea.setEditable(false);
+            JLabel textArea = new JLabel("Joueur "+(i+1));
             if(i == 3)
                 textArea.setForeground(Color.BLACK);
             else
                 textArea.setForeground(Color.WHITE);
-            switch (i) {
-                case 0 -> textArea.setBackground(new Color(0xEC1C24));
-                case 1 -> textArea.setBackground(new Color(0x3F48CC));
-                case 2 -> textArea.setBackground(new Color(0x0ED145));
-                case 3 -> textArea.setBackground(new Color(0xFFF200));
-            }
-            textArea.setWrapStyleWord(true);
+
             mainP.add(textArea);
             mainP.add(imageP);
 
@@ -168,8 +169,16 @@ public class GameBoard extends JPanel {
         }
 
 
+        JButton bHistorique = new JButton("Historique");
 
-        JButton bAnnuler = new JButton("Annuler");
+        menuGame.add(bHistorique);
+
+
+
+
+        JButton bAnnuler = new JButton(new ImageIcon(annuler));
+        bAnnuler.setBorderPainted(false);
+        bAnnuler.setContentAreaFilled(false);
 
         bAnnuler.addActionListener(new ActionListener() {
             @Override
@@ -179,7 +188,9 @@ public class GameBoard extends JPanel {
             }
         });
 
-        JButton bRefaire = new JButton("Refaire");
+        JButton bRefaire = new JButton(new ImageIcon(refaire));
+        bRefaire.setBorderPainted(false);
+        bRefaire.setContentAreaFilled(false);
 
         bRefaire.addActionListener(new ActionListener() {
             @Override
@@ -212,7 +223,11 @@ public class GameBoard extends JPanel {
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
            listScoreH.get(i).setText(String.valueOf(jeu.getListeJoueur().get(i).getNbCasesMange()));
            listScoreP.get(i).setText(String.valueOf(jeu.getListeJoueur().get(i).getScore()));
+
         }
+
+
+
         bq.misAJour(jeu);
     }
 
