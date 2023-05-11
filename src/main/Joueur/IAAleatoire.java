@@ -3,7 +3,6 @@ package Joueur;
 import java.util.Random;
 import Model.Coup;
 import Model.Jeu;
-import Model.JeuAvance;
 import Model.Position;
 import Model.Joueur;
 import Model.Cases;
@@ -17,7 +16,7 @@ public class IAAleatoire extends IAJoueur{
     Random r;
 
 
-    public IAAleatoire(JeuAvance j){
+    public IAAleatoire(Jeu j){
         super(j);
     }
 

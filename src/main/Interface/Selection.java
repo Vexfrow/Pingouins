@@ -3,7 +3,7 @@ package Interface;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import Controleur.Controleur;
-import Model.JeuAvance;
+import Model.Jeu;
 import Vue.CollecteurEvenements;
 
 import java.awt.*;

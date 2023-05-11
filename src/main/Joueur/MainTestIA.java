@@ -2,7 +2,7 @@ package Joueur;
 
 import Model.Coup;
 import Model.Jeu;
-import Model.JeuAvance;
+import Model.Jeu;
 import Model.Position;
 import Model.Cases;
 import Model.Pingouin;
@@ -18,7 +18,7 @@ public class MainTestIA{
 
 
     public static void main(String[] args){
-        testerIA(200);
+        testerIA(10000000);
     }
 
     public static void testerIA(int nbPartie){
@@ -32,38 +32,43 @@ public class MainTestIA{
 
 
         while ( i < nbPartie){
-            JeuAvance j = new JeuAvance(2);
+            Jeu j = new Jeu(2);
 
-            ia1 = new IAAleatoire(j);
+            ia1 = new IAMinimax(j);
             ia2 = new IAMinimax(j);
 
             while(!j.pingouinTousPlace()){
 
                 pos = ia1.elaborePlacement();
+                // System.out.println(j);
+                // System.out.println("position vaut + "+ pos);                
                 j.placePingouin(pos.x, pos.y);
                 
                 pos = ia2.elaborePlacement();
+                // System.out.println(j);
+                // System.out.println("position vaut + "+ pos);
                 j.placePingouin(pos.x,pos.y);
+                
 
             }
             while(!j.jeuTermine()){
                 cp = ia1.elaboreCoup();
 
                 if(cp == null){
-                   j.switchJoueur();
                 }else{
                     j.joue(cp);
                     //System.out.println( "j1 JOUE ");
+                    //System.out.println(j);
                 }
 
 
 
                 cp= ia2.elaboreCoup();
                 if(cp == null){
-                   j.switchJoueur();
                 }else{
                     j.joue(cp);
                     //System.out.println( "j2 JOUE ");
+                    //System.out.println(j);
                 }
 
 
@@ -79,60 +84,8 @@ public class MainTestIA{
             i++;
         }
         System.out.println( "j1 gagne: "+ winj1+ "   j2 gagne: "+ winj2);
-        System.out.println("j1 gagne avec " + (winj1*100)/(winj2 + winj1)+"% de chance" +"\nj2 gagne avec " + (winj2*100)/(winj2 + winj1)+"% de chance");
-
-    }
-
-    public static void test(){
-        JeuAvance j = new JeuAvance(2);
-        int i =0;
-        
-        IAJoueur ia = new IAAleatoire(j);
-        IAJoueur ia2 = new IAMinimax(j);
-        Position pos;
-        Coup cp;
-
-        
-        System.out.println(j);
-
-        while(i< 4){
-
-            pos = ia.elaborePlacement();
-            j.placePingouin(pos.x, pos.y);
-            System.out.println("ia 1: "+ pos);
-            
-            pos = ia2.elaborePlacement();
-            j.placePingouin(pos.x,pos.y);
-            System.out.println("ia 2:" +pos);
-
-            i++;
+        if((winj1 + winj2) !=0){
+            System.out.println("j1 gagne avec " + (winj1*100)/(winj2 + winj1)+"% de chance" +"\nj2 gagne avec " + (winj2*100)/(winj2 + winj1)+"% de chance");
         }
-        System.out.println(j);
-
-
-         i =0;
-        while(i < 10){
-            cp = ia.elaboreCoup();
-            if(cp == null){
-                break;
-            }
-            j.joue(cp);
-            System.out.println(cp);
-
-
-            cp= ia2.elaboreCoup();
-            if(cp == null){
-                break;
-            }
-            j.joue(cp);
-            System.out.println(cp);
-
-        }
-
-        System.out.println(j);
-
     }
-
-
-
 }
