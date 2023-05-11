@@ -166,12 +166,12 @@ public class Controleur implements CollecteurEvenements {
                         if(c!=null)
                             jeu.joue(c);
                     }
+                    plateauJeu.misAJour(jeu);
                     try {
                         Thread.sleep(1000);
                     }catch (InterruptedException ignored){
 
                     }
-                    plateauJeu.misAJour(jeu);
                     run();
                 }
             }
