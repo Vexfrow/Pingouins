@@ -1,40 +1,61 @@
 package Controleur;
 
+import Interface.MenuP;
 import Interface.Fenetre;
 import Interface.GameBoard;
+import Joueur.IAJoueur;
+import Joueur.IATroisPoissons;
+import Joueur.IAMinimax;
 import Model.*;
 import Vue.AdaptateurSourisPlateau;
-import Vue.BanquiseGraphique;
 import Vue.CollecteurEvenements;
 
-import java.awt.*;
+import java.awt.Shape;
+import java.util.ArrayList;
 
 public class Controleur implements CollecteurEvenements {
 
     private Fenetre window;
     private GameBoard plateauJeu;
+    private Jeu jeu;
 
-    private JeuAvance jeu;
-
-    int info;
-
+    private ArrayList<IAJoueur> listeIA;
 
     public Controleur(){
         jeu = null;
         window = null;
         plateauJeu = null;
-        info = 0;
+        listeIA = new ArrayList<>();
 
     }
 
-    public void toggleHelp(){
-        this.window.workingPane.toggleBackingPane();
+    //change est a true si il faut toggle la backingPane
+    public void toggleHelp(boolean change){
+        if(window.workingPane.actuel instanceof MenuP){
+            window.getMenu().activateButton();
+        }
+        this.window.workingPane.switchBackPane(1);
+        if(change){
+            this.window.workingPane.toggleBackingPane();
+        }
+
+
+    }
+
+    //change est a true si il faut toggle la backingPane
+    public void togglePause(boolean change){
+        this.window.workingPane.switchBackPane(2);
+        if(change){
+            this.window.workingPane.toggleBackingPane();
+        }
 
     }
 
     public void switchSel(){window.switchPanel(2);}
 
     public void switchMenu(){
+        window.getMenu().activateButton();
+        window.workingPane.resetBackPane();
         window.switchPanel(1);
     }
 
@@ -50,20 +71,16 @@ public class Controleur implements CollecteurEvenements {
             Shape cell = plateauJeu.getBq().getPlateauJeu().get(i);
 
             if (cell.contains(coupX, coupY)) {
-                if (jeu.getEtat() == JeuAvance.ETAT_PLACEMENTP) {
-                    joueCoupPhase1(plateauJeu.getBq().getCoordFromNumber(i));
-                } else if(jeu.getEtat() == JeuAvance.ETAT_SELECTIONP || jeu.getEtat() == JeuAvance.ETAT_CHOIXC){
-                    joueCoupPhase2(plateauJeu.getBq().getCoordFromNumber(i));
-                    if(jeu.getSelection())
-                        info = i;
-                    else
-                        info = jeu.getJoueurCourant();
+                if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP) {
+                    joueCoupPhase1(plateauJeu.getBq().getPosFromNumber(i));
+                } else if(jeu.getEtat() == Jeu.ETAT_SELECTIONP || jeu.getEtat() == Jeu.ETAT_CHOIXC){
+                    joueCoupPhase2(plateauJeu.getBq().getPosFromNumber(i));
 
-                }else if (jeu.getEtat() == JeuAvance.ETAT_FINAL){
-                    System.out.println("Test etat final");
+                }else if (jeu.getEtat() == Jeu.ETAT_FINAL){
+                    System.out.println("Test état final");
                 }
 
-                plateauJeu.misAJour(jeu, info);
+                plateauJeu.misAJour(jeu);
                 break;
             }
         }
@@ -76,9 +93,10 @@ public class Controleur implements CollecteurEvenements {
         plateauJeu.getBq().addMouseListener(new AdaptateurSourisPlateau(plateauJeu.getBq(), this));
     }
 
-    public void setJeu(JeuAvance j){
+    public void setJeu(Jeu j){
         jeu = j;
-        jeu.startGame();
+        listeIA.add(new IATroisPoissons(j));
+        listeIA.add(new IATroisPoissons(j));
     }
 
     public void setInterface(Fenetre window){
@@ -90,6 +108,7 @@ public class Controleur implements CollecteurEvenements {
             jeu.placePingouin(p.x, p.y);
         else
             System.out.println("Peut pas placer ici");
+        joueCoup();
     }
 
 
@@ -109,7 +128,51 @@ public class Controleur implements CollecteurEvenements {
             }
             jeu.unsetSelectionP();
         }
+        joueCoup();
 
     }
 
+    public int getEtatBackPane(){
+        return this.window.workingPane.getEtatBackPane();
+    }
+
+    public void newGame(int j) {
+        jeu = new Jeu(j);
+        plateauJeu = new GameBoard(jeu, this);
+        this.window.setGameBoard(plateauJeu);
+    }
+
+    public void startGame(){
+        jeu.startGame();
+        plateauJeu.getBq().misAJour(jeu);
+        joueCoup();
+    }
+
+
+    private void joueCoup(){
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(jeu.getEtat()!=Jeu.ETAT_FINAL && jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA()){
+                    IAJoueur jia = listeIA.get(jeu.getJoueurCourant()-1);
+                    System.out.println(jeu.getEtat());
+                    if(jeu.getEtat() == Jeu.ETAT_PLACEMENTP){
+                        Position p = jia.elaborePlacement();
+                        jeu.placePingouin(p.x,p.y);
+                    }else{
+                        Coup c = jia.elaboreCoup();
+                        jeu.joue(c);
+                    }
+                    plateauJeu.misAJour(jeu);
+                    try {
+                        Thread.sleep(1000);
+                    }catch (InterruptedException ignored){
+
+                    }
+                    run();
+                }
+            }
+        });
+        t.start();
+    }
 }

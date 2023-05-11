@@ -13,16 +13,19 @@ public class Configuration{
 
     Configuration(Jeu jeu, Coup coup){
         this.jeu = jeu;
+        jeu.IA = true;
         this.coup = coup;
     }
 
     Configuration(Jeu jeu, Position position){
         this.jeu = jeu;
         this.position = position;
+        jeu.IA = true;
     }
 
     Configuration(Jeu jeu){
         this.jeu = jeu;
+        jeu.IA = true;
     }
 
     public Configuration cloner(){

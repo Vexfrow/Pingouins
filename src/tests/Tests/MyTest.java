@@ -1,10 +1,9 @@
-package test.Tests;
+package tests.Tests;
 
 /* Tests sur un terrain fixe */
 
 import Model.Jeu;
 import Model.Cases;
-import Model.JeuAvance;
 import Model.Pingouin;
 import Model.Position;
 
@@ -74,7 +73,7 @@ public class MyTest {
         System.out.println();
 
         */
-        JeuAvance jeu = new JeuAvance("src/test/Terrains/terrainFixe.txt");
+        Jeu jeu = new Jeu("src/test/Terrains/terrainFixe.txt");
         jeu.placePingouin(7, 7);
         System.out.println(jeu.getListeJoueur());
 

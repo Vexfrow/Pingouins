@@ -4,7 +4,6 @@ import java.util.Random;
 import java.lang.Math;
 import Model.Coup;
 import Model.Jeu;
-import Model.JeuAvance;
 import Model.Position;
 import Model.Joueur;
 import Model.Cases;
@@ -19,7 +18,7 @@ public class IAMinimax extends IAJoueur{
     int iajoueur;
 
 
-    IAMinimax(JeuAvance j){
+    public IAMinimax(Jeu j){
         super(j);
     }
 
@@ -31,7 +30,7 @@ public class IAMinimax extends IAJoueur{
     public Position elaborePlacement(){
         
         this.iajoueur = this.j.getJoueurCourant();
-        Configuration conf = new Configuration(this.j.toJeu());
+        Configuration conf = new Configuration(this.j.cloner());
 
         ArrayList<Configuration> fils = Configuration.coupFilsPhase1(conf);
         int max = 0;
@@ -50,7 +49,7 @@ public class IAMinimax extends IAJoueur{
     @Override
     public Coup elaboreCoup(){
         this.iajoueur = this.j.getJoueurCourant();
-        Configuration conf = new Configuration(this.j.toJeu());
+        Configuration conf = new Configuration(this.j.cloner());
 
         ArrayList<Configuration> fils = Configuration.coupFilsPhase2(conf);
         int max = 0;

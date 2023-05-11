@@ -1,18 +1,19 @@
-package test.Tests;
+package tests.Tests;
 
-import Model.JeuAvance;
+import Model.*;
 
-/* Option -ea pour activer les assertions */
+/* Programme test pour le placement des pingouins */
 
 public class TestsPingouins {
     
     public static void main(String[] args){
         // Test placement pingouins
-        JeuAvance jeu = new JeuAvance("src/tests/Terrains/terrainFixe.txt");
+        Jeu jeu = new Jeu("src/tests/Terrains/terrainFixe.txt");
         System.out.println(jeu.toString());
 
         // On verifie qu'on ne peut pas placer de pingouins n'importe ou
         assert jeu.getListeJoueur().size() == 4: "Nombre de joueurs differents de 4";
+
         assert jeu.placePingouin(0, 7) == false: "Placement en (0,7) impossible";
         assert jeu.placePingouin(0, -1) == false: "Placement en (0,7) impossible";
         assert jeu.placePingouin(7, 0) == false: "Placement en (0,7) impossible";
@@ -37,7 +38,6 @@ public class TestsPingouins {
         // On verifie que tous les pingouins ont ete places
         assert jeu.pingouinTousPlace() == true: "Pingouins tous places";
         assert jeu.placePingouin(7, 2) == false: "Impossible de placer plus de pingouins";
-
         jeu.placePingouin(3, 4);
 
         System.out.println("\n"+jeu.getListeJoueur());

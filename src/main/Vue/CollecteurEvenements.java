@@ -3,7 +3,6 @@ package Vue;
 import Interface.Fenetre;
 import Interface.GameBoard;
 import Model.Jeu;
-import Model.JeuAvance;
 
 public interface CollecteurEvenements {
 
@@ -13,7 +12,7 @@ public interface CollecteurEvenements {
 
     void setInterface(Fenetre window);
 
-    void setJeu(JeuAvance jeu);
+    void setJeu(Jeu jeu);
 
     void switchSel();
 
@@ -21,7 +20,16 @@ public interface CollecteurEvenements {
 
     void switchGameBoard();
 
-    void toggleHelp();
+    void toggleHelp(boolean b);
+
+    void togglePause(boolean b);
+
+    int getEtatBackPane();
+
+    void newGame(int j);
+
+    void startGame();
+
 
 
 }
