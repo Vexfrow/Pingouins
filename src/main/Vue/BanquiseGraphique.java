@@ -8,11 +8,11 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class BanquiseGraphique extends JComponent {
 
@@ -21,6 +21,15 @@ public class BanquiseGraphique extends JComponent {
     BufferedImage hPingouinB1, hPingouinB2, hPingouinB3;
     BufferedImage hPingouinV1, hPingouinV2, hPingouinV3;
     BufferedImage hPingouinJ1, hPingouinJ2, hPingouinJ3;
+
+    BufferedImage hPoisson1hR, hPoisson2hR, hPoisson3hR;
+    BufferedImage hPoisson1hB, hPoisson2hB, hPoisson3hB;
+    BufferedImage hPoisson1hV, hPoisson2hV, hPoisson3hV;
+    BufferedImage hPoisson1hJ, hPoisson2hJ, hPoisson3hJ;
+    BufferedImage hPingouinR1h, hPingouinR2h, hPingouinR3h;
+    BufferedImage hPingouinB1h, hPingouinB2h, hPingouinB3h;
+    BufferedImage hPingouinV1h, hPingouinV2h, hPingouinV3h;
+    BufferedImage hPingouinJ1h, hPingouinJ2h, hPingouinJ3h;
 
     TexturePaint paintFont;
 
@@ -58,6 +67,38 @@ public class BanquiseGraphique extends JComponent {
         hPingouinJ2 = chargeImage("caseJaune2");
         hPingouinJ3 = chargeImage("caseJaune3");
 
+        hPoisson1hR = chargeImage("casePoissons1");
+        hPoisson2hR = chargeImage("casePoissons2");
+        hPoisson3hR = chargeImage("casePoissons3");
+
+        hPoisson1hB = chargeImage("casePoissons1");
+        hPoisson2hB = chargeImage("casePoissons2");
+        hPoisson3hB = chargeImage("casePoissons3");
+
+        hPoisson1hV = chargeImage("casePoissons1");
+        hPoisson2hV = chargeImage("casePoissons2");
+        hPoisson3hV = chargeImage("casePoissons3");
+
+        hPoisson1hJ = chargeImage("casePoissons1");
+        hPoisson2hJ = chargeImage("casePoissons2");
+        hPoisson3hJ = chargeImage("casePoissons3");
+
+        hPingouinR1h = chargeImage("caseRouge1");
+        hPingouinR2h = chargeImage("caseRouge2");
+        hPingouinR3h = chargeImage("caseRouge3");
+
+        hPingouinV1h = chargeImage("caseVert1");
+        hPingouinV2h = chargeImage("caseVert2");
+        hPingouinV3h = chargeImage("caseVert3");
+
+        hPingouinB1h = chargeImage("caseBleu1");
+        hPingouinB2h = chargeImage("caseBleu2");
+        hPingouinB3h = chargeImage("caseBleu3");
+
+        hPingouinJ1h = chargeImage("caseJaune1");
+        hPingouinJ2h = chargeImage("caseJaune2");
+        hPingouinJ3h = chargeImage("caseJaune3");
+
 
         plateau = new ArrayList<>(60);
     }
@@ -70,41 +111,6 @@ public class BanquiseGraphique extends JComponent {
             System.out.println("Fichier \"" + nom + "\" introuvable");
         }
         return null;
-    }
-
-
-    public static BufferedImage getTexturedImage(BufferedImage src, Shape shp, boolean highlight) {
-        Rectangle r = shp.getBounds();
-
-        //On récupère une version redimensionnée de l'image
-        Image imageTmp = src.getScaledInstance((int) r.getWidth(), (int) r.getHeight(), BufferedImage.SCALE_FAST);
-
-        //On crée une nouvelle image bufferisé
-        BufferedImage buffered = new BufferedImage((int) r.getWidth(), (int) r.getHeight(), BufferedImage.TYPE_INT_ARGB);
-
-        //On remplace la nouvelle image par la version redimensionnée de l'image que l'on souhaite mettre
-        buffered.getGraphics().drawImage(imageTmp, 0, 0, null);
-
-        if(highlight){
-            Color c = new Color(251,241,28,100);
-            for (int x = 0; x < buffered.getWidth(); x++) {
-                for (int y = 0; y < buffered.getHeight(); y++) {
-                    Color pixelColor = new Color(buffered.getRGB(x, y), true);
-                    int re = (pixelColor.getRed() + c.getRed()) / 2;
-                    int g = (pixelColor.getGreen() + c.getGreen()) / 2;
-                    int b = (pixelColor.getBlue() + c.getBlue()) / 2;
-                    int a = pixelColor.getAlpha();
-                    int rgba = (a << 24) | (re << 16) | (g << 8) | b;
-                    buffered.setRGB(x, y, rgba);
-                }
-            }
-        }
-
-
-        src.getGraphics().dispose();
-        buffered.getGraphics().dispose();
-
-        return buffered;
     }
 
 
@@ -184,23 +190,24 @@ public class BanquiseGraphique extends JComponent {
 
         for (int i = 0; i < plateau.size(); i++) {
 
-            Position coordHexa = getCoordFromNumber(i);
+            Position coordHexa = getPosFromNumber(i);
             Cases c = jeu.getCase(coordHexa.x, coordHexa.y);
             Shape cell = plateau.get(i);
 
-            if(etat == JeuAvance.ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0){
-                bfi = getTexturedImage(getBfi(c), cell, true);
-            }else if(etat == JeuAvance.ETAT_CHOIXC && Objects.requireNonNull(listHexagone).contains(coordHexa)){
-                bfi = getTexturedImage(getBfi(c), cell, true);
-            }else if(etat == JeuAvance.ETAT_SELECTIONP && Objects.requireNonNull(listPingouinPos).contains(coordHexa)){
-                bfi = getTexturedImage(getBfi(c), cell, true);
-            }else{
-                bfi = getTexturedImage(getBfi(c), cell, false);
-            }
+//            if(etat == JeuAvance.ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0){
+//                bfi = getTexturedImage(getBfi(c), cell, true);
+//            }else if(etat == JeuAvance.ETAT_CHOIXC && Objects.requireNonNull(listHexagone).contains(coordHexa)){
+//                bfi = getTexturedImage(getBfi(c), cell, true);
+//            }else if(etat == JeuAvance.ETAT_SELECTIONP && Objects.requireNonNull(listPingouinPos).contains(coordHexa)){
+//                bfi = getTexturedImage(getBfi(c), cell, true);
+//            }else{
+//                bfi = getTexturedImage(getBfi(c), cell, false);
+//            }
 
-            g2d.drawImage(bfi, cell.getBounds().x, cell.getBounds().y, null);
+            g2d.drawImage(getBfi(c), cell.getBounds().x, cell.getBounds().y, cell.getBounds().width, cell.getBounds().height, null);
 
         }
+
     }
 
 
@@ -217,32 +224,32 @@ public class BanquiseGraphique extends JComponent {
                 bfi = hPoisson3;
         } else if (c.pingouinPresent() == 1) {
             if (c.getNbPoissons() == 1)
-                bfi = hPingouinB1;
-            else if (c.getNbPoissons() == 2)
-                bfi = hPingouinB2;
-            else if (c.getNbPoissons() == 3)
-                bfi = hPingouinB3;
-        } else if (c.pingouinPresent() == 2) {
-            if (c.getNbPoissons() == 1)
                 bfi = hPingouinR1;
             else if (c.getNbPoissons() == 2)
                 bfi = hPingouinR2;
             else if (c.getNbPoissons() == 3)
                 bfi = hPingouinR3;
-        } else if (c.pingouinPresent() == 3) {
+        } else if (c.pingouinPresent() == 2) {
             if (c.getNbPoissons() == 1)
-                bfi = hPingouinJ1;
+                bfi = hPingouinB1;
             else if (c.getNbPoissons() == 2)
-                bfi = hPingouinJ2;
+                bfi = hPingouinB2;
             else if (c.getNbPoissons() == 3)
-                bfi = hPingouinJ3;
-        } else if (c.pingouinPresent() == 4) {
+                bfi = hPingouinB3;
+        } else if (c.pingouinPresent() == 3) {
             if (c.getNbPoissons() == 1)
                 bfi = hPingouinV1;
             else if (c.getNbPoissons() == 2)
                 bfi = hPingouinV2;
             else if (c.getNbPoissons() == 3)
                 bfi = hPingouinV3;
+        } else if (c.pingouinPresent() == 4) {
+            if (c.getNbPoissons() == 1)
+                bfi = hPingouinJ1;
+            else if (c.getNbPoissons() == 2)
+                bfi = hPingouinJ2;
+            else if (c.getNbPoissons() == 3)
+                bfi = hPingouinJ3;
         }
         return bfi;
     }
@@ -253,7 +260,7 @@ public class BanquiseGraphique extends JComponent {
     }
 
 
-    public Position getCoordFromNumber(int number){
+    public Position getPosFromNumber(int number){
         int i = 0;
         int j =0;
 
@@ -274,6 +281,15 @@ public class BanquiseGraphique extends JComponent {
             number--;
         }
         return new Position(i,j);
+    }
+
+
+    public void sauvegardeBanquise(String nomFichier){
+        BufferedImage bi = new BufferedImage(this.getSize().width, this.getSize().height, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = bi.createGraphics();
+        this.paint(g);  //this == JComponent
+        g.dispose();
+        try{ImageIO.write(bi,"png",new File("resources/sauvegarde/"+nomFichier+".png"));}catch (Exception e) {}
     }
 
 

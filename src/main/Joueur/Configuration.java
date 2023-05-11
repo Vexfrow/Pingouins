@@ -6,16 +6,16 @@ import java.util.ArrayList;
 
 public class Configuration{
 
-    public Jeu jeu;
+    public JeuAvance jeu;
     public Coup coup;
 
 
-    Configuration(Jeu jeu, Coup coup){
+    Configuration(JeuAvance jeu, Coup coup){
         this.jeu = jeu;
         this.coup = coup;
     }
 
-    Configuration(Jeu jeu){
+    Configuration(JeuAvance jeu){
         this.jeu = jeu;
     }
 

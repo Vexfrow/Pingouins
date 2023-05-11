@@ -3,6 +3,7 @@ package Interface;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import Controleur.Controleur;
+import Model.JeuAvance;
 import Vue.CollecteurEvenements;
 
 import java.awt.*;
@@ -24,6 +25,7 @@ public class Selection extends JPanel {
     private JButton sauvegarde;
     private JButton valide;
     private Image flecheRetour;
+    private IconeSelection listJoueur[];
 
     public Selection(CollecteurEvenements ctrl){
 
@@ -36,6 +38,7 @@ public class Selection extends JPanel {
         }catch(Exception e){
             System.out.println("une erreur " + e);
         }
+        listJoueur = new IconeSelection[4];
         setSelection();
 
     }
@@ -44,6 +47,7 @@ public class Selection extends JPanel {
         Image neoImg = img.getScaledInstance(d.width, d.height, Image.SCALE_AREA_AVERAGING) ;
         return neoImg;
     }
+
 
     public void setSelection(){
         valide.setPreferredSize(new Dimension(200, 80));
@@ -88,20 +92,28 @@ public class Selection extends JPanel {
         gbc.weightx = 1;
         gbc.weighty = 3;
 
-        IconeSelection p1 = new IconeSelection(Color.BLUE, 100);
+        IconeSelection p1 = new IconeSelection(GameConstants.ROUGE, 100, false);
         this.add(p1, gbc);
 
         gbc.gridx = 1;
-        IconeSelection p2 = new IconeSelection(Color.RED, 100);
+        IconeSelection p2 = new IconeSelection(GameConstants.BLEU, 100, false);
         this.add(p2, gbc);
 
         gbc.gridx = 2;
-        IconeSelection p3 = new IconeSelection(Color.YELLOW, 100);
+        IconeSelection p3 = new IconeSelection(GameConstants.VERT, 100, true);
         this.add(p3, gbc);
 
         gbc.gridx = 3;
-        IconeSelection p4 = new IconeSelection(Color.GREEN, 100);
+        IconeSelection p4 = new IconeSelection(GameConstants.JAUNE, 100, true);
         this.add(p4, gbc);
+
+
+        listJoueur[0] = p1;
+        listJoueur[1] = p2;
+        listJoueur[2] = p3;
+        listJoueur[3] = p4;
+
+
 
         gbc.fill = GridBagConstraints.CENTER;
         gbc.anchor = GridBagConstraints.CENTER;
@@ -131,13 +143,28 @@ public class Selection extends JPanel {
         valide.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("nb P " + numberOfPlayer());
+                c.newGame(numberOfPlayer());
                 c.switchGameBoard();
             }
         });
+        revalidate();
+        repaint();
     }
 
     public void changeIcon(){
             retour.setIcon(new ImageIcon(flecheRetour));
+    }
+
+
+    public int numberOfPlayer(){
+        int j = 0;
+        for(int i =0; i < 4; i++){
+            if(listJoueur[i].isActif()){
+                j++;
+            }
+        }
+        return j;
     }
 }
 
