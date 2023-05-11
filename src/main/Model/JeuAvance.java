@@ -394,15 +394,6 @@ public class JeuAvance extends Jeu{
         int l = cp.getLigne();
         int c = cp.getColonne();
 
-        System.out.println(" NB PINGOUIN PLACER  ="+nbPingouinPlace);
-
-
-        System.out.println("c1 = " + (joueur.listePingouin.size() < nbPingouinJoueur));
-        System.out.println("c2 = " + getCase(l, c) != null);
-        System.out.println("c3 = " + !pingouinPresent(l, c));
-        System.out.println("c4 = " + (getCase(l,c).getNbPoissons() == 1));
-        System.out.println("c5 = " + !pingouinTousPlace());
-
         if( (joueur.listePingouin.size() < nbPingouinJoueur) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1 && !pingouinTousPlace()){
             Pingouin ping = new Pingouin(l,c);
             joueur.listePingouin.add(ping);
@@ -451,6 +442,19 @@ public class JeuAvance extends Jeu{
             if(!IA){
                 coupJoue.add(cp);
                 coupAnnule = new ArrayList<Coup>();
+            }
+
+
+            //on enlève un pingouin dés qu'il est bloqué
+            for(int i =0; i<nbPingouinJoueur; i++){
+                ping = joueur.listePingouin.get(i);
+                if(estPingouinBloque(ping)){
+                    Cases casesCourante = getCase(ping.getLigne(), ping.getColonne());
+                    joueur.setScore(joueur.getScore() + casesCourante.getNbPoissons());
+                    joueur.setNbCasesMange(joueur.getNbCasesMange() +1);
+                    casesCourante.setMange(true);
+                    casesCourante.setNbPoissons(0); 
+                }
             }
 
             switchJoueur();
@@ -516,11 +520,11 @@ public class JeuAvance extends Jeu{
             Cases[][] terrainInit = clonerTerrain(this.terrainInitiale);
             JeuAvance j = new JeuAvance(terrainInit, this.nbJoueur, this.nbLignes, this.nbColonnes);
             Coup cp;
+            if (coupJoue.get(coupJoue.size() - 1).estPlace() == true)
+                this.nbPingouinPlace++;
             coupAnnule.add(coupJoue.get(coupJoue.size()-1));
             coupJoue.remove(coupJoue.size()-1);
             int i = 0;
-
-            this.nbPingouinPlace++;
 
             while(i < coupJoue.size()){
                 cp = coupJoue.get(i);

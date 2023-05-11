@@ -118,7 +118,7 @@ public class GameBoard extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jeu.annule();
-                misAJour();
+                misAJour(jeu);
             }
         });
 
@@ -128,7 +128,7 @@ public class GameBoard extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jeu.refaire();
-                misAJour();
+                misAJour(jeu);
             }
         });
         JPanel boutonPanel2 = new JPanel();
@@ -152,13 +152,6 @@ public class GameBoard extends JPanel {
     public void misAJour(JeuAvance j){
         jeu = j;
         messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant());
-        for(int i = 0; i < jeu.getListeJoueur().size();i++){
-            listScore.get(i).setText("Joueur "+(i+1)+" : \nNombre de poissons : "+ jeu.getListeJoueur().get(i).getScore() + "\nNombre de cases : " +jeu.getListeJoueur().get(i).getNbCasesMange());
-        }
-        bq.misAJour(jeu);
-    }
-
-    public void misAJour(){
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
             listScore.get(i).setText("Joueur "+(i+1)+" : \nNombre de poissons : "+ jeu.getListeJoueur().get(i).getScore() + "\nNombre de cases : " +jeu.getListeJoueur().get(i).getNbCasesMange());
         }

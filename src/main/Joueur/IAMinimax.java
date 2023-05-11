@@ -19,7 +19,7 @@ public class IAMinimax extends IAJoueur{
     int iajoueur;
 
 
-    IAMinimax(JeuAvance j){
+    public IAMinimax(JeuAvance j){
         super(j);
     }
 
@@ -71,7 +71,7 @@ public class IAMinimax extends IAJoueur{
         int temp = 0;
         Coup coupMax = null;
         for(int i = 0; i < fils.size(); i++){
-            if((temp = minimax(fils.get(i), 1, false)) > max ){
+            if((temp = minimax(fils.get(i), 2, false)) > max ){
                 max =temp;
                 coupMax = fils.get(i).coup;
             }

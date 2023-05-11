@@ -25,14 +25,22 @@ public class TestsCoups {
         //System.out.println(jeu.getListeJoueur() + "\n");
 
 
+
+        jeu.annule();
+        jeu.annule();
+        jeu.refaire();
+        jeu.refaire();
+
+
+
         // On doit d'abord placer tous les pingouins avant de pouvoir jouer
         System.out.println("On doit d'abord placer tous les pingouins avant de pouvoir jouer");
         Pingouin ping = new Pingouin(jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0).getLigne(), 
                                      jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0).getColonne());
         Coup cp = new Coup(4,3,ping,false);
         jeu.joue(cp);
-        //System.out.println(ping);
-        assert ping.getLigne() == 4 && ping.getColonne() == 2: "Les pingouins doivent d'abord etre places";
+        assert jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0).getLigne() == 4 && 
+               jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0).getColonne() == 2: "Les pingouins doivent d'abord etre places";
         assert jeu.getJoueurCourant() == 4: "C'est toujours au joueur 4 de jouer";
 
         // On place donc le dernier pingouin
@@ -43,11 +51,12 @@ public class TestsCoups {
         // Un pingouin ne peut pas se deplacer sur une case ou il y a deja un pingouin
         System.out.println("\nUn pingouin ne peut pas se deplacer sur une case ou il y a deja un pingouin");
         ping = new Pingouin(jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0).getLigne(),
-                             jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0).getColonne());
+                            jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0).getColonne());
         cp = new Coup(0,6,ping,false);
         jeu.joue(cp);
         // On verifie donc que tout soit en ordre
-        assert ping.getLigne() == 0 && ping.getColonne() == 0: "Le pingouin n'est pas deplacable en (0,6)";
+        assert jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0).getLigne() == 0 && 
+               jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0).getColonne() == 0: "Le pingouin n'est pas deplacable en (0,6)";
         assert jeu.getJoueurCourant() == 1: "C'est toujours au joueur 1 de jouer";
         assert jeu.getScore(jeu.getJoueurCourant()) == 0: "Le score doit etre a 0";
         assert jeu.getCase(0, 0).getNbPoissons() == 1: "Le nombre de poissons en (0,0) doit etre a 1";
@@ -78,21 +87,10 @@ public class TestsCoups {
 
         // Bon deplacement d'un pingouin
         System.out.println("\nBon placement d'un pingouin");
-
-
-        System.out.println(jeu.getJoueurCourant());
-
-
         ping = new Pingouin(jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getLigne(),
                             jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getColonne());
         cp = new Coup(5,6,ping,false);
-
-
         jeu.joue(cp);
-
-
-        System.out.println(jeu.getJoueurCourant());
-
         assert jeu.getJoueurCourant() == 2: "C'est au joueur de 2 de jouer";
         assert (jeu.getListeJoueur().get(jeu.getJoueurCourant() - 2).getListePingouin().get(1).getLigne() == 5 && 
                 jeu.getListeJoueur().get(jeu.getJoueurCourant() - 2).getListePingouin().get(1).getColonne() == 6): "Le pingouin devrait etre en (5,6)";
@@ -183,6 +181,15 @@ public class TestsCoups {
                             jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getColonne());
         cp = new Coup(4,6,ping,false);
         jeu.joue(cp);
+
+
+       
+        jeu.annule();
+        jeu.annule();
+        jeu.refaire();
+        jeu.refaire();
+
+
         // 2
         ping = new Pingouin(jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getLigne(),
                             jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getColonne());
@@ -236,6 +243,7 @@ public class TestsCoups {
         assert jeu.getCase(7, 3).getNbPoissons() == 1: "La case (7,3) doit avoir 1 poisson";
 
 
+        
         // On sauvegarde puis on recupere dans un autre jeuAvance pour verifier qu'on a bien la meme chose
         System.out.println("\nOn sauvegarde puis on recupere dans un autre jeuAvance pour verifier qu'on a bien la meme chose");
         jeu.sauvegarder("src/tests/Terrains/terrainFixeCoup.txt");

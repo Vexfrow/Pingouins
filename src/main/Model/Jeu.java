@@ -79,6 +79,7 @@ public class Jeu{
             l++;
         }
 
+        /* 
         //si le jeu est terminé on récupére tous les points sous les pingouins
         if(termine){
             for(int i =0; i< listeJoueur.size(); i++){
@@ -95,6 +96,11 @@ public class Jeu{
                     casesCourante.setNbPoissons(0); 
                 }
             }
+        }
+        */
+
+        if(termine){
+            System.out.println("fin");
         }
 
         return termine;
@@ -149,9 +155,6 @@ public class Jeu{
         } else {
             System.out.println("Le pingouin choisit n'est pas déplacable pour le moment");
         }
-
-        System.out.println("NBPINGOUIN qu'il reste à placer = " + nbPingouinPlace);
-
 
         return (index != casesAccessible.size() && bonPinguoin && nbPingouinPlace == 0);
     }
@@ -302,7 +305,18 @@ public class Jeu{
         boolean passeTour = (listeJoueur.get(joueurCourant-1).getListePingouin().size()!=0);
 
         while(i< pingJoueur.size() && passeTour){
-            passeTour = estPingouinBloque(pingJoueur.get(i));
+            Pingouin ping = pingJoueur.get(i);
+            passeTour = estPingouinBloque(ping);
+
+            if(estPingouinBloque(ping)){
+                Cases casesCourante = getCase(ping.getLigne(), ping.getColonne());
+                joueur.setScore(joueur.getScore() + casesCourante.getNbPoissons());
+                joueur.setNbCasesMange(joueur.getNbCasesMange() +1);
+                casesCourante.setMange(true);
+                casesCourante.setNbPoissons(0); 
+            }
+
+
             i++;
         }
         
