@@ -148,8 +148,6 @@ public class Selection extends JPanel {
                 c.switchGameBoard();
             }
         });
-        revalidate();
-        repaint();
     }
 
     public void changeIcon(){

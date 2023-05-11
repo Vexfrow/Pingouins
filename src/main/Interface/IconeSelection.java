@@ -209,7 +209,7 @@ public class IconeSelection extends JPanel {
         g.setColor(this.color);
         g.fillPolygon(p);
 
-        g.drawRect(0,0, this.getWidth(), this.getHeight());
+        //g.drawRect(0,0, this.getWidth(), this.getHeight());
     }
 
 

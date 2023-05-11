@@ -8,9 +8,9 @@ public class GameConstants {
     public static final Color BACKGROUND_GRISEE = new Color(150, 150, 150, 192);
 
     public static final Dimension boutonTaille = new Dimension(200, 75);
-    public static final Color ROUGE = Color.RED;
-    public static final Color VERT = Color.GREEN;
-    public static final Color BLEU = Color.BLUE;
-    public static final Color JAUNE = Color.YELLOW;
+    public static final Color ROUGE = new Color(0xEC1C24);
+    public static final Color VERT = new Color(0x0ED145);
+    public static final Color BLEU = new Color(0x3F48CC);
+    public static final Color JAUNE = new Color(0xFFF200);
 
 }
