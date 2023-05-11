@@ -3,14 +3,13 @@ package Joueur;
 import Model.Jeu;
 import Model.Position;
 import Model.Coup;
-import Model.JeuAvance;
 
 
 public abstract class IAJoueur {
-    JeuAvance j;
+    Jeu j;
     public String name;
 
-    IAJoueur(JeuAvance j){
+    IAJoueur(Jeu j){
         this.j = j;
     }
 

@@ -1,6 +1,6 @@
 package tests.Tests;
 
-import Model.JeuAvance;
+import Model.*;
 
 /* Programme test pour le placement des pingouins */
 
@@ -8,7 +8,7 @@ public class TestsPingouins {
     
     public static void main(String[] args){
         // Test placement pingouins
-        JeuAvance jeu = new JeuAvance("src/tests/Terrains/terrainFixe.txt");
+        Jeu jeu = new Jeu("src/tests/Terrains/terrainFixe.txt");
         System.out.println(jeu.toString());
 
         // On verifie qu'on ne peut pas placer de pingouins n'importe ou
