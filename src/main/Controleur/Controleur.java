@@ -67,8 +67,9 @@ public class Controleur implements CollecteurEvenements {
 
     @Override
     public void clicSourisPlateau(int coupX, int coupY) {
-        for(int i = 0; i < plateauJeu.getBq().getPlateauJeu().size();i++) {
-            Shape cell = plateauJeu.getBq().getPlateauJeu().get(i);
+        if(!jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA()){
+            for(int i = 0; i < plateauJeu.getBq().getPlateauJeu().size();i++) {
+                Shape cell = plateauJeu.getBq().getPlateauJeu().get(i);
 
             if (cell.contains(coupX, coupY)) {
                 if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP) {
@@ -80,8 +81,9 @@ public class Controleur implements CollecteurEvenements {
                     System.out.println("Test état final");
                 }
 
-                plateauJeu.misAJour(jeu);
-                break;
+                    plateauJeu.misAJour(jeu);
+                    break;
+                }
             }
         }
 
@@ -161,7 +163,8 @@ public class Controleur implements CollecteurEvenements {
                         jeu.placePingouin(p.x,p.y);
                     }else{
                         Coup c = jia.elaboreCoup();
-                        jeu.joue(c);
+                        if(c!=null)
+                            jeu.joue(c);
                     }
                     plateauJeu.misAJour(jeu);
                     try {

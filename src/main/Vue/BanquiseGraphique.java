@@ -84,21 +84,21 @@ public class BanquiseGraphique extends JComponent {
         hPoisson2hJ = chargeImage("brilleJaune2");
         hPoisson3hJ = chargeImage("brilleJaune3");
 
-        hPingouinR1h = chargeImage("contourRouge1");
-        hPingouinR2h = chargeImage("contourRouge2");
-        hPingouinR3h = chargeImage("contourRouge3");
+        hPingouinR1h = chargeImage("contourBrilleRouge1");
+        hPingouinR2h = chargeImage("contourBrilleRouge2");
+        hPingouinR3h = chargeImage("contourBrilleRouge3");
 
-        hPingouinV1h = chargeImage("contourVert1");
-        hPingouinV2h = chargeImage("contourVert2");
-        hPingouinV3h = chargeImage("contourVert3");
+        hPingouinV1h = chargeImage("contourBrilleVert1");
+        hPingouinV2h = chargeImage("contourBrilleVert2");
+        hPingouinV3h = chargeImage("contourBrilleVert3");
 
-        hPingouinB1h = chargeImage("contourBleu1");
-        hPingouinB2h = chargeImage("contourBleu2");
-        hPingouinB3h = chargeImage("contourBleu3");
+        hPingouinB1h = chargeImage("contourBrilleBleu1");
+        hPingouinB2h = chargeImage("contourBrilleBleu2");
+        hPingouinB3h = chargeImage("contourBrilleBleu3");
 
-        hPingouinJ1h = chargeImage("contourJaune1");
-        hPingouinJ2h = chargeImage("contourJaune2");
-        hPingouinJ3h = chargeImage("contourJaune3");
+        hPingouinJ1h = chargeImage("contourBrilleJaune1");
+        hPingouinJ2h = chargeImage("contourBrilleJaune2");
+        hPingouinJ3h = chargeImage("contourBrilleJaune3");
 
 
         plateau = new ArrayList<>(60);
@@ -106,7 +106,7 @@ public class BanquiseGraphique extends JComponent {
 
     private BufferedImage chargeImage(String nom) {
         try {
-            InputStream in = new FileInputStream("resources/assets/plateau/" + nom + ".png");
+            InputStream in = new FileInputStream("resources/assets/jeu/plateau/" + nom + ".png");
             return ImageIO.read(in);
         } catch (Exception e) {
             System.out.println("Fichier \"" + nom + "\" introuvable");
