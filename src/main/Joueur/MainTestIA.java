@@ -18,7 +18,7 @@ public class MainTestIA{
 
 
     public static void main(String[] args){
-        testerIA(1000000);
+        testerIA(10000000);
     }
 
     public static void testerIA(int nbPartie){
@@ -34,8 +34,8 @@ public class MainTestIA{
         while ( i < nbPartie){
             Jeu j = new Jeu(2);
 
-            ia1 = new IATroisPoissons(j);
-            ia2 = new IAAleatoire(j);
+            ia1 = new IAMinimax(j);
+            ia2 = new IAMinimax(j);
 
             while(!j.pingouinTousPlace()){
 

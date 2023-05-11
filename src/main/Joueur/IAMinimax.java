@@ -37,7 +37,7 @@ public class IAMinimax extends IAJoueur{
         int temp = 0;
         Position posmax = null;
         for(int i = 0; i < fils.size(); i++){
-            if((temp = minimaxPhase1(fils.get(i), 2 , false)) > max ){
+            if((temp = minimaxPhase1(fils.get(i), 0 , false)) > max ){
                 max =temp;
                 posmax = fils.get(i).position;
             }
@@ -56,7 +56,7 @@ public class IAMinimax extends IAJoueur{
         int temp = 0;
         Coup coupMax = null;
         for(int i = 0; i < fils.size(); i++){
-            if((temp = minimaxPhase2(fils.get(i), 2, false)) > max ){
+            if((temp = minimaxPhase2(fils.get(i), 0, false)) > max ){
                 max =temp;
                 coupMax = fils.get(i).coup;
             }

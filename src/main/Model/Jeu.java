@@ -785,7 +785,7 @@ public class Jeu{
         */
 
         if(termine){
-            System.out.println("fin");
+            //System.out.println("fin");
         }
 
         return termine;
@@ -1027,19 +1027,20 @@ public class Jeu{
 
             if(estPingouinBloque(ping)){
                 Cases casesCourante = getCase(ping.getLigne(), ping.getColonne());
-                joueur.setScore(joueur.getScore() + casesCourante.getNbPoissons());
-                joueur.setNbCasesMange(joueur.getNbCasesMange() +1);
-                casesCourante.setMange(true);
-                casesCourante.setNbPoissons(0); 
+                if(!casesCourante.estMange()){
+                    joueur.setScore(joueur.getScore() + casesCourante.getNbPoissons());
+                    joueur.setNbCasesMange(joueur.getNbCasesMange() +1);
+                    casesCourante.setMange(true);
+                    casesCourante.setNbPoissons(0); 
+                }
             }
-
 
             i++;
         }
         
         if(passeTour && !jeuTermine()){
             if(!IA){
-                System.out.println("Le joueur ne peut plus jouer, on passe son tour");
+                //System.out.println("Le joueur ne peut plus jouer, on passe son tour");
             }
             switchJoueur();
         }
