@@ -506,10 +506,11 @@ public class JeuAvance extends Jeu{
             Cases[][] terrainInit = clonerTerrain(this.terrainInitiale);
             JeuAvance j = new JeuAvance(terrainInit, this.nbJoueur, this.nbLignes, this.nbColonnes);
             Coup cp;
+            if (coupJoue.get(coupJoue.size() - 1).estPlace() == true)
+                this.nbPingouinPlace++;
             coupAnnule.add(coupJoue.get(coupJoue.size()-1));
             coupJoue.remove(coupJoue.size()-1);
             int i = 0;
-            this.nbPingouinPlace =nbPingouinJoueur;
 
             while(i < coupJoue.size()){
                 cp = coupJoue.get(i);
