@@ -15,7 +15,7 @@ public class Joueur {
 
     // Constructeur de joueur
     // Pour initialiser un joueur, on appelle avec score = 0
-    Joueur(int numeroJoueur, int score, int nbCasesMange, boolean IA){
+    public Joueur(int numeroJoueur, int score, int nbCasesMange, boolean IA){
 
         this.numeroJoueur = numeroJoueur;
         this.score = score;

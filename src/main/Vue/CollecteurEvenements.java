@@ -28,5 +28,8 @@ public interface CollecteurEvenements {
 
     void newGame(int j);
 
+    void startGame();
+
+
 
 }

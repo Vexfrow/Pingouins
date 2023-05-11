@@ -20,6 +20,8 @@ public class GameBoard extends JPanel {
 
     CollecteurEvenements collecteur;
 
+    Label messageTour;
+
     JeuAvance jeu;
 
     private ArrayList<JTextArea> listScore;
@@ -29,6 +31,7 @@ public class GameBoard extends JPanel {
         bq = new BanquiseGraphique(j);
         gamePanel = new JPanel();
         menuGame = new JPanel();
+        messageTour = new Label();
 
         listScore = new ArrayList<>();
 
@@ -82,6 +85,11 @@ public class GameBoard extends JPanel {
         boutonPanel.add(bSuggestion);
 
         menuGame.add(boutonPanel);
+
+        messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant());
+
+        menuGame.add(messageTour);
+
 
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
 
@@ -143,29 +151,10 @@ public class GameBoard extends JPanel {
 
     public void misAJour(JeuAvance j){
         jeu = j;
-
+        messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant());
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
             listScore.get(i).setText("Joueur "+(i+1)+" : \nNombre de poissons : "+ jeu.getListeJoueur().get(i).getScore() + "\nNombre de cases : " +jeu.getListeJoueur().get(i).getNbCasesMange());
         }
-
-
-        String message;
-        ToastComponent tc = null;
-        if(j.getEtat() == JeuAvance.ETAT_SELECTIONP) {
-            message = "C'est au tour du joueur " + j.getJoueurCourant() + " de jouer";
-            tc = new ToastComponent(message, getWidth() / 2 - 20, 0);
-        }else if(j.getEtat() == JeuAvance.ETAT_FINAL){
-            message = "Partie terminé";
-            tc = new ToastComponent(message, getWidth()/2-20, 0);
-        }else if(j.getEtat() == JeuAvance.ETAT_PLACEMENTP){
-            message = "C'est au tour du joueur " + j.getJoueurCourant() + " de placer un pingouin";
-            tc = new ToastComponent(message, getWidth()/2-20, 0);
-        }
-
-        if(tc != null)
-            tc.showtoast();
-
-
         bq.misAJour(jeu);
     }
 

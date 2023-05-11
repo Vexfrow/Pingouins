@@ -83,7 +83,7 @@ public class JeuAvance extends Jeu{
                 i++;
             }
 
-            //intit le nombre de pingouin a placer et le nombre de pingouin par joueur
+            //init le nombre de pingouins à placer et le nombre de pingouins par joueur
             initNbPingouins(nbJoueur);
 
             terrainInitiale = new Cases[nbLignes][nbColonnes];
@@ -193,6 +193,9 @@ public class JeuAvance extends Jeu{
 
     }
 
+    public JeuAvance(ArrayList<Joueur> ar){
+        this(ar, 8,8);
+    }
     //constructeru avec une liste de joueur
     public JeuAvance(ArrayList<Joueur> ar, int nbLignes, int nbColonnes){
 
@@ -200,6 +203,9 @@ public class JeuAvance extends Jeu{
         terrainCourant = new Cases[nbLignes][nbColonnes*2-1];
 
         initArrays(ar.size());
+
+        nbJoueur = ar.size();
+
 
         for(int i =0; i < ar.size(); i++){
             listeJoueur.add(ar.get(i).cloner());
