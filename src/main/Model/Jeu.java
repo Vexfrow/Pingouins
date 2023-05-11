@@ -79,6 +79,7 @@ public class Jeu{
             l++;
         }
 
+        /* 
         //si le jeu est terminé on récupére tous les points sous les pingouins
         if(termine){
             for(int i =0; i< listeJoueur.size(); i++){
@@ -95,6 +96,11 @@ public class Jeu{
                     casesCourante.setNbPoissons(0); 
                 }
             }
+        }
+        */
+
+        if(termine){
+            System.out.println("fin");
         }
 
         return termine;
@@ -173,7 +179,11 @@ public class Jeu{
         int c =0;
 
         while( l < this.nbLignes){
-            c = getDecalage(l);
+            if( l%2 ==1 ){
+                c = 0;
+            }else{ 
+                c = 1;
+            }
             while( c < this.nbColonnes){
                 nbCases++;
                 c+=2;
@@ -295,7 +305,18 @@ public class Jeu{
         boolean passeTour = (listeJoueur.get(joueurCourant-1).getListePingouin().size()!=0);
 
         while(i< pingJoueur.size() && passeTour){
-            passeTour = estPingouinBloque(pingJoueur.get(i));
+            Pingouin ping = pingJoueur.get(i);
+            passeTour = estPingouinBloque(ping);
+
+            if(estPingouinBloque(ping)){
+                Cases casesCourante = getCase(ping.getLigne(), ping.getColonne());
+                joueur.setScore(joueur.getScore() + casesCourante.getNbPoissons());
+                joueur.setNbCasesMange(joueur.getNbCasesMange() +1);
+                casesCourante.setMange(true);
+                casesCourante.setNbPoissons(0); 
+            }
+
+
             i++;
         }
         
@@ -321,7 +342,11 @@ public class Jeu{
         int c;
         int l=0;
         while( l < nbl){
-            c = getDecalage(l);
+            if( l%2 ==1 ){
+                c = 0;
+            }else{ 
+                c = 1;
+            }
             while( c < (nbc)){
                 caseCourante = terrainInitiale[l][c];
                 cases = new Cases(caseCourante.estMange(), caseCourante.getNbPoissons(), caseCourante.pingouinPresent());

@@ -367,6 +367,7 @@ public class JeuAvance extends Jeu{
             //l'IA n'enregistre pas de coup lors de sa reflexion
             if(!IA){
                 Coup cp = new Coup(l,c,ping,true);
+
                 coupJoue.add(cp);
                 coupAnnule = new ArrayList<Coup>();
             }
@@ -443,6 +444,19 @@ public class JeuAvance extends Jeu{
                 coupAnnule = new ArrayList<Coup>();
             }
 
+
+            //on enlève un pingouin dés qu'il est bloqué
+            for(int i =0; i<nbPingouinJoueur; i++){
+                ping = joueur.listePingouin.get(i);
+                if(estPingouinBloque(ping)){
+                    Cases casesCourante = getCase(ping.getLigne(), ping.getColonne());
+                    joueur.setScore(joueur.getScore() + casesCourante.getNbPoissons());
+                    joueur.setNbCasesMange(joueur.getNbCasesMange() +1);
+                    casesCourante.setMange(true);
+                    casesCourante.setNbPoissons(0); 
+                }
+            }
+
             switchJoueur();
             
             if(jeuTermine()){
@@ -506,10 +520,11 @@ public class JeuAvance extends Jeu{
             Cases[][] terrainInit = clonerTerrain(this.terrainInitiale);
             JeuAvance j = new JeuAvance(terrainInit, this.nbJoueur, this.nbLignes, this.nbColonnes);
             Coup cp;
+            if (coupJoue.get(coupJoue.size() - 1).estPlace() == true)
+                this.nbPingouinPlace++;
             coupAnnule.add(coupJoue.get(coupJoue.size()-1));
             coupJoue.remove(coupJoue.size()-1);
             int i = 0;
-            this.nbPingouinPlace =nbPingouinJoueur;
 
             while(i < coupJoue.size()){
                 cp = coupJoue.get(i);
@@ -523,6 +538,9 @@ public class JeuAvance extends Jeu{
             this.terrainCourant = j.getTerrain();
             this.listeJoueur = j.getListeJoueur();
             this.joueurCourant = j.getJoueurCourant();
+        }
+        else {
+            System.out.println("JeuA: annule() - Impossible d'annuler\n");
         }
     }
 
@@ -542,6 +560,9 @@ public class JeuAvance extends Jeu{
                 coupJoue.add(cp);
             }
             coupAnnule.remove(coupAnnule.size()-1);
+        }
+        else {
+            System.out.println("JeuA: refaire() - Impossible de refaire\n");
         }
     }
 
