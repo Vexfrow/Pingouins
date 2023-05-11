@@ -4,16 +4,14 @@ import Interface.MenuP;
 import Interface.Fenetre;
 import Interface.GameBoard;
 import Joueur.IAJoueur;
-import Joueur.IAAleatoire;
 import Joueur.IATroisPoissons;
+import Joueur.IAMinimax;
 import Model.*;
 import Vue.AdaptateurSourisPlateau;
 import Vue.CollecteurEvenements;
 
 import java.awt.Shape;
 import java.util.ArrayList;
-
-import static java.lang.Thread.sleep;
 
 public class Controleur implements CollecteurEvenements {
 
@@ -98,7 +96,7 @@ public class Controleur implements CollecteurEvenements {
     public void setJeu(JeuAvance j){
         jeu = j;
         listeIA.add(new IATroisPoissons(j));
-        listeIA.add(new IAAleatoire(j));
+        listeIA.add(new IATroisPoissons(j));
     }
 
     public void setInterface(Fenetre window){
@@ -152,27 +150,29 @@ public class Controleur implements CollecteurEvenements {
 
 
     private void joueCoup(){
-        if(jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA()){
-            IAJoueur jia = listeIA.get(jeu.getJoueurCourant()-1);
-            System.out.println(jeu.getEtat());
-            if(jeu.getEtat() == JeuAvance.ETAT_PLACEMENTP){
-                System.out.println("Tdzdzest");
-                Position p = jia.elaborePlacement();
-                jeu.placePingouin(p.x,p.y);
-            }else{
-                Coup c = jia.elaboreCoup();
-                System.out.println("Coup = " + c + " ; plateau = " + jeu);
-                jeu.joue(c);
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(jeu.getEtat()!=JeuAvance.ETAT_FINAL && jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA()){
+                    IAJoueur jia = listeIA.get(jeu.getJoueurCourant()-1);
+                    System.out.println(jeu.getEtat());
+                    if(jeu.getEtat() == JeuAvance.ETAT_PLACEMENTP){
+                        Position p = jia.elaborePlacement();
+                        jeu.placePingouin(p.x,p.y);
+                    }else{
+                        Coup c = jia.elaboreCoup();
+                        jeu.joue(c);
+                    }
+                    plateauJeu.misAJour(jeu);
+                    try {
+                        Thread.sleep(1000);
+                    }catch (InterruptedException ignored){
+
+                    }
+                    run();
+                }
             }
-            plateauJeu.misAJour(jeu);
-//            try {
-//                Thread.sleep(1000);
-//            }catch (InterruptedException e){
-//
-//            }
-            //joueCoup();
-        }
-
+        });
+        t.start();
     }
-
 }
