@@ -229,7 +229,10 @@ public class Jeu{
     }
 
     public Cases getCase(int ligne, int colonne){
-        if(coordValideTab(ligne, colonne)){
+        int val = 0;
+        if (ligne%2==0)
+            val = 1;
+        if(coordValideTab(ligne, colonne*2+val)){
             if( ligne%2 ==1 ){
                 return terrainCourant[ligne][colonne*2];
             }else{

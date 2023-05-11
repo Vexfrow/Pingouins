@@ -361,6 +361,7 @@ public class JeuAvance extends Jeu{
             //l'IA n'enregistre pas de coup lors de sa reflexion
             if(!IA){
                 Coup cp = new Coup(l,c,ping,true);
+
                 coupJoue.add(cp);
                 coupAnnule = new ArrayList<Coup>();
             }
@@ -442,7 +443,8 @@ public class JeuAvance extends Jeu{
             if(jeuTermine()){
                 etat = ETAT_FINAL;
             }
-
+            System.out.println("ping x =" + ping.getLigne());
+            System.out.println("ping y =" + ping.getColonne());
         }
         else {
             System.out.println("JeuA: joue() - Impossible de jouer");
@@ -503,7 +505,7 @@ public class JeuAvance extends Jeu{
             coupAnnule.add(coupJoue.get(coupJoue.size()-1));
             coupJoue.remove(coupJoue.size()-1);
             int i = 0;
-            this.nbPingouinPlace =nbPingouinJoueur;
+            this.nbPingouinPlace =nbPingouinJoueur *nbJoueur;
 
             while(i < coupJoue.size()){
                 cp = coupJoue.get(i);
@@ -574,8 +576,8 @@ public class JeuAvance extends Jeu{
             String sep = "";
             String tmp = "";
 
-            for (int i=0; i<terrainCourant.length; i++) {
-                tmp = Arrays.toString(terrainCourant[i]);
+            for (int i=0; i<terrainInitiale.length; i++) {
+                tmp = Arrays.toString(terrainInitiale[i]);
                 result += sep + tmp.substring(1, tmp.length() -1);
                 sep = "\n";
             }

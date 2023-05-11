@@ -1,6 +1,10 @@
 package tests.Tests;
 
 import Model.JeuAvance;
+import Model.Pingouin; 
+import Model.Coup;
+
+/* Programme test pour le placement des pingouins */
 
 /* Option -ea pour activer les assertions */
 
@@ -38,7 +42,6 @@ public class TestsPingouins {
         // On verifie que tous les pingouins ont ete places
         assert jeu.pingouinTousPlace() == true: "Pingouins tous places";
         assert jeu.placePingouin(7, 2) == false: "Impossible de placer plus de pingouins";
-
         jeu.placePingouin(3, 4);
 
         System.out.println("\n"+jeu.getListeJoueur());
