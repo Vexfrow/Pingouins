@@ -67,21 +67,23 @@ public class Controleur implements CollecteurEvenements {
 
     @Override
     public void clicSourisPlateau(int coupX, int coupY) {
-        for(int i = 0; i < plateauJeu.getBq().getPlateauJeu().size();i++) {
-            Shape cell = plateauJeu.getBq().getPlateauJeu().get(i);
+        if(!jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA()){
+            for(int i = 0; i < plateauJeu.getBq().getPlateauJeu().size();i++) {
+                Shape cell = plateauJeu.getBq().getPlateauJeu().get(i);
 
-            if (cell.contains(coupX, coupY)) {
-                if (jeu.getEtat() == JeuAvance.ETAT_PLACEMENTP) {
-                    joueCoupPhase1(plateauJeu.getBq().getPosFromNumber(i));
-                } else if(jeu.getEtat() == JeuAvance.ETAT_SELECTIONP || jeu.getEtat() == JeuAvance.ETAT_CHOIXC){
-                    joueCoupPhase2(plateauJeu.getBq().getPosFromNumber(i));
+                if (cell.contains(coupX, coupY)) {
+                    if (jeu.getEtat() == JeuAvance.ETAT_PLACEMENTP) {
+                        joueCoupPhase1(plateauJeu.getBq().getPosFromNumber(i));
+                    } else if(jeu.getEtat() == JeuAvance.ETAT_SELECTIONP || jeu.getEtat() == JeuAvance.ETAT_CHOIXC){
+                        joueCoupPhase2(plateauJeu.getBq().getPosFromNumber(i));
 
-                }else if (jeu.getEtat() == JeuAvance.ETAT_FINAL){
-                    System.out.println("Test état final");
+                    }else if (jeu.getEtat() == JeuAvance.ETAT_FINAL){
+                        System.out.println("Test état final");
+                    }
+
+                    plateauJeu.misAJour(jeu);
+                    break;
                 }
-
-                plateauJeu.misAJour(jeu);
-                break;
             }
         }
 

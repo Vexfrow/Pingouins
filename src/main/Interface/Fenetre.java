@@ -40,7 +40,7 @@ public class Fenetre implements Runnable {
         this.selection = new Selection(this.c);
 
         ArrayList<Joueur> ar = new ArrayList<>();
-        ar.add(new Joueur(1,0,0,true));
+        ar.add(new Joueur(1,0,0,false));
         ar.add(new Joueur(2,0,0,true));
         jeu = new JeuAvance(ar);
         //jeu = new JeuAvance(2);

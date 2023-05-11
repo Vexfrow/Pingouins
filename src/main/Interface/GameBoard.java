@@ -4,10 +4,15 @@ import Model.JeuAvance;
 import Vue.BanquiseGraphique;
 import Vue.CollecteurEvenements;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class GameBoard extends JPanel {
@@ -24,7 +29,11 @@ public class GameBoard extends JPanel {
 
     JeuAvance jeu;
 
-    private ArrayList<JTextArea> listScore;
+    BufferedImage poisson, hexagone;
+
+    private ArrayList<JLabel> listScoreP;
+    private ArrayList<JLabel> listScoreH;
+
 
 
     public GameBoard(JeuAvance j, CollecteurEvenements c){
@@ -33,13 +42,18 @@ public class GameBoard extends JPanel {
         menuGame = new JPanel();
         messageTour = new Label();
 
-        listScore = new ArrayList<>();
+        listScoreH = new ArrayList<>();
+        listScoreP = new ArrayList<>();
+
 
         jeu = j;
 
         collecteur = c;
         collecteur.setPlateauJeu(this);
         collecteur.setJeu(j);
+
+        poisson = chargeImage("poisson");
+        hexagone = chargeImage("hexagone");
 
         this.setLayout(new BorderLayout());
 
@@ -49,39 +63,36 @@ public class GameBoard extends JPanel {
 
 
 
+    private BufferedImage chargeImage(String nom){
+        try {
+            InputStream in = new FileInputStream("resources/assets/jeu/" + nom + ".png");
+            return ImageIO.read(in);
+        } catch (Exception e) {
+            System.out.println("Fichier \"" + nom + "\" introuvable");
+        }
+        return null;
+    }
+
 
     private void setMenuGame(){
         menuGame.setLayout(new BoxLayout(menuGame, BoxLayout.Y_AXIS));
+
 
         JPanel boutonPanel = new JPanel();
         boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.X_AXIS));
 
         JButton bPause = new JButton("Pause");
-
-        bPause.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-//                jeu.annule();
-//                misAJour();
-            }
-        });
-        JButton bSuggestion = new JButton("Suggestion");
-
-        bSuggestion.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-//                jeu.refaire();
-//                misAJour();
-            }
-        });
-
-        boutonPanel.add(bPause);
         bPause.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 collecteur.togglePause(true);
             }
         });
+
+        JButton bSuggestion = new JButton("Suggestion");
+
+        boutonPanel.add(bPause);
+
         boutonPanel.add(bSuggestion);
 
         menuGame.add(boutonPanel);
@@ -91,23 +102,69 @@ public class GameBoard extends JPanel {
         menuGame.add(messageTour);
 
 
+        ImageIcon iiP = new ImageIcon(poisson);
+        Image image = iiP.getImage(); // transform it
+        Image newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        iiP = new ImageIcon(newimg);
+
+        ImageIcon iiH = new ImageIcon(hexagone);
+        image = iiH.getImage(); // transform it
+        newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        iiH = new ImageIcon(newimg);
+
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
 
-            JTextArea jta = new JTextArea("Joueur "+(i+1)+" : \nNombre de poissons : "+ jeu.getListeJoueur().get(i).getScore() + "\nNombre de cases : " +jeu.getListeJoueur().get(i).getNbCasesMange());
-            jta.setEditable(false);
+            JLabel jlP = new JLabel(iiP);
+            JLabel jlH = new JLabel(iiH);
+
+            JPanel mainP = new JPanel();
+            mainP.setLayout(new BoxLayout(mainP, BoxLayout.Y_AXIS));
+            mainP.setBorder(new LineBorder(Color.BLACK));
+
+            JPanel imageP = new JPanel();
+            imageP.setLayout(new BoxLayout(imageP, BoxLayout.X_AXIS));
+
+            JPanel poissonP = new JPanel();
+            poissonP.setLayout(new BoxLayout(poissonP, BoxLayout.Y_AXIS));
+
+            JPanel hexaP = new JPanel();
+            hexaP.setLayout(new BoxLayout(hexaP, BoxLayout.Y_AXIS));
+
+            imageP.add(poissonP);
+            imageP.add(hexaP);
+            mainP.add(imageP);
+
+            JTextArea textArea = new JTextArea("Joueur "+(i+1));
+            textArea.setEditable(false);
             if(i == 3)
-                jta.setForeground(Color.BLACK);
+                textArea.setForeground(Color.BLACK);
             else
-                jta.setForeground(Color.WHITE);
+                textArea.setForeground(Color.WHITE);
             switch (i) {
-                case 0 -> jta.setBackground(new Color(0xEC1C24));
-                case 1 -> jta.setBackground(new Color(0x3F48CC));
-                case 2 -> jta.setBackground(new Color(0x0ED145));
-                case 3 -> jta.setBackground(new Color(0xFFF200));
+                case 0 -> textArea.setBackground(new Color(0xEC1C24));
+                case 1 -> textArea.setBackground(new Color(0x3F48CC));
+                case 2 -> textArea.setBackground(new Color(0x0ED145));
+                case 3 -> textArea.setBackground(new Color(0xFFF200));
             }
-            jta.setWrapStyleWord(true);
-            listScore.add(jta);
-            menuGame.add(jta);
+            textArea.setWrapStyleWord(true);
+            mainP.add(textArea);
+            mainP.add(imageP);
+
+            JLabel scoreP = new JLabel(String.valueOf(jeu.getListeJoueur().get(i).getScore()));
+            poissonP.add(jlP);
+            poissonP.add(scoreP);
+            listScoreP.add(scoreP);
+
+            JLabel scoreH = new JLabel(String.valueOf(jeu.getListeJoueur().get(i).getNbCasesMange()));
+            hexaP.add(jlH);
+            hexaP.add(scoreH);
+            listScoreH.add(scoreH);
+
+
+            imageP.add(poissonP);
+            imageP.add(hexaP);
+
+            menuGame.add(mainP);
         }
 
 
@@ -153,7 +210,8 @@ public class GameBoard extends JPanel {
         jeu = j;
         messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant());
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
-            listScore.get(i).setText("Joueur "+(i+1)+" : \nNombre de poissons : "+ jeu.getListeJoueur().get(i).getScore() + "\nNombre de cases : " +jeu.getListeJoueur().get(i).getNbCasesMange());
+           listScoreH.get(i).setText(String.valueOf(jeu.getListeJoueur().get(i).getNbCasesMange()));
+           listScoreP.get(i).setText(String.valueOf(jeu.getListeJoueur().get(i).getScore()));
         }
         bq.misAJour(jeu);
     }
@@ -162,8 +220,5 @@ public class GameBoard extends JPanel {
     public BanquiseGraphique getBq(){
         return bq;
     }
-
-
-
 
 }
