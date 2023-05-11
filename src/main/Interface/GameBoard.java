@@ -79,8 +79,9 @@ public class GameBoard extends JPanel {
 
 
     private void setMenuGame(){
-        menuGame.setPreferredSize(new Dimension(this.getWidth()/4, this.getHeight()));
-        menuGame.setMinimumSize(new Dimension(this.getWidth()/4, this.getHeight()));
+//        menuGame.setPreferredSize(new Dimension(getWidth()/4, getHeight()));
+//        menuGame.setMinimumSize(new Dimension(getWidth()/4, getHeight()));
+//        menuGame.setMaximumSize(new Dimension(getWidth()/4, getHeight()));
         menuGame.setLayout(new BoxLayout(menuGame, BoxLayout.Y_AXIS));
 
         JPanel boutonPanel = new JPanel();
