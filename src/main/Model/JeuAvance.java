@@ -539,6 +539,9 @@ public class JeuAvance extends Jeu{
             this.listeJoueur = j.getListeJoueur();
             this.joueurCourant = j.getJoueurCourant();
         }
+        else {
+            System.out.println("JeuA: annule() - Impossible d'annuler\n");
+        }
     }
 
 
@@ -557,6 +560,9 @@ public class JeuAvance extends Jeu{
                 coupJoue.add(cp);
             }
             coupAnnule.remove(coupAnnule.size()-1);
+        }
+        else {
+            System.out.println("JeuA: refaire() - Impossible de refaire\n");
         }
     }
 

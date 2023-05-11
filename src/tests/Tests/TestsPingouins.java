@@ -1,12 +1,8 @@
 package tests.Tests;
 
 import Model.JeuAvance;
-import Model.Pingouin; 
-import Model.Coup;
 
 /* Programme test pour le placement des pingouins */
-
-/* Option -ea pour activer les assertions */
 
 public class TestsPingouins {
     
