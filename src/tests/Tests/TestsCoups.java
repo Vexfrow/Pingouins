@@ -23,15 +23,16 @@ public class TestsCoups {
         jeu.placePingouin(6, 6); //2
         jeu.placePingouin(0, 6); //3
         //System.out.println(jeu.getListeJoueur() + "\n");
-        System.out.println("\nListeCoupsJoues:\n" + jeu.getListeCoupsJoues());
 
 
 
         // On doit d'abord placer tous les pingouins avant de pouvoir jouer
         System.out.println("On doit d'abord placer tous les pingouins avant de pouvoir jouer");
-        Pingouin ping = jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0);
+        Pingouin ping = new Pingouin(jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0).getLigne(), 
+                                     jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0).getColonne());
         Coup cp = new Coup(4,3,ping,false);
         jeu.joue(cp);
+        //System.out.println(ping);
         assert ping.getLigne() == 4 && ping.getColonne() == 2: "Les pingouins doivent d'abord etre places";
         assert jeu.getJoueurCourant() == 4: "C'est toujours au joueur 4 de jouer";
 
@@ -43,7 +44,8 @@ public class TestsCoups {
 
         // Un pingouin ne peut pas se deplacer sur une case ou il y a deja un pingouin
         System.out.println("\nUn pingouin ne peut pas se deplacer sur une case ou il y a deja un pingouin");
-        ping = jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0);
+        ping = new Pingouin(jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0).getLigne(),
+                             jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0).getColonne());
         cp = new Coup(0,6,ping,false);
         jeu.joue(cp);
         // On verifie donc que tout soit en ordre
@@ -61,7 +63,8 @@ public class TestsCoups {
 
         // On ne peut pas deplacer un pingouin adverse
         System.out.println("\nOn ne peut pas deplacer un pingouin adverse");
-        ping = jeu.getListeJoueur().get(3).getListePingouin().get(0);
+        ping = new Pingouin(jeu.getListeJoueur().get(3).getListePingouin().get(0).getLigne(),
+                            jeu.getListeJoueur().get(3).getListePingouin().get(0).getColonne()) ;
         cp = new Coup(4,0,ping,false);
         jeu.joue(cp);
         assert jeu.getJoueurCourant() == 1: "C'est toujours au joueur 1 de jouer";
@@ -77,12 +80,13 @@ public class TestsCoups {
 
         // Bon deplacement d'un pingouin
         System.out.println("\nBon placement d'un pingouin");
-        ping = jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1);
+        ping = new Pingouin(jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getLigne(),
+                            jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getColonne());
         cp = new Coup(5,6,ping,false);
         jeu.joue(cp);
-        assert ping.getLigne() == 5 && ping.getColonne() == 6: "Le pingouin devrait etre en (5,6)";
         assert jeu.getJoueurCourant() == 2: "C'est au joueur de 2 de jouer";
-        assert jeu.getListeJoueur().get(jeu.getJoueurCourant() - 2).getListePingouin().get(1) == ping: "Le pingouin du joueur 1 n'a pas ete mis a jour";
+        assert (jeu.getListeJoueur().get(jeu.getJoueurCourant() - 2).getListePingouin().get(1).getLigne() == 5 && 
+                jeu.getListeJoueur().get(jeu.getJoueurCourant() - 2).getListePingouin().get(1).getColonne() == 6): "Le pingouin devrait etre en (5,6)";
         assert jeu.getScore(jeu.getJoueurCourant() - 1) == 1: "Le score doit etre a 1 pour le joueur 1";
         assert jeu.getCase(5, 0).getNbPoissons() == 0: "Le nombre de poissons en (5,0) doit etre a 0";
         assert jeu.getCase(5, 0).estMange() == true: "La case (5,0) doit avoir ete mange";
@@ -95,12 +99,13 @@ public class TestsCoups {
 
         // Un pingouin ne peut pas ignorer un pingouin sur son chemin
         System.out.println("\nUn pingouin ne peut pas ignorer un pingouin sur son chemin");
-        ping = jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1);
+        ping = new Pingouin(jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getLigne(),
+                            jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getColonne());
         cp = new Coup(4,5,ping,false);
         jeu.joue(cp);
-        assert ping.getLigne() == 6 && ping.getColonne() == 6: "Le pingouin n'est pas deplacable en (4,5)";
+        assert jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getLigne() == 6 && 
+               jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getColonne() == 6: "Le pingouin n'est pas deplacable en (4,5)";
         assert jeu.getJoueurCourant() == 2: "C'est toujours au joueur 2 de jouer";
-        assert jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1) == ping: "Le pingouin du joueur 2 a ete mis a jour";
         assert jeu.getScore(jeu.getJoueurCourant()) == 0: "Le score doit etre a 0";
         assert jeu.getCase(6, 6).getNbPoissons() == 1: "Le nombre de poissons en (6,6) doit etre a 1";
         assert jeu.getCase(6, 6).estMange() == false: "La case (6,6) n'a pas encore ete mange";
@@ -113,12 +118,13 @@ public class TestsCoups {
 
         // On verifie qu'un pingouin ne sorte pas du terrain quand bien meme c'est dans l'une de ses dix directions possibles
         System.out.println("\nOn verifie qu'un pingouin ne sorte pas du terrain quand bien meme c'est dans l'une de ses dix directions possibles");
-        ping = jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1);
+        ping = new Pingouin(jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getLigne(),
+                            jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getColonne());
         cp = new Coup(6,7,ping,false);
         jeu.joue(cp);
-        assert ping.getLigne() == 6 && ping.getColonne() == 6: "Le pingouin n'est pas deplacable en (6,7)";
+        assert jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getLigne() == 6 && 
+               jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getColonne() == 6: "Le pingouin n'est pas deplacable en (6,7)";
         assert jeu.getJoueurCourant() == 2: "C'est toujours au joueur 2 de jouer";
-        assert jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1) == ping: "Le pingouin du joueur 2 a ete mis a jour";
         assert jeu.getScore(jeu.getJoueurCourant()) == 0: "Le score doit etre a 0";
         assert jeu.getCase(6, 6).getNbPoissons() == 1: "Le nombre de poissons en (6,6) doit etre a 1";
         assert jeu.getCase(6, 6).estMange() == false: "La case (6,6) n'a pas encore ete mange";
@@ -129,12 +135,13 @@ public class TestsCoups {
 
         // On verifie qu'un pingouin ne puisse pas aller en dehors de ses cases accessibles
         System.out.println("\nOn verifie qu'un pingouin ne puisse pas aller en dehors de ses cases accessibles");
-        ping = jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1);
+        ping = new Pingouin(jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getLigne(),
+                            jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getColonne());
         cp = new Coup(5,5,ping,false);
         jeu.joue(cp);
-        assert ping.getLigne() == 6 && ping.getColonne() == 6: "Le pingouin n'est pas deplacable en (5,5)";
+        assert jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getLigne() == 6 && 
+               jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getColonne() == 6: "Le pingouin n'est pas deplacable en (5,5)";
         assert jeu.getJoueurCourant() == 2: "C'est toujours au joueur 2 de jouer";
-        assert jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1) == ping: "Le pingouin du joueur 2 a ete mis a jour";
         assert jeu.getScore(jeu.getJoueurCourant()) == 0: "Le score doit etre a 0";
         assert jeu.getCase(6, 6).getNbPoissons() == 1: "Le nombre de poissons en (6,6) doit etre a 1";
         assert jeu.getCase(6, 6).estMange() == false: "La case (6,6) n'a pas encore ete mange";
@@ -148,23 +155,28 @@ public class TestsCoups {
         // Suite de coups acceptables
         System.out.println("\n\nSuite de coups acceptables");
         // 2
-        ping = jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1);
+        ping = new Pingouin(jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getLigne(),
+                            jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getColonne());
         cp = new Coup(6,3,ping,false);
         jeu.joue(cp);
         // 3
-        ping = jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0);
+        ping = new Pingouin(jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0).getLigne(),
+                            jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0).getColonne());
         cp = new Coup(3,5,ping,false);
         jeu.joue(cp);
         // 4
-        ping = jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0);
+        ping = new Pingouin(jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0).getLigne(),
+                            jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0).getColonne());
         cp = new Coup(0,4,ping,false);
         jeu.joue(cp);
         // 1
-        ping = jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1);
+        ping = new Pingouin(jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getLigne(),
+                            jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getColonne());
         cp = new Coup(4,6,ping,false);
         jeu.joue(cp);
         // 2
-        ping = jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1);
+        ping = new Pingouin(jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getLigne(),
+                            jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(1).getColonne());
         cp = new Coup(6,2,ping,false);
         jeu.joue(cp);
 
@@ -197,12 +209,14 @@ public class TestsCoups {
 
 
         // Un pingouin ne peut pas passer par-dessus une case mangee
-        ping = jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0);
+        System.out.println("\nUn pingouin ne peut pas passer par-dessus une case mangee");
+        ping = new Pingouin(jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0).getLigne(),
+                            jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0).getColonne());
         cp = new Coup(7,3,ping,false);
         jeu.joue(cp);
-        assert ping.getLigne() == 3 && ping.getColonne() == 5: "Le pingouin n'est pas deplacable en (3,5)";
+        assert jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0).getLigne() == 3 && 
+               jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0).getColonne() == 5: "Le pingouin n'est pas deplacable en (3,5)";
         assert jeu.getJoueurCourant() == 3: "C'est toujours au joueur 2 de jouer";
-        assert jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).getListePingouin().get(0) == ping: "Le pingouin du joueur 3 a ete mis a jour";
         assert jeu.getScore(jeu.getJoueurCourant()) == 1: "Le score doit etre a 1";
         assert jeu.getCase(3, 5).getNbPoissons() == 1: "Le nombre de poissons en (3,5) doit etre a 1";
         assert jeu.getCase(3, 5).estMange() == false: "La case (3,5) n'a pas encore ete mange";
@@ -211,21 +225,13 @@ public class TestsCoups {
         assert jeu.getCase(7, 3).estMange() == false: "La case (7,3) a ete mange";
         assert jeu.getCase(7, 3).getNbPoissons() == 1: "La case (7,3) doit avoir 1 poisson";
 
-        System.out.println("\nListeJoueur:\n" + jeu.getListeJoueur());
-        System.out.println("\nListeCoupsAnnules:\n" + jeu.getListeCoupsAnnules());
-        System.out.println("\nListeCoupsJoues:\n" + jeu.getListeCoupsJoues());
 
-
-
-/*
+        
         // On sauvegarde puis on recupere dans un autre jeuAvance pour verifier qu'on a bien la meme chose
-        System.out.println("\n" + jeu.toString() + "\n");
-        System.out.println("\n" + jeu.getListeJoueur() + "\n\n\n");
+        System.out.println("\nOn sauvegarde puis on recupere dans un autre jeuAvance pour verifier qu'on a bien la meme chose");
         jeu.sauvegarder("src/tests/Terrains/terrainFixeCoup.txt");
 
         JeuAvance jeuSauve = new JeuAvance("src/tests/Terrains/terrainFixeCoup.txt");
-        System.out.println("\n" + jeuSauve.toString() + "\n");
-        System.out.println("\n" + jeuSauve.getListeJoueur() + "\n");
 
         Joueur jeuJ1 = jeu.getListeJoueur().get(0);
         Joueur jeuJ2 = jeu.getListeJoueur().get(1);
@@ -236,8 +242,6 @@ public class TestsCoups {
         Joueur jeuSauveJ2 = jeuSauve.getListeJoueur().get(1);
         Joueur jeuSauveJ3 = jeuSauve.getListeJoueur().get(2);
         Joueur jeuSauveJ4 = jeuSauve.getListeJoueur().get(3);
-
-        System.out.println(jeuJ1.getPingouin(new Pingouin(1, 0)));
 
         assert jeuJ1.getNumeroJoueur() == jeuSauveJ1.getNumeroJoueur();
         assert jeuJ2.getNumeroJoueur() == jeuSauveJ2.getNumeroJoueur();
@@ -253,7 +257,7 @@ public class TestsCoups {
         assert jeuJ2.getNbCasesMange() == jeuSauveJ2.getNbCasesMange(): "Les nombres de cases mangees pour le joueur 2 ne sont pas les memes";
         assert jeuJ3.getNbCasesMange() == jeuSauveJ3.getNbCasesMange(): "Les nombres de cases mangees pour le joueur 3 ne sont pas les memes";
         assert jeuJ4.getNbCasesMange() == jeuSauveJ4.getNbCasesMange(): "Les nombres de cases mangees pour le joueur 4 ne sont pas les memes";
-*/
+
      
  
     }

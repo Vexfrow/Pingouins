@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class BanquiseGraphique extends JComponent {
 
@@ -67,37 +68,37 @@ public class BanquiseGraphique extends JComponent {
         hPingouinJ2 = chargeImage("caseJaune2");
         hPingouinJ3 = chargeImage("caseJaune3");
 
-        hPoisson1hR = chargeImage("casePoissons1");
-        hPoisson2hR = chargeImage("casePoissons2");
-        hPoisson3hR = chargeImage("casePoissons3");
+        hPoisson1hR = chargeImage("brilleRouge1");
+        hPoisson2hR = chargeImage("brilleRouge2");
+        hPoisson3hR = chargeImage("brilleRouge3");
 
-        hPoisson1hB = chargeImage("casePoissons1");
-        hPoisson2hB = chargeImage("casePoissons2");
-        hPoisson3hB = chargeImage("casePoissons3");
+        hPoisson1hB = chargeImage("brilleBleu1");
+        hPoisson2hB = chargeImage("brilleBleu2");
+        hPoisson3hB = chargeImage("brilleBleu3");
 
-        hPoisson1hV = chargeImage("casePoissons1");
-        hPoisson2hV = chargeImage("casePoissons2");
-        hPoisson3hV = chargeImage("casePoissons3");
+        hPoisson1hV = chargeImage("brilleVert1");
+        hPoisson2hV = chargeImage("brilleVert2");
+        hPoisson3hV = chargeImage("brilleVert3");
 
-        hPoisson1hJ = chargeImage("casePoissons1");
-        hPoisson2hJ = chargeImage("casePoissons2");
-        hPoisson3hJ = chargeImage("casePoissons3");
+        hPoisson1hJ = chargeImage("brilleJaune1");
+        hPoisson2hJ = chargeImage("brilleJaune2");
+        hPoisson3hJ = chargeImage("brilleJaune3");
 
-        hPingouinR1h = chargeImage("caseRouge1");
-        hPingouinR2h = chargeImage("caseRouge2");
-        hPingouinR3h = chargeImage("caseRouge3");
+        hPingouinR1h = chargeImage("contourRouge1");
+        hPingouinR2h = chargeImage("contourRouge2");
+        hPingouinR3h = chargeImage("contourRouge3");
 
-        hPingouinV1h = chargeImage("caseVert1");
-        hPingouinV2h = chargeImage("caseVert2");
-        hPingouinV3h = chargeImage("caseVert3");
+        hPingouinV1h = chargeImage("contourVert1");
+        hPingouinV2h = chargeImage("contourVert2");
+        hPingouinV3h = chargeImage("contourVert3");
 
-        hPingouinB1h = chargeImage("caseBleu1");
-        hPingouinB2h = chargeImage("caseBleu2");
-        hPingouinB3h = chargeImage("caseBleu3");
+        hPingouinB1h = chargeImage("contourBleu1");
+        hPingouinB2h = chargeImage("contourBleu2");
+        hPingouinB3h = chargeImage("contourBleu3");
 
-        hPingouinJ1h = chargeImage("caseJaune1");
-        hPingouinJ2h = chargeImage("caseJaune2");
-        hPingouinJ3h = chargeImage("caseJaune3");
+        hPingouinJ1h = chargeImage("contourJaune1");
+        hPingouinJ2h = chargeImage("contourJaune2");
+        hPingouinJ3h = chargeImage("contourJaune3");
 
 
         plateau = new ArrayList<>(60);
@@ -174,9 +175,10 @@ public class BanquiseGraphique extends JComponent {
 
         ArrayList<Position> listHexagone = null;
         ArrayList<Position> listPingouinPos = null;
+        Position infoP = null;
 
         if(etat == JeuAvance.ETAT_CHOIXC) {
-            Position infoP = jeu.getSelectionP();
+            infoP = jeu.getSelectionP();
             listHexagone = jeu.getCaseAccessible(infoP.x, infoP.y);
         }else if(etat == JeuAvance.ETAT_SELECTIONP){
             ArrayList<Pingouin> listPingouin = jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).listePingouin;
@@ -194,17 +196,82 @@ public class BanquiseGraphique extends JComponent {
             Cases c = jeu.getCase(coordHexa.x, coordHexa.y);
             Shape cell = plateau.get(i);
 
-//            if(etat == JeuAvance.ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0){
-//                bfi = getTexturedImage(getBfi(c), cell, true);
-//            }else if(etat == JeuAvance.ETAT_CHOIXC && Objects.requireNonNull(listHexagone).contains(coordHexa)){
-//                bfi = getTexturedImage(getBfi(c), cell, true);
-//            }else if(etat == JeuAvance.ETAT_SELECTIONP && Objects.requireNonNull(listPingouinPos).contains(coordHexa)){
-//                bfi = getTexturedImage(getBfi(c), cell, true);
-//            }else{
-//                bfi = getTexturedImage(getBfi(c), cell, false);
-//            }
+            if(etat == JeuAvance.ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0){
+               if(jeu.getJoueurCourant() == 1)
+                   bfi = hPoisson1hR;
+               else if(jeu.getJoueurCourant() == 2)
+                   bfi = hPoisson1hB;
+               else if(jeu.getJoueurCourant() == 3)
+                   bfi = hPoisson1hV;
+               else if(jeu.getJoueurCourant() == 4)
+                   bfi = hPoisson1hJ;
 
-            g2d.drawImage(getBfi(c), cell.getBounds().x, cell.getBounds().y, cell.getBounds().width, cell.getBounds().height, null);
+            }else if(etat == JeuAvance.ETAT_CHOIXC && Objects.requireNonNull(listHexagone).contains(coordHexa)){
+                if(jeu.getJoueurCourant() == 1){
+                    if (c.getNbPoissons() == 1)
+                        bfi = hPoisson1hR;
+                    else if (c.getNbPoissons() == 2)
+                        bfi = hPoisson2hR;
+                    else if (c.getNbPoissons() == 3)
+                        bfi = hPoisson3hR;
+                }else if(jeu.getJoueurCourant() == 2){
+                    if (c.getNbPoissons() == 1)
+                        bfi = hPoisson1hB;
+                    else if (c.getNbPoissons() == 2)
+                        bfi = hPoisson2hB;
+                    else if (c.getNbPoissons() == 3)
+                        bfi = hPoisson3hB;
+                }else if(jeu.getJoueurCourant() == 3){
+                    if (c.getNbPoissons() == 1)
+                        bfi = hPoisson1hV;
+                    else if (c.getNbPoissons() == 2)
+                        bfi = hPoisson2hV;
+                    else if (c.getNbPoissons() == 3)
+                        bfi = hPoisson3hV;
+                }else{
+                    if (c.getNbPoissons() == 1)
+                        bfi = hPoisson1hJ;
+                    else if (c.getNbPoissons() == 2)
+                        bfi = hPoisson2hJ;
+                    else if (c.getNbPoissons() == 3)
+                        bfi = hPoisson3hJ;
+                }
+
+            }else if ((etat == JeuAvance.ETAT_CHOIXC && coordHexa.equals(infoP)) || (etat == JeuAvance.ETAT_SELECTIONP && Objects.requireNonNull(listPingouinPos).contains(coordHexa))){
+                if(jeu.getJoueurCourant() == 1){
+                    if (c.getNbPoissons() == 1)
+                        bfi = hPingouinR1h;
+                    else if (c.getNbPoissons() == 2)
+                        bfi = hPingouinR2h;
+                    else if (c.getNbPoissons() == 3)
+                        bfi = hPingouinR3h;
+                }else if(jeu.getJoueurCourant() == 2){
+                    if (c.getNbPoissons() == 1)
+                        bfi = hPingouinB1h;
+                    else if (c.getNbPoissons() == 2)
+                        bfi = hPingouinB2h;
+                    else if (c.getNbPoissons() == 3)
+                        bfi = hPingouinB3h;
+                }else if(jeu.getJoueurCourant() == 3){
+                    if (c.getNbPoissons() == 1)
+                        bfi = hPingouinV1h;
+                    else if (c.getNbPoissons() == 2)
+                        bfi = hPingouinV2h;
+                    else if (c.getNbPoissons() == 3)
+                        bfi = hPingouinV3h;
+                }else{
+                    if (c.getNbPoissons() == 1)
+                        bfi = hPingouinJ1h;
+                    else if (c.getNbPoissons() == 2)
+                        bfi = hPingouinJ2h;
+                    else if (c.getNbPoissons() == 3)
+                        bfi = hPingouinJ3h;
+                }
+            }else{
+                bfi = getBfi(c);
+            }
+
+            g2d.drawImage(bfi, cell.getBounds().x, cell.getBounds().y, cell.getBounds().width, cell.getBounds().height, null);
 
         }
 
@@ -289,7 +356,7 @@ public class BanquiseGraphique extends JComponent {
         Graphics g = bi.createGraphics();
         this.paint(g);  //this == JComponent
         g.dispose();
-        try{ImageIO.write(bi,"png",new File("resources/sauvegarde/"+nomFichier+".png"));}catch (Exception e) {}
+        try{ImageIO.write(bi,"png",new File("resources/sauvegarde/"+nomFichier+".png"));}catch (Exception ignored) {}
     }
 
 
