@@ -18,6 +18,7 @@ public class Pause extends JPanel {
     private JButton chargerPartie;
     private JButton regles;
     private JButton quitter;
+    private JButton recommencer;
 
     public Pause(CollecteurEvenements c){
         //this.setOpaque(false);
@@ -26,11 +27,11 @@ public class Pause extends JPanel {
         this.collecteur = c;
         this.titrePause = new JLabel("Pause", JLabel.CENTER);
         this.reprendre = new JButton("Reprendre");
+        this.recommencer = new JButton("Recommencer");
         this.sauvegarder = new JButton("Sauvegarder");
         this.chargerPartie = new JButton("ChargerPartie");
         this.regles = new JButton("Regles");
         this.quitter = new JButton("Abandonner");
-
         setPause();
     }
 
@@ -42,12 +43,14 @@ public class Pause extends JPanel {
         gbc.gridy = 1;
         add(reprendre, gbc);
         gbc.gridy = 2;
-        add(sauvegarder, gbc);
+        add(recommencer, gbc);
         gbc.gridy = 3;
-        add(chargerPartie, gbc);
+        add(sauvegarder, gbc);
         gbc.gridy = 4;
-        add(regles, gbc);
+        add(chargerPartie, gbc);
         gbc.gridy = 5;
+        add(regles, gbc);
+        gbc.gridy = 6;
         add(quitter, gbc);
 
         reprendre.addActionListener(new ActionListener() {
@@ -64,12 +67,21 @@ public class Pause extends JPanel {
             }
         });
 
+        sauvegarder.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                collecteur.toggleSave();
+            }
+        });
+
         quitter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 collecteur.switchMenu();
             }
         });
+
+
     }
 
 }

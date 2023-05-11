@@ -1,5 +1,6 @@
 package Interface;
 
+import Model.Joueur;
 import Vue.CollecteurEvenements;
 
 import javax.imageio.ImageIO;
@@ -7,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 
 public class MenuP extends JPanel {
     private JButton partieRapide;
@@ -144,6 +146,10 @@ public class MenuP extends JPanel {
         partieRapide.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ArrayList<Joueur> ar = new ArrayList<Joueur>();
+                ar.add(new Joueur(1,0,0,false));
+                ar.add(new Joueur(2,0,0,true));
+                c.newGame(ar);
                 c.switchGameBoard();
             }
         });

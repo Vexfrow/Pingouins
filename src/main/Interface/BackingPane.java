@@ -42,6 +42,11 @@ public class BackingPane extends JPanel {
             this.context = new Pause(this.collecteur);
             previousState = etat;
             this.etat = 2;
+        }else if(j == 3){
+            setBorder(new EmptyBorder(120, 300, 120, 300));
+            this.context = new Sauvegarde(collecteur);
+            previousState = etat;
+            this.etat = 3;
         }
         this.add(context);
         this.revalidate();

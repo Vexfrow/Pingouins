@@ -58,8 +58,6 @@ public class Selection extends JPanel {
         retour.setContentAreaFilled(false);
         retour.setPreferredSize(new Dimension(100, 52));
 
-
-
         this.setLayout(new GridBagLayout());
         this.setBackground(GameConstants.BACKGROUND_COLOR);
         //Dessin des hexagones

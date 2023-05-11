@@ -53,6 +53,10 @@ public class Controleur implements CollecteurEvenements {
 
     }
 
+    public void toggleSave(){
+        this.window.workingPane.switchBackPane(3);
+    }
+
     public void switchSel(){window.switchPanel(2);}
 
     public void switchMenu(){
@@ -139,6 +143,12 @@ public class Controleur implements CollecteurEvenements {
     }
 
     public void newGame(int j) {
+        jeu = new JeuAvance(j);
+        plateauJeu = new GameBoard(jeu, this);
+        this.window.setGameBoard(plateauJeu);
+    }
+
+    public void newGame(ArrayList<Joueur> j){
         jeu = new JeuAvance(j);
         plateauJeu = new GameBoard(jeu, this);
         this.window.setGameBoard(plateauJeu);

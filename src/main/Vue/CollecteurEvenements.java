@@ -3,6 +3,9 @@ package Vue;
 import Interface.Fenetre;
 import Interface.GameBoard;
 import Model.JeuAvance;
+import Model.Joueur;
+
+import java.util.ArrayList;
 
 public interface CollecteurEvenements {
 
@@ -24,9 +27,13 @@ public interface CollecteurEvenements {
 
     void togglePause(boolean b);
 
+    void toggleSave();
+
     int getEtatBackPane();
 
     void newGame(int j);
+
+    void newGame(ArrayList<Joueur> j);
 
     void startGame();
 

@@ -41,7 +41,7 @@ public class Fenetre implements Runnable {
 
         ArrayList<Joueur> ar = new ArrayList<>();
         ar.add(new Joueur(1,0,0,true));
-        ar.add(new Joueur(2,0,0,true));
+        ar.add(new Joueur(2,0,0,false));
         jeu = new JeuAvance(ar);
         //jeu = new JeuAvance(2);
         this.gameBoard = new GameBoard(jeu, c);
