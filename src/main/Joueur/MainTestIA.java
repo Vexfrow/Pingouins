@@ -18,7 +18,7 @@ public class MainTestIA{
 
 
     public static void main(String[] args){
-        testerIA(3);
+        testerIA(10);
     }
 
     public static void testerIA(int nbPartie){

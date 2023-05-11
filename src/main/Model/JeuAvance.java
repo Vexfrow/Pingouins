@@ -54,9 +54,7 @@ public class JeuAvance extends Jeu{
             this.nbColonnes = Integer.parseInt(line);
             this.nbColonnes = nbColonnes*2+1; 
 
-
             initArrays(nbJoueur);
-
 
             //récup le score des joueurs
             scoreSave = new int [nbJoueur];
@@ -66,13 +64,11 @@ public class JeuAvance extends Jeu{
                 scoreSave[i] = Integer.parseInt(line);
             }
 
-
             //récup le type des joeurs (IA ou non)
             for(int i=0; i<nbJoueur; i++){
                 line = bufferedReader.readLine();
                 IATab[i] = Boolean.parseBoolean(line);
             }
-            
 
             Joueur player;
             int i = 1;
@@ -144,7 +140,6 @@ public class JeuAvance extends Jeu{
     }
 
 
-
     public JeuAvance(int nbJoueur){
         this(nbJoueur,8,8);
     }
@@ -156,7 +151,6 @@ public class JeuAvance extends Jeu{
         this.terrainCourant = clonerTerrain(terrainInitiale);
 
         initArrays(nbJoueur);
-
         initNbJoueur(nbJoueur);
 
         //intit le nombre de pingouin a placer et le nombre de pingouin par joueur
@@ -177,7 +171,6 @@ public class JeuAvance extends Jeu{
         terrainCourant = new Cases[nbLignes][nbColonnes*2-1];
 
         initArrays(nbJoueur);
-
         initNbJoueur(nbJoueur);
 
         //intit le nombre de pingouin a placer et le nombre de pingouin par joueur
@@ -350,7 +343,6 @@ public class JeuAvance extends Jeu{
     }
 
     
-    //bool IA vrai que pour les instances de l'IA : toujours false sinon
     public boolean placePingouin(int l, int c){
         int joueurCourant = getJoueurCourant();
         Joueur joueur = listeJoueur.get(joueurCourant-1);
@@ -444,7 +436,6 @@ public class JeuAvance extends Jeu{
                 coupAnnule = new ArrayList<Coup>();
             }
 
-
             //on enlève un pingouin dés qu'il est bloqué
             for(int i =0; i<nbPingouinJoueur; i++){
                 ping = joueur.listePingouin.get(i);
@@ -465,7 +456,6 @@ public class JeuAvance extends Jeu{
             if(jeuTermine()){
                 etat = ETAT_FINAL;
             }
-
         }
         else {
             System.out.println("JeuA: joue() - Impossible de jouer");
@@ -504,7 +494,6 @@ public class JeuAvance extends Jeu{
 
             caseDep.setNbPoissons(0);
             caseArrive.setPingouin(joueurCourant);
-
 
             //on enlève un pingouin dés qu'il est bloqué
             for(int i =0; i<nbPingouinJoueur; i++){
