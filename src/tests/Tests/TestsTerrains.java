@@ -1,7 +1,9 @@
-package test.Tests;
+package tests.Tests;
 
 import Model.JeuAvance;
 import Model.Cases;
+
+/* Programme test pour tout ce qui a trait au terrain */
 
 public class TestsTerrains {
 
