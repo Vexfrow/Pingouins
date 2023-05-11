@@ -580,8 +580,8 @@ public class JeuAvance extends Jeu{
             String sep = "";
             String tmp = "";
 
-            for (int i=0; i<terrainCourant.length; i++) {
-                tmp = Arrays.toString(terrainCourant[i]);
+            for (int i=0; i<terrainInitiale.length; i++) {
+                tmp = Arrays.toString(terrainInitiale[i]);
                 result += sep + tmp.substring(1, tmp.length() -1);
                 sep = "\n";
             }
