@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class IATroisPoissons extends IAJoueur{
 
-    IATroisPoissons(JeuAvance j){
+    public IATroisPoissons(JeuAvance j){
         super(j);
     }
 

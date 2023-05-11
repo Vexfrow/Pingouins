@@ -83,7 +83,7 @@ public class JeuAvance extends Jeu{
                 i++;
             }
 
-            //intit le nombre de pingouin a placer et le nombre de pingouin par joueur
+            //init le nombre de pingouins à placer et le nombre de pingouins par joueur
             initNbPingouins(nbJoueur);
 
             terrainInitiale = new Cases[nbLignes][nbColonnes];
@@ -193,6 +193,9 @@ public class JeuAvance extends Jeu{
 
     }
 
+    public JeuAvance(ArrayList<Joueur> ar){
+        this(ar, 8,8);
+    }
     //constructeru avec une liste de joueur
     public JeuAvance(ArrayList<Joueur> ar, int nbLignes, int nbColonnes){
 
@@ -200,6 +203,9 @@ public class JeuAvance extends Jeu{
         terrainCourant = new Cases[nbLignes][nbColonnes*2-1];
 
         initArrays(ar.size());
+
+        nbJoueur = ar.size();
+
 
         for(int i =0; i < ar.size(); i++){
             listeJoueur.add(ar.get(i).cloner());
@@ -388,6 +394,15 @@ public class JeuAvance extends Jeu{
         int l = cp.getLigne();
         int c = cp.getColonne();
 
+        System.out.println(" NB PINGOUIN PLACER  ="+nbPingouinPlace);
+
+
+        System.out.println("c1 = " + (joueur.listePingouin.size() < nbPingouinJoueur));
+        System.out.println("c2 = " + getCase(l, c) != null);
+        System.out.println("c3 = " + !pingouinPresent(l, c));
+        System.out.println("c4 = " + (getCase(l,c).getNbPoissons() == 1));
+        System.out.println("c5 = " + !pingouinTousPlace());
+
         if( (joueur.listePingouin.size() < nbPingouinJoueur) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1 && !pingouinTousPlace()){
             Pingouin ping = new Pingouin(l,c);
             joueur.listePingouin.add(ping);
@@ -443,8 +458,7 @@ public class JeuAvance extends Jeu{
             if(jeuTermine()){
                 etat = ETAT_FINAL;
             }
-            System.out.println("ping x =" + ping.getLigne());
-            System.out.println("ping y =" + ping.getColonne());
+
         }
         else {
             System.out.println("JeuA: joue() - Impossible de jouer");
@@ -505,7 +519,8 @@ public class JeuAvance extends Jeu{
             coupAnnule.add(coupJoue.get(coupJoue.size()-1));
             coupJoue.remove(coupJoue.size()-1);
             int i = 0;
-            this.nbPingouinPlace =nbPingouinJoueur *nbJoueur;
+
+            this.nbPingouinPlace++;
 
             while(i < coupJoue.size()){
                 cp = coupJoue.get(i);
