@@ -37,6 +37,8 @@ public interface CollecteurEvenements {
 
     void startGame();
 
+    void save(String s);
+
 
 
 }

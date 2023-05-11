@@ -47,6 +47,8 @@ public class Controleur implements CollecteurEvenements {
         this.window.workingPane.switchBackPane(2);
         if(change){
             this.window.workingPane.toggleBackingPane();
+            this.window.getGameBoard().toggleButton();
+
         }
 
     }
@@ -184,5 +186,10 @@ public class Controleur implements CollecteurEvenements {
             }
         });
         t.start();
+    }
+
+    public void save(String s){
+        plateauJeu.getBq().sauvegardeBanquise(s);
+        jeu.sauvegarder(s);
     }
 }

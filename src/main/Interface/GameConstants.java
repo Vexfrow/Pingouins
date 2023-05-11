@@ -13,4 +13,7 @@ public class GameConstants {
     public static final Color BLEU = new Color(0x3F48CC);
     public static final Color JAUNE = new Color(0xFFF200);
 
+    public static final String DOSSIER_SAVE = "resources/sauvegarde/";
+
+
 }

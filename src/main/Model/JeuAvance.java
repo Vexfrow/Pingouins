@@ -556,7 +556,7 @@ public class JeuAvance extends Jeu{
     public void sauvegarder(String name){
         try {
 
-            FileWriter w = new FileWriter(name);
+            FileWriter w = new FileWriter("resources/sauvegarde/"+name + ".txt");
             
             //stocker les infos de bases
             w.write(nbJoueur + "\n");

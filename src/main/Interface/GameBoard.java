@@ -24,6 +24,9 @@ public class GameBoard extends JPanel {
 
     JeuAvance jeu;
 
+    private JButton bPause;
+    private JButton bSuggestion;
+
     private ArrayList<JTextArea> listScore;
 
 
@@ -55,31 +58,14 @@ public class GameBoard extends JPanel {
 
         JPanel boutonPanel = new JPanel();
         boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.X_AXIS));
-
-        JButton bPause = new JButton("Pause");
-
-        bPause.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-//                jeu.annule();
-//                misAJour();
-            }
-        });
-        JButton bSuggestion = new JButton("Suggestion");
-
-        bSuggestion.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-//                jeu.refaire();
-//                misAJour();
-            }
-        });
-
+        bPause = new JButton("Pause");
+        bSuggestion = new JButton("Suggestion");
         boutonPanel.add(bPause);
         bPause.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 collecteur.togglePause(true);
+                //toggleButton();
             }
         });
         boutonPanel.add(bSuggestion);
@@ -163,6 +149,10 @@ public class GameBoard extends JPanel {
         return bq;
     }
 
+    public void toggleButton(){
+        bSuggestion.setEnabled(!bSuggestion.isEnabled());
+        bPause.setEnabled(!bPause.isEnabled());
+    }
 
 
 

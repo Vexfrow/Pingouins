@@ -18,6 +18,8 @@ public class MenuP extends JPanel {
     private JButton regles;
     private Image titre;
     private Image hint;
+    private ImageIcon titreS;
+    private ImageIcon hintS;
     private SpringLayout layout;
     private  JLabel menu;
     private CollecteurEvenements c;
@@ -45,7 +47,8 @@ public class MenuP extends JPanel {
         ImageIcon c = new ImageIcon(hint);
         System.out.println(c.getIconWidth() + " h -> " + c.getIconHeight());
         regles.setPreferredSize(new Dimension(c.getIconWidth(), c.getIconHeight() ));
-
+        titreS = new ImageIcon(titre);
+        hintS = new ImageIcon(hint);
         setMenu();
 
 
@@ -83,18 +86,17 @@ public class MenuP extends JPanel {
         Color tutorielColor = new Color(0x7292A4);
 
         this.setBackground(GameConstants.BACKGROUND_COLOR);
-        menu.setIcon(new ImageIcon(titre));
+        menu.setIcon(titreS);
+        regles.setIcon(hintS);
         partieRapide.setBackground(partieRapideColor);
         partiePersonnalisee.setBackground(partiPersonnaliseeColor);
         chargerPartie.setBackground(chargerPartieColor);
         tutoriel.setBackground(tutorielColor);
 
-
         partieRapide.setForeground(Color.WHITE);
         partiePersonnalisee.setForeground(Color.WHITE);
         chargerPartie.setForeground(Color.WHITE);
         tutoriel.setForeground(Color.WHITE);
-
 
         //Ajouts
         this.add(menu);
@@ -104,11 +106,6 @@ public class MenuP extends JPanel {
         this.add(tutoriel);
         this.add(regles);
 
-
-        partieRapide.setPreferredSize(GameConstants.boutonTaille);
-        partiePersonnalisee.setPreferredSize(GameConstants.boutonTaille);
-        chargerPartie.setPreferredSize(GameConstants.boutonTaille);
-        tutoriel.setPreferredSize(GameConstants.boutonTaille);
 
         //Placement
         //Par rapport à la fenetre
@@ -153,6 +150,14 @@ public class MenuP extends JPanel {
                 c.switchGameBoard();
             }
         });
+
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                titreS = new ImageIcon(reScale(titre));
+                menu.setIcon(titreS);
+            }
+        });
     }
 
 
@@ -162,6 +167,7 @@ public class MenuP extends JPanel {
         partiePersonnalisee.setEnabled(!partiePersonnalisee.isEnabled());
         partieRapide.setEnabled(!partieRapide.isEnabled());
         regles.setEnabled(!regles.isEnabled());
+        //regles.setOpaque(!regles.isOpaque());
     }
 
     public void activateButton(){
@@ -172,19 +178,28 @@ public class MenuP extends JPanel {
         regles.setEnabled(true);
     }
 
-    public Image reScale(Dimension d, Image img){
-        Image neoImg = img.getScaledInstance(d.width, d.height, Image.SCALE_AREA_AVERAGING) ;
+    public Image reScale(Image img){
+        Dimension d = new Dimension((int)(getWidth()*0.45), (int)(getHeight()*0.3) );
+        Image neoImg = img.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH) ;
         return neoImg;
+    }
+
+    public Dimension scaleButton(int x,int y){
+        return new Dimension((int)(x*0.2), (int)(y * 0.12));
+    }
+
+    public void allScale(){
+        partieRapide.setPreferredSize(scaleButton(getWidth(), getHeight()));
+        partiePersonnalisee.setPreferredSize(scaleButton(getWidth(), getHeight()));
+        chargerPartie.setPreferredSize(scaleButton(getWidth(), getHeight()));
+        tutoriel.setPreferredSize(scaleButton(getWidth(), getHeight()));
     }
 
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        ImageIcon c = new ImageIcon(hint);
-        //System.out.println(regles.getSize());
-        regles.setLocation(getSize().width - c.getIconWidth(), getSize().height - c.getIconHeight());
-        regles.setIcon(c);
-
+        allScale();
+        System.out.println("Here Menu");
     }
 
 }

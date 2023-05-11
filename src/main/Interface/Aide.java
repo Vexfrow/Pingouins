@@ -94,21 +94,17 @@ public class Aide extends JPanel{
 
     }
 
+    public Image reScale(Image img, float rapportX, float rapportY){
+        Dimension d = new Dimension((int)(getWidth()*rapportX), (int)(getHeight()*rapportY) );
+        Image neoImg = img.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH) ;
+        return neoImg;
+    }
+
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        //removeAll();
-        this.revalidate();
-
-        Dimension d = getRootPane().getContentPane().getSize();
-        int width = (int)(d.width*(0.6));
-        int height = (int)(d.height*(0.7));
-        setSize(new Dimension(width, height));
-        image.setIcon(new ImageIcon(aideImg));
-        flecheGauche.setIcon(new ImageIcon(flecheLeft));
-        flecheDroite.setIcon(new ImageIcon(flecheRight));
-
-
-
+        image.setIcon(new ImageIcon(reScale(aideImg, 0.6f, 0.5f)));
+        flecheGauche.setIcon(new ImageIcon(reScale(flecheLeft, 0.08f, 0.1f)));
+        flecheDroite.setIcon(new ImageIcon(reScale(flecheRight, 0.08f, 0.1f)));
     }
 
 
