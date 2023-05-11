@@ -18,7 +18,7 @@ public class MainTestIA{
 
 
     public static void main(String[] args){
-        testerIA(200);
+        testerIA(100);
     }
 
     public static void testerIA(int nbPartie){
@@ -54,6 +54,7 @@ public class MainTestIA{
                 }else{
                     j.joue(cp);
                     //System.out.println( "j1 JOUE ");
+                    //System.out.println(j);
                 }
 
 
@@ -64,6 +65,7 @@ public class MainTestIA{
                 }else{
                     j.joue(cp);
                     //System.out.println( "j2 JOUE ");
+                    //System.out.println(j);
                 }
 
 
@@ -79,8 +81,9 @@ public class MainTestIA{
             i++;
         }
         System.out.println( "j1 gagne: "+ winj1+ "   j2 gagne: "+ winj2);
-        System.out.println("j1 gagne avec " + (winj1*100)/(winj2 + winj1)+"% de chance" +"\nj2 gagne avec " + (winj2*100)/(winj2 + winj1)+"% de chance");
-
+        if((winj1 + winj2) !=0){
+            System.out.println("j1 gagne avec " + (winj1*100)/(winj2 + winj1)+"% de chance" +"\nj2 gagne avec " + (winj2*100)/(winj2 + winj1)+"% de chance");
+        }
     }
 
     public static void test(){
@@ -93,7 +96,7 @@ public class MainTestIA{
         Coup cp;
 
         
-        System.out.println(j);
+        //System.out.println(j);
 
         while(i< 4){
 

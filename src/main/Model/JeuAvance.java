@@ -522,16 +522,50 @@ public class JeuAvance extends Jeu{
 
 
     public String toString(){
-        String result = "Plateau:\n[";
-		String sep = "";
-		for (int i=0; i<terrainCourant.length; i++) {
-			result += sep + Arrays.toString(terrainCourant[i]);
-			sep = "\n ";
-		}
-		result += 	"]\nEtat:" +
-				"\n- peut annuler : " + peutAnnuler() +
-				"\n- peut refaire : " + peutRefaire();
-		return result;
+        // String result = "Plateau:\n[";
+		// String sep = "";
+		// for (int i=0; i<terrainCourant.length; i++) {
+		// 	result += sep + Arrays.toString(terrainCourant[i]);
+		// 	sep = "\n ";
+		// }
+		// result += 	"]\nEtat:" +
+		// 		"\n- peut annuler : " + peutAnnuler() +
+		// 		"\n- peut refaire : " + peutRefaire();
+		// return result;
+
+
+        String result ="Plateau:\n[";
+        String line;
+        Cases caseCourant;
+        int l =0;
+        int c =0;
+        int nbc;
+
+        while( l < terrainCourant.length){
+            c = 0;
+            if( l%2 == 1){// si ligne impaire
+                line= "";
+                nbc = 8;
+            }else{
+                nbc = 7;
+                line = "   ";
+            }
+
+            //boucle sur toutes les colonnes
+            while( c < (nbc)){
+                line = line + "   ";
+                caseCourant = getCase(l,c);
+                if(caseCourant.estMange()){
+                    line= line + "    ";
+                }else{
+                    line= line +caseCourant + "";
+                }
+                c++;
+            }
+            result+=line + "\n";
+            l++;
+        }
+        return result;
     }
 
 

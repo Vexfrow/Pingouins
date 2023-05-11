@@ -8,35 +8,35 @@ public class MainTest {
 
         // Initialisation du jeu
         JeuAvance j = new JeuAvance(2);
+        System.out.println(j);
 
         
-        // Placement des pingouins 
-        System.out.println("Au tour de " + j.quelJoueur() + "\nPlacement pingouin en (0,0)");
-        j.placePingouin(0, 0);
-        System.out.println("\n" + j.toString() + "\n");
-        System.out.println(j.getListeJoueur());
-        System.out.println("Liste coupJoue: " + j.getListeCoupsJoues());
+        j.case1poisson();
+        // j.placePingouin(0, 0);
+        // System.out.println("\n" + j.toString() + "\n");
+        // System.out.println(j.getListeJoueur());
+        // System.out.println("Liste coupJoue: " + j.getListeCoupsJoues());
 
-        // Annule refait
-        System.out.println("\nAu tour de " + j.quelJoueur());
-        System.out.println("Annule coup");
-        j.annule();
-        System.out.println("\n" + j.toString() + "\n");
-        System.out.println(j.getListeJoueur());
-        System.out.println("Liste coupJoue: " + j.getListeCoupsJoues());
+        // // Annule refait
+        // System.out.println("\nAu tour de " + j.quelJoueur());
+        // System.out.println("Annule coup");
+        // j.annule();
+        // System.out.println("\n" + j.toString() + "\n");
+        // System.out.println(j.getListeJoueur());
+        // System.out.println("Liste coupJoue: " + j.getListeCoupsJoues());
 
-        System.out.println("\nAu tour de " + j.quelJoueur());
-        System.out.println("Refais coup");
-        j.refaire();
-        System.out.println("\n" + j.toString() + "\n");
-        System.out.println(j.getListeJoueur());
-        System.out.println("Liste coupJoue: " + j.getListeCoupsJoues());
+        // System.out.println("\nAu tour de " + j.quelJoueur());
+        // System.out.println("Refais coup");
+        // j.refaire();
+        // System.out.println("\n" + j.toString() + "\n");
+        // System.out.println(j.getListeJoueur());
+        // System.out.println("Liste coupJoue: " + j.getListeCoupsJoues());
 
-        System.out.println("\n Au tour de " + j.quelJoueur() + "\nPlacement pingouin en (1,0)");
-        j.placePingouin(1, 0);
-        System.out.println("\n" + j.toString() + "\n");
-        System.out.println(j.getListeJoueur());
-        System.out.println("Liste coupJoue: " + j.getListeCoupsJoues());
+        // System.out.println("\n Au tour de " + j.quelJoueur() + "\nPlacement pingouin en (1,0)");
+        // j.placePingouin(1, 0);
+        // System.out.println("\n" + j.toString() + "\n");
+        // System.out.println(j.getListeJoueur());
+        // System.out.println("Liste coupJoue: " + j.getListeCoupsJoues());
 
 
         //Ne fonctionne plus à partir ici : doit pas utiliser un new pingouin dans le constructeur de coup
@@ -125,12 +125,12 @@ public class MainTest {
 
         //j.sauvegarder("test.txt");
         
-        System.out.println("\n\n");
+        // System.out.println("\n\n");
 
         
-        //refaire un jeu avec sauvegarde
-        JeuAvance j2 = new JeuAvance("test.txt");
-        System.out.println(j2.toString());
+        // //refaire un jeu avec sauvegarde
+        // JeuAvance j2 = new JeuAvance("test.txt");
+        // System.out.println(j2.toString());
 
 
     }

@@ -275,6 +275,37 @@ public class Jeu{
         return (x < this.nbLignes && x >= 0 && y < this.nbColonnes && y >= 0);
     }
 
+    public ArrayList<Position> case1poisson(){
+        ArrayList<Position> posPossible = new ArrayList<Position>();
+        Cases caseCourant;
+        Position posCourant;
+        int l =0;
+        int c =0;
+        int nbc;
+
+        while( l < terrainCourant.length){
+            c = 0;
+            if( l%2 == 1){// si ligne impaire
+                nbc = 8;
+            }else{
+                nbc = 7;
+            }
+
+            //boucle sur toutes les colonnes
+            while( c < (nbc)){
+                caseCourant = getCase(l,c);
+                if(caseCourant.getNbPoissons()==1 && caseCourant.pingouinPresent() == 0){
+                    posCourant = new Position(l,c);
+                    posPossible.add(posCourant);
+                }
+                c++;
+            }
+            l++;
+        }
+        return posPossible;
+
+    }
+
 
     public ArrayList<Position> getCaseAccessible(int i, int j){
         int yInit, xInit, x, y;
@@ -446,16 +477,48 @@ public class Jeu{
         return(getCase(i,j).pingouinPresent() == 0 && getCase(i,j).getNbPoissons() == 1);
     }
 
-/*
+
     public String toString(){
-        String result = "Plateau:\n[";
-		String sep = "";
-		for (int i=0; i<terrainCourant.length; i++) {
-			result += sep + Arrays.toString(terrainCourant[i]);
-			sep = "\n ";
-		}
+        // String result = "Plateau:\n[";
+		// String sep = "";
+		// for (int i=0; i<terrainCourant.length; i++) {
+		// 	result += sep + Arrays.toString(terrainCourant[i]);
+		// 	sep = "\n ";
+		// }
+        // return result;
+
+
+        String result ="Plateau:\n[";
+        String line;
+        Cases caseCourant;
+        int l =0;
+        int c =0;
+        int nbc;
+
+        while( l < terrainCourant.length){
+            c = 0;
+            if( l%2 == 1){// si ligne impaire
+                line= "";
+                nbc = 8;
+            }else{
+                nbc = 7;
+                line = "  ";
+            }
+
+            //boucle sur toutes les colonnes
+            while( c < (nbc)){
+                line = line + "   ";
+                caseCourant = getCase(l,c);
+                if(caseCourant.estMange()){
+                    line= line + "    ";
+                }else{
+                    line= line +caseCourant + "";
+                }
+                c++;
+            }
+            result+=line + "\n";
+            l++;
+        }
         return result;
     }
-    */
-
 }
