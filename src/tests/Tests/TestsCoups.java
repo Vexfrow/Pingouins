@@ -1,6 +1,6 @@
 package tests.Tests;
 
-import Model.JeuAvance;
+import Model.*;
 import Model.Coup;
 import Model.Pingouin;
 import Model.Joueur;
@@ -13,7 +13,7 @@ public class TestsCoups {
     
     public static void main(String[] args){
         // Initialisation du jeu pour tester les coups
-        JeuAvance jeu = new JeuAvance("src/tests/Terrains/terrainFixe.txt");
+        Jeu jeu = new Jeu("src/tests/Terrains/terrainFixe.txt");
 
         // Placement des pingouins (cf MyTestsPingouins.java)
         System.out.println("Placement des pingouins\n");
@@ -301,7 +301,7 @@ public class TestsCoups {
         System.out.println("\nOn sauvegarde puis on recupere dans un autre jeuAvance pour verifier qu'on a bien la meme chose");
         jeu.sauvegarder("src/tests/Terrains/terrainFixeCoup.txt");
 
-        JeuAvance jeuSauve = new JeuAvance("src/tests/Terrains/terrainFixeCoup.txt");
+        Jeu jeuSauve = new Jeu("src/tests/Terrains/terrainFixeCoup.txt");
 
         Joueur jeuJ1 = jeu.getListeJoueur().get(0);
         Joueur jeuJ2 = jeu.getListeJoueur().get(1);

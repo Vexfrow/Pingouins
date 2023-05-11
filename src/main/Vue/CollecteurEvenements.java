@@ -2,7 +2,7 @@ package Vue;
 
 import Interface.Fenetre;
 import Interface.GameBoard;
-import Model.JeuAvance;
+import Model.Jeu;
 
 public interface CollecteurEvenements {
 
@@ -12,7 +12,7 @@ public interface CollecteurEvenements {
 
     void setInterface(Fenetre window);
 
-    void setJeu(JeuAvance jeu);
+    void setJeu(Jeu jeu);
 
     void switchSel();
 

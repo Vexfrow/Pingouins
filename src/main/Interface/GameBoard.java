@@ -1,6 +1,6 @@
 package Interface;
 
-import Model.JeuAvance;
+import Model.Jeu;
 import Vue.BanquiseGraphique;
 import Vue.CollecteurEvenements;
 
@@ -27,7 +27,7 @@ public class GameBoard extends JPanel {
 
     Label messageTour;
 
-    JeuAvance jeu;
+    Jeu jeu;
 
     BufferedImage poisson, hexagone, annuler, refaire, pause, suggestion;
 
@@ -36,7 +36,7 @@ public class GameBoard extends JPanel {
 
 
 
-    public GameBoard(JeuAvance j, CollecteurEvenements c){
+    public GameBoard(Jeu j, CollecteurEvenements c){
         bq = new BanquiseGraphique(j);
         gamePanel = new JPanel();
         menuGame = new JPanel();
@@ -219,7 +219,7 @@ public class GameBoard extends JPanel {
     }
 
 
-    public void misAJour(JeuAvance j){
+    public void misAJour(Jeu j){
         jeu = j;
         messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant());
         for(int i = 0; i < jeu.getListeJoueur().size();i++){

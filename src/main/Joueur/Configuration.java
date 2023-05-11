@@ -6,24 +6,56 @@ import java.util.ArrayList;
 
 public class Configuration{
 
-    public JeuAvance jeu;
+    public Jeu jeu;
     public Coup coup;
+    public Position position;
 
 
-    Configuration(JeuAvance jeu, Coup coup){
+    Configuration(Jeu jeu, Coup coup){
         this.jeu = jeu;
+        jeu.IA = true;
         this.coup = coup;
     }
 
-    Configuration(JeuAvance jeu){
+    Configuration(Jeu jeu, Position position){
         this.jeu = jeu;
+        this.position = position;
+        jeu.IA = true;
+    }
+
+    Configuration(Jeu jeu){
+        this.jeu = jeu;
+        jeu.IA = true;
     }
 
     public Configuration cloner(){
         return (new Configuration(jeu.cloner()));
     }
 
-    public static ArrayList<Configuration> coupFils(Configuration config){
+
+
+
+    public static ArrayList<Configuration> coupFilsPhase1(Configuration config){
+        ArrayList<Position> listePos = config.jeu.case1poisson();
+
+        Position pos;
+        Configuration prochainConfig; 
+        ArrayList<Configuration> configList = new ArrayList<Configuration>();
+        if(!config.jeu.pingouinTousPlace()){
+            for(int i = 0; i < listePos.size(); i++){
+                    prochainConfig = config.cloner();
+                    pos = listePos.get(i);
+                    prochainConfig.jeu.placePingouin(pos.x,pos.y);
+                    prochainConfig.position = pos;
+                    configList.add(prochainConfig);
+            }
+        }
+        return configList; 
+    }
+
+
+
+    public static ArrayList<Configuration> coupFilsPhase2(Configuration config){
         //System.out.println("\non entre dans Coupfils");
         Configuration neo = config.cloner();
         Configuration prochainConfig; 

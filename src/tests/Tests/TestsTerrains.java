@@ -1,6 +1,6 @@
 package tests.Tests;
 
-import Model.JeuAvance;
+import Model.Jeu;
 import Model.Cases;
 
 /* Programme test pour tout ce qui a trait au terrain */
@@ -10,7 +10,7 @@ public class TestsTerrains {
     public static void main(String[] args){
 
         // Test terrain correct
-        JeuAvance jeu = new JeuAvance(4);
+        Jeu jeu = new Jeu(4);
         assert jeu.getNbLigne() == 8: "Nombre de lignes different de 8";
         assert jeu.getNbColonne() == 15: "Nombre de colonnes different de 15";
         assert jeu.getNbCases() == 60: "Nombre de cases different de 60";
@@ -40,7 +40,7 @@ public class TestsTerrains {
 
         // Test sauvegarde
         jeu.sauvegarder("src/tests/Terrains/terrainNonFixe.txt");
-        JeuAvance jeuSauve = new JeuAvance("src/tests/Terrains/terrainNonFixe.txt");
+        Jeu jeuSauve = new Jeu("src/tests/Terrains/terrainNonFixe.txt");
 
         for(int i = 0; i < jeu.getTerrain().length; i++){
             for (int j = 0; j < jeu.getTerrain()[0].length/2; j++){
@@ -53,7 +53,7 @@ public class TestsTerrains {
         }
 
         // Test sauvegarde invalide 
-        //jeuSauve = new JeuAvance("src/test/Terrains/terrainFixeInvalide.txt");
+        //jeuSauve = new Jeu("src/test/Terrains/terrainFixeInvalide.txt");
         //System.out.println(jeuSauve.toString());
         //assert jeuSauve.getNbCases() != 60;
         //assert jeuSauve.placePingouin(0, 0) == false: "Terrain inexistant, impossible de placer un pingouin";

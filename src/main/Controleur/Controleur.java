@@ -17,7 +17,7 @@ public class Controleur implements CollecteurEvenements {
 
     private Fenetre window;
     private GameBoard plateauJeu;
-    private JeuAvance jeu;
+    private Jeu jeu;
 
     private ArrayList<IAJoueur> listeIA;
 
@@ -71,15 +71,15 @@ public class Controleur implements CollecteurEvenements {
             for(int i = 0; i < plateauJeu.getBq().getPlateauJeu().size();i++) {
                 Shape cell = plateauJeu.getBq().getPlateauJeu().get(i);
 
-                if (cell.contains(coupX, coupY)) {
-                    if (jeu.getEtat() == JeuAvance.ETAT_PLACEMENTP) {
-                        joueCoupPhase1(plateauJeu.getBq().getPosFromNumber(i));
-                    } else if(jeu.getEtat() == JeuAvance.ETAT_SELECTIONP || jeu.getEtat() == JeuAvance.ETAT_CHOIXC){
-                        joueCoupPhase2(plateauJeu.getBq().getPosFromNumber(i));
+            if (cell.contains(coupX, coupY)) {
+                if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP) {
+                    joueCoupPhase1(plateauJeu.getBq().getPosFromNumber(i));
+                } else if(jeu.getEtat() == Jeu.ETAT_SELECTIONP || jeu.getEtat() == Jeu.ETAT_CHOIXC){
+                    joueCoupPhase2(plateauJeu.getBq().getPosFromNumber(i));
 
-                    }else if (jeu.getEtat() == JeuAvance.ETAT_FINAL){
-                        System.out.println("Test état final");
-                    }
+                }else if (jeu.getEtat() == Jeu.ETAT_FINAL){
+                    System.out.println("Test état final");
+                }
 
                     plateauJeu.misAJour(jeu);
                     break;
@@ -95,7 +95,7 @@ public class Controleur implements CollecteurEvenements {
         plateauJeu.getBq().addMouseListener(new AdaptateurSourisPlateau(plateauJeu.getBq(), this));
     }
 
-    public void setJeu(JeuAvance j){
+    public void setJeu(Jeu j){
         jeu = j;
         listeIA.add(new IATroisPoissons(j));
         listeIA.add(new IATroisPoissons(j));
@@ -139,7 +139,7 @@ public class Controleur implements CollecteurEvenements {
     }
 
     public void newGame(int j) {
-        jeu = new JeuAvance(j);
+        jeu = new Jeu(j);
         plateauJeu = new GameBoard(jeu, this);
         this.window.setGameBoard(plateauJeu);
     }
@@ -155,10 +155,10 @@ public class Controleur implements CollecteurEvenements {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                if(jeu.getEtat()!=JeuAvance.ETAT_FINAL && jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA()){
+                if(jeu.getEtat()!=Jeu.ETAT_FINAL && jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA()){
                     IAJoueur jia = listeIA.get(jeu.getJoueurCourant()-1);
                     System.out.println(jeu.getEtat());
-                    if(jeu.getEtat() == JeuAvance.ETAT_PLACEMENTP){
+                    if(jeu.getEtat() == Jeu.ETAT_PLACEMENTP){
                         Position p = jia.elaborePlacement();
                         jeu.placePingouin(p.x,p.y);
                     }else{

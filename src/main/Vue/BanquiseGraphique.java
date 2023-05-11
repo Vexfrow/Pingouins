@@ -36,10 +36,10 @@ public class BanquiseGraphique extends JComponent {
 
     int etat;
 
-    private JeuAvance jeu;
+    private Jeu jeu;
     private ArrayList<Shape> plateau;
 
-    public BanquiseGraphique(JeuAvance jeu) {
+    public BanquiseGraphique(Jeu jeu) {
         this.jeu = jeu;
         this.etat = jeu.getEtat();
 
@@ -115,7 +115,7 @@ public class BanquiseGraphique extends JComponent {
     }
 
 
-    public void misAJour(JeuAvance jeu) {
+    public void misAJour(Jeu jeu) {
         this.jeu = jeu;
         this.etat = jeu.getEtat();
         repaint();
@@ -177,10 +177,10 @@ public class BanquiseGraphique extends JComponent {
         ArrayList<Position> listPingouinPos = null;
         Position infoP = null;
 
-        if(etat == JeuAvance.ETAT_CHOIXC) {
+        if(etat == Jeu.ETAT_CHOIXC) {
             infoP = jeu.getSelectionP();
             listHexagone = jeu.getCaseAccessible(infoP.x, infoP.y);
-        }else if(etat == JeuAvance.ETAT_SELECTIONP){
+        }else if(etat == Jeu.ETAT_SELECTIONP){
             ArrayList<Pingouin> listPingouin = jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).listePingouin;
             listPingouinPos = new ArrayList<>();
             for(Pingouin p : listPingouin){
@@ -196,7 +196,7 @@ public class BanquiseGraphique extends JComponent {
             Cases c = jeu.getCase(coordHexa.x, coordHexa.y);
             Shape cell = plateau.get(i);
 
-            if(etat == JeuAvance.ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0){
+            if(etat == Jeu.ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0){
                if(jeu.getJoueurCourant() == 1)
                    bfi = hPoisson1hR;
                else if(jeu.getJoueurCourant() == 2)
@@ -206,7 +206,7 @@ public class BanquiseGraphique extends JComponent {
                else if(jeu.getJoueurCourant() == 4)
                    bfi = hPoisson1hJ;
 
-            }else if(etat == JeuAvance.ETAT_CHOIXC && Objects.requireNonNull(listHexagone).contains(coordHexa)){
+            }else if(etat == Jeu.ETAT_CHOIXC && Objects.requireNonNull(listHexagone).contains(coordHexa)){
                 if(jeu.getJoueurCourant() == 1){
                     if (c.getNbPoissons() == 1)
                         bfi = hPoisson1hR;
@@ -237,7 +237,7 @@ public class BanquiseGraphique extends JComponent {
                         bfi = hPoisson3hJ;
                 }
 
-            }else if ((etat == JeuAvance.ETAT_CHOIXC && coordHexa.equals(infoP)) || (etat == JeuAvance.ETAT_SELECTIONP && Objects.requireNonNull(listPingouinPos).contains(coordHexa))){
+            }else if ((etat == Jeu.ETAT_CHOIXC && coordHexa.equals(infoP)) || (etat == Jeu.ETAT_SELECTIONP && Objects.requireNonNull(listPingouinPos).contains(coordHexa))){
                 if(jeu.getJoueurCourant() == 1){
                     if (c.getNbPoissons() == 1)
                         bfi = hPingouinR1h;

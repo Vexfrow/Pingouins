@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 import java.util.ArrayList;
 
-public class JeuSauvegarde extends JeuAvance{
+public class JeuSauvegarde extends Jeu{
     
 
     public JeuSauvegarde(){

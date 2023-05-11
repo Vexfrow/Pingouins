@@ -7,7 +7,8 @@ public class MainTest {
     public static void main(String[] args){
 
         // Initialisation du jeu
-        JeuAvance j = new JeuAvance(2);
+        Jeu j = new Jeu(2);
+        System.out.println(j);
 
         
         // Placement des pingouins 
@@ -125,12 +126,12 @@ public class MainTest {
 
         j.sauvegarder("test.txt");
         
-        System.out.println("\n\n");
+        // System.out.println("\n\n");
 
         
-        //refaire un jeu avec sauvegarde
-        JeuAvance j2 = new JeuAvance("test.txt");
-        System.out.println(j2.toString());
+        // //refaire un jeu avec sauvegarde
+        // JeuAvance j2 = new JeuAvance("test.txt");
+        // System.out.println(j2.toString());
 
 
     }
