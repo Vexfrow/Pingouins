@@ -1,8 +1,9 @@
 package Interface;
 
+import Model.Jeu;
 import Model.Joueur;
 import Vue.CollecteurEvenements;
-
+import Joueur.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -146,10 +147,17 @@ public class MenuP extends JPanel {
                 ArrayList<Joueur> ar = new ArrayList<Joueur>();
                 ar.add(new Joueur(1,0,0,false));
                 ar.add(new Joueur(2,0,0,true));
-                c.newGame(ar);
+                Jeu j = new Jeu(ar);
+                ArrayList<IAJoueur> arj = new ArrayList<IAJoueur>();
+                arj.add(null);
+                arj.add(new IAAleatoire(j));
+
+                c.newGame(j, arj, ar);
                 c.switchGameBoard();
             }
         });
+
+
 
         addComponentListener(new ComponentAdapter() {
             @Override

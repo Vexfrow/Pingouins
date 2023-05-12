@@ -73,8 +73,9 @@ public class Controleur implements CollecteurEvenements {
 
     @Override
     public void clicSourisPlateau(int coupX, int coupY) {
-        for(int i = 0; i < plateauJeu.getBq().getPlateauJeu().size();i++) {
-            Shape cell = plateauJeu.getBq().getPlateauJeu().get(i);
+        if(!jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA()){
+            for(int i = 0; i < plateauJeu.getBq().getPlateauJeu().size();i++) {
+                Shape cell = plateauJeu.getBq().getPlateauJeu().get(i);
 
             if (cell.contains(coupX, coupY)) {
                 if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP) {
@@ -86,8 +87,9 @@ public class Controleur implements CollecteurEvenements {
                     System.out.println("Test état final");
                 }
 
-                plateauJeu.misAJour(jeu);
-                break;
+                    plateauJeu.misAJour(jeu);
+                    break;
+                }
             }
         }
 
@@ -142,17 +144,13 @@ public class Controleur implements CollecteurEvenements {
         return this.window.workingPane.getEtatBackPane();
     }
 
-    public void newGame(int j) {
-        jeu = new Jeu(j);
+    public void newGame(Jeu j, ArrayList<IAJoueur> liste, ArrayList<Joueur> arJ) {
+        jeu = j;
         plateauJeu = new GameBoard(jeu, this);
+        listeIA = liste;
         this.window.setGameBoard(plateauJeu);
     }
 
-    public void newGame(ArrayList<Joueur> j){
-        jeu = new Jeu(j);
-        plateauJeu = new GameBoard(jeu, this);
-        this.window.setGameBoard(plateauJeu);
-    }
 
     public void startGame(){
         jeu.startGame();
@@ -173,7 +171,8 @@ public class Controleur implements CollecteurEvenements {
                         jeu.placePingouin(p.x,p.y);
                     }else{
                         Coup c = jia.elaboreCoup();
-                        jeu.joue(c);
+                        if(c!=null)
+                            jeu.joue(c);
                     }
                     plateauJeu.misAJour(jeu);
                     try {
@@ -191,5 +190,9 @@ public class Controleur implements CollecteurEvenements {
     public void save(String s){
         plateauJeu.getBq().sauvegardeBanquise(s);
         jeu.sauvegarder(s);
+    }
+
+    public Jeu getJeu(){
+        return jeu;
     }
 }

@@ -1,5 +1,9 @@
 package Interface;
 
+import Interface.Panes.Aide;
+import Interface.Panes.Chargement;
+import Interface.Panes.Pause;
+import Interface.Panes.Sauvegarde;
 import Vue.CollecteurEvenements;
 
 import javax.swing.*;
@@ -54,6 +58,10 @@ public class BackingPane extends JPanel {
             this.context = new Sauvegarde(collecteur);
             previousState = etat;
             this.etat = 3;
+        }else if(j == 4){
+            this.context = new Chargement(collecteur);
+            previousState = etat;
+            this.etat = 4;
         }
         this.add(context);
         this.revalidate();

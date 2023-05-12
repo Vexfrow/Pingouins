@@ -19,10 +19,11 @@ public class IconeSelection extends JPanel {
 
 
 
-    private final int MAX = 3;
+    private final int MAX = 4;
     public static final String HUMAIN = "Humain";
     public static final String IA_EASY = "IA Facile";
     public static final String IA_MEDIUM = "IA Moyenne";
+    public static final String IA_DIFFICILE = "IA Difficile";
 
     private int rotation;
     private JButton minus;
@@ -231,7 +232,9 @@ public class IconeSelection extends JPanel {
                 break;
             case 3:
                 res = IA_MEDIUM;
-
+                break;
+            case 4:
+                res = IA_DIFFICILE;
                 break;
             default:
                 res= "Erreur";
@@ -241,7 +244,7 @@ public class IconeSelection extends JPanel {
         type.setText(res);
     }
 
-    public String name(){
+    public String getName(){
         String res = "";
         res = type.getText();
         return res;

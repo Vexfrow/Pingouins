@@ -1,4 +1,4 @@
-package Interface;
+package Interface.Panes;
 
 import Vue.CollecteurEvenements;
 
@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.FileInputStream;
 
 public class Aide extends JPanel{
@@ -40,6 +42,14 @@ public class Aide extends JPanel{
         collecteur = c;
 
         setAide();
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                image.setIcon(new ImageIcon(reScale(aideImg, 0.6f, 0.5f)));
+                flecheGauche.setIcon(new ImageIcon(reScale(flecheLeft, 0.08f, 0.1f)));
+                flecheDroite.setIcon(new ImageIcon(reScale(flecheRight, 0.08f, 0.1f)));
+            }
+        });
     }
 
     public Image reScale(Dimension w, Image img){
@@ -102,9 +112,7 @@ public class Aide extends JPanel{
 
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        image.setIcon(new ImageIcon(reScale(aideImg, 0.6f, 0.5f)));
-        flecheGauche.setIcon(new ImageIcon(reScale(flecheLeft, 0.08f, 0.1f)));
-        flecheDroite.setIcon(new ImageIcon(reScale(flecheRight, 0.08f, 0.1f)));
+
     }
 
 

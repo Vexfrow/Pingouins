@@ -1,5 +1,6 @@
-package Interface;
+package Interface.Panes;
 
+import Interface.GameConstants;
 import Vue.CollecteurEvenements;
 
 import javax.imageio.ImageIO;

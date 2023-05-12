@@ -1,4 +1,6 @@
-package Interface;
+package Interface.SaveElm;
+
+import Interface.GameConstants;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
