@@ -26,11 +26,6 @@ public class Fenetre implements Runnable {
     Jeu jeu;
 
 
-    public static void demarrer(Controleur ctrl){
-            SwingUtilities.invokeLater(new Fenetre(ctrl));
-    }
-
-
     public Fenetre(Controleur ctrl){
         this.c = ctrl;
         c.setInterface(this);
@@ -44,8 +39,6 @@ public class Fenetre implements Runnable {
         jeu = new Jeu(ar);
         //jeu = new JeuAvance(2);
         this.gameBoard = new GameBoard(jeu, c);
-
-
     }
 
     public void run(){
@@ -53,10 +46,11 @@ public class Fenetre implements Runnable {
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jf.setMinimumSize(new Dimension(800, 600));
-
         workingPane = new WorkingPane(this.menu, this.c);
         jf.add(workingPane);
         jf.setVisible(true);
+        jf.revalidate();
+        jf.repaint();
     }
 
 
@@ -82,6 +76,10 @@ public class Fenetre implements Runnable {
 
     public MenuP getMenu(){
         return this.menu;
+    }
+
+    public GameBoard getGameBoard(){
+        return this.gameBoard;
     }
 
     public void setGameBoard(GameBoard gb){

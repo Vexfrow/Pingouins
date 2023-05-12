@@ -117,7 +117,6 @@ public class Heuristique{
         int score =0;;
 
         ArrayList<Position> listePos = new ArrayList<Position>();
-        boolean changer = true;
         Joueur joueur1=config.jeu.getListeJoueur().get(joueuria-1);
         ArrayList<Pingouin> listePingouin1 = joueur1.getListePingouin();
 
@@ -129,8 +128,9 @@ public class Heuristique{
         int tempo;
         while(i < listePingouin1.size()){
             ping = listePingouin1.get(i);
+            //System.out.println(" avec le pingouin"+ ping);
             if((tempo =estIlot(ping, config.jeu, joueur2) )!= 0){
-                //System.out.println("abc "+tempo+" score vaut "+ score);
+                //System.out.println("abc "+tempo+" avec le pingouin"+ ping+"\n\n");
                 score+=tempo;
                 //System.out.println("def score vaut "+ score);
             }
@@ -139,14 +139,15 @@ public class Heuristique{
         i=0;
         while(i < listePingouin2.size()){
             ping = listePingouin2.get(i);
+            //System.out.println(" avec le pingouin"+ ping);
             if((tempo =estIlot(ping, config.jeu, joueur1) )!= 0){
-                //System.out.println("tempo vaut "+ tempo);
+                //System.out.println("tempo vaut "+ tempo +" avec le pingouin"+ ping+"\n\n");
                 score-=tempo;
             }
             i++;
         }
         //System.out.println("Au revoir l'heuristique");
-        return score+50;
+        return score;
     }
 
 
@@ -176,26 +177,35 @@ public class Heuristique{
             }
             i++;
         }
+        //System.out.println("\ncaseAccTotal vaut" + caseAccTotal + "pour le joueur" + ping);
         Position posC;
         Stack<Position> Avisit = new Stack<Position>();
         caseAcc=jeu.getCaseAccessible(ping.getLigne(),ping.getColonne());
+        //System.out.println("Les cases accessible = " + caseAcc);
+        i =0;
         while(i< caseAcc.size()){
             Avisit.push(caseAcc.get(i));
+            vuPingouin.put(caseAcc.get(i).hash(),caseAcc.get(i));
             i++;
         }
         i =0;
+        //System.out.println("Debut de boucle file vide ? " + Avisit.empty());
         while(!Avisit.empty()){
             pos = Avisit.pop();
             if(vuJoueur.containsKey(pos.hash())){
+                //System.out.println("ON RENVOIE 0 :" + pos);
                 return 0;
             }else{
+                score+=jeu.getCase(pos.x,pos.y).getNbPoissons();
+                //System.out.println("on rajoute "+ jeu.getCase(pos.x,pos.y).getNbPoissons()+" avec pos"+ pos +"calcul du tempo ping:" +ping);
                 caseAcc=jeu.getCaseAccessible(pos.x,pos.y);
+                i = 0;
                 while(i< caseAcc.size()){
                     posC = caseAcc.get(i);
-                    if(!vuPingouin.containsKey(pos.hash())){
-                        score+=jeu.getCase(pos.x,pos.y).getNbPoissons();
+                    if(!vuPingouin.containsKey(posC.hash())){
+                        //System.out.println("Case ajouté : " + posC);
                         Avisit.push(caseAcc.get(i));
-                        vuPingouin.put(pos.hash(),pos);
+                        vuPingouin.put(posC.hash(),posC);
                     }
                     i++;
                 }

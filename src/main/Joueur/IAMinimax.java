@@ -61,11 +61,13 @@ public class IAMinimax extends IAJoueur{
             nbcase = 5;
         }
         bonus = (int)Math.cbrt((double)nbcase-4);
-        System.out.println("Bonus vaut" + bonus);
+        //System.out.println("Bonus vaut" + bonus);
 
 
 
         Configuration conf = new Configuration(this.j.cloner());
+            //System.out.println(conf.jeu);
+            System.out.println(Heuristique.Hilot(conf,this.iajoueur) + " est la valeur de l'heuristique ilot\n");
 
         ArrayList<Configuration> fils = Configuration.coupFilsPhase2(conf);
         int max = Integer.MIN_VALUE; ;

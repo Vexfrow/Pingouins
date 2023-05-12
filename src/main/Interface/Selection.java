@@ -4,6 +4,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import Controleur.Controleur;
 import Model.Jeu;
+import Model.Joueur;
+import Joueur.*;
 import Vue.CollecteurEvenements;
 
 import java.awt.*;
@@ -15,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 
 
 public class Selection extends JPanel {
@@ -57,8 +60,6 @@ public class Selection extends JPanel {
         retour.setBorderPainted(false);
         retour.setContentAreaFilled(false);
         retour.setPreferredSize(new Dimension(100, 52));
-
-
 
         this.setLayout(new GridBagLayout());
         this.setBackground(GameConstants.BACKGROUND_COLOR);
@@ -144,12 +145,13 @@ public class Selection extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("nb P " + numberOfPlayer());
-                c.newGame(numberOfPlayer());
+                ArrayList<Joueur> ar = getJoueur();
+                Jeu j = new Jeu(ar);
+                ArrayList<IAJoueur> arj = getIA(j);
+                c.newGame(j, arj, ar);
                 c.switchGameBoard();
             }
         });
-        revalidate();
-        repaint();
     }
 
     public void changeIcon(){
@@ -165,6 +167,43 @@ public class Selection extends JPanel {
             }
         }
         return j;
+    }
+
+
+    public  ArrayList<Joueur> getJoueur(){
+        ArrayList<Joueur> ar = new ArrayList<>();
+        for(int i =0; i < 4; i++){
+            if(listJoueur[i].isActif()){
+                if(listJoueur[i].getName().equals(IconeSelection.HUMAIN)) {
+                    ar.add(new Joueur(1, 0, 0, false));
+                }else{
+                    ar.add(new Joueur(1, 0, 0, true));
+                }
+
+            }
+        }
+        return ar;
+    }
+
+    public  ArrayList<IAJoueur> getIA(Jeu j){
+        ArrayList<IAJoueur> arj = new ArrayList<>();
+        for(int i =0; i < 4; i++){
+            if(listJoueur[i].isActif()){
+                if(listJoueur[i].getName().equals(IconeSelection.HUMAIN)) {
+                    arj.add(null);
+                }else{
+                    if(listJoueur[i].getName().equals(IconeSelection.IA_EASY)){
+                        arj.add(new IAAleatoire(j));
+                    }else if(listJoueur[i].getName().equals(IconeSelection.IA_MEDIUM)){
+                        arj.add(new IATroisPoissons(j));
+                    }else if(listJoueur[i].getName().equals(IconeSelection.IA_DIFFICILE)){
+                        arj.add(new IAMinimax(j));
+                    }
+                }
+
+            }
+        }
+        return arj;
     }
 }
 
