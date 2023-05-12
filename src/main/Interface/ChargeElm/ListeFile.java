@@ -62,9 +62,11 @@ public class ListeFile extends JPanel {
         flecheHaut.setIcon(new ImageIcon(up));
         flecheHaut.setBorderPainted(false);
         flecheHaut.setContentAreaFilled(false);
+        flecheHaut.setDisabledIcon(new ImageIcon(upVide));
         flecheBas.setIcon(new ImageIcon(down));
         flecheBas.setBorderPainted(false);
         flecheBas.setContentAreaFilled(false);
+        flecheBas.setDisabledIcon(new ImageIcon(downVide));
         setLayout(new GridBagLayout());
         setBackground(GameConstants.BACKGROUND_COLOR);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -120,6 +122,8 @@ public class ListeFile extends JPanel {
         affichage[0].setBorder(BorderFactory.createLineBorder(Color.YELLOW));
         current = affichage[0].getText();
     }
+
+
     // up est vrai sur la fleche du bas, faux sinon
     public void majListe(boolean up){
         if(up){
@@ -145,15 +149,17 @@ public class ListeFile extends JPanel {
     }
 
     public void majFleche(){
-        if(!isTop()){
+        if(isTop()){
+            flecheBas.setEnabled(false);
+        }else{
             flecheBas.setIcon(new ImageIcon(down));
-        }else{
-            flecheBas.setIcon(new ImageIcon(downVide));
+            flecheBas.setEnabled(true);
         }
-        if(!isBottom()){
-            flecheHaut.setIcon(new ImageIcon(up));
+        if(isBottom()){
+            flecheHaut.setEnabled(false);
         }else{
-            flecheHaut.setIcon(new ImageIcon(upVide));
+            flecheHaut.setIcon(new ImageIcon(up));
+            flecheHaut.setEnabled(true);
         }
 
     }
@@ -173,11 +179,14 @@ public class ListeFile extends JPanel {
                 i++;
             }
         }
-        return s;
+        String res [] = new String[i];
+        for(int j = 0; j < i; j++){
+            res[j] = s[j];
+        }
+        return res;
     }
 
     public boolean isTop(){
-
         return sommet == 0;
     }
 

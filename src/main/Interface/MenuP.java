@@ -213,7 +213,6 @@ public class MenuP extends JPanel {
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         allScale();
-        System.out.println("Here Menu");
     }
 
 }

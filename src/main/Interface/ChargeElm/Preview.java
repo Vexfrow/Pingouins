@@ -19,12 +19,7 @@ public class Preview extends JPanel {
         setBackground(GameConstants.BACKGROUND_COLOR);
         setLayout(new GridBagLayout());
         visuel = new JLabel("Choisissez une partie");
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                visuel.setIcon(new ImageIcon(reScale(screen)));
-            }
-        });
+
 
 
     }
@@ -36,12 +31,17 @@ public class Preview extends JPanel {
         int nbJoueur = 4;
         players = new JLabel[nbJoueur];
         gbc.gridy = 1;
+        gbc.gridx = 0;
+        gbc.weightx = 3;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(10, 20, 10, 50);
         for(int i = 0; i < nbJoueur; i++){
             players[i] = new JLabel(""+ i);
+            players[i].setOpaque(true);
+            players[i].setFont(new Font("Arial", Font.BOLD, 15 ));
             switch (i){
                 case 0:
                     players[i].setBackground(GameConstants.ROUGE);
-
                     break;
                 case 1:
                     players[i].setBackground(GameConstants.BLEU);
@@ -67,11 +67,18 @@ public class Preview extends JPanel {
         visuel.setIcon(new ImageIcon(reScale(screen)));
 
         gbc.gridy = 0;
+        gbc.gridx = 0;
         gbc.weighty = 2;
+        gbc.weightx = 1;
         add(visuel, gbc);
         revalidate();
         repaint();
-
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                visuel.setIcon(new ImageIcon(reScale(screen)));
+            }
+        });
 
     }
 
