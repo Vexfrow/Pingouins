@@ -3,7 +3,7 @@ package Model;
 
 public class Cases {
 
-    private boolean mange; //true/1 = mangé
+    private boolean mange; //true = mangé
     private int nbPoissons;
     private int pingouin;
 

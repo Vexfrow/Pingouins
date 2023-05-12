@@ -40,14 +40,17 @@ public class MainTestIA{
             while(!j.pingouinTousPlace()){
 
                 pos = ia1.elaborePlacement();
-                // System.out.println(j);
-                // System.out.println("position vaut + "+ pos);                
+                 //System.out.println(j);
+                 //System.out.println("position vaut + "+ pos);                
                 j.placePingouin(pos.x, pos.y);
                 
                 pos = ia2.elaborePlacement();
-                // System.out.println(j);
-                // System.out.println("position vaut + "+ pos);
+                 //System.out.println(j);
+                 //System.out.println("position vaut + "+ pos);
                 j.placePingouin(pos.x,pos.y);
+
+
+                //System.out.println("nb pingouin reste pllacer = " + j.getNbPingouinPlace());
                 
 
             }

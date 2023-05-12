@@ -33,8 +33,6 @@ public class Configuration{
     }
 
 
-
-
     public static ArrayList<Configuration> coupFilsPhase1(Configuration config){
         ArrayList<Position> listePos = config.jeu.case1poisson();
 
@@ -52,7 +50,6 @@ public class Configuration{
         }
         return configList; 
     }
-
 
 
     public static ArrayList<Configuration> coupFilsPhase2(Configuration config){
@@ -77,5 +74,4 @@ public class Configuration{
         return configList;
         
     }
-
 }
