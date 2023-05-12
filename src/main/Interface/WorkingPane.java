@@ -29,6 +29,7 @@ public class WorkingPane extends JLayeredPane {
     public void toggleBackingPane(){
 
         backingPane.setVisible(!backingPane.isVisible());
+
     }
 
     public void changePanel(JPanel j){

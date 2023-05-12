@@ -47,8 +47,14 @@ public class Controleur implements CollecteurEvenements {
         this.window.workingPane.switchBackPane(2);
         if(change){
             this.window.workingPane.toggleBackingPane();
+            this.window.getGameBoard().toggleButton();
+
         }
 
+    }
+
+    public void toggleSave(){
+        this.window.workingPane.switchBackPane(3);
     }
 
     public void switchSel(){window.switchPanel(2);}
@@ -138,11 +144,13 @@ public class Controleur implements CollecteurEvenements {
         return this.window.workingPane.getEtatBackPane();
     }
 
-    public void newGame(int j) {
-        jeu = new Jeu(j);
+    public void newGame(Jeu j, ArrayList<IAJoueur> liste, ArrayList<Joueur> arJ) {
+        jeu = j;
         plateauJeu = new GameBoard(jeu, this);
+        listeIA = liste;
         this.window.setGameBoard(plateauJeu);
     }
+
 
     public void startGame(){
         jeu.startGame();
@@ -177,5 +185,14 @@ public class Controleur implements CollecteurEvenements {
             }
         });
         t.start();
+    }
+
+    public void save(String s){
+        plateauJeu.getBq().sauvegardeBanquise(s);
+        jeu.sauvegarder(s);
+    }
+
+    public Jeu getJeu(){
+        return jeu;
     }
 }

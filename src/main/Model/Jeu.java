@@ -412,8 +412,6 @@ public class Jeu{
                 etat = ETAT_SELECTIONP;
             }
 
-            System.out.println("etat place = "+ etat);
-
             return true;
 
         }else{
