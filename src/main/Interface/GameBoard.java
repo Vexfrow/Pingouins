@@ -27,8 +27,7 @@ public class GameBoard extends JPanel {
 
     Jeu jeu;
 
-    private JButton bPause;
-    private JButton bSuggestion;
+    private JButton bPause, bRefaire, bSuggestion, bAnnuler, bHistorique;
     BufferedImage poisson, hexagone, annuler, refaire, pause, suggestion;
 
     private ArrayList<JPanel> listScore;
@@ -126,12 +125,12 @@ public class GameBoard extends JPanel {
         //----------------Scores-------------
         ImageIcon iiP = new ImageIcon(poisson);
         Image image = iiP.getImage(); // transform it
-        Image newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        Image newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
         iiP = new ImageIcon(newimg);
 
         ImageIcon iiH = new ImageIcon(hexagone);
         image = iiH.getImage(); // transform it
-        newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
         iiH = new ImageIcon(newimg);
 
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
@@ -186,19 +185,19 @@ public class GameBoard extends JPanel {
         }
 
 
-        JButton bHistorique = new JButton("Historique");
+        //----------Historique-------------
+        bHistorique = new JButton("Historique");
 
         c.gridx = 0;
         c.weighty = 15;
         c.gridy = 3+jeu.getListeJoueur().size();
         c.fill = GridBagConstraints.BOTH;
-        //c.anchor = GridBagConstraints.CENTER;
         menuGame.add(bHistorique,c);
 
 
 
         //----------Boutons annuler et refaire --------------
-        JButton bAnnuler = new JButton(new ImageIcon(annuler));
+        bAnnuler = new JButton(new ImageIcon(annuler));
         bAnnuler.setBorderPainted(false);
         bAnnuler.setContentAreaFilled(false);
 
@@ -207,7 +206,7 @@ public class GameBoard extends JPanel {
             misAJour(jeu);
         });
 
-        JButton bRefaire = new JButton(new ImageIcon(refaire));
+        bRefaire = new JButton(new ImageIcon(refaire));
         bRefaire.setBorderPainted(false);
         bRefaire.setContentAreaFilled(false);
 
@@ -226,8 +225,6 @@ public class GameBoard extends JPanel {
         c.gridx = 0;
         c.weighty = 10;
         c.gridy = 4+jeu.getListeJoueur().size();
-        //c.fill = GridBagConstraints.HORIZONTAL;
-        //c.anchor = GridBagConstraints.CENTER;
         menuGame.add(boutonPanel2, c);
 
     }
@@ -244,26 +241,30 @@ public class GameBoard extends JPanel {
 
     public void misAJour(Jeu j){
         jeu = j;
+
         messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant());
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
-           listScoreH.get(i).setText(String.valueOf(jeu.getListeJoueur().get(i).getNbCasesMange()));
-           listScoreP.get(i).setText(String.valueOf(jeu.getListeJoueur().get(i).getScore()));
+            listScoreH.get(i).setText(String.valueOf(jeu.getListeJoueur().get(i).getNbCasesMange()));
+            listScoreP.get(i).setText(String.valueOf(jeu.getListeJoueur().get(i).getScore()));
 
-           if(i+1 == jeu.getJoueurCourant()){
-               switch(i+1){
-                   case 1 -> listScore.get(i).setBackground(Color.RED);
-                   case 2 -> listScore.get(i).setBackground(Color.BLUE);
-                   case 3 -> listScore.get(i).setBackground(Color.GREEN);
-                   case 4 -> listScore.get(i).setBackground(Color.YELLOW);
-               }
-           }else{
-               listScore.get(i).setBackground(Color.ORANGE);
-           }
+            if(i+1 == jeu.getJoueurCourant()){
+                switch(i+1){
+                    case 1 -> listScore.get(i).setBackground(Color.RED);
+                    case 2 -> listScore.get(i).setBackground(Color.BLUE);
+                    case 3 -> listScore.get(i).setBackground(Color.GREEN);
+                    case 4 -> listScore.get(i).setBackground(Color.YELLOW);
+                }
+            }else{
+                listScore.get(i).setBackground(Color.ORANGE);
+            }
+        }
+        bq.misAJour(jeu);
+
+        if(jeu.getEtat() == Jeu.ETAT_FINAL) {
+            System.out.println("Le jeu est terminé");
+            collecteur.toggleVictoire(true);
         }
 
-
-
-        bq.misAJour(jeu);
     }
 
 
@@ -274,7 +275,9 @@ public class GameBoard extends JPanel {
     public void toggleButton(){
         bPause.setEnabled(!bPause.isEnabled());
         bSuggestion.setEnabled(!bSuggestion.isEnabled());
-
+        bRefaire.setEnabled(!bRefaire.isEnabled());
+        bAnnuler.setEnabled(!bAnnuler.isEnabled());
+        bHistorique.setEnabled(!bAnnuler.isEnabled());
     }
 
 

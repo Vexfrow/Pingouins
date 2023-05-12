@@ -29,6 +29,8 @@ public interface CollecteurEvenements {
 
     void toggleSave();
 
+    void toggleVictoire(boolean b);
+
     int getEtatBackPane();
 
     void newGame(Jeu j, ArrayList<IAJoueur> liste, ArrayList<Joueur> arJ);
@@ -37,5 +39,5 @@ public interface CollecteurEvenements {
     void save(String s);
 
 
-
+    Jeu getJeu();
 }

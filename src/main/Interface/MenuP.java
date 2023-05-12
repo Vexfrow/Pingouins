@@ -17,10 +17,8 @@ public class MenuP extends JPanel {
     private JButton chargerPartie;
     private JButton tutoriel;
     private JButton regles;
-    private Image titre;
-    private Image hint;
-    private ImageIcon titreS;
-    private ImageIcon hintS;
+    private Image titreI, hintI, partieRapideI, partiePersoI, chargerPartieI, tutorielI;
+    private ImageIcon titreS, hintS, partieRapideS, partiePersoS, chargerPartieS, tutorielS;
     private SpringLayout layout;
     private  JLabel menu;
     private CollecteurEvenements c;
@@ -30,8 +28,12 @@ public class MenuP extends JPanel {
         this.c = ctrl;
         //Création des éléments
         try{
-            titre = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/Titre.png"));
-            hint = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonRegles.png"));
+            titreI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/Titre.png"));
+            hintI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonRegles.png"));
+            partieRapideI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonPartieRapide.png"));
+            partiePersoI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonPartiePerso.png"));
+            chargerPartieI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonChargerPartie.png"));
+            tutorielI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonTuto.png"));
         }catch(Exception e){
             System.out.println("une erreur " + e);
         }
@@ -45,11 +47,15 @@ public class MenuP extends JPanel {
         menu = new JLabel();
         this.setLayout(layout);
 
-        ImageIcon c = new ImageIcon(hint);
+        ImageIcon c = new ImageIcon(hintI);
         System.out.println(c.getIconWidth() + " h -> " + c.getIconHeight());
         regles.setPreferredSize(new Dimension(c.getIconWidth(), c.getIconHeight() ));
-        titreS = new ImageIcon(titre);
-        hintS = new ImageIcon(hint);
+        titreS = new ImageIcon(titreI);
+        hintS = new ImageIcon(hintI);
+        partieRapideS = new ImageIcon(partieRapideI);
+        partiePersoS = new ImageIcon(partiePersoI);
+        chargerPartieS = new ImageIcon(chargerPartieI);
+        tutorielS = new ImageIcon(tutorielI);
         setMenu();
 
 
@@ -89,10 +95,10 @@ public class MenuP extends JPanel {
         this.setBackground(GameConstants.BACKGROUND_COLOR);
         menu.setIcon(titreS);
         regles.setIcon(hintS);
-        partieRapide.setBackground(partieRapideColor);
-        partiePersonnalisee.setBackground(partiPersonnaliseeColor);
-        chargerPartie.setBackground(chargerPartieColor);
-        tutoriel.setBackground(tutorielColor);
+        partieRapide.setIcon(partieRapideS);
+        partiePersonnalisee.setIcon(partiePersoS);
+        chargerPartie.setIcon(chargerPartieS);
+        tutoriel.setIcon(tutorielS);
 
         partieRapide.setForeground(Color.WHITE);
         partiePersonnalisee.setForeground(Color.WHITE);
@@ -162,7 +168,7 @@ public class MenuP extends JPanel {
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                titreS = new ImageIcon(reScale(titre));
+                titreS = new ImageIcon(reScale(titreI));
                 menu.setIcon(titreS);
             }
         });
