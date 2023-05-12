@@ -42,10 +42,10 @@ public class Heuristique{
         int joueurCourant = (joueuria % config.jeu.getNbJoueur()) + 1;       
         Joueur joueur2= config.jeu.getListeJoueur().get(joueurCourant-1);
         int scores = joueur1.getScore()-joueur2.getScore();
-        return scores+50;
+        return scores;
     }
 
-/*
+
     public static int montecarlo(Configuration config, int joueuria){
         int i = 0;
         int winj1 =0;
@@ -56,7 +56,7 @@ public class Heuristique{
         Position pos;
 
 
-        while ( i < 10){
+        while ( i < 5){
             Jeu j = config.jeu.cloner(); 
 
             ia1 = new IAAleatoire(j);
@@ -101,16 +101,20 @@ public class Heuristique{
             }
             i++;
         }
-        return  winj1;
+        if(joueuria == 1){
+            return winj1;  
+        }else{
+            return winj2;
+        }
+
     }
-    */
 
 
     public static int Hilot(Configuration config, int joueuria){
         Hashtable<Integer, Position> vu= new Hashtable<Integer, Position>();
         Position pos;
         Pingouin ping;
-        int score = 100;
+        int score =0;;
 
         ArrayList<Position> listePos = new ArrayList<Position>();
         boolean changer = true;
@@ -142,7 +146,7 @@ public class Heuristique{
             i++;
         }
         //System.out.println("Au revoir l'heuristique");
-        return score;
+        return score+50;
     }
 
 

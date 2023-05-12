@@ -55,13 +55,13 @@ public class Jeu{
 
     }
 
-    public Jeu(Cases[][] terrain, ArrayList<Joueur> ar, int l, int c, int j, int pj, int pp, int jc){
+    public Jeu(Cases[][] terrain, ArrayList<Joueur> ar, int l, int c, int j, int pj, int pp, int jc, boolean ia){
         terrainCourant = clonerTerrain(terrain);
         listeJoueur = new ArrayList<>();
         for(int i =0; i < ar.size(); i++){
             listeJoueur.add(ar.get(i).cloner());
         }
-
+        this.IA = ia;
         this.nbLignes = l; // taille du tableau
         this.nbColonnes = c; // taille du tableau
         this.nbJoueur = j;
@@ -1078,7 +1078,7 @@ public class Jeu{
 
     public Jeu cloner(){
         Jeu j = new Jeu(this.terrainCourant, this.listeJoueur, this.nbLignes, this.nbColonnes, this.nbJoueur,
-         this.nbPingouinJoueur, this.nbPingouinPlace, this.joueurCourant);
+         this.nbPingouinJoueur, this.nbPingouinPlace, this.joueurCourant, this.IA);
         return j;
     }
 
