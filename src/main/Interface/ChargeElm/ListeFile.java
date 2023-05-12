@@ -18,7 +18,7 @@ public class ListeFile extends JPanel {
     Chargement panel;
     String[] listeFichier;
     JButton[] affichage;
-
+    private String current;
     private Image up;
     private Image down;
     private Image upVide;
@@ -36,6 +36,7 @@ public class ListeFile extends JPanel {
         affichage = new JButton[5];
         flecheHaut = new JButton();
         flecheBas = new JButton();
+        current = "";
         for(int i = 0; i < 5; i++){
             if(i < listeFichier.length){
                 affichage[i] = new JButton(listeFichier[i]);
@@ -110,12 +111,14 @@ public class ListeFile extends JPanel {
                 public void actionPerformed(ActionEvent e) {
                     panel.changePreview(b.getText());
                     resetBorder();
+                    current = b.getText();
                     b.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
                     b.setBorderPainted(!b.isBorderPainted());
                 }
             });
         }
-
+        affichage[0].setBorder(BorderFactory.createLineBorder(Color.YELLOW));
+        current = affichage[0].getText();
     }
     // up est vrai sur la fleche du bas, faux sinon
     public void majListe(boolean up){
@@ -195,6 +198,10 @@ public class ListeFile extends JPanel {
         for(int i =0; i < 5; i++){
             affichage[i].setBorderPainted(false);
         }
+    }
+
+    public String getCurrent(){
+        return current;
     }
 
 
