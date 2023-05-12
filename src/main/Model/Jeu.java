@@ -533,6 +533,7 @@ public class Jeu{
         int joueurCourant = getJoueurCourant();
         etat = ETAT_SELECTIONP;
 
+        retirePingouin();
         if (peutJouer(cp)){
 
             Cases caseArrive = getCase(l,c);
@@ -1042,10 +1043,12 @@ public class Jeu{
                     passeTour = estPingouinBloque(ping);
                     i++;
                 }
+                retirePingouin();
             } else {
                 passeTour = false;
             }
         }
+
 
         
         if(passeTour && !jeuTermine()){
