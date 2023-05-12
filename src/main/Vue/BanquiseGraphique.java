@@ -34,6 +34,10 @@ public class BanquiseGraphique extends JComponent {
 
     TexturePaint paintFont;
 
+    private float size;
+    private float offsetX;
+    private float offsetY;
+
     int etat;
 
     private Jeu jeu;
@@ -132,13 +136,14 @@ public class BanquiseGraphique extends JComponent {
 
         float largeur = getSize().width;
         float hauteur = getSize().height;
-        float offsetX = (largeur / 10f);
-        float offsetY = (hauteur / 20f);
+        offsetX = (largeur / 10f);
+        offsetY = (hauteur / 20f);
 
         int colonnes = 8;
         int lignes = 8;
 
-        float size = Math.min(((largeur - (offsetX * 2)) / colonnes), ((hauteur - (offsetY * 2)) / lignes / 0.9f));
+        size = Math.min(((largeur - (offsetX * 2)) / colonnes), ((hauteur - (offsetY * 2)) / lignes / 0.9f));
+
         float radius = size / 2f;
 
         plateau.clear();
@@ -352,7 +357,7 @@ public class BanquiseGraphique extends JComponent {
 
 
     public void sauvegardeBanquise(String nomFichier){
-        BufferedImage bi = new BufferedImage(this.getSize().width, this.getSize().height, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage bi = new BufferedImage((int) (size*8 + 2*offsetX), (int) (size*8 + offsetY), BufferedImage.TYPE_INT_ARGB);
         Graphics g = bi.createGraphics();
         this.paint(g);  //this == JComponent
         g.dispose();

@@ -389,6 +389,7 @@ public class Jeu{
         Joueur joueur = listeJoueur.get(joueurCourant-1);
 
         if( (joueur.listePingouin.size() < nbPingouinJoueur) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1 && !pingouinTousPlace()){
+            etat = ETAT_PLACEMENTP;
             Pingouin ping = new Pingouin(l,c);
             joueur.listePingouin.add(ping);
 
@@ -398,12 +399,12 @@ public class Jeu{
             switchJoueur();
 
             //l'IA n'enregistre pas de coup lors de sa reflexion
-            if(!IA){
+            //if(!IA){
                 Coup cp = new Coup(l,c,ping,true);
 
                 coupJoue.add(cp);
                 coupAnnule = new ArrayList<Coup>();
-            }
+            //}
 
             nbPingouinPlace--;
 
@@ -428,6 +429,7 @@ public class Jeu{
         int c = cp.getColonne();
 
         if( (joueur.listePingouin.size() < nbPingouinJoueur) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1 && !pingouinTousPlace()){
+            etat = ETAT_PLACEMENTP;
             Pingouin ping = new Pingouin(l,c);
             joueur.listePingouin.add(ping);
             Cases cases = getCase(l,c);
@@ -437,6 +439,11 @@ public class Jeu{
             Coup coup = new Coup(l,c,ping,true);
             coupJoue.add(coup);
             nbPingouinPlace--;
+
+            if(nbPingouinPlace == 0){
+                etat = ETAT_SELECTIONP;
+            }
+
             return true;
 
         }else{
@@ -451,7 +458,11 @@ public class Jeu{
         int c = cp.getColonne(); //Coord ou le pingouin doit aller
         int joueurCourant = getJoueurCourant();
 
+        etat = ETAT_SELECTIONP;
+        retirePingouin();
+
         if (peutJouer(cp)){
+            
             Cases caseArrive = getCase(l,c);
             Joueur joueur = listeJoueur.get(joueurCourant-1);
 
@@ -472,23 +483,14 @@ public class Jeu{
             caseArrive.setPingouin(joueurCourant);
 
             //pour optimiser la réflexion de l'ia on ne stocke pas les coups
-            if(!IA){
+            //if(!IA){
                 coupJoue.add(cp);
                 coupAnnule = new ArrayList<Coup>();
-            }
+            //}
 
 
             //on enlève un pingouin dés qu'il est bloqué
-            for(int i =0; i<nbPingouinJoueur; i++){
-                ping = joueur.listePingouin.get(i);
-                if(estPingouinBloque(ping)){
-                    Cases casesCourante = getCase(ping.getLigne(), ping.getColonne());
-                    joueur.setScore(joueur.getScore() + casesCourante.getNbPoissons());
-                    joueur.setNbCasesMange(joueur.getNbCasesMange() +1);
-                    casesCourante.setMange(true);
-                    casesCourante.setNbPoissons(0); 
-                }
-            }
+            retirePingouin();
 
             switchJoueur();
             
@@ -503,14 +505,35 @@ public class Jeu{
     }
 
 
+    public void retirePingouin(){
+
+        for(int i =0; i< listeJoueur.size(); i++){
+            Joueur joueur = listeJoueur.get(i);
+            for(int k = 0; k<joueur.listePingouin.size(); k++){
+                Pingouin ping = joueur.listePingouin.get(k);
+                Cases casesCourante = getCase(ping.getLigne(), ping.getColonne());
+                if(estPingouinBloque(ping) && !casesCourante.estMange()){
+                    joueur.setScore(joueur.getScore() + casesCourante.getNbPoissons());
+                    joueur.setNbCasesMange(joueur.getNbCasesMange() +1);
+                    casesCourante.setMange(true);
+                    casesCourante.setNbPoissons(0); 
+                    joueur.listePingouin.remove(k);
+                }
+            }
+        }
+    }
+
+
     public void joueAnnuler(Coup cp){
 
         int l = cp.getLigne();   //Coord ou le pingouin doit aller
         int c = cp.getColonne(); //Coord ou le pingouin doit aller
 
         int joueurCourant = getJoueurCourant();
+        etat = ETAT_SELECTIONP;
 
         if (peutJouer(cp)){
+
             Cases caseArrive = getCase(l,c);
             Joueur joueur = listeJoueur.get(joueurCourant-1);
 
@@ -535,7 +558,9 @@ public class Jeu{
             caseDep.setNbPoissons(0);
             caseArrive.setPingouin(joueurCourant);
 
+            retirePingouin();
             switchJoueur();
+
         }else {
             System.out.println("JeuA: joueAnnuler() - Impossible de jouer\n");
         }
@@ -559,11 +584,17 @@ public class Jeu{
             coupJoue.remove(coupJoue.size()-1);
             int i = 0;
 
+            etat = ETAT_PLACEMENTP;
+
             while(i < coupJoue.size()){
                 cp = coupJoue.get(i);
                 if(cp.place == true){
                     j.placePingouin(cp.getLigne(),cp.getColonne());
+                    if(nbPingouinPlace == 0){
+                        etat = ETAT_SELECTIONP;
+                    }
                 }else{ 
+                    etat = ETAT_SELECTIONP;
                     j.joue(cp);
                 }
                 i++;
@@ -764,26 +795,6 @@ public class Jeu{
             l++;
         }
 
-        /* 
-        //si le jeu est terminé on récupére tous les points sous les pingouins
-        if(termine){
-            for(int i =0; i< listeJoueur.size(); i++){
-                Joueur j = listeJoueur.get(i);
-
-                for(int k = 0; k<j.listePingouin.size(); k++){
-                    Pingouin ping = j.listePingouin.get(k);
-                    Cases casesCourante = getCase(ping.getLigne(), ping.getColonne());
-
-                    j.setScore(j.getScore() + casesCourante.getNbPoissons());
-                    j.setNbCasesMange(j.getNbCasesMange() +1);
-
-                    casesCourante.setMange(true);
-                    casesCourante.setNbPoissons(0); 
-                }
-            }
-        }
-        */
-
         if(termine){
             //System.out.println("fin");
         }
@@ -896,11 +907,7 @@ public class Jeu{
         int c =0;
 
         while( l < this.nbLignes){
-            if( l%2 ==1 ){
-                c = 0;
-            }else{ 
-                c = 1;
-            }
+            c = getDecalage(l);
             while( c < this.nbColonnes){
                 nbCases++;
                 c+=2;
@@ -1021,27 +1028,19 @@ public class Jeu{
         int i =0;
         boolean passeTour = (listeJoueur.get(joueurCourant-1).getListePingouin().size()!=0);
 
-        while(i< pingJoueur.size() && passeTour){
-            Pingouin ping = pingJoueur.get(i);
-            passeTour = estPingouinBloque(ping);
-
-            if(estPingouinBloque(ping)){
-                Cases casesCourante = getCase(ping.getLigne(), ping.getColonne());
-                if(!casesCourante.estMange()){
-                    joueur.setScore(joueur.getScore() + casesCourante.getNbPoissons());
-                    joueur.setNbCasesMange(joueur.getNbCasesMange() +1);
-                    casesCourante.setMange(true);
-                    casesCourante.setNbPoissons(0); 
-                }
+        if(pingJoueur.size() ==0 && etat ==ETAT_SELECTIONP && !jeuTermine()){
+            switchJoueur();
+            retirePingouin();
+        } else {
+            while(i< pingJoueur.size() && passeTour){
+                Pingouin ping = pingJoueur.get(i);
+                passeTour = estPingouinBloque(ping);
+                i++;
             }
-
-            i++;
         }
+
         
         if(passeTour && !jeuTermine()){
-            if(!IA){
-                //System.out.println("Le joueur ne peut plus jouer, on passe son tour");
-            }
             switchJoueur();
         }
     }
@@ -1060,11 +1059,7 @@ public class Jeu{
         int c;
         int l=0;
         while( l < nbl){
-            if( l%2 ==1 ){
-                c = 0;
-            }else{ 
-                c = 1;
-            }
+            c= getDecalage(l);
             while( c < (nbc)){
                 caseCourante = terrainInitiale[l][c];
                 cases = new Cases(caseCourante.estMange(), caseCourante.getNbPoissons(), caseCourante.pingouinPresent());
