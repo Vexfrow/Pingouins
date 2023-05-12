@@ -157,7 +157,13 @@ public class MenuP extends JPanel {
             }
         });
 
-
+        chargerPartie.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.toggelCharge(true);
+                toggleButtons();
+            }
+        });
 
         addComponentListener(new ComponentAdapter() {
             @Override

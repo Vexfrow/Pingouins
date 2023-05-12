@@ -17,19 +17,15 @@ public class Chargement extends JPanel {
     public Chargement(CollecteurEvenements c){
         collecteurEvenements = c;
         setLayout(new GridLayout(1, 2));
-        lf = new ListeFile();
+        lf = new ListeFile(this);
         preview = new Preview();
         add(lf);
+        add(preview);
 
 
     }
 
-
-    public void setVisual(){
-
-    }
-
-    public void setListe(){
-
+    public void changePreview(String s){
+        preview.setPreview(s);
     }
 }

@@ -57,6 +57,16 @@ public class Controleur implements CollecteurEvenements {
         this.window.workingPane.switchBackPane(3);
     }
 
+    public void toggelCharge(boolean change){
+        if(window.workingPane.actuel instanceof MenuP){
+            window.getMenu().activateButton();
+        }
+        this.window.workingPane.switchBackPane(4);
+        if(change){
+            this.window.workingPane.toggleBackingPane();
+        }
+    }
+
     public void switchSel(){window.switchPanel(2);}
 
     public void switchMenu(){

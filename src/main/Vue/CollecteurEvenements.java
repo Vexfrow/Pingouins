@@ -29,6 +29,8 @@ public interface CollecteurEvenements {
 
     void toggleSave();
 
+    void toggelCharge(boolean change);
+
     int getEtatBackPane();
 
     void newGame(Jeu j, ArrayList<IAJoueur> liste, ArrayList<Joueur> arJ);
