@@ -517,6 +517,7 @@ public class Jeu{
                     joueur.setNbCasesMange(joueur.getNbCasesMange() +1);
                     casesCourante.setMange(true);
                     casesCourante.setNbPoissons(0); 
+                    casesCourante.setPingouin(0);
                     joueur.listePingouin.remove(k);
                 }
             }
