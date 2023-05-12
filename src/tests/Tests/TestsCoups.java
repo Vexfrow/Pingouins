@@ -1,6 +1,6 @@
 package tests.Tests;
 
-import Model.*;
+import Model.Jeu;
 import Model.Coup;
 import Model.Pingouin;
 import Model.Joueur;
@@ -16,7 +16,7 @@ public class TestsCoups {
         Jeu jeu = new Jeu("src/tests/Terrains/terrainFixe.txt");
 
         // Placement des pingouins (cf MyTestsPingouins.java)
-        System.out.println("Placement des pingouins\n");
+        System.out.println("Placement des pingouins");
         jeu.placePingouin(0, 0); //1: rond
         jeu.placePingouin(7, 7); //2: carre
         jeu.placePingouin(3, 0); //3: triangle
