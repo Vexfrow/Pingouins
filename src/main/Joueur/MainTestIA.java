@@ -34,20 +34,23 @@ public class MainTestIA{
         while ( i < nbPartie){
             Jeu j = new Jeu(2);
 
-            ia1 = new IAMinimax(j);
-            ia2 = new IAMinimax(j);
+            ia1 = new IAAleatoire(j);
+            ia2 = new IAAleatoire(j);
 
             while(!j.pingouinTousPlace()){
 
                 pos = ia1.elaborePlacement();
-                // System.out.println(j);
-                // System.out.println("position vaut + "+ pos);                
+                 //System.out.println(j);
+                 //System.out.println("position vaut + "+ pos);                
                 j.placePingouin(pos.x, pos.y);
                 
                 pos = ia2.elaborePlacement();
-                // System.out.println(j);
-                // System.out.println("position vaut + "+ pos);
+                 //System.out.println(j);
+                 //System.out.println("position vaut + "+ pos);
                 j.placePingouin(pos.x,pos.y);
+
+
+                //System.out.println("nb pingouin reste pllacer = " + j.getNbPingouinPlace());
                 
 
             }
