@@ -29,6 +29,10 @@ public class GameBoard extends JPanel {
 
     Jeu jeu;
 
+    private JButton bPause;
+    private JButton bSuggestion;
+
+    private ArrayList<JTextArea> listScore;
     BufferedImage poisson, hexagone, annuler, refaire, pause, suggestion;
 
     private ArrayList<JLabel> listScoreP;
@@ -87,12 +91,12 @@ public class GameBoard extends JPanel {
         boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.X_AXIS));
 
         //----------------Boutons Pause et suggestion-------------
-        JButton bPause = new JButton(new ImageIcon(pause));
+        bPause = new JButton(new ImageIcon(pause));
         bPause.setBorderPainted(false);
         bPause.setContentAreaFilled(false);
         bPause.addActionListener(e -> collecteur.togglePause(true));
 
-        JButton bSuggestion = new JButton(new ImageIcon(suggestion));
+        bSuggestion = new JButton(new ImageIcon(suggestion));
         bSuggestion.setBorderPainted(false);
         bSuggestion.setContentAreaFilled(false);
 
@@ -258,5 +262,13 @@ public class GameBoard extends JPanel {
     public BanquiseGraphique getBq(){
         return bq;
     }
+
+    public void toggleButton(){
+        bPause.setEnabled(!bPause.isEnabled());
+        bSuggestion.setEnabled(!bSuggestion.isEnabled());
+
+    }
+
+
 
 }

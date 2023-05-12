@@ -1,5 +1,9 @@
 package Interface;
 
+import Interface.Panes.Aide;
+import Interface.Panes.Chargement;
+import Interface.Panes.Pause;
+import Interface.Panes.Sauvegarde;
 import Vue.CollecteurEvenements;
 
 import javax.swing.*;
@@ -11,6 +15,8 @@ public class BackingPane extends JPanel {
     private JPanel context;
     private int etat;
     private int previousState;
+    private EmptyBorder wide;
+    private EmptyBorder small;
 
     public BackingPane(CollecteurEvenements c) {
         this.collecteur = c;
@@ -27,21 +33,35 @@ public class BackingPane extends JPanel {
         super.paintComponent(g);
         g.setColor(GameConstants.BACKGROUND_GRISEE);
         g.fillRect(0, 0, getWidth(), getHeight());
+        wide = new EmptyBorder((int)(getHeight()*0.15), (int)(getWidth()*0.15), (int)(getHeight()*0.15), (int)(getWidth()*0.15));
+        small = new EmptyBorder((int)(getHeight()*0.15), (int)(getWidth()*0.40), (int)(getHeight()*0.15), (int)(getWidth()*0.40));
+        if(etat == 1 || etat == 3){
+            setBorder(wide);
+        }else{
+            setBorder(small);
+        }
+
 
     }
 
     public void setPanelLayer(int j){
         this.remove(context);
         if(j == 1){
-            setBorder(new EmptyBorder(120, 300, 120, 300));
             this.context = new Aide(collecteur);
             previousState = etat;
             this.etat = 1;
         }else if(j == 2){
-            setBorder(new EmptyBorder(100, 600, 100, 600));
             this.context = new Pause(this.collecteur);
             previousState = etat;
             this.etat = 2;
+        }else if(j == 3){
+            this.context = new Sauvegarde(collecteur);
+            previousState = etat;
+            this.etat = 3;
+        }else if(j == 4){
+            this.context = new Chargement(collecteur);
+            previousState = etat;
+            this.etat = 4;
         }
         this.add(context);
         this.revalidate();
@@ -57,5 +77,7 @@ public class BackingPane extends JPanel {
         etat = 0;
         previousState = 0;
     }
+
+
 
 }
