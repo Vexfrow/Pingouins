@@ -8,8 +8,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -31,10 +29,9 @@ public class GameBoard extends JPanel {
 
     private JButton bPause;
     private JButton bSuggestion;
-
-    private ArrayList<JTextArea> listScore;
     BufferedImage poisson, hexagone, annuler, refaire, pause, suggestion;
 
+    private ArrayList<JPanel> listScore;
     private ArrayList<JLabel> listScoreP;
     private ArrayList<JLabel> listScoreH;
 
@@ -48,6 +45,7 @@ public class GameBoard extends JPanel {
 
         listScoreH = new ArrayList<>();
         listScoreP = new ArrayList<>();
+        listScore = new ArrayList<>();
 
         jeu = j;
 
@@ -83,9 +81,8 @@ public class GameBoard extends JPanel {
     private void setMenuGame(){
 
         menuGame.setLayout(new GridBagLayout());
+        menuGame.setBackground(Color.ORANGE);
         GridBagConstraints c = new GridBagConstraints();
-//        c.gridwidth = 2;
-//        c.gridheight = 4 + jeu.getListeJoueur().size();
 
         JPanel boutonPanel = new JPanel();
         boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.X_AXIS));
@@ -106,8 +103,9 @@ public class GameBoard extends JPanel {
 
         c.gridx = 0;
         c.gridy = 0;
+        c.weighty = 10;
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.CENTER;
+        c.anchor = GridBagConstraints.PAGE_START;
         menuGame.add(boutonPanel, c);
 
 
@@ -118,8 +116,9 @@ public class GameBoard extends JPanel {
 
         c.gridx = 0;
         c.gridy = 1;
+        c.weighty = 10;
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.CENTER;
+        c.anchor = GridBagConstraints.PAGE_START;
         menuGame.add(messageTour, c);
 
 
@@ -143,7 +142,7 @@ public class GameBoard extends JPanel {
             JPanel mainP = new JPanel();
             mainP.setLayout(new BoxLayout(mainP, BoxLayout.Y_AXIS));
             mainP.setBorder(new LineBorder(Color.BLACK));
-            mainP.setPreferredSize(new Dimension(menuGame.getWidth(), menuGame.getHeight()));
+            listScore.add(mainP);
 
             JPanel imageP = new JPanel();
             imageP.setLayout(new BoxLayout(imageP, BoxLayout.X_AXIS));
@@ -159,10 +158,7 @@ public class GameBoard extends JPanel {
             mainP.add(imageP);
 
             JLabel textArea = new JLabel("Joueur "+(i+1));
-            if(i == 3)
-                textArea.setForeground(Color.BLACK);
-            else
-                textArea.setForeground(Color.WHITE);
+            textArea.setForeground(Color.BLACK);
 
             mainP.add(textArea);
             mainP.add(imageP);
@@ -183,8 +179,9 @@ public class GameBoard extends JPanel {
 
             c.gridx = 0;
             c.gridy = 2+i;
-            c.fill = GridBagConstraints.HORIZONTAL;
+            c.fill = GridBagConstraints.BOTH;
             c.anchor = GridBagConstraints.CENTER;
+            c.weighty = 75;
             menuGame.add(mainP, c);
         }
 
@@ -192,9 +189,10 @@ public class GameBoard extends JPanel {
         JButton bHistorique = new JButton("Historique");
 
         c.gridx = 0;
+        c.weighty = 15;
         c.gridy = 3+jeu.getListeJoueur().size();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.CENTER;
+        c.fill = GridBagConstraints.BOTH;
+        //c.anchor = GridBagConstraints.CENTER;
         menuGame.add(bHistorique,c);
 
 
@@ -226,9 +224,10 @@ public class GameBoard extends JPanel {
 
 
         c.gridx = 0;
+        c.weighty = 10;
         c.gridy = 4+jeu.getListeJoueur().size();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.CENTER;
+        //c.fill = GridBagConstraints.HORIZONTAL;
+        //c.anchor = GridBagConstraints.CENTER;
         menuGame.add(boutonPanel2, c);
 
     }
@@ -238,7 +237,6 @@ public class GameBoard extends JPanel {
         this.setLayout(new BorderLayout());
 
         this.add(bq, BorderLayout.CENTER);
-
         this.add(menuGame, BorderLayout.EAST);
         this.setBackground(Color.CYAN);
     }
@@ -251,6 +249,16 @@ public class GameBoard extends JPanel {
            listScoreH.get(i).setText(String.valueOf(jeu.getListeJoueur().get(i).getNbCasesMange()));
            listScoreP.get(i).setText(String.valueOf(jeu.getListeJoueur().get(i).getScore()));
 
+           if(i+1 == jeu.getJoueurCourant()){
+               switch(i+1){
+                   case 1 -> listScore.get(i).setBackground(Color.RED);
+                   case 2 -> listScore.get(i).setBackground(Color.BLUE);
+                   case 3 -> listScore.get(i).setBackground(Color.GREEN);
+                   case 4 -> listScore.get(i).setBackground(Color.YELLOW);
+               }
+           }else{
+               listScore.get(i).setBackground(Color.ORANGE);
+           }
         }
 
 

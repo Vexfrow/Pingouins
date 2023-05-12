@@ -70,19 +70,19 @@ public class BanquiseGraphique extends JComponent {
 
         hPoisson1hR = chargeImage("brilleRouge1");
         hPoisson2hR = chargeImage("brilleRouge2");
-        hPoisson3hR = chargeImage("brilleRouge3");
+        hPoisson3hR = chargeImage("brilleRouge3-2");
 
         hPoisson1hB = chargeImage("brilleBleu1");
         hPoisson2hB = chargeImage("brilleBleu2");
-        hPoisson3hB = chargeImage("brilleBleu3");
+        hPoisson3hB = chargeImage("brilleBleu3-2");
 
         hPoisson1hV = chargeImage("brilleVert1");
         hPoisson2hV = chargeImage("brilleVert2");
-        hPoisson3hV = chargeImage("brilleVert3");
+        hPoisson3hV = chargeImage("brilleVert3-2");
 
         hPoisson1hJ = chargeImage("brilleJaune1");
         hPoisson2hJ = chargeImage("brilleJaune2");
-        hPoisson3hJ = chargeImage("brilleJaune3");
+        hPoisson3hJ = chargeImage("brilleJaune3-2");
 
         hPingouinR1h = chargeImage("contourBrilleRouge1");
         hPingouinR2h = chargeImage("contourBrilleRouge2");

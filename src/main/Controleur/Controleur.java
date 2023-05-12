@@ -6,7 +6,6 @@ import Interface.Fenetre;
 import Interface.GameBoard;
 import Joueur.IAJoueur;
 import Joueur.IATroisPoissons;
-import Joueur.IAMinimax;
 import Model.*;
 import Vue.AdaptateurSourisPlateau;
 import Vue.CollecteurEvenements;
