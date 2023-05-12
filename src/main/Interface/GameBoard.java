@@ -45,7 +45,6 @@ public class GameBoard extends JPanel {
         listScoreH = new ArrayList<>();
         listScoreP = new ArrayList<>();
 
-
         jeu = j;
 
         collecteur = c;
@@ -59,7 +58,6 @@ public class GameBoard extends JPanel {
         annuler = chargeImage("boutonAnnuler");
         refaire = chargeImage("boutonRefaire");
 
-        this.setLayout(new BorderLayout());
 
         setMenuGame();
         setGamePanel();
@@ -79,39 +77,50 @@ public class GameBoard extends JPanel {
 
 
     private void setMenuGame(){
-//        menuGame.setPreferredSize(new Dimension(getWidth()/4, getHeight()));
-//        menuGame.setMinimumSize(new Dimension(getWidth()/4, getHeight()));
-//        menuGame.setMaximumSize(new Dimension(getWidth()/4, getHeight()));
-        menuGame.setLayout(new BoxLayout(menuGame, BoxLayout.Y_AXIS));
+
+        menuGame.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+//        c.gridwidth = 2;
+//        c.gridheight = 4 + jeu.getListeJoueur().size();
 
         JPanel boutonPanel = new JPanel();
         boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.X_AXIS));
 
+        //----------------Boutons Pause et suggestion-------------
         JButton bPause = new JButton(new ImageIcon(pause));
         bPause.setBorderPainted(false);
         bPause.setContentAreaFilled(false);
-        bPause.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                collecteur.togglePause(true);
-            }
-        });
+        bPause.addActionListener(e -> collecteur.togglePause(true));
 
         JButton bSuggestion = new JButton(new ImageIcon(suggestion));
         bSuggestion.setBorderPainted(false);
         bSuggestion.setContentAreaFilled(false);
 
-        boutonPanel.add(bPause);
 
+        boutonPanel.add(bPause);
         boutonPanel.add(bSuggestion);
 
-        menuGame.add(boutonPanel);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.CENTER;
+        menuGame.add(boutonPanel, c);
 
+
+
+
+        //----------------Message-------------
         messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant());
 
-        menuGame.add(messageTour);
+        c.gridx = 0;
+        c.gridy = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.CENTER;
+        menuGame.add(messageTour, c);
 
 
+
+        //----------------Scores-------------
         ImageIcon iiP = new ImageIcon(poisson);
         Image image = iiP.getImage(); // transform it
         Image newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
@@ -130,6 +139,7 @@ public class GameBoard extends JPanel {
             JPanel mainP = new JPanel();
             mainP.setLayout(new BoxLayout(mainP, BoxLayout.Y_AXIS));
             mainP.setBorder(new LineBorder(Color.BLACK));
+            mainP.setPreferredSize(new Dimension(menuGame.getWidth(), menuGame.getHeight()));
 
             JPanel imageP = new JPanel();
             imageP.setLayout(new BoxLayout(imageP, BoxLayout.X_AXIS));
@@ -167,53 +177,64 @@ public class GameBoard extends JPanel {
             imageP.add(poissonP);
             imageP.add(hexaP);
 
-            menuGame.add(mainP);
+            c.gridx = 0;
+            c.gridy = 2+i;
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.anchor = GridBagConstraints.CENTER;
+            menuGame.add(mainP, c);
         }
 
 
         JButton bHistorique = new JButton("Historique");
 
-        menuGame.add(bHistorique);
+        c.gridx = 0;
+        c.gridy = 3+jeu.getListeJoueur().size();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.CENTER;
+        menuGame.add(bHistorique,c);
 
 
 
-
+        //----------Boutons annuler et refaire --------------
         JButton bAnnuler = new JButton(new ImageIcon(annuler));
         bAnnuler.setBorderPainted(false);
         bAnnuler.setContentAreaFilled(false);
 
-        bAnnuler.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                jeu.annule();
-                misAJour(jeu);
-            }
+        bAnnuler.addActionListener(e -> {
+            jeu.annule();
+            misAJour(jeu);
         });
 
         JButton bRefaire = new JButton(new ImageIcon(refaire));
         bRefaire.setBorderPainted(false);
         bRefaire.setContentAreaFilled(false);
 
-        bRefaire.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                jeu.refaire();
-                misAJour(jeu);
-            }
+        bRefaire.addActionListener(e -> {
+            jeu.refaire();
+            misAJour(jeu);
         });
+
         JPanel boutonPanel2 = new JPanel();
         boutonPanel2.setLayout(new BoxLayout(boutonPanel2, BoxLayout.X_AXIS));
 
         boutonPanel2.add(bAnnuler);
         boutonPanel2.add(bRefaire);
 
-        menuGame.add(boutonPanel2);
+
+        c.gridx = 0;
+        c.gridy = 4+jeu.getListeJoueur().size();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.CENTER;
+        menuGame.add(boutonPanel2, c);
 
     }
 
 
     private void setGamePanel(){
+        this.setLayout(new BorderLayout());
+
         this.add(bq, BorderLayout.CENTER);
+
         this.add(menuGame, BorderLayout.EAST);
         this.setBackground(Color.CYAN);
     }
