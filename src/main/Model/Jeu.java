@@ -803,7 +803,6 @@ public class Jeu{
             retirePingouin();
         }
 
-
         return termine;
     }
 
