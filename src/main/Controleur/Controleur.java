@@ -118,12 +118,6 @@ public class Controleur implements CollecteurEvenements {
         plateauJeu.getBq().addMouseListener(new AdaptateurSourisPlateau(plateauJeu.getBq(), this));
     }
 
-    public void setJeu(Jeu j){
-        jeu = j;
-        listeIA.add(new IATroisPoissons(j));
-        listeIA.add(new IATroisPoissons(j));
-    }
-
     public void setInterface(Fenetre window){
         this.window = window;
     }
@@ -171,11 +165,11 @@ public class Controleur implements CollecteurEvenements {
         this.window.setGameBoard(plateauJeu);
     }
 
-    public void newGame(Jeu j){
-        jeu = j;
-        plateauJeu = new GameBoard(jeu, this);
-        this.window.setGameBoard(plateauJeu);
-    }
+//    public void newGame(Jeu j){
+//        jeu = j;
+//        plateauJeu = new GameBoard(jeu, this);
+//        this.window.setGameBoard(plateauJeu);
+//    }
 
 
     public void startGame(){
