@@ -33,8 +33,9 @@ public class Jeu{
     protected ArrayList<Coup> coupJoue;
     protected ArrayList<Coup> coupAnnule;
 
-    //tableau pour stocker les scores de chaque joueur au chargement
+    //tableau pour stocker les scores de chaque joueur au chargement 
     public int [] scoreSave;
+    public int [] nbCasesMangeSave;
 
 
     //tableau pour récupere si les joeurs sont des IA ou non
@@ -131,6 +132,14 @@ public class Jeu{
             for(int i=0; i<nbJoueur; i++){
                 line = bufferedReader.readLine();
                 scoreSave[i] = Integer.parseInt(line);
+            }
+
+            //récup le nombre de cases mangé par un joueur lors de la partie
+
+            nbCasesMangeSave = new int [nbJoueur];
+            for(int i=0; i<nbJoueur; i++){
+                line = bufferedReader.readLine();
+                nbCasesMangeSave[i] = Integer.parseInt(line);
             }
 
 
@@ -443,6 +452,21 @@ public class Jeu{
 
             if(nbPingouinPlace == 0){
                 etat = ETAT_SELECTIONP;
+
+                boolean passeTour = true;
+                int i =0;
+                joueur = listeJoueur.get(getJoueurCourant()-1);
+
+                while(i< joueur.listePingouin.size() && passeTour){
+                    Pingouin p = joueur.listePingouin.get(i);
+                    passeTour = estPingouinBloque(p);
+                    i++;
+                }
+                
+                if (passeTour){
+                    switchJoueur();
+                }
+
             }
 
             return true;
@@ -534,6 +558,7 @@ public class Jeu{
         }
         else {
             System.out.println("JeuA: joue() - Impossible de jouer");
+            retirePingouin();
         }
     }
 
@@ -682,6 +707,10 @@ public class Jeu{
                 w.write(listeJoueur.get(i).getScore() + "\n");
             }
 
+            //stock le nb de cases mangé par les joueurs
+            for(int i=0; i<nbJoueur; i++){
+                w.write(listeJoueur.get(i).getNbCasesMange() + "\n");
+            }
 
             //stock le type des joueurs (IA ou non)
             for(int i=0; i<nbJoueur; i++){
