@@ -194,7 +194,6 @@ public class Controleur implements CollecteurEvenements {
                 public void run() {
                     if (jeu.getEtat() != Jeu.ETAT_FINAL && jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).estIA() !=0) {
                         IAJoueur jia = listeIA.get(jeu.getJoueurCourant() - 1);
-                        System.out.println(jeu.getEtat());
                         if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP) {
                             Position p = jia.elaborePlacement();
                             try {
