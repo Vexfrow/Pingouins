@@ -25,7 +25,7 @@ public class GameBoard extends JPanel {
 
     Label messageTour;
 
-    Jeu jeu;
+    public Jeu jeu;
 
     private JButton bPause, bRefaire, bSuggestion, bAnnuler, bHistorique;
     BufferedImage poisson, hexagone, annuler, refaire, pause, suggestion;
@@ -62,6 +62,7 @@ public class GameBoard extends JPanel {
 
         setMenuGame();
         setGamePanel();
+        System.out.println("Etat gameboard " + this.jeu.getEtat());
     }
 
 

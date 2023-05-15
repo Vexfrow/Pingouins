@@ -186,6 +186,7 @@ public class Jeu{
             terrainInitiale = clonerTerrain(terrainCourant);
             
             //recuprer tous les coups à jouer
+            System.out.println("Liste Coup");
             while ((line = bufferedReader.readLine()) != null && (!line.equals("b"))) {
 
                 //split la ligne
@@ -194,7 +195,7 @@ public class Jeu{
                 Pingouin ping = new Pingouin(Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
 
                 Coup cp = new Coup(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), ping , Boolean.parseBoolean(parts[4]));
-
+                System.out.println("Erreur de placement ? Etat = "  + getEtat());
                 if(Boolean.parseBoolean(parts[4])){
                     placePingouin(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
                 }else{
@@ -504,7 +505,7 @@ public class Jeu{
             return true;
 
         }else{
-            System.out.println("Impossible de placer le pingouin ici");
+            System.out.println("Impossible de placer le pingouin ici ");
             return false;
         }
     }
@@ -557,7 +558,7 @@ public class Jeu{
 
         }
         else {
-            System.out.println("JeuA: joue() - Impossible de jouer");
+            System.out.println("JeuA: joue() - Impossible de jouer en :" + cp);
             retirePingouin();
         }
     }

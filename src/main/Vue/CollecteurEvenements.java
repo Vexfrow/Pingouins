@@ -17,6 +17,8 @@ public interface CollecteurEvenements {
 
     void setJeu(Jeu jeu);
 
+    void setJeu(Jeu jeu, ArrayList<IAJoueur> ar);
+
     void switchSel();
 
     void switchMenu();
@@ -36,10 +38,10 @@ public interface CollecteurEvenements {
     int getEtatBackPane();
 
     void newGame(Jeu j, ArrayList<IAJoueur> liste, ArrayList<Joueur> arJ);
+
     void startGame();
 
     void save(String s);
-
 
     Jeu getJeu();
 }

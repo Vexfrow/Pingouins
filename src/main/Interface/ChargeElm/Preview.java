@@ -29,7 +29,7 @@ public class Preview extends JPanel {
 
         FileReader reader = null;
         try {
-            reader = new FileReader(name);
+            reader = new FileReader("resources/sauvegarde/"+ name+".txt");
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -50,6 +50,9 @@ public class Preview extends JPanel {
                 scores[i] = Integer.parseInt(bufferedReader.readLine());
             }
             for(int i =0; i < nbJoueur; i++){
+                bufferedReader.readLine();
+            }
+            for(int i =0; i < nbJoueur; i++){
                 types[i] = Integer.parseInt(bufferedReader.readLine());
             }
         } catch (IOException e) {
@@ -63,6 +66,7 @@ public class Preview extends JPanel {
         gbc.weightx = 3;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(10, 20, 10, 50);
+
         for(int i = 0; i < nbJoueur; i++){
             players[i] = new JLabel(""+ i);
             players[i].setOpaque(true);

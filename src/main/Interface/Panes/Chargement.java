@@ -82,7 +82,7 @@ public class Chargement extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(collecteurEvenements.getEtatBackPane() == 2){
-                    System.out.println("Here");
+                    //System.out.println("Here");
                     collecteurEvenements.togglePause(false);
 
                 }else{
@@ -95,6 +95,7 @@ public class Chargement extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                genererPartie();
             }
         });
         fichier = "";
@@ -102,64 +103,18 @@ public class Chargement extends JPanel {
     }
 
     public void changePreview(String s){
-        fichier = s;
+        fichier = "resources/sauvegarde/"+ s+ ".txt";
         preview.setPreview(s);
     }
 
     public void genererPartie(){
-        ArrayList<Joueur> arj = getJoueur(fichier);
-        Jeu j = new Jeu(arj);
+        Jeu j = new Jeu(fichier);
+        System.out.println("Etat Chagrement :" + j.getEtat());
         ArrayList<IAJoueur> ari = getIA(j, fichier);
-        collecteurEvenements.newGame(j, ari, arj);
+        collecteurEvenements.setJeu(j, ari);
         collecteurEvenements.switchGameBoard();
 
     }
-
-    public  ArrayList<Joueur> getJoueur(String s){
-        ArrayList<Joueur> ar = new ArrayList<>();
-        FileReader reader = null;
-        try {
-            reader = new FileReader(s);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        BufferedReader bufferedReader = new BufferedReader(reader);
-
-        try {
-            String line = bufferedReader.readLine();
-            int nbJoueur = Integer.parseInt(line);
-            bufferedReader.readLine(); //irrelevant
-            bufferedReader.readLine(); //irrelevant
-            int scores[] = new int[nbJoueur];
-            int types[] = new int[nbJoueur];
-            int nbCases[] = new int[nbJoueur];
-
-
-            for(int i =0; i < nbJoueur; i++){
-                scores[i] = Integer.parseInt(bufferedReader.readLine());
-            }
-            for(int i =0; i < nbJoueur; i++){
-                types[i] = Integer.parseInt(bufferedReader.readLine());
-            }
-            for(int i =0; i < nbJoueur; i++){
-                nbCases[i] = Integer.parseInt(bufferedReader.readLine());
-            }
-
-            for(int i =0; i < nbJoueur; i++){
-                ar.add(new Joueur(i, scores[i], nbCases[i], types[i]));
-            }
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            bufferedReader.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return ar;
-    }
-
     public ArrayList<IAJoueur> getIA(Jeu j, String s){
         ArrayList<IAJoueur> ari = new ArrayList<IAJoueur>();
         FileReader reader = null;
@@ -179,7 +134,7 @@ public class Chargement extends JPanel {
 
 
 
-            for(int i =0; i < nbJoueur; i++){
+            for(int i =0; i < nbJoueur*2; i++){
                 bufferedReader.readLine();
             }
             for(int i =0; i < nbJoueur; i++){
@@ -211,6 +166,7 @@ public class Chargement extends JPanel {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        System.out.println("Chargement : NB J" + ari.size());
         return ari;
     }
 
