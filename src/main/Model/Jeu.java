@@ -202,6 +202,7 @@ public class Jeu{
                     joue(cp);
                 }
             }
+            System.out.println("Au final = " + getEtat());
 
             //recuprere les coups annulés
             while ((line = bufferedReader.readLine()) != null && (!line.equals("b"))) {
@@ -213,7 +214,7 @@ public class Jeu{
                 Coup cp = new Coup(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), ping , Boolean.parseBoolean(parts[4]));
                 coupAnnule.add(cp);
             }
-
+            System.out.println("A la fin = " + getEtat());
             reader.close();
         } catch (IOException e) {
             System.out.print("Erreur : " + e);
@@ -865,7 +866,6 @@ public class Jeu{
             //on retire les dernier pingouins si ils sont bloqués
             retirePingouin();
         }
-
 
         return termine;
     }

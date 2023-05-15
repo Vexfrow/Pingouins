@@ -87,6 +87,7 @@ public class Controleur implements CollecteurEvenements {
     }
 
     public void switchGameBoard(){
+        System.out.println("Second");
         window.switchPanel(3);
     }
 
@@ -95,24 +96,21 @@ public class Controleur implements CollecteurEvenements {
     @Override
     public void clicSourisPlateau(int coupX, int coupY) {
         if(jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA() ==0){
+            System.out.println("Au clic " + jeu.getEtat());
             for(int i = 0; i < plateauJeu.getBq().getPlateauJeu().size();i++) {
                 Shape cell = plateauJeu.getBq().getPlateauJeu().get(i);
-                System.out.println("Controleur = "+ jeu.getEtat());
                 if (cell.contains(coupX, coupY)) {
                     if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP) {
+
                         joueCoupPhase1(plateauJeu.getBq().getPosFromNumber(i));
                     } else if(jeu.getEtat() == Jeu.ETAT_SELECTIONP || jeu.getEtat() == Jeu.ETAT_CHOIXC){
                         joueCoupPhase2(plateauJeu.getBq().getPosFromNumber(i));
-                    }else if (jeu.getEtat() == Jeu.ETAT_FINAL){
-                        System.out.println("Test état final");
                     }
-
                     plateauJeu.misAJour(jeu);
                     break;
                 }
             }
         }
-
     }
 
 
@@ -129,11 +127,11 @@ public class Controleur implements CollecteurEvenements {
 
     public void setJeu(Jeu j, ArrayList<IAJoueur> ar){
         this.jeu = j;
-        plateauJeu.misAJour(jeu);
+        setPlateauJeu(new GameBoard(this.jeu, this));
         listeIA = ar;
-
-
         this.window.setGameBoard(plateauJeu);
+        System.out.println("first");
+
 
     }
 
@@ -164,7 +162,10 @@ public class Controleur implements CollecteurEvenements {
                 //Remplacer par pp
                 System.out.println("Coup impossible");
             }
-            jeu.unsetSelectionP();
+
+            if(jeu.getEtat() != Jeu.ETAT_FINAL)
+                jeu.unsetSelectionP();
+
         }
         joueCoup();
 

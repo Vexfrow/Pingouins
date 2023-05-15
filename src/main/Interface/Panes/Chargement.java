@@ -94,7 +94,7 @@ public class Chargement extends JPanel {
         valider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                collecteurEvenements.toggelCharge(true);
                 genererPartie();
             }
         });
