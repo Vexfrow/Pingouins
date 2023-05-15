@@ -113,7 +113,6 @@ public class Chargement extends JPanel {
         ArrayList<IAJoueur> ari = getIA(j, fichier);
         collecteurEvenements.setJeu(j, ari);
         collecteurEvenements.switchGameBoard();
-
     }
     public ArrayList<IAJoueur> getIA(Jeu j, String s){
         ArrayList<IAJoueur> ari = new ArrayList<IAJoueur>();

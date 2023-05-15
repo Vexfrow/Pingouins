@@ -75,6 +75,7 @@ public class Controleur implements CollecteurEvenements {
         this.window.workingPane.switchBackPane(4);
         if(change){
             this.window.workingPane.toggleBackingPane();
+            this.plateauJeu.activateButton();
         }
     }
 
@@ -89,9 +90,8 @@ public class Controleur implements CollecteurEvenements {
     public void switchGameBoard(){
         System.out.println("Second");
         window.switchPanel(3);
+        System.out.println("Second");
     }
-
-
 
     @Override
     public void clicSourisPlateau(int coupX, int coupY) {
@@ -127,10 +127,12 @@ public class Controleur implements CollecteurEvenements {
 
     public void setJeu(Jeu j, ArrayList<IAJoueur> ar){
         this.jeu = j;
-        setPlateauJeu(new GameBoard(this.jeu, this));
+        //setPlateauJeu(new GameBoard(this.jeu, this));
+        plateauJeu.misAJour(jeu);
         listeIA = ar;
         this.window.setGameBoard(plateauJeu);
         System.out.println("first");
+        joueCoup();
 
 
     }

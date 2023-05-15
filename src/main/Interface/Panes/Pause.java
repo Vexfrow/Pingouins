@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.FileInputStream;
 
 public class Pause extends JPanel {
@@ -20,6 +22,13 @@ public class Pause extends JPanel {
     private JButton regles;
     private JButton quitter;
     private JButton recommencer;
+
+    private Image resume;
+    private Image save;
+    private Image load;
+    private Image rule;
+    private Image quit;
+    //private Image rule;
 
     public Pause(CollecteurEvenements c){
         //this.setOpaque(false);
@@ -53,6 +62,23 @@ public class Pause extends JPanel {
         add(regles, gbc);
         gbc.gridy = 6;
         add(quitter, gbc);
+
+        try{
+            resume = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonReprendre.png"));
+            save = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonSauvegarder.png"));
+            load = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonCharger.png"));
+            rule = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonReglesPause.png"));
+            quit = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonAbandonner.png"));
+        }catch(Exception e){
+            System.out.println("Pause : Impossible de charger les images");
+        }
+
+        reprendre.setIcon(new ImageIcon(resume));
+        chargerPartie.setIcon(new ImageIcon(load));
+        regles.setIcon(new ImageIcon(rule));
+        sauvegarder.setIcon(new ImageIcon(save));
+        quitter.setIcon(new ImageIcon(quit));
+
 
         reprendre.addActionListener(new ActionListener() {
             @Override
@@ -89,7 +115,15 @@ public class Pause extends JPanel {
             }
         });
 
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+            }
+        });
 
     }
+
+    //public void reSize()
 
 }

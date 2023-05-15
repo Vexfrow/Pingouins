@@ -150,6 +150,7 @@ public class Selection extends JPanel {
                 ArrayList<IAJoueur> arj = getIA(j);
                 c.newGame(j, arj, ar);
                 c.switchGameBoard();
+                c.startGame();
             }
         });
     }
