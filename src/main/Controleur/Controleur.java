@@ -87,6 +87,7 @@ public class Controleur implements CollecteurEvenements {
     }
 
     public void switchGameBoard(){
+        System.out.println("Second");
         window.switchPanel(3);
     }
 
@@ -95,11 +96,12 @@ public class Controleur implements CollecteurEvenements {
     @Override
     public void clicSourisPlateau(int coupX, int coupY) {
         if(jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA() ==0){
+            System.out.println("Au clic " + jeu.getEtat());
             for(int i = 0; i < plateauJeu.getBq().getPlateauJeu().size();i++) {
                 Shape cell = plateauJeu.getBq().getPlateauJeu().get(i);
-
                 if (cell.contains(coupX, coupY)) {
                     if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP) {
+
                         joueCoupPhase1(plateauJeu.getBq().getPosFromNumber(i));
                     } else if(jeu.getEtat() == Jeu.ETAT_SELECTIONP || jeu.getEtat() == Jeu.ETAT_CHOIXC){
                         joueCoupPhase2(plateauJeu.getBq().getPosFromNumber(i));
@@ -109,7 +111,6 @@ public class Controleur implements CollecteurEvenements {
                 }
             }
         }
-
     }
 
 
@@ -118,10 +119,15 @@ public class Controleur implements CollecteurEvenements {
         plateauJeu.getBq().addMouseListener(new AdaptateurSourisPlateau(plateauJeu.getBq(), this));
     }
 
-    public void setJeu(Jeu j){
-        jeu = j;
-        listeIA.add(new IATroisPoissons(j));
-        listeIA.add(new IATroisPoissons(j));
+
+    public void setJeu(Jeu j, ArrayList<IAJoueur> ar){
+        this.jeu = j;
+        setPlateauJeu(new GameBoard(this.jeu, this));
+        listeIA = ar;
+        this.window.setGameBoard(plateauJeu);
+        System.out.println("first");
+
+
     }
 
     public void setInterface(Fenetre window){
@@ -171,11 +177,11 @@ public class Controleur implements CollecteurEvenements {
         this.window.setGameBoard(plateauJeu);
     }
 
-    public void newGame(Jeu j){
-        jeu = j;
-        plateauJeu = new GameBoard(jeu, this);
-        this.window.setGameBoard(plateauJeu);
-    }
+//    public void newGame(Jeu j){
+//        jeu = j;
+//        plateauJeu = new GameBoard(jeu, this);
+//        this.window.setGameBoard(plateauJeu);
+//    }
 
 
     public void startGame(){
@@ -183,7 +189,6 @@ public class Controleur implements CollecteurEvenements {
         plateauJeu.getBq().misAJour(jeu);
         joueCoup();
     }
-
 
     private void joueCoup(){
 
@@ -193,6 +198,8 @@ public class Controleur implements CollecteurEvenements {
                 public void run() {
                     if (jeu.getEtat() != Jeu.ETAT_FINAL && jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).estIA() !=0) {
                         IAJoueur jia = listeIA.get(jeu.getJoueurCourant() - 1);
+                        System.out.println("Etat lors du coup :" + jeu.getEtat());
+                        System.out.println("Nombre d'element dans la liste = "+ listeIA.size());
                         if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP) {
                             Position p = jia.elaborePlacement();
                             try {

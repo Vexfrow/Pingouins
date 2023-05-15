@@ -25,7 +25,7 @@ public class GameBoard extends JPanel {
 
     Label messageTour;
 
-    Jeu jeu;
+    public Jeu jeu;
 
     private JButton bPause, bRefaire, bSuggestion, bAnnuler, bHistorique;
     BufferedImage poisson, hexagone, annuler, refaire, pause, suggestion;
@@ -55,7 +55,7 @@ public class GameBoard extends JPanel {
 
         collecteur = c;
         collecteur.setPlateauJeu(this);
-        collecteur.setJeu(j);
+        //collecteur.setJeu(j);
 
         poisson = chargeImage("poisson");
         hexagone = chargeImage("hexagone");
@@ -67,6 +67,7 @@ public class GameBoard extends JPanel {
 
         setMenuGame();
         setGamePanel();
+        System.out.println("Etat gameboard " + this.jeu.getEtat());
     }
 
 
@@ -287,7 +288,7 @@ public class GameBoard extends JPanel {
                     case 4 -> {listeScore.get(i).setBackground(GameConstants.JAUNE); listePanelScoreH.get(i).setBackground(GameConstants.JAUNE); listePanelScoreP.get(i).setBackground(GameConstants.JAUNE);}
                 }
             }else{
-                listeScore.get(i).setBackground(Color.GRAY); listePanelScoreH.get(i).setBackground(Color.GRAY); listePanelScoreP.get(i).setBackground(Color.GRAY);
+                listeScore.get(i).setBackground(new Color(200,200,200)); listePanelScoreH.get(i).setBackground(new Color(200,200,200)); listePanelScoreP.get(i).setBackground(new Color(200,200,200));
             }
         }
         bq.misAJour(jeu);

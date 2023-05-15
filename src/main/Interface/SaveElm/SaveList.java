@@ -22,7 +22,7 @@ public class SaveList extends JPanel {
         listeSave = new JTextField("");
         develop = new JButton(">");
         clear = new JButton("X");
-        box = new JList();
+        box = new JList<String>();
         open = false;
 
 

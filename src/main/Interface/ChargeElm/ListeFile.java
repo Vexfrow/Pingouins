@@ -199,7 +199,7 @@ public class ListeFile extends JPanel {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         for(int i =0; i < 5; i++){
-            //affichage[i].setMinimumSize(new Dimension((int)(getWidth()*0.8), (int)(getHeight()*0.15)));
+            affichage[i].setMinimumSize(new Dimension((int)(getWidth()*0.8), (int)(getHeight()*0.15)));
         }
     }
 
