@@ -1176,6 +1176,34 @@ public class Jeu{
         return j;
     }
 
+    public int gagnant(){
+
+        int [] score = new int[nbJoueur];
+
+        for(int i=0; i<nbJoueur; i++){
+            score[i] = listeJoueur.get(i).getScore(); 
+        }
+
+        int max =0;
+        int joueurGagnant = 0;
+
+        for (int i =0; i< nbJoueur; i++){
+            if(max < score[i]){
+                max = score[i];
+                joueurGagnant = i;
+            } else if(max == score[i]){
+                int nbCasesMangeA = listeJoueur.get(joueurGagnant).getNbCasesMange();
+                int nbCasesMangeB = listeJoueur.get(i).getNbCasesMange();
+
+                if(nbCasesMangeA < nbCasesMangeB){
+                    joueurGagnant = i;
+                }
+            }
+        }
+        
+        return joueurGagnant +1;
+    }
+
 
     /* 
     @Override
