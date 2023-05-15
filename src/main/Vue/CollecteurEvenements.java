@@ -15,8 +15,6 @@ public interface CollecteurEvenements {
 
     void setInterface(Fenetre window);
 
-    void setJeu(Jeu jeu);
-
     void setJeu(Jeu jeu, ArrayList<IAJoueur> ar);
 
     void switchSel();

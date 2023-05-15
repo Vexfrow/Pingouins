@@ -56,19 +56,20 @@ public class Jeu{
 
     }
 
-    public Jeu(Cases[][] terrain, ArrayList<Joueur> ar, int l, int c, int j, int pj, int pp, int jc, boolean ia){
+    public Jeu(Cases[][] terrain, ArrayList<Joueur> ar, int l, int c, int j, int pj, int pp, int jc, boolean ia, int [] IATab){
         terrainCourant = clonerTerrain(terrain);
         listeJoueur = new ArrayList<>();
         for(int i =0; i < ar.size(); i++){
             listeJoueur.add(ar.get(i).cloner());
         }
-        this.IA = ia;
         this.nbLignes = l; // taille du tableau
         this.nbColonnes = c; // taille du tableau
         this.nbJoueur = j;
         this.nbPingouinJoueur = pj;
         this.nbPingouinPlace = pp;
         this.joueurCourant = jc;
+        this.IA = ia;
+        this.IATab = IATab;
     }
 
 
@@ -321,9 +322,6 @@ public class Jeu{
     
     }
 
-    
-
-    /*********************************************************************** BUG IA REFAIRE ICI ???? */
 
     //init les joeurs et remplis la liste des joueurs
     public void initNbJoueur(int nbJoueur){
@@ -340,7 +338,6 @@ public class Jeu{
         this.nbJoueur = nbJoueur;
     }
 
-    /*********************************************************************** BUG IA REFAIRE ICI ???? */
 
     //init les arrayLists de la classe
     public void initArrays(int nbJoueur){
@@ -464,7 +461,7 @@ public class Jeu{
                     passeTour = estPingouinBloque(p);
                     i++;
                 }
-                
+
                 if (passeTour){
                     switchJoueur();
                 }
@@ -501,6 +498,21 @@ public class Jeu{
 
             if(nbPingouinPlace == 0){
                 etat = ETAT_SELECTIONP;
+
+                boolean passeTour = true;
+                int i =0;
+                joueur = listeJoueur.get(getJoueurCourant()-1);
+
+                while(i< joueur.listePingouin.size() && passeTour){
+                    Pingouin p = joueur.listePingouin.get(i);
+                    passeTour = estPingouinBloque(p);
+                    i++;
+                }
+                
+                if (passeTour){
+                    switchJoueur();
+                }
+                
             }
 
             return true;
@@ -594,6 +606,7 @@ public class Jeu{
         etat = ETAT_SELECTIONP;
 
         retirePingouin();
+
         if (peutJouer(cp)){
 
             Cases caseArrive = getCase(l,c);
@@ -862,7 +875,6 @@ public class Jeu{
         }
 
         if(termine){
-            //System.out.println("fin");
             //on retire les dernier pingouins si ils sont bloqués
             retirePingouin();
         }
@@ -913,6 +925,19 @@ public class Jeu{
         }
 
         boolean bonPinguoin = false;
+
+
+        /*
+        System.out.println("///////////////////////////////////////////////////:");
+        System.out.println("size p =" + p.size());
+        System.out.println("k =" +k);
+        System.out.println("Joueur courant =" +getJoueurCourant());
+        System.out.println(cp);
+        System.out.println(p.get(0));
+        System.out.println(p.get(1));
+        System.out.println("///////////////////////////////////////////////////:");
+        */
+        
 
         if(k<p.size() ){
             bonPinguoin = true;
@@ -1147,7 +1172,7 @@ public class Jeu{
 
     public Jeu cloner(){
         Jeu j = new Jeu(this.terrainCourant, this.listeJoueur, this.nbLignes, this.nbColonnes, this.nbJoueur,
-         this.nbPingouinJoueur, this.nbPingouinPlace, this.joueurCourant, this.IA);
+         this.nbPingouinJoueur, this.nbPingouinPlace, this.joueurCourant, this.IA, this.IATab);
         return j;
     }
 
