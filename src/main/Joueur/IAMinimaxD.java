@@ -18,7 +18,7 @@ public class IAMinimaxD extends IAJoueur{
     int iajoueur;
     private long start;
 
-    private static final int Time_out_ms = 4000;
+    private static final int Time_out_ms = 2000;
 
 
     public IAMinimaxD(Jeu j){
@@ -38,8 +38,8 @@ public class IAMinimaxD extends IAJoueur{
         Configuration conf = new Configuration(this.j.cloner());
 
         ArrayList<Configuration> fils = Configuration.coupFilsPhase1(conf);
-        int max = Integer.MIN_VALUE;
-        int temp = 0;
+        double max = -Double.MAX_VALUE;
+        double temp = 0;
         Position posmax = null;
         for(int i = 0; i < fils.size(); i++){
             if((temp = minimaxPhase1(fils.get(i), 2 , false)) > max ){
@@ -71,12 +71,10 @@ public class IAMinimaxD extends IAJoueur{
 
 
         Configuration conf = new Configuration(this.j.cloner());
-            //System.out.println(conf.jeu);
-            System.out.println(Heuristique.Hilot(conf,this.iajoueur) + " est la valeur de l'heuristique ilot\n");
-
+        System.out.println(Heuristique.HnbCaseAccessible(conf,this.iajoueur)+ " est la valeur de l'heuristique nbCaseAccessible");
         ArrayList<Configuration> fils = Configuration.coupFilsPhase2(conf);
-        int max = Integer.MIN_VALUE; ;
-        int temp = 0;
+        double max = -Double.MAX_VALUE;
+        double temp = 0;
         Coup coupMax = null;
 
         for(int i = 0; i < fils.size(); i++){
@@ -90,16 +88,16 @@ public class IAMinimaxD extends IAJoueur{
     }
 
 
-    public int minimaxPhase1(Configuration config, int depth, boolean max){
-        int value =0;
+    public double minimaxPhase1(Configuration config, int depth, boolean max){
+        double value;
         int profo = depth-1;
-        int tempo;
+        double tempo;
         ArrayList<Configuration> fils = Configuration.coupFilsPhase1(config);
         if((System.currentTimeMillis() - start > Time_out_ms) || depth <= 0 || config.jeu.pingouinTousPlace() ){
-            return Heuristique.HcoupPossible(config,this.iajoueur);
+            return Heuristique.HnbCaseAccessible(config,this.iajoueur);
 
         }if(max){
-            value = Integer.MIN_VALUE;
+            value = -Double.MAX_VALUE;
             for(int i =0; i < fils.size(); i++){
                 tempo = minimaxPhase1(fils.get(i), profo, false );
                 if(value < tempo){
@@ -107,7 +105,7 @@ public class IAMinimaxD extends IAJoueur{
                 }
             } 
         }else{
-            value = Integer.MAX_VALUE;
+            value = Double.MAX_VALUE;
             for(int i =0; i < fils.size(); i++){
                 tempo = minimaxPhase1(fils.get(i), profo, true );
                 if(value > tempo){
@@ -119,13 +117,13 @@ public class IAMinimaxD extends IAJoueur{
         return value;
     }
 
-    public int minimaxPhase2(Configuration config, int depth, boolean max){
-        int value =0;
+    public double minimaxPhase2(Configuration config, int depth, boolean max){
+        double value =0;
         int profo = depth-1;
-        int tempo;
+        double tempo;
         ArrayList<Configuration> fils = Configuration.coupFilsPhase2(config);
         if((System.currentTimeMillis() - start > Time_out_ms) || depth <= 0 || config.jeu.jeuTermine()){
-            value = Heuristique.Hilot(config,this.iajoueur);
+            value = Heuristique.Hilot(config,this.iajoueur)*2 + Heuristique.HnbCaseAccessible(config,this.iajoueur);
             //System.out.println(config.jeu);
             //System.out.println(value + "\n");
             return value;
@@ -135,7 +133,7 @@ public class IAMinimaxD extends IAJoueur{
 
         }
         if(max){
-            value = Integer.MIN_VALUE;
+            value = -Double.MAX_VALUE;
             for(int i =0; i < fils.size(); i++){
                 tempo = minimaxPhase2(fils.get(i), profo, false );
                 if(value < tempo){
@@ -143,7 +141,7 @@ public class IAMinimaxD extends IAJoueur{
                 }
             } 
         }else{
-            value = Integer.MAX_VALUE;
+            value = Double.MAX_VALUE;
             for(int i =0; i < fils.size(); i++){
                 tempo = minimaxPhase2(fils.get(i), profo, true);
                 if(value > tempo){
