@@ -53,7 +53,7 @@ public class IconeSelection extends JPanel {
         int b = GameConstants.BLEU.getRGB();
         int y = GameConstants.JAUNE.getRGB();
         this.size = size;
-        this.rotation = 0;
+        this.rotation = 1;
 
         try{
             if(this.color.getRGB() == r){

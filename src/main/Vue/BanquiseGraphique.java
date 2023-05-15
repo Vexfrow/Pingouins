@@ -50,7 +50,6 @@ public class BanquiseGraphique extends JComponent {
         Rectangle r = new Rectangle(0,0, 750, 750);
         paintFont = new TexturePaint(chargeImage("fondMer"),r);
 
-        //Todo : trouver une meilleure manière que charger toutes les images directement
         hPoisson1 = chargeImage("casePoissons1");
         hPoisson2 = chargeImage("casePoissons2");
         hPoisson3 = chargeImage("casePoissons3");

@@ -1,5 +1,6 @@
 package Controleur;
 
+import Interface.GameConstants;
 import Interface.MenuP;
 import Interface.Fenetre;
 import Interface.GameBoard;
@@ -52,8 +53,29 @@ public class Controleur implements CollecteurEvenements {
 
     }
 
+
+    public void toggleVictoire(boolean change){
+        this.window.workingPane.switchBackPane(5);
+        if(change){
+            this.window.workingPane.toggleBackingPane();
+            this.window.getGameBoard().toggleButton();
+
+        }
+
+    }
+
     public void toggleSave(){
         this.window.workingPane.switchBackPane(3);
+    }
+
+    public void toggelCharge(boolean change){
+        if(window.workingPane.actuel instanceof MenuP){
+            window.getMenu().activateButton();
+        }
+        this.window.workingPane.switchBackPane(4);
+        if(change){
+            this.window.workingPane.toggleBackingPane();
+        }
     }
 
     public void switchSel(){window.switchPanel(2);}
@@ -150,6 +172,12 @@ public class Controleur implements CollecteurEvenements {
         this.window.setGameBoard(plateauJeu);
     }
 
+    public void newGame(Jeu j){
+        jeu = j;
+        plateauJeu = new GameBoard(jeu, this);
+        this.window.setGameBoard(plateauJeu);
+    }
+
 
     public void startGame(){
         jeu.startGame();
@@ -159,35 +187,44 @@ public class Controleur implements CollecteurEvenements {
 
 
     private void joueCoup(){
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if(jeu.getEtat()!=Jeu.ETAT_FINAL && jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA()){
-                    IAJoueur jia = listeIA.get(jeu.getJoueurCourant()-1);
-                    if(jeu.getEtat() == Jeu.ETAT_PLACEMENTP){
-                        Position p = jia.elaborePlacement();
-                        jeu.placePingouin(p.x,p.y);
-                    }else{
-                        Coup c = jia.elaboreCoup();
-                        if(c!=null)
-                            jeu.joue(c);
-                    }
-                    plateauJeu.misAJour(jeu);
-                    try {
-                        Thread.sleep(1000);
-                    }catch (InterruptedException ignored){
 
+        if(jeu.getEtat()!=Jeu.ETAT_FINAL && jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA()) {
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (jeu.getEtat() != Jeu.ETAT_FINAL && jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).estIA()) {
+                        IAJoueur jia = listeIA.get(jeu.getJoueurCourant() - 1);
+                        System.out.println(jeu.getEtat());
+                        if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP) {
+                            Position p = jia.elaborePlacement();
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException ignored) {
+
+                            }
+                            jeu.placePingouin(p.x, p.y);
+                        } else {
+                            Coup c = jia.elaboreCoup();
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException ignored) {
+
+                            }
+                            if (c != null)
+                                jeu.joue(c);
+                        }
+                        plateauJeu.misAJour(jeu);
+                        run();
                     }
-                    run();
                 }
-            }
-        });
-        t.start();
+            });
+            t.start();
+        }
     }
 
     public void save(String s){
         plateauJeu.getBq().sauvegardeBanquise(s);
-        jeu.sauvegarder(s);
+        jeu.sauvegarder(GameConstants.DOSSIER_SAVE + s + ".txt");
     }
 
     public Jeu getJeu(){
