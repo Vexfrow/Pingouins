@@ -151,8 +151,8 @@ public class MenuP extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Joueur> ar = new ArrayList<Joueur>();
-                ar.add(new Joueur(1,0,0,false));
-                ar.add(new Joueur(2,0,0,true));
+                ar.add(new Joueur(1,0,0,0));
+                ar.add(new Joueur(2,0,0,1));
                 Jeu j = new Jeu(ar);
                 ArrayList<IAJoueur> arj = new ArrayList<IAJoueur>();
                 arj.add(null);
@@ -163,7 +163,13 @@ public class MenuP extends JPanel {
             }
         });
 
-
+        chargerPartie.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.toggelCharge(true);
+                toggleButtons();
+            }
+        });
 
         addComponentListener(new ComponentAdapter() {
             @Override
@@ -213,7 +219,6 @@ public class MenuP extends JPanel {
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         allScale();
-        System.out.println("Here Menu");
     }
 
 }

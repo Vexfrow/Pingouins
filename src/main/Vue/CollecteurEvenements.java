@@ -29,6 +29,8 @@ public interface CollecteurEvenements {
 
     void toggleSave();
 
+    void toggelCharge(boolean change);
+
     void toggleVictoire(boolean b);
 
     int getEtatBackPane();

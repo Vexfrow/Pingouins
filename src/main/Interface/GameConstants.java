@@ -6,7 +6,7 @@ public class GameConstants {
 
     public static final Color BACKGROUND_COLOR = new Color(0x88C9D1);
     public static final Color BACKGROUND_GRISEE = new Color(150, 150, 150, 192);
-
+    public static final Color SELECTION = new Color(0x7292A4);
     public static final Dimension boutonTaille = new Dimension(200, 75);
     public static final Color ROUGE = new Color(0xEC1C24);
     public static final Color VERT = new Color(0x0ED145);

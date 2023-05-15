@@ -175,9 +175,9 @@ public class Selection extends JPanel {
         for(int i =0; i < 4; i++){
             if(listJoueur[i].isActif()){
                 if(listJoueur[i].getName().equals(IconeSelection.HUMAIN)) {
-                    ar.add(new Joueur(1, 0, 0, false));
+                    ar.add(new Joueur(1, 0, 0, 0));
                 }else{
-                    ar.add(new Joueur(1, 0, 0, true));
+                    ar.add(new Joueur(1, 0, 0, 1));
                 }
 
             }

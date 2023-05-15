@@ -61,6 +61,13 @@ public class Pause extends JPanel {
             }
         });
 
+        chargerPartie.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                collecteur.toggelCharge(false);
+            }
+        });
+
         regles.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
