@@ -462,7 +462,7 @@ public class Jeu{
                     passeTour = estPingouinBloque(p);
                     i++;
                 }
-                
+
                 if (passeTour){
                     switchJoueur();
                 }
@@ -499,6 +499,21 @@ public class Jeu{
 
             if(nbPingouinPlace == 0){
                 etat = ETAT_SELECTIONP;
+
+                boolean passeTour = true;
+                int i =0;
+                joueur = listeJoueur.get(getJoueurCourant()-1);
+
+                while(i< joueur.listePingouin.size() && passeTour){
+                    Pingouin p = joueur.listePingouin.get(i);
+                    passeTour = estPingouinBloque(p);
+                    i++;
+                }
+                
+                if (passeTour){
+                    switchJoueur();
+                }
+                
             }
 
             return true;
