@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.io.FileInputStream;
+import java.io.*;
 
 public class Preview extends JPanel {
     JLabel visuel;
@@ -26,15 +26,47 @@ public class Preview extends JPanel {
 
     public void setPreview(String name){
         removeAll();
-        GridBagConstraints gbc = new GridBagConstraints();
 
-        int nbJoueur = 4;
+        FileReader reader = null;
+        try {
+            reader = new FileReader("resources/sauvegarde/"+ name+".txt");
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        BufferedReader bufferedReader = new BufferedReader(reader);
+        String line = "0";
+        int nbJoueur = 0;
+        int scores[];
+        int types[];
+        try {
+            line = bufferedReader.readLine();
+            nbJoueur = Integer.parseInt(line);
+            bufferedReader.readLine(); //irrelevant
+            bufferedReader.readLine(); //irrelevant
+            scores = new int[nbJoueur];
+            types = new int[nbJoueur];
+
+            for(int i =0; i < nbJoueur; i++){
+                scores[i] = Integer.parseInt(bufferedReader.readLine());
+            }
+            for(int i =0; i < nbJoueur; i++){
+                bufferedReader.readLine();
+            }
+            for(int i =0; i < nbJoueur; i++){
+                types[i] = Integer.parseInt(bufferedReader.readLine());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        GridBagConstraints gbc = new GridBagConstraints();
         players = new JLabel[nbJoueur];
         gbc.gridy = 1;
         gbc.gridx = 0;
         gbc.weightx = 3;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(10, 20, 10, 50);
+
         for(int i = 0; i < nbJoueur; i++){
             players[i] = new JLabel(""+ i);
             players[i].setOpaque(true);
@@ -54,9 +86,27 @@ public class Preview extends JPanel {
                     break;
 
             }
+            String categories = "";
+            switch(types[i]){
+                case 0:
+                    categories = "Humain :";
+                    break;
+                case 1:
+                    categories = "IA Facile :";
+                    break;
+                case 2:
+                    categories = "IA Moyenne :";
+                    break;
+                case 3:
+                    categories = "IA Difficile :";
+                    break;
+            }
+            categories += " Score = " + scores[i];
+            players[i].setText(categories);
             add(players[i], gbc);
             gbc.gridy++;
         }
+
         screen = null;
         try{
             screen = (Image) ImageIO.read(new FileInputStream("resources/sauvegarde/"+ name + ".png"));

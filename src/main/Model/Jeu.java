@@ -56,19 +56,20 @@ public class Jeu{
 
     }
 
-    public Jeu(Cases[][] terrain, ArrayList<Joueur> ar, int l, int c, int j, int pj, int pp, int jc, boolean ia){
+    public Jeu(Cases[][] terrain, ArrayList<Joueur> ar, int l, int c, int j, int pj, int pp, int jc, boolean ia, int [] IATab){
         terrainCourant = clonerTerrain(terrain);
         listeJoueur = new ArrayList<>();
         for(int i =0; i < ar.size(); i++){
             listeJoueur.add(ar.get(i).cloner());
         }
-        this.IA = ia;
         this.nbLignes = l; // taille du tableau
         this.nbColonnes = c; // taille du tableau
         this.nbJoueur = j;
         this.nbPingouinJoueur = pj;
         this.nbPingouinPlace = pp;
         this.joueurCourant = jc;
+        this.IA = ia;
+        this.IATab = IATab;
     }
 
 
@@ -186,6 +187,7 @@ public class Jeu{
             terrainInitiale = clonerTerrain(terrainCourant);
             
             //recuprer tous les coups à jouer
+            System.out.println("Liste Coup");
             while ((line = bufferedReader.readLine()) != null && (!line.equals("b"))) {
 
                 //split la ligne
@@ -194,13 +196,14 @@ public class Jeu{
                 Pingouin ping = new Pingouin(Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
 
                 Coup cp = new Coup(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), ping , Boolean.parseBoolean(parts[4]));
-
+                System.out.println("Erreur de placement ? Etat = "  + getEtat());
                 if(Boolean.parseBoolean(parts[4])){
                     placePingouin(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
                 }else{
                     joue(cp);
                 }
             }
+            System.out.println("Au final = " + getEtat());
 
             //recuprere les coups annulés
             while ((line = bufferedReader.readLine()) != null && (!line.equals("b"))) {
@@ -212,7 +215,7 @@ public class Jeu{
                 Coup cp = new Coup(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), ping , Boolean.parseBoolean(parts[4]));
                 coupAnnule.add(cp);
             }
-
+            System.out.println("A la fin = " + getEtat());
             reader.close();
         } catch (IOException e) {
             System.out.print("Erreur : " + e);
@@ -319,9 +322,6 @@ public class Jeu{
     
     }
 
-    
-
-    /*********************************************************************** BUG IA REFAIRE ICI ???? */
 
     //init les joeurs et remplis la liste des joueurs
     public void initNbJoueur(int nbJoueur){
@@ -338,7 +338,6 @@ public class Jeu{
         this.nbJoueur = nbJoueur;
     }
 
-    /*********************************************************************** BUG IA REFAIRE ICI ???? */
 
     //init les arrayLists de la classe
     public void initArrays(int nbJoueur){
@@ -429,7 +428,7 @@ public class Jeu{
     public boolean placePingouin(int l, int c){
         int joueurCourant = getJoueurCourant();
         Joueur joueur = listeJoueur.get(joueurCourant-1);
-
+        System.out.println("probleme de placement : " +  nbPingouinJoueur + "\n" + joueur.listePingouin.size() + "\n" );
         if( (joueur.listePingouin.size() < nbPingouinJoueur) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1 && !pingouinTousPlace()){
             etat = ETAT_PLACEMENTP;
             Pingouin ping = new Pingouin(l,c);
@@ -462,7 +461,7 @@ public class Jeu{
                     passeTour = estPingouinBloque(p);
                     i++;
                 }
-                
+
                 if (passeTour){
                     switchJoueur();
                 }
@@ -472,7 +471,7 @@ public class Jeu{
             return true;
 
         }else{
-            System.out.println("Impossible de placer le pingouin ici");
+            System.out.println("Impossible de placer le pingouin la");
             return false;
         }
     }
@@ -499,12 +498,27 @@ public class Jeu{
 
             if(nbPingouinPlace == 0){
                 etat = ETAT_SELECTIONP;
+
+                boolean passeTour = true;
+                int i =0;
+                joueur = listeJoueur.get(getJoueurCourant()-1);
+
+                while(i< joueur.listePingouin.size() && passeTour){
+                    Pingouin p = joueur.listePingouin.get(i);
+                    passeTour = estPingouinBloque(p);
+                    i++;
+                }
+                
+                if (passeTour){
+                    switchJoueur();
+                }
+                
             }
 
             return true;
 
         }else{
-            System.out.println("Impossible de placer le pingouin ici");
+            System.out.println("Impossible de placer le pingouin ici ");
             return false;
         }
     }
@@ -557,7 +571,7 @@ public class Jeu{
 
         }
         else {
-            System.out.println("JeuA: joue() - Impossible de jouer");
+            System.out.println("JeuA: joue() - Impossible de jouer en :" + cp);
             retirePingouin();
         }
     }
@@ -592,6 +606,7 @@ public class Jeu{
         etat = ETAT_SELECTIONP;
 
         retirePingouin();
+
         if (peutJouer(cp)){
 
             Cases caseArrive = getCase(l,c);
@@ -860,7 +875,6 @@ public class Jeu{
         }
 
         if(termine){
-            //System.out.println("fin");
             //on retire les dernier pingouins si ils sont bloqués
             retirePingouin();
         }
@@ -911,6 +925,19 @@ public class Jeu{
         }
 
         boolean bonPinguoin = false;
+
+
+        /*
+        System.out.println("///////////////////////////////////////////////////:");
+        System.out.println("size p =" + p.size());
+        System.out.println("k =" +k);
+        System.out.println("Joueur courant =" +getJoueurCourant());
+        System.out.println(cp);
+        System.out.println(p.get(0));
+        System.out.println(p.get(1));
+        System.out.println("///////////////////////////////////////////////////:");
+        */
+        
 
         if(k<p.size() ){
             bonPinguoin = true;
@@ -1145,8 +1172,36 @@ public class Jeu{
 
     public Jeu cloner(){
         Jeu j = new Jeu(this.terrainCourant, this.listeJoueur, this.nbLignes, this.nbColonnes, this.nbJoueur,
-         this.nbPingouinJoueur, this.nbPingouinPlace, this.joueurCourant, this.IA);
+         this.nbPingouinJoueur, this.nbPingouinPlace, this.joueurCourant, this.IA, this.IATab);
         return j;
+    }
+
+    public int gagnant(){
+
+        int [] score = new int[nbJoueur];
+
+        for(int i=0; i<nbJoueur; i++){
+            score[i] = listeJoueur.get(i).getScore(); 
+        }
+
+        int max =0;
+        int joueurGagnant = 0;
+
+        for (int i =0; i< nbJoueur; i++){
+            if(max < score[i]){
+                max = score[i];
+                joueurGagnant = i;
+            } else if(max == score[i]){
+                int nbCasesMangeA = listeJoueur.get(joueurGagnant).getNbCasesMange();
+                int nbCasesMangeB = listeJoueur.get(i).getNbCasesMange();
+
+                if(nbCasesMangeA < nbCasesMangeB){
+                    joueurGagnant = i;
+                }
+            }
+        }
+        
+        return joueurGagnant +1;
     }
 
 

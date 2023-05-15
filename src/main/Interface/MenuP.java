@@ -37,10 +37,10 @@ public class MenuP extends JPanel {
         }catch(Exception e){
             System.out.println("une erreur " + e);
         }
-        partiePersonnalisee = new JButton("Partie Personnalisée");
-        partieRapide = new JButton("Partie Rapide");
-        chargerPartie = new JButton("Charger Partie");
-        tutoriel = new JButton("Tutoriel");
+        partiePersonnalisee = new JButton();
+        partieRapide = new JButton();
+        chargerPartie = new JButton();
+        tutoriel = new JButton();
         regles = new JButton();
 
         layout = new SpringLayout();
@@ -94,16 +94,23 @@ public class MenuP extends JPanel {
 
         this.setBackground(GameConstants.BACKGROUND_COLOR);
         menu.setIcon(titreS);
-        regles.setIcon(hintS);
-        partieRapide.setIcon(partieRapideS);
-        partiePersonnalisee.setIcon(partiePersoS);
-        chargerPartie.setIcon(chargerPartieS);
-        tutoriel.setIcon(tutorielS);
 
         partieRapide.setForeground(Color.WHITE);
         partiePersonnalisee.setForeground(Color.WHITE);
         chargerPartie.setForeground(Color.WHITE);
         tutoriel.setForeground(Color.WHITE);
+
+        regles.setBorderPainted(false);
+        partieRapide.setBorderPainted(false);
+        partiePersonnalisee.setBorderPainted(false);
+        chargerPartie.setBorderPainted(false);
+        tutoriel.setBorderPainted(false);
+
+        regles.setContentAreaFilled(false);
+        partieRapide.setContentAreaFilled(false);
+        partiePersonnalisee.setContentAreaFilled(false);
+        chargerPartie.setContentAreaFilled(false);
+        tutoriel.setContentAreaFilled(false);
 
         //Ajouts
         this.add(menu);
@@ -156,10 +163,11 @@ public class MenuP extends JPanel {
                 Jeu j = new Jeu(ar);
                 ArrayList<IAJoueur> arj = new ArrayList<IAJoueur>();
                 arj.add(null);
-                arj.add(new IAMinimax(j));
+                arj.add(new IAAleatoire(j));
 
                 c.newGame(j, arj, ar);
                 c.switchGameBoard();
+                c.startGame();
             }
         });
 
@@ -174,10 +182,22 @@ public class MenuP extends JPanel {
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
                 titreS = new ImageIcon(reScale(titreI));
                 menu.setIcon(titreS);
+                allScale();
+                revalidate();
+                repaint();
+                regles.setIcon(new ImageIcon(imageOnButton(regles, hintI)));
+                partieRapide.setIcon(new ImageIcon(imageOnButton(partieRapide, partieRapideI)));
+                partiePersonnalisee.setIcon(new ImageIcon(imageOnButton(partiePersonnalisee, partiePersoI)));
+                chargerPartie.setIcon(new ImageIcon(imageOnButton(chargerPartie, chargerPartieI)));
+                tutoriel.setIcon(new ImageIcon(imageOnButton(tutoriel, tutorielI)));
+
             }
+
         });
+
     }
 
 
@@ -215,10 +235,8 @@ public class MenuP extends JPanel {
         tutoriel.setPreferredSize(scaleButton(getWidth(), getHeight()));
     }
 
-    @Override
-    protected void paintComponent(Graphics g){
-        super.paintComponent(g);
-        allScale();
+    public Image imageOnButton(JButton b, Image img){
+        return img.getScaledInstance(b.getWidth(), b.getHeight(), Image.SCALE_SMOOTH);
     }
 
 }

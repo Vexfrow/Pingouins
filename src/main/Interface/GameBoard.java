@@ -25,7 +25,7 @@ public class GameBoard extends JPanel {
 
     Label messageTour;
 
-    Jeu jeu;
+    public Jeu jeu;
 
     private JButton bPause, bRefaire, bSuggestion, bAnnuler, bHistorique;
     BufferedImage poisson, hexagone, annuler, refaire, pause, suggestion;
@@ -55,7 +55,7 @@ public class GameBoard extends JPanel {
 
         collecteur = c;
         collecteur.setPlateauJeu(this);
-        collecteur.setJeu(j);
+        //collecteur.setJeu(j);
 
         poisson = chargeImage("poisson");
         hexagone = chargeImage("hexagone");
@@ -67,6 +67,7 @@ public class GameBoard extends JPanel {
 
         setMenuGame();
         setGamePanel();
+        System.out.println("Etat gameboard " + this.jeu.getEtat());
     }
 
 
@@ -127,7 +128,6 @@ public class GameBoard extends JPanel {
         //----------Score--------------
         setScore();
 
-
         //----------Historique-------------
         bHistorique = new JButton("Historique");
 
@@ -136,7 +136,6 @@ public class GameBoard extends JPanel {
         c.gridy = 3+jeu.getListeJoueur().size();
         c.fill = GridBagConstraints.BOTH;
         menuGame.add(bHistorique,c);
-
 
 
         //----------Boutons annuler et refaire --------------
@@ -169,7 +168,6 @@ public class GameBoard extends JPanel {
         c.weighty = 10;
         c.gridy = 4+jeu.getListeJoueur().size();
         menuGame.add(boutonPanel2, c);
-
 
         misAJour();
 
@@ -287,7 +285,7 @@ public class GameBoard extends JPanel {
                     case 4 -> {listeScore.get(i).setBackground(GameConstants.JAUNE); listePanelScoreH.get(i).setBackground(GameConstants.JAUNE); listePanelScoreP.get(i).setBackground(GameConstants.JAUNE);}
                 }
             }else{
-                listeScore.get(i).setBackground(Color.GRAY); listePanelScoreH.get(i).setBackground(Color.GRAY); listePanelScoreP.get(i).setBackground(Color.GRAY);
+                listeScore.get(i).setBackground(new Color(200,200,200)); listePanelScoreH.get(i).setBackground(new Color(200,200,200)); listePanelScoreP.get(i).setBackground(new Color(200,200,200));
             }
         }
         bq.misAJour(jeu);
@@ -308,6 +306,14 @@ public class GameBoard extends JPanel {
         bRefaire.setEnabled(!bRefaire.isEnabled());
         bAnnuler.setEnabled(!bAnnuler.isEnabled());
         bHistorique.setEnabled(!bHistorique.isEnabled());
+    }
+
+    public void activateButton(){
+        bPause.setEnabled(true);
+        bSuggestion.setEnabled(true);
+        bRefaire.setEnabled(true);
+        bAnnuler.setEnabled(true);
+        bHistorique.setEnabled(true);
     }
 
 

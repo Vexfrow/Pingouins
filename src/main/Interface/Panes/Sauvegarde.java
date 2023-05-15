@@ -22,6 +22,7 @@ public class Sauvegarde extends JPanel {
     private CollecteurEvenements collecteur;
     private GridBagLayout layout;
     private Image flecheRetour;
+
     public Sauvegarde(CollecteurEvenements c){
         //setBorder(new EmptyBorder(50, 50, 50, 50));
         setBackground(GameConstants.BACKGROUND_COLOR);
