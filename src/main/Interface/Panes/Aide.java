@@ -21,17 +21,21 @@ public class Aide extends JPanel{
     private JButton flecheGauche;
     private JButton flecheDroite;
     private JButton sortie;
+    private JLabel slides[];
+    private int avancement;
 
 
     public Aide(CollecteurEvenements c){
         //this.setOpaque(false);
         this.setLayout(new GridBagLayout());
         this.setBackground(new Color(0xFDCF76));
-
+        slides = new JLabel[4];
+        avancement = 0;
         try{
             aideImg = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/Aide.png"));
             flecheLeft = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheRegleGauche.png"));
             flecheRight = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheRegleDroite.png"));
+
         }catch(Exception e){
             System.out.println("une erreur " + e);
         }
@@ -108,6 +112,22 @@ public class Aide extends JPanel{
         Dimension d = new Dimension((int)(getWidth()*rapportX), (int)(getHeight()*rapportY) );
         Image neoImg = img.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH) ;
         return neoImg;
+    }
+
+    public void slide(int left){
+        avancement += left;
+        if(avancement < 0){
+            avancement = 0;
+        }
+        this.image = slides[avancement];
+    }
+
+    public boolean debut(){
+        return avancement == 0;
+    }
+
+    public boolean fin(){
+        return avancement == slides.length-1;
     }
 
 

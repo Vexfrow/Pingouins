@@ -29,13 +29,7 @@ public class BackingPane extends JPanel {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
-                wide = new EmptyBorder((int)(getHeight()*0.15), (int)(getWidth()*0.15), (int)(getHeight()*0.15), (int)(getWidth()*0.15));
-                small = new EmptyBorder((int)(getHeight()*0.15), (int)(getWidth()*0.40), (int)(getHeight()*0.15), (int)(getWidth()*0.40));
-                if(etat != 2){
-                    setBorder(wide);
-                }else{
-                    setBorder(small);
-                }
+                resize();
             }
         });
     }
@@ -71,8 +65,10 @@ public class BackingPane extends JPanel {
             this.etat = 5;
         }
         this.add(context);
+        resize();
         this.revalidate();
         this.repaint();
+
 
     }
 
@@ -85,6 +81,14 @@ public class BackingPane extends JPanel {
         previousState = 0;
     }
 
-
+    public void resize(){
+        wide = new EmptyBorder((int)(getHeight()*0.15), (int)(getWidth()*0.15), (int)(getHeight()*0.15), (int)(getWidth()*0.15));
+        small = new EmptyBorder((int)(getHeight()*0.15), (int)(getWidth()*0.40), (int)(getHeight()*0.15), (int)(getWidth()*0.40));
+        if(etat != 2){
+            setBorder(wide);
+        }else{
+            setBorder(small);
+        }
+    }
 
 }
