@@ -178,6 +178,7 @@ public class MenuP extends JPanel {
                 menu.setIcon(titreS);
             }
         });
+
     }
 
 

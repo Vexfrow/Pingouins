@@ -3,7 +3,10 @@ package Interface.Panes;
 import Interface.ChargeElm.ListeFile;
 import Interface.ChargeElm.Preview;
 import Interface.GameConstants;
+import Interface.IconeSelection;
 import Model.Jeu;
+import Model.Joueur;
+import Joueur.*;
 import Vue.CollecteurEvenements;
 
 import javax.swing.*;
@@ -12,6 +15,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class Chargement extends JPanel {
@@ -23,6 +31,7 @@ public class Chargement extends JPanel {
     private JButton valider;
     private JLabel titre;
     private JPanel selection;
+    private String fichier;
 
     public Chargement(CollecteurEvenements c){
         collecteurEvenements = c;
@@ -85,16 +94,124 @@ public class Chargement extends JPanel {
         valider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                collecteurEvenements.setJeu(new Jeu("resources/sauvegarde/" + lf.getCurrent() + ".txt"));
-                collecteurEvenements.switchGameBoard();
+
             }
         });
-
+        fichier = "";
 
     }
 
     public void changePreview(String s){
+        fichier = s;
         preview.setPreview(s);
+    }
+
+    public void genererPartie(){
+        ArrayList<Joueur> arj = getJoueur(fichier);
+        Jeu j = new Jeu(arj);
+        ArrayList<IAJoueur> ari = getIA(j, fichier);
+        collecteurEvenements.newGame(j, ari, arj);
+        collecteurEvenements.switchGameBoard();
+
+    }
+
+    public  ArrayList<Joueur> getJoueur(String s){
+        ArrayList<Joueur> ar = new ArrayList<>();
+        FileReader reader = null;
+        try {
+            reader = new FileReader(s);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        BufferedReader bufferedReader = new BufferedReader(reader);
+
+        try {
+            String line = bufferedReader.readLine();
+            int nbJoueur = Integer.parseInt(line);
+            bufferedReader.readLine(); //irrelevant
+            bufferedReader.readLine(); //irrelevant
+            int scores[] = new int[nbJoueur];
+            int types[] = new int[nbJoueur];
+            int nbCases[] = new int[nbJoueur];
+
+
+            for(int i =0; i < nbJoueur; i++){
+                scores[i] = Integer.parseInt(bufferedReader.readLine());
+            }
+            for(int i =0; i < nbJoueur; i++){
+                types[i] = Integer.parseInt(bufferedReader.readLine());
+            }
+            for(int i =0; i < nbJoueur; i++){
+                nbCases[i] = Integer.parseInt(bufferedReader.readLine());
+            }
+
+            for(int i =0; i < nbJoueur; i++){
+                ar.add(new Joueur(i, scores[i], nbCases[i], types[i]));
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            bufferedReader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return ar;
+    }
+
+    public ArrayList<IAJoueur> getIA(Jeu j, String s){
+        ArrayList<IAJoueur> ari = new ArrayList<IAJoueur>();
+        FileReader reader = null;
+        try {
+            reader = new FileReader(s);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        BufferedReader bufferedReader = new BufferedReader(reader);
+
+        try {
+            String line = bufferedReader.readLine();
+            int nbJoueur = Integer.parseInt(line);
+            bufferedReader.readLine(); //irrelevant
+            bufferedReader.readLine(); //irrelevant
+            int types[] = new int[nbJoueur];
+
+
+
+            for(int i =0; i < nbJoueur; i++){
+                bufferedReader.readLine();
+            }
+            for(int i =0; i < nbJoueur; i++){
+                types[i] = Integer.parseInt(bufferedReader.readLine());
+            }
+
+            for(int i =0; i < nbJoueur; i++){
+                switch(types[i]){
+                    case 0:
+                        ari.add(null);
+                        break;
+                    case 1:
+                        ari.add(new IAAleatoire(j));
+                        break;
+                    case 2:
+                        ari.add(new IATroisPoissons(j));
+                        break;
+                    case 3:
+                        ari.add(new IAMinimax(j));
+                        break;
+                }
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            bufferedReader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return ari;
     }
 
 }
