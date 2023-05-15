@@ -5,6 +5,7 @@ import java.lang.Math;
 import Model.*;
 
 public class Heuristique{
+    public static Hashtable<Integer, Position> vuPos;
 
     //Aléatoire
     public static int Hrandom(Configuration config){
@@ -15,7 +16,7 @@ public class Heuristique{
 
     // Ce truc marche moin bien que l'aléatoire
     //Nombre de coup possible
-    public static int HcoupPossible(Configuration config, int joueuria){
+    public static double HcoupPossible(Configuration config, int joueuria){
         ArrayList<Pingouin> listePingouin = config.jeu.getListeJoueur().get(joueuria-1).getListePingouin();
         ArrayList<Position> listePos;
         ArrayList<Position> listePosTotal = new ArrayList<Position>();
@@ -31,13 +32,45 @@ public class Heuristique{
             }
             i++;
         }
-            return listePosTotal.size();
+            return ((double)listePosTotal.size()/20.0);
         }
 
+    public static double HnbCaseAccessible(Configuration config, int joueuria){
+        Joueur joueur1=config.jeu.getListeJoueur().get(joueuria-1);
+        ArrayList<Pingouin> listePingouin = joueur1.getListePingouin();
+        ArrayList<Position> listePos;
+
+        int joueurCourant = (joueuria % config.jeu.getNbJoueur()) + 1;  
+        Joueur joueur2=config.jeu.getListeJoueur().get(joueurCourant-1);
+        ArrayList<Pingouin> listePingouin2 = config.jeu.getListeJoueur().get(joueurCourant-1).getListePingouin();
+
+
+        Hashtable<Integer, Position> vuPos= new Hashtable<Integer, Position>();
+        double score=0;
+        int j = 0;
+        int i = 0;
+        while( i < listePingouin.size()){
+            listePos = config.jeu.getCaseAccessible(listePingouin.get(i).getLigne(),listePingouin.get(i).getColonne());
+            j=0;
+            if(estIlot(listePingouin.get(i), config.jeu, joueur2, false) == 0){
+                while(j < listePos.size()){
+                    if(!vuPos.containsKey(listePos.get(j))){
+                        vuPos.put(listePos.get(j).hash(),listePos.get(j));
+                        score++;
+                    }
+                    j++;
+                }
+            }
+            i++;
+        }
+        return (score/15);
+
+
+    }
 
 
     // renvoie la différence de score (2 joueurs SEULEMENT)
-    public static int Hdiffscore(Configuration config, int joueuria){
+    public static double Hdiffscore(Configuration config, int joueuria){
         Joueur joueur1=config.jeu.getListeJoueur().get(joueuria-1);
         int joueurCourant = (joueuria % config.jeu.getNbJoueur()) + 1;       
         Joueur joueur2= config.jeu.getListeJoueur().get(joueurCourant-1);
@@ -45,8 +78,61 @@ public class Heuristique{
         return scores;
     }
 
+    public static double coller(Configuration config, int joueuria){
+        Joueur joueur1=config.jeu.getListeJoueur().get(joueuria-1);
+        ArrayList<Pingouin> listePingouin1 = joueur1.getListePingouin();
+        int score = 0;
 
-    public static int montecarlo(Configuration config, int joueuria){
+        int i = 0;
+        int j = 0;
+        while(i < listePingouin1.size()){
+            Pingouin ping1 = listePingouin1.get(i);
+            j = 0;
+            while(j < listePingouin1.size()){
+                Pingouin ping2 = listePingouin1.get(j);
+                if(pingouinColler(ping1,ping2)){
+                    score--;
+                }
+                j++;
+            }
+            i++;
+        }
+        return (double)score;
+    }
+
+
+
+    public static boolean pingouinColler(Pingouin ping1, Pingouin ping2){
+        ArrayList<Position> posVoisin= new ArrayList<Position>();
+        int ligne = ping1.getLigne();
+        int colonne = ping1.getColonne();
+        Position position;
+        posVoisin.add(new Position(ligne,colonne+1));
+        posVoisin.add(new Position(ligne,colonne+1));
+        posVoisin.add(new Position(ligne-1,colonne));
+        posVoisin.add(new Position(ligne+1,colonne));
+        if(ligne % 2 == 0){
+            posVoisin.add(new Position(ligne-1,colonne+1));
+            posVoisin.add(new Position(ligne+1,colonne+1));
+
+        }else{
+            posVoisin.add(new Position(ligne-1,colonne-1));
+            posVoisin.add(new Position(ligne+1,colonne-1));
+        }
+        int i = 0;
+        position = posVoisin.get(i);
+        i++;
+        while(i < posVoisin.size() && (ping2.getLigne() != posVoisin.get(i).x || ping2.getColonne() != posVoisin.get(i).y)){
+            i++;
+        }
+        return (i != posVoisin.size());
+
+    }
+
+
+
+
+    public static double montecarlo(Configuration config, int joueuria){
         int i = 0;
         int winj1 =0;
         int winj2 =0;
@@ -102,16 +188,16 @@ public class Heuristique{
             i++;
         }
         if(joueuria == 1){
-            return winj1;  
+            return (double)winj1;  
         }else{
-            return winj2;
+            return (double)winj2;
         }
 
     }
 
 
-    public static int Hilot(Configuration config, int joueuria){
-        Hashtable<Integer, Position> vu= new Hashtable<Integer, Position>();
+    public static double Hilot(Configuration config, int joueuria){
+        vuPos= new Hashtable<Integer, Position>();
         Position pos;
         Pingouin ping;
         int score =0;;
@@ -128,31 +214,28 @@ public class Heuristique{
         int tempo;
         while(i < listePingouin1.size()){
             ping = listePingouin1.get(i);
-            //System.out.println(" avec le pingouin"+ ping);
-            if((tempo =estIlot(ping, config.jeu, joueur2) )!= 0){
-                //System.out.println("abc "+tempo+" avec le pingouin"+ ping+"\n\n");
+            if((tempo =estIlot(ping, config.jeu, joueur2, true) )!= 0){
                 score+=tempo;
-                //System.out.println("def score vaut "+ score);
             }
             i++;
         }
         i=0;
         while(i < listePingouin2.size()){
             ping = listePingouin2.get(i);
-            //System.out.println(" avec le pingouin"+ ping);
-            if((tempo =estIlot(ping, config.jeu, joueur1) )!= 0){
-                //System.out.println("tempo vaut "+ tempo +" avec le pingouin"+ ping+"\n\n");
+            if((tempo =estIlot(ping, config.jeu, joueur1, true) )!= 0){
                 score-=tempo;
             }
             i++;
         }
-        //System.out.println("Au revoir l'heuristique");
-        return score;
+        return (double)score;
     }
 
 
 
-    public static int estIlot(Pingouin ping, Jeu jeu, Joueur joueur){
+    public static int estIlot(Pingouin ping, Jeu jeu, Joueur joueur, boolean bool){
+        if(!bool){
+            vuPos = new Hashtable<Integer, Position>();
+        }
         ArrayList<Position> caseAcc;
         ArrayList<Position> caseAccTotal = new ArrayList<Position>(); 
         Hashtable<Integer, Position> vuJoueur= new Hashtable<Integer, Position>();
@@ -196,7 +279,11 @@ public class Heuristique{
                 //System.out.println("ON RENVOIE 0 :" + pos);
                 return 0;
             }else{
-                score+=jeu.getCase(pos.x,pos.y).getNbPoissons();
+                if(!vuPos.containsKey(pos.hash())){
+                    score+=jeu.getCase(pos.x,pos.y).getNbPoissons();
+                    vuPos.put(pos.hash(),pos);
+                }
+
                 //System.out.println("on rajoute "+ jeu.getCase(pos.x,pos.y).getNbPoissons()+" avec pos"+ pos +"calcul du tempo ping:" +ping);
                 caseAcc=jeu.getCaseAccessible(pos.x,pos.y);
                 i = 0;
