@@ -21,7 +21,7 @@ public class Cases {
     }
         //getters
 
-    // Renvoie 1 si une case a ete mangee
+    // Renvoie true si une case a ete mangee
     public boolean estMange() {
         return mange;
     }
@@ -54,8 +54,8 @@ public class Cases {
     @Override
     public String toString() {
         //ce retrurn est pour la sauvegarde
-        //return  "" +getNbPoissons();
-        return /*estMange() +*/ "/" + getNbPoissons() + "/" + pingouinPresent() ;
+        return  "" +getNbPoissons();
+        //return /*estMange() +*/ "/" + getNbPoissons() + "/" + pingouinPresent() ;
     }
 
 }

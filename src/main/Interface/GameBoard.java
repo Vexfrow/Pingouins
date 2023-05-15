@@ -30,9 +30,12 @@ public class GameBoard extends JPanel {
     private JButton bPause, bRefaire, bSuggestion, bAnnuler, bHistorique;
     BufferedImage poisson, hexagone, annuler, refaire, pause, suggestion;
 
-    private ArrayList<JPanel> listScore;
-    private ArrayList<JLabel> listScoreP;
-    private ArrayList<JLabel> listScoreH;
+    private final ArrayList<JPanel> listeScore;
+    private final ArrayList<JLabel> listeScoreP;
+    private final ArrayList<JLabel> listeScoreH;
+
+    private final ArrayList<JPanel> listePanelScoreP;
+    private final ArrayList<JPanel> listePanelScoreH;
 
 
 
@@ -42,9 +45,11 @@ public class GameBoard extends JPanel {
         menuGame = new JPanel();
         messageTour = new Label();
 
-        listScoreH = new ArrayList<>();
-        listScoreP = new ArrayList<>();
-        listScore = new ArrayList<>();
+        listeScoreH = new ArrayList<>();
+        listeScoreP = new ArrayList<>();
+        listeScore = new ArrayList<>();
+        listePanelScoreH = new ArrayList<>();
+        listePanelScoreP = new ArrayList<>();
 
         jeu = j;
 
@@ -108,8 +113,6 @@ public class GameBoard extends JPanel {
         menuGame.add(boutonPanel, c);
 
 
-
-
         //----------------Message-------------
         messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant());
 
@@ -121,68 +124,8 @@ public class GameBoard extends JPanel {
         menuGame.add(messageTour, c);
 
 
-
-        //----------------Scores-------------
-        ImageIcon iiP = new ImageIcon(poisson);
-        Image image = iiP.getImage(); // transform it
-        Image newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
-        iiP = new ImageIcon(newimg);
-
-        ImageIcon iiH = new ImageIcon(hexagone);
-        image = iiH.getImage(); // transform it
-        newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
-        iiH = new ImageIcon(newimg);
-
-        for(int i = 0; i < jeu.getListeJoueur().size();i++){
-
-            JLabel jlP = new JLabel(iiP);
-            JLabel jlH = new JLabel(iiH);
-
-            JPanel mainP = new JPanel();
-            mainP.setLayout(new BoxLayout(mainP, BoxLayout.Y_AXIS));
-            mainP.setBorder(new LineBorder(Color.BLACK));
-            listScore.add(mainP);
-
-            JPanel imageP = new JPanel();
-            imageP.setLayout(new BoxLayout(imageP, BoxLayout.X_AXIS));
-
-            JPanel poissonP = new JPanel();
-            poissonP.setLayout(new BoxLayout(poissonP, BoxLayout.Y_AXIS));
-
-            JPanel hexaP = new JPanel();
-            hexaP.setLayout(new BoxLayout(hexaP, BoxLayout.Y_AXIS));
-
-            imageP.add(poissonP);
-            imageP.add(hexaP);
-            mainP.add(imageP);
-
-            JLabel textArea = new JLabel("Joueur "+(i+1));
-            textArea.setForeground(Color.BLACK);
-
-            mainP.add(textArea);
-            mainP.add(imageP);
-
-            JLabel scoreP = new JLabel(String.valueOf(jeu.getListeJoueur().get(i).getScore()));
-            poissonP.add(jlP);
-            poissonP.add(scoreP);
-            listScoreP.add(scoreP);
-
-            JLabel scoreH = new JLabel(String.valueOf(jeu.getListeJoueur().get(i).getNbCasesMange()));
-            hexaP.add(jlH);
-            hexaP.add(scoreH);
-            listScoreH.add(scoreH);
-
-
-            imageP.add(poissonP);
-            imageP.add(hexaP);
-
-            c.gridx = 0;
-            c.gridy = 2+i;
-            c.fill = GridBagConstraints.BOTH;
-            c.anchor = GridBagConstraints.CENTER;
-            c.weighty = 75;
-            menuGame.add(mainP, c);
-        }
+        //----------Score--------------
+        setScore();
 
 
         //----------Historique-------------
@@ -227,6 +170,91 @@ public class GameBoard extends JPanel {
         c.gridy = 4+jeu.getListeJoueur().size();
         menuGame.add(boutonPanel2, c);
 
+
+        misAJour();
+
+    }
+
+    private void setScore(){
+        ImageIcon iiP = new ImageIcon(poisson);
+        Image image = iiP.getImage(); // transform it
+        Image newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
+        iiP = new ImageIcon(newimg);
+
+        ImageIcon iiH = new ImageIcon(hexagone);
+        image = iiH.getImage(); // transform it
+        newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
+        iiH = new ImageIcon(newimg);
+
+        for(int i = 0; i < jeu.getListeJoueur().size();i++){
+
+            JLabel jlP = new JLabel(iiP);
+            JLabel jlH = new JLabel(iiH);
+
+            //Panel de base pour chaque score
+            JPanel mainP = new JPanel();
+            mainP.setLayout(new GridBagLayout());
+            mainP.setBorder(new LineBorder(Color.BLACK));
+            GridBagConstraints c2 = new GridBagConstraints();
+
+            listeScore.add(mainP);
+
+            //Panel pour les deux scores
+            JPanel imageP = new JPanel();
+            imageP.setLayout(new BoxLayout(imageP, BoxLayout.X_AXIS));
+
+
+            //Panel pour le score poisson
+            JPanel poissonP = new JPanel();
+            poissonP.setLayout(new BoxLayout(poissonP, BoxLayout.Y_AXIS));
+            listePanelScoreP.add(poissonP);
+
+            //Panel pour le score hexagone
+            JPanel hexaP = new JPanel();
+            hexaP.setLayout(new BoxLayout(hexaP, BoxLayout.Y_AXIS));
+            listePanelScoreH.add(hexaP);
+
+            imageP.add(poissonP);
+            imageP.add(hexaP);
+
+            //Texte pour le numéro du joueur
+            JLabel numJoueur = new JLabel("Joueur "+(i+1));
+            numJoueur.setForeground(Color.BLACK);
+
+            c2.gridx = 0;
+            c2.gridy = 0;
+            c2.gridwidth = 2;
+            c2.weighty = 1;
+            mainP.add(numJoueur, c2);
+
+            c2.gridx = 0;
+            c2.gridy = 1;
+            c2.gridwidth = 2;
+            c2.weighty = 5;
+            mainP.add(imageP, c2);
+
+            JLabel scoreP = new JLabel(String.valueOf(jeu.getListeJoueur().get(i).getScore()));
+            poissonP.add(jlP);
+            poissonP.add(scoreP);
+            listeScoreP.add(scoreP);
+
+            JLabel scoreH = new JLabel(String.valueOf(jeu.getListeJoueur().get(i).getNbCasesMange()));
+            hexaP.add(jlH);
+            hexaP.add(scoreH);
+            listeScoreH.add(scoreH);
+
+            GridBagConstraints c = new GridBagConstraints();
+            c.gridx = 0;
+            c.gridy = 2+i;
+            c.fill = GridBagConstraints.BOTH;
+            c.anchor = GridBagConstraints.CENTER;
+            c.weighty = 75;
+            menuGame.add(mainP, c);
+        }
+
+
+
+
     }
 
 
@@ -241,30 +269,32 @@ public class GameBoard extends JPanel {
 
     public void misAJour(Jeu j){
         jeu = j;
+        misAJour();
+    }
 
+
+    private void misAJour(){
         messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant());
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
-            listScoreH.get(i).setText(String.valueOf(jeu.getListeJoueur().get(i).getNbCasesMange()));
-            listScoreP.get(i).setText(String.valueOf(jeu.getListeJoueur().get(i).getScore()));
+            listeScoreH.get(i).setText(String.valueOf(jeu.getListeJoueur().get(i).getNbCasesMange()));
+            listeScoreP.get(i).setText(String.valueOf(jeu.getListeJoueur().get(i).getScore()));
 
             if(i+1 == jeu.getJoueurCourant()){
                 switch(i+1){
-                    case 1 -> listScore.get(i).setBackground(Color.RED);
-                    case 2 -> listScore.get(i).setBackground(Color.BLUE);
-                    case 3 -> listScore.get(i).setBackground(Color.GREEN);
-                    case 4 -> listScore.get(i).setBackground(Color.YELLOW);
+                    case 1 -> {listeScore.get(i).setBackground(GameConstants.BLEU); listePanelScoreH.get(i).setBackground(GameConstants.BLEU); listePanelScoreP.get(i).setBackground(GameConstants.BLEU);}
+                    case 2 -> {listeScore.get(i).setBackground(GameConstants.ROUGE); listePanelScoreH.get(i).setBackground(GameConstants.ROUGE); listePanelScoreP.get(i).setBackground(GameConstants.ROUGE);}
+                    case 3 -> {listeScore.get(i).setBackground(GameConstants.VERT); listePanelScoreH.get(i).setBackground(GameConstants.VERT); listePanelScoreP.get(i).setBackground(GameConstants.VERT);}
+                    case 4 -> {listeScore.get(i).setBackground(GameConstants.JAUNE); listePanelScoreH.get(i).setBackground(GameConstants.JAUNE); listePanelScoreP.get(i).setBackground(GameConstants.JAUNE);}
                 }
             }else{
-                listScore.get(i).setBackground(Color.ORANGE);
+                listeScore.get(i).setBackground(Color.GRAY); listePanelScoreH.get(i).setBackground(Color.GRAY); listePanelScoreP.get(i).setBackground(Color.GRAY);
             }
         }
         bq.misAJour(jeu);
 
         if(jeu.getEtat() == Jeu.ETAT_FINAL) {
-            System.out.println("Le jeu est terminé");
             collecteur.toggleVictoire(true);
         }
-
     }
 
 
@@ -277,7 +307,7 @@ public class GameBoard extends JPanel {
         bSuggestion.setEnabled(!bSuggestion.isEnabled());
         bRefaire.setEnabled(!bRefaire.isEnabled());
         bAnnuler.setEnabled(!bAnnuler.isEnabled());
-        bHistorique.setEnabled(!bAnnuler.isEnabled());
+        bHistorique.setEnabled(!bHistorique.isEnabled());
     }
 
 
