@@ -55,13 +55,13 @@ public class Jeu{
 
     }
 
-    public Jeu(Cases[][] terrain, ArrayList<Joueur> ar, int l, int c, int j, int pj, int pp, int jc){
+    public Jeu(Cases[][] terrain, ArrayList<Joueur> ar, int l, int c, int j, int pj, int pp, int jc, boolean ia){
         terrainCourant = clonerTerrain(terrain);
         listeJoueur = new ArrayList<>();
         for(int i =0; i < ar.size(); i++){
             listeJoueur.add(ar.get(i).cloner());
         }
-
+        this.IA = ia;
         this.nbLignes = l; // taille du tableau
         this.nbColonnes = c; // taille du tableau
         this.nbJoueur = j;
@@ -399,12 +399,12 @@ public class Jeu{
             switchJoueur();
 
             //l'IA n'enregistre pas de coup lors de sa reflexion
-            //if(!IA){
+            if(!IA){
                 Coup cp = new Coup(l,c,ping,true);
 
                 coupJoue.add(cp);
                 coupAnnule = new ArrayList<Coup>();
-            //}
+            }
 
             nbPingouinPlace--;
 
@@ -483,10 +483,10 @@ public class Jeu{
             caseArrive.setPingouin(joueurCourant);
 
             //pour optimiser la réflexion de l'ia on ne stocke pas les coups
-            //if(!IA){
+            if(!IA){
                 coupJoue.add(cp);
                 coupAnnule = new ArrayList<Coup>();
-            //}
+            }
 
 
             //on enlève un pingouin dés qu'il est bloqué
@@ -517,6 +517,7 @@ public class Jeu{
                     joueur.setNbCasesMange(joueur.getNbCasesMange() +1);
                     casesCourante.setMange(true);
                     casesCourante.setNbPoissons(0); 
+                    casesCourante.setPingouin(0);
                     joueur.listePingouin.remove(k);
                 }
             }
@@ -532,6 +533,7 @@ public class Jeu{
         int joueurCourant = getJoueurCourant();
         etat = ETAT_SELECTIONP;
 
+        retirePingouin();
         if (peutJouer(cp)){
 
             Cases caseArrive = getCase(l,c);
@@ -797,7 +799,10 @@ public class Jeu{
 
         if(termine){
             //System.out.println("fin");
+            //on retire les dernier pingouins si ils sont bloqués
+            retirePingouin();
         }
+
 
         return termine;
     }
@@ -1032,12 +1037,18 @@ public class Jeu{
             switchJoueur();
             retirePingouin();
         } else {
-            while(i< pingJoueur.size() && passeTour){
-                Pingouin ping = pingJoueur.get(i);
-                passeTour = estPingouinBloque(ping);
-                i++;
+            if(etat != ETAT_PLACEMENTP){
+                while(i< pingJoueur.size() && passeTour){
+                    Pingouin ping = pingJoueur.get(i);
+                    passeTour = estPingouinBloque(ping);
+                    i++;
+                }
+                retirePingouin();
+            } else {
+                passeTour = false;
             }
         }
+
 
         
         if(passeTour && !jeuTermine()){
@@ -1073,7 +1084,7 @@ public class Jeu{
 
     public Jeu cloner(){
         Jeu j = new Jeu(this.terrainCourant, this.listeJoueur, this.nbLignes, this.nbColonnes, this.nbJoueur,
-         this.nbPingouinJoueur, this.nbPingouinPlace, this.joueurCourant);
+         this.nbPingouinJoueur, this.nbPingouinPlace, this.joueurCourant, this.IA);
         return j;
     }
 

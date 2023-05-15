@@ -31,7 +31,7 @@ public class Cases {
         return nbPoissons;
     }
 
-    // Renvoie 1 si un pingouin se trouve sur la case
+    // Renvoie n si un pingouin se trouve sur la case
     public int pingouinPresent() {
         return pingouin;
     }
