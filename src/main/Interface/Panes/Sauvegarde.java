@@ -9,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.FileInputStream;
 
 public class Sauvegarde extends JPanel {
@@ -97,25 +99,27 @@ public class Sauvegarde extends JPanel {
             }
         });
 
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                retour.setIcon(new ImageIcon(reScale(0.5f, flecheRetour )));
+                GridBagConstraints gbc = new GridBagConstraints();
+                gbc.anchor = GridBagConstraints.CENTER;
+                gbc.gridx = 0;
+                gbc.gridy = 2;
+                gbc.fill = GridBagConstraints.HORIZONTAL;
+                gbc.gridwidth = GridBagConstraints.REMAINDER;
+                gbc.weightx = 3;
+                gbc.insets = new Insets(0, (int)(getWidth()*0.2), 0 , (int)(getWidth()*0.2 ));
+                layout.setConstraints(listeSave, gbc);
+                System.out.println("Ici");
+            }
+        });
+
     }
 
     public Image reScale(float percent, Image img){
         return img.getScaledInstance((int)(img.getWidth(null)*percent), (int)(img.getHeight(null)*percent), Image.SCALE_FAST  );
     }
 
-
-    @Override
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
-        retour.setIcon(new ImageIcon(reScale(0.5f, flecheRetour )));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.weightx = 3;
-        gbc.insets = new Insets(0, (int)(getWidth()*0.2), 0 , (int)(getWidth()*0.2 ));
-        layout.setConstraints(listeSave, gbc);
-    }
 }

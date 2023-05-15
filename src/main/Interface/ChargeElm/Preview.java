@@ -83,7 +83,7 @@ public class Preview extends JPanel {
     }
 
     public Image reScale(Image img){
-        return img.getScaledInstance((int)(getWidth()*0.7),(int)(getHeight()*0.4), Image.SCALE_SMOOTH);
+        return img.getScaledInstance((int)(getWidth()*0.8),(int)(getHeight()*0.6), Image.SCALE_SMOOTH);
     }
 
 

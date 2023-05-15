@@ -110,10 +110,6 @@ public class Aide extends JPanel{
         return neoImg;
     }
 
-    protected void paintComponent(Graphics g){
-        super.paintComponent(g);
-
-    }
 
 
 }
