@@ -935,6 +935,7 @@ public class Jeu{
         System.out.println(p.get(1));
         System.out.println("///////////////////////////////////////////////////:");
         */
+        
 
         if(k<p.size() ){
             bonPinguoin = true;

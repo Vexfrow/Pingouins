@@ -98,16 +98,12 @@ public class Controleur implements CollecteurEvenements {
             for(int i = 0; i < plateauJeu.getBq().getPlateauJeu().size();i++) {
                 Shape cell = plateauJeu.getBq().getPlateauJeu().get(i);
 
-            if (cell.contains(coupX, coupY)) {
-                if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP) {
-                    joueCoupPhase1(plateauJeu.getBq().getPosFromNumber(i));
-                } else if(jeu.getEtat() == Jeu.ETAT_SELECTIONP || jeu.getEtat() == Jeu.ETAT_CHOIXC){
-                    joueCoupPhase2(plateauJeu.getBq().getPosFromNumber(i));
-
-                }else if (jeu.getEtat() == Jeu.ETAT_FINAL){
-                    System.out.println("Test état final");
-                }
-
+                if (cell.contains(coupX, coupY)) {
+                    if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP) {
+                        joueCoupPhase1(plateauJeu.getBq().getPosFromNumber(i));
+                    } else if(jeu.getEtat() == Jeu.ETAT_SELECTIONP || jeu.getEtat() == Jeu.ETAT_CHOIXC){
+                        joueCoupPhase2(plateauJeu.getBq().getPosFromNumber(i));
+                    }
                     plateauJeu.misAJour(jeu);
                     break;
                 }
@@ -155,7 +151,10 @@ public class Controleur implements CollecteurEvenements {
                 //Remplacer par pp
                 System.out.println("Coup impossible");
             }
-            jeu.unsetSelectionP();
+
+            if(jeu.getEtat() != Jeu.ETAT_FINAL)
+                jeu.unsetSelectionP();
+
         }
         joueCoup();
 

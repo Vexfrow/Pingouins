@@ -65,8 +65,8 @@ public class MenuP extends JPanel {
 
 
 
-    private Image reScale(Image source, int x, int y){
-        return source.getScaledInstance(x, y, java.awt.Image.SCALE_AREA_AVERAGING);
+    private Image reScale(Image source, int width, int height){
+        return source.getScaledInstance(width, height, java.awt.Image.SCALE_AREA_AVERAGING);
     }
 
     private Image reScale(Image source, float percent){

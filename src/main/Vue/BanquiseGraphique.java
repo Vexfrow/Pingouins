@@ -41,7 +41,7 @@ public class BanquiseGraphique extends JComponent {
     int etat;
 
     private Jeu jeu;
-    private ArrayList<Shape> plateau;
+    private final ArrayList<Shape> plateau;
 
     public BanquiseGraphique(Jeu jeu) {
         this.jeu = jeu;
@@ -202,9 +202,9 @@ public class BanquiseGraphique extends JComponent {
 
             if(etat == Jeu.ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0){
                if(jeu.getJoueurCourant() == 1)
-                   bfi = hPoisson1hR;
-               else if(jeu.getJoueurCourant() == 2)
                    bfi = hPoisson1hB;
+               else if(jeu.getJoueurCourant() == 2)
+                   bfi = hPoisson1hR;
                else if(jeu.getJoueurCourant() == 3)
                    bfi = hPoisson1hV;
                else if(jeu.getJoueurCourant() == 4)
@@ -213,18 +213,18 @@ public class BanquiseGraphique extends JComponent {
             }else if(etat == Jeu.ETAT_CHOIXC && Objects.requireNonNull(listHexagone).contains(coordHexa)){
                 if(jeu.getJoueurCourant() == 1){
                     if (c.getNbPoissons() == 1)
-                        bfi = hPoisson1hR;
-                    else if (c.getNbPoissons() == 2)
-                        bfi = hPoisson2hR;
-                    else if (c.getNbPoissons() == 3)
-                        bfi = hPoisson3hR;
-                }else if(jeu.getJoueurCourant() == 2){
-                    if (c.getNbPoissons() == 1)
                         bfi = hPoisson1hB;
                     else if (c.getNbPoissons() == 2)
                         bfi = hPoisson2hB;
                     else if (c.getNbPoissons() == 3)
                         bfi = hPoisson3hB;
+                }else if(jeu.getJoueurCourant() == 2){
+                    if (c.getNbPoissons() == 1)
+                        bfi = hPoisson1hR;
+                    else if (c.getNbPoissons() == 2)
+                        bfi = hPoisson2hR;
+                    else if (c.getNbPoissons() == 3)
+                        bfi = hPoisson3hR;
                 }else if(jeu.getJoueurCourant() == 3){
                     if (c.getNbPoissons() == 1)
                         bfi = hPoisson1hV;
@@ -244,18 +244,18 @@ public class BanquiseGraphique extends JComponent {
             }else if ((etat == Jeu.ETAT_CHOIXC && coordHexa.equals(infoP)) || (etat == Jeu.ETAT_SELECTIONP && Objects.requireNonNull(listPingouinPos).contains(coordHexa))){
                 if(jeu.getJoueurCourant() == 1){
                     if (c.getNbPoissons() == 1)
-                        bfi = hPingouinR1h;
-                    else if (c.getNbPoissons() == 2)
-                        bfi = hPingouinR2h;
-                    else if (c.getNbPoissons() == 3)
-                        bfi = hPingouinR3h;
-                }else if(jeu.getJoueurCourant() == 2){
-                    if (c.getNbPoissons() == 1)
                         bfi = hPingouinB1h;
                     else if (c.getNbPoissons() == 2)
                         bfi = hPingouinB2h;
                     else if (c.getNbPoissons() == 3)
                         bfi = hPingouinB3h;
+                }else if(jeu.getJoueurCourant() == 2){
+                    if (c.getNbPoissons() == 1)
+                        bfi = hPingouinR1h;
+                    else if (c.getNbPoissons() == 2)
+                        bfi = hPingouinR2h;
+                    else if (c.getNbPoissons() == 3)
+                        bfi = hPingouinR3h;
                 }else if(jeu.getJoueurCourant() == 3){
                     if (c.getNbPoissons() == 1)
                         bfi = hPingouinV1h;
@@ -295,18 +295,18 @@ public class BanquiseGraphique extends JComponent {
                 bfi = hPoisson3;
         } else if (c.pingouinPresent() == 1) {
             if (c.getNbPoissons() == 1)
-                bfi = hPingouinR1;
-            else if (c.getNbPoissons() == 2)
-                bfi = hPingouinR2;
-            else if (c.getNbPoissons() == 3)
-                bfi = hPingouinR3;
-        } else if (c.pingouinPresent() == 2) {
-            if (c.getNbPoissons() == 1)
                 bfi = hPingouinB1;
             else if (c.getNbPoissons() == 2)
                 bfi = hPingouinB2;
             else if (c.getNbPoissons() == 3)
                 bfi = hPingouinB3;
+        } else if (c.pingouinPresent() == 2) {
+            if (c.getNbPoissons() == 1)
+                bfi = hPingouinR1;
+            else if (c.getNbPoissons() == 2)
+                bfi = hPingouinR2;
+            else if (c.getNbPoissons() == 3)
+                bfi = hPingouinR3;
         } else if (c.pingouinPresent() == 3) {
             if (c.getNbPoissons() == 1)
                 bfi = hPingouinV1;

@@ -34,8 +34,8 @@ public class MainTestIA{
         while ( i < nbPartie){
             Jeu j = new Jeu(2);
 
-            ia1 = new IAAleatoire(j);
-            ia2 = new IAMinimax(j);
+            ia1 = new IATroisPoissons(j);
+            ia2 = new IAMinimaxD(j);
 
             while(!j.pingouinTousPlace()){
 
@@ -60,7 +60,7 @@ public class MainTestIA{
                 if(cp == null){
                 }else{
                     j.joue(cp);
-                    System.out.println( "j1 JOUE ");
+                    //System.out.println( "j1 JOUE ");
                     //System.out.println(j);
                 }
 
@@ -70,7 +70,7 @@ public class MainTestIA{
                 if(cp == null){
                 }else{
                     j.joue(cp);
-                    System.out.println( "j2 JOUE ");
+                    //System.out.println( "j2 JOUE ");
                     //System.out.println(j);
                 }
 
