@@ -163,7 +163,13 @@ public class MenuP extends JPanel {
             }
         });
 
-
+        chargerPartie.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.toggelCharge(true);
+                toggleButtons();
+            }
+        });
 
         addComponentListener(new ComponentAdapter() {
             @Override
@@ -213,7 +219,6 @@ public class MenuP extends JPanel {
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         allScale();
-        System.out.println("Here Menu");
     }
 
 }

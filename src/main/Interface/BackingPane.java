@@ -6,6 +6,8 @@ import Vue.CollecteurEvenements;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class BackingPane extends JPanel {
     private CollecteurEvenements collecteur;
@@ -23,6 +25,19 @@ public class BackingPane extends JPanel {
         context = new Aide(collecteur);
         add(context, BorderLayout.CENTER);
         etat = 0;
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                wide = new EmptyBorder((int)(getHeight()*0.15), (int)(getWidth()*0.15), (int)(getHeight()*0.15), (int)(getWidth()*0.15));
+                small = new EmptyBorder((int)(getHeight()*0.15), (int)(getWidth()*0.40), (int)(getHeight()*0.15), (int)(getWidth()*0.40));
+                if(etat != 2){
+                    setBorder(wide);
+                }else{
+                    setBorder(small);
+                }
+            }
+        });
     }
 
     @Override
@@ -30,15 +45,6 @@ public class BackingPane extends JPanel {
         super.paintComponent(g);
         g.setColor(GameConstants.BACKGROUND_GRISEE);
         g.fillRect(0, 0, getWidth(), getHeight());
-        wide = new EmptyBorder((int)(getHeight()*0.15), (int)(getWidth()*0.15), (int)(getHeight()*0.15), (int)(getWidth()*0.15));
-        small = new EmptyBorder((int)(getHeight()*0.15), (int)(getWidth()*0.40), (int)(getHeight()*0.15), (int)(getWidth()*0.40));
-        if(etat == 1 || etat == 3){
-            setBorder(wide);
-        }else{
-            setBorder(small);
-        }
-
-
     }
 
     public void setPanelLayer(int j){

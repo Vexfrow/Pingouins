@@ -1,5 +1,6 @@
 package Controleur;
 
+import Interface.GameConstants;
 import Interface.MenuP;
 import Interface.Fenetre;
 import Interface.GameBoard;
@@ -65,6 +66,16 @@ public class Controleur implements CollecteurEvenements {
 
     public void toggleSave(){
         this.window.workingPane.switchBackPane(3);
+    }
+
+    public void toggelCharge(boolean change){
+        if(window.workingPane.actuel instanceof MenuP){
+            window.getMenu().activateButton();
+        }
+        this.window.workingPane.switchBackPane(4);
+        if(change){
+            this.window.workingPane.toggleBackingPane();
+        }
     }
 
     public void switchSel(){window.switchPanel(2);}
@@ -161,6 +172,12 @@ public class Controleur implements CollecteurEvenements {
         this.window.setGameBoard(plateauJeu);
     }
 
+    public void newGame(Jeu j){
+        jeu = j;
+        plateauJeu = new GameBoard(jeu, this);
+        this.window.setGameBoard(plateauJeu);
+    }
+
 
     public void startGame(){
         jeu.startGame();
@@ -207,7 +224,7 @@ public class Controleur implements CollecteurEvenements {
 
     public void save(String s){
         plateauJeu.getBq().sauvegardeBanquise(s);
-        jeu.sauvegarder(s);
+        jeu.sauvegarder(GameConstants.DOSSIER_SAVE + s + ".txt");
     }
 
     public Jeu getJeu(){
