@@ -83,7 +83,7 @@ public class Controleur implements CollecteurEvenements {
 
     @Override
     public void clicSourisPlateau(int coupX, int coupY) {
-        if(!jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA()){
+        if(jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA() ==0){
             for(int i = 0; i < plateauJeu.getBq().getPlateauJeu().size();i++) {
                 Shape cell = plateauJeu.getBq().getPlateauJeu().get(i);
 
@@ -171,11 +171,11 @@ public class Controleur implements CollecteurEvenements {
 
     private void joueCoup(){
 
-        if(jeu.getEtat()!=Jeu.ETAT_FINAL && jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA()) {
+        if(jeu.getEtat()!=Jeu.ETAT_FINAL && jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA() !=0) {
             Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    if (jeu.getEtat() != Jeu.ETAT_FINAL && jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).estIA()) {
+                    if (jeu.getEtat() != Jeu.ETAT_FINAL && jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).estIA() !=0) {
                         IAJoueur jia = listeIA.get(jeu.getJoueurCourant() - 1);
                         System.out.println(jeu.getEtat());
                         if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP) {

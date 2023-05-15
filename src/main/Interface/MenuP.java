@@ -151,8 +151,8 @@ public class MenuP extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Joueur> ar = new ArrayList<Joueur>();
-                ar.add(new Joueur(1,0,0,false));
-                ar.add(new Joueur(2,0,0,true));
+                ar.add(new Joueur(1,0,0,0));
+                ar.add(new Joueur(2,0,0,1));
                 Jeu j = new Jeu(ar);
                 ArrayList<IAJoueur> arj = new ArrayList<IAJoueur>();
                 arj.add(null);
