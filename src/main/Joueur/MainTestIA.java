@@ -34,7 +34,7 @@ public class MainTestIA{
         while ( i < nbPartie){
             Jeu j = new Jeu(2);
 
-            ia1 = new IAAleatoire(j);
+            ia1 = new IATroisPoissons(j);
             ia2 = new IAMinimax(j);
 
             while(!j.pingouinTousPlace()){

@@ -14,14 +14,14 @@ import Joueur.Heuristique;
 
 
 
-public class IAMinimax extends IAJoueur{
+public class IAMinimaxD extends IAJoueur{
     int iajoueur;
     private long start;
 
     private static final int Time_out_ms = 4000;
 
 
-    public IAMinimax(Jeu j){
+    public IAMinimaxD(Jeu j){
         super(j);
     }
 
