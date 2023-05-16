@@ -57,7 +57,7 @@ public class IAMinimax extends IAJoueur{
         this.start = System.currentTimeMillis();
         this.iajoueur = this.j.getJoueurCourant();
         ArrayList<Joueur> listeJoueur = this.j.getListeJoueur();
-        int nbcase= 0;
+        int nbcase = 0;
         int bonus;
         for(int i = 0; i< listeJoueur.size(); i++){
             nbcase+= listeJoueur.get(i).getNbCasesMange();

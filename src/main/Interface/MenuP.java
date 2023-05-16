@@ -159,11 +159,11 @@ public class MenuP extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Joueur> ar = new ArrayList<Joueur>();
                 ar.add(new Joueur(1,0,0,0));
-                ar.add(new Joueur(2,0,0,1));
+                ar.add(new Joueur(2,0,0,3));
                 Jeu j = new Jeu(ar);
                 ArrayList<IAJoueur> arj = new ArrayList<IAJoueur>();
                 arj.add(null);
-                arj.add(new IAAleatoire(j));
+                arj.add(new IAMinimax(j));
 
                 c.newGame(j, arj, ar);
                 c.switchGameBoard();
