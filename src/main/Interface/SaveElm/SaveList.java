@@ -3,6 +3,7 @@ package Interface.SaveElm;
 import Interface.GameConstants;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -31,26 +32,40 @@ public class SaveList extends JPanel {
             s = new String[1];
             s[0] = "Aucun fichier";
             box.setListData(s);
+            box.setEnabled(false);
+            box.setVisibleRowCount(1);
 
         }else{
             box.setListData(s);
+            box.setEnabled(true);
+            System.out.println("Taille " + s.length);
+            if((s.length/2) < 5) {
+                box.setVisibleRowCount(s.length/2);
+            }
+            else{
+                box.setVisibleRowCount(5);
+            }
         }
 
-        box.setVisibleRowCount(1);
+
 
         GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.gridy = 1;
         gbc.gridx = 1;
+        gbc.weighty = 1;
+        gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.BOTH;
-        add(box, gbc);
+        box.setBorder(new EmptyBorder(0, 10, 0, 0));
+        JScrollPane jp = new JScrollPane(box);
+
+        jp.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+        add(jp, gbc);
 
         gbc.fill = GridBagConstraints.NONE;
         gbc.gridy = 0;
-        gbc.gridx = 0;
-
-
         gbc.gridx = 2;
+        gbc.gridwidth = 1;
         add(clear, gbc);
 
         gbc.gridx = 1;

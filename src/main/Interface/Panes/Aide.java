@@ -24,6 +24,7 @@ public class Aide extends JPanel{
     private JButton flecheDroite;
     private JButton sortie;
     private JLabel slides[];
+    private Image panels[];
     private int avancement;
 
 
@@ -33,12 +34,16 @@ public class Aide extends JPanel{
         this.setBackground(new Color(0xFDCF76));
         slides = new JLabel[4];
         avancement = 0;
+        panels = new Image[15];
         try{
             aideImg = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/Aide.png"));
             flecheLeft = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheRegleGauche.png"));
             flecheRight = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheRegleDroite.png"));
             flecheLeftVide = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheRegleGaucheTransparente.png"));
             flecheRightVide = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheRegleDroiteTransparente.png"));
+            for(int i =1; i <= 15; i++){
+                panels[i-1] = (Image) ImageIO.read(new FileInputStream("resources/assets/aide/panelRegles" + i +".png"));
+            }
         }catch(Exception e){
             System.out.println("une erreur " + e);
         }
@@ -54,9 +59,8 @@ public class Aide extends JPanel{
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                image.setIcon(new ImageIcon(reScale(aideImg, 0.6f, 0.5f)));
-                flecheGauche.setIcon(new ImageIcon(reScale(flecheLeft, 0.08f, 0.1f)));
-                flecheDroite.setIcon(new ImageIcon(reScale(flecheRight, 0.08f, 0.1f)));
+                super.componentResized(e);
+                //resize();
             }
         });
     }
@@ -127,7 +131,9 @@ public class Aide extends JPanel{
         gbc.gridy = 0;
         this.add(sortie, gbc);
         majFleche();
-
+        slide(0);
+        revalidate();
+        repaint();
 
     }
 
@@ -141,8 +147,12 @@ public class Aide extends JPanel{
         avancement += left;
         if(avancement < 0){
             avancement = 0;
+        }else if(avancement >= panels.length ){
+            avancement = panels.length-1;
         }
-        this.image = slides[avancement];
+        this.image.setIcon(new ImageIcon(panels[avancement]));
+        revalidate();
+        repaint();
     }
 
     public boolean debut(){
@@ -150,7 +160,7 @@ public class Aide extends JPanel{
     }
 
     public boolean fin(){
-        return avancement == slides.length-1;
+        return avancement == panels.length-1;
     }
 
     public void majFleche(){
@@ -158,5 +168,14 @@ public class Aide extends JPanel{
         flecheDroite.setEnabled(!fin());
     }
 
+    public void resize(){
+        image.setIcon(new ImageIcon(reScale(panels[avancement], 0.6f, 0.5f)));
+        flecheGauche.setIcon(new ImageIcon(reScale(flecheLeft, 0.08f, 0.1f)));
+        flecheDroite.setIcon(new ImageIcon(reScale(flecheRight, 0.08f, 0.1f)));
+    }
 
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        resize();
+    }
 }

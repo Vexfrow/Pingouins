@@ -2,7 +2,8 @@ package Interface;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import Controleur.Controleur;
+
+import Interface.SelElm.IconeSelection;
 import Model.Jeu;
 import Model.Joueur;
 import Joueur.*;
@@ -11,8 +12,6 @@ import Vue.CollecteurEvenements;
 import java.awt.*;
 import java.awt.event.*;
 
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 

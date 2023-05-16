@@ -1,5 +1,7 @@
-package Interface;
+package Interface.SelElm;
 
+
+import Interface.GameConstants;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

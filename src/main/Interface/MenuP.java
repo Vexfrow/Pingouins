@@ -22,6 +22,7 @@ public class MenuP extends JPanel {
     private SpringLayout layout;
     private  JLabel menu;
     private CollecteurEvenements c;
+    private boolean icone;
 
     public MenuP(CollecteurEvenements ctrl){
         super();
@@ -170,15 +171,7 @@ public class MenuP extends JPanel {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
-                menu.setIcon(new ImageIcon(reScale(titreI)));
-
-                regles.setIcon(new ImageIcon(imageOnButton(regles, hintI)));
-                partieRapide.setIcon(new ImageIcon(imageOnButton(partieRapide, partieRapideI)));
-                partiePersonnalisee.setIcon(new ImageIcon(imageOnButton(partiePersonnalisee, partiePersoI)));
-                chargerPartie.setIcon(new ImageIcon(imageOnButton(chargerPartie, chargerPartieI)));
-                tutoriel.setIcon(new ImageIcon(imageOnButton(tutoriel, tutorielI)));
-                revalidate();
-                repaint();
+                maj();
             }
 
         });
@@ -223,11 +216,22 @@ public class MenuP extends JPanel {
         return img.getScaledInstance(b.getWidth(), b.getHeight(), Image.SCALE_SMOOTH);
     }
 
-    @Override
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
-        allScale();
+    public void iconfied(){
+        System.out.println("Iconified");
+        maj();
+    }
 
+    private void maj(){
+        allScale();
+        menu.setIcon(new ImageIcon(reScale(titreI)));
+
+        regles.setIcon(new ImageIcon(imageOnButton(regles, hintI)));
+        partieRapide.setIcon(new ImageIcon(imageOnButton(partieRapide, partieRapideI)));
+        partiePersonnalisee.setIcon(new ImageIcon(imageOnButton(partiePersonnalisee, partiePersoI)));
+        chargerPartie.setIcon(new ImageIcon(imageOnButton(chargerPartie, chargerPartieI)));
+        tutoriel.setIcon(new ImageIcon(imageOnButton(tutoriel, tutorielI)));
+        revalidate();
+        repaint();
     }
 
 }

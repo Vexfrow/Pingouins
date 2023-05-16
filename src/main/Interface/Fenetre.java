@@ -11,6 +11,8 @@ import Vue.BanquiseGraphique;
 import Vue.CollecteurEvenements;
 
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
@@ -39,6 +41,9 @@ public class Fenetre implements Runnable {
         jeu = new Jeu(ar);
         //jeu = new JeuAvance(2);
         this.gameBoard = new GameBoard(jeu, c);
+
+
+
     }
 
     public void run(){
@@ -49,8 +54,12 @@ public class Fenetre implements Runnable {
         workingPane = new WorkingPane(this.menu, this.c);
         jf.add(workingPane);
         jf.setVisible(true);
-        jf.revalidate();
-        jf.repaint();
+
+        jf.addWindowStateListener(new WindowStateListener() {
+            public void windowStateChanged(WindowEvent arg0) {
+                menu.iconfied();
+            }
+        });
     }
 
 
@@ -85,6 +94,8 @@ public class Fenetre implements Runnable {
     public void setGameBoard(GameBoard gb){
         gameBoard = gb;
     }
+
+
 
 
 
