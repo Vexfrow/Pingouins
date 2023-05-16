@@ -14,14 +14,14 @@ import Joueur.Heuristique;
 
 
 
-public class IAMinimax extends IAJoueur{
+public class IAMinimaxTriche extends IAJoueur{
     int iajoueur;
     private long start;
 
     private static final int Time_out_ms = 2000;
 
 
-    public IAMinimax(Jeu j){
+    public IAMinimaxTriche(Jeu j){
         super(j);
     }
 
@@ -118,9 +118,7 @@ public class IAMinimax extends IAJoueur{
         double tempo;
         ArrayList<Configuration> fils = Configuration.coupFilsPhase2(config);
         if((System.currentTimeMillis() - start > Time_out_ms) || depth <= 10 || config.jeu.jeuTermine()){
-            value = Heuristique.Hilot(config,this.iajoueur)*4 + Heuristique.HnbCaseAccessible(config,this.iajoueur)
-            + Heuristique.Hdiffscore(config,this.iajoueur)*2;
-            return value;
+            return Heuristique.montecarlo(config,this.iajoueur);
 
         }if(fils.size()==0){
             return minimaxPhase2(config,profo,max-1);

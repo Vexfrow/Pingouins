@@ -202,17 +202,15 @@ public class Heuristique{
 
     public static double montecarlo(Configuration config, int joueuria){
         int nbJoueur = config.jeu.getNbJoueur();
+        int tab[] = new int[nbJoueur];
         int i = 0;
-        int winj1 =0;
-        int winj2 =0;
         IAJoueur ia1;
-        IAJoueur ia2;
         Coup cp;
         Position pos;
         int k =0;
 
 
-        while ( i < 100){
+        while ( i < 500){
             Jeu j = config.jeu.cloner();
             IAJoueur ia = new IAAleatoire(j);
 
@@ -221,20 +219,12 @@ public class Heuristique{
             }
             while(!j.jeuTermine()){
                 cp = ia.elaboreCoup();
-                if(cp == null){
-                   j.switchJoueur();
-                }else{
-                    j.joue(cp);
+                j.joue(cp);
                 }
-            }
             i++;
+            tab[j.gagnant()-1]++;
         }
-        if(joueuria == 1){
-            return (double)winj1;  
-        }else{
-            return (double)winj2;
-        }
-
+        return (double)tab[joueuria-1];
     }
 
 

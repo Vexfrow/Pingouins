@@ -274,10 +274,10 @@ public class GameBoard extends JPanel {
 
             if(i+1 == jeu.getJoueurCourant()){
                 switch(i+1){
-                    case 1 -> {s.panelScoreHexagone.setBackground(GameConstants.BLEU); s.panelScorePoisson.setBackground(GameConstants.BLEU); s.panelScoreHexagone.setBackground(GameConstants.BLEU);}
-                    case 2 -> {s.panelScoreHexagone.setBackground(GameConstants.ROUGE); s.panelScorePoisson.setBackground(GameConstants.ROUGE); s.panelScoreHexagone.setBackground(GameConstants.ROUGE);}
-                    case 3 -> {s.panelScoreHexagone.setBackground(GameConstants.VERT); s.panelScorePoisson.setBackground(GameConstants.VERT); s.panelScoreHexagone.setBackground(GameConstants.VERT);}
-                    case 4 -> {s.panelScoreHexagone.setBackground(GameConstants.JAUNE); s.panelScorePoisson.setBackground(GameConstants.JAUNE); s.panelScoreHexagone.setBackground(GameConstants.JAUNE);}
+                    case 1 : s.panelScoreHexagone.setBackground(GameConstants.BLEU); s.panelScorePoisson.setBackground(GameConstants.BLEU); s.panelScoreHexagone.setBackground(GameConstants.BLEU); break;
+                    case 2 : s.panelScoreHexagone.setBackground(GameConstants.ROUGE); s.panelScorePoisson.setBackground(GameConstants.ROUGE); s.panelScoreHexagone.setBackground(GameConstants.ROUGE); break;
+                    case 3 : s.panelScoreHexagone.setBackground(GameConstants.VERT); s.panelScorePoisson.setBackground(GameConstants.VERT); s.panelScoreHexagone.setBackground(GameConstants.VERT);break;
+                    case 4 : s.panelScoreHexagone.setBackground(GameConstants.JAUNE); s.panelScorePoisson.setBackground(GameConstants.JAUNE); s.panelScoreHexagone.setBackground(GameConstants.JAUNE);break;
                 }
             }else{
                 s.panelScoreHexagone.setBackground(new Color(200,200,200)); s.panelScorePoisson.setBackground(new Color(200,200,200)); s.panelScoreHexagone.setBackground(new Color(200,200,200));
