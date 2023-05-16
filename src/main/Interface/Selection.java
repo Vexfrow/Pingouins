@@ -214,11 +214,11 @@ public class Selection extends JPanel {
                     arj.add(null);
                 }else{
                     if(listJoueur[i].getName().equals(IconeSelection.IA_EASY)){
-                        arj.add(new IAAleatoire(j));
-                    }else if(listJoueur[i].getName().equals(IconeSelection.IA_MEDIUM)){
                         arj.add(new IATroisPoissons(j));
+                    }else if(listJoueur[i].getName().equals(IconeSelection.IA_MEDIUM)){
+                        arj.add(new IAMoyen(j));
                     }else if(listJoueur[i].getName().equals(IconeSelection.IA_DIFFICILE)){
-                        arj.add(new IAMinimax(j));
+                        arj.add(new IAExpert(j));
                     }
                 }
 

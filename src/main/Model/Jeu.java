@@ -72,35 +72,7 @@ public class Jeu{
 
 
     // ??
-    public Jeu(Jeu jeu, boolean IA ){
-        this.terrainCourant = jeu.clonerTerrain(jeu.getTerrain());
-
-        int i = 0;
-        this.listeJoueur = new ArrayList<Joueur>();
-        while(i < jeu.getListeJoueur().size()){
-            this.listeJoueur.add(jeu.getListeJoueur().get(i).cloner());
-            i++;
-        }
-
-        i = 1;
-        Joueur player;
-        while(i <= nbJoueur){
-            player = new Joueur(i,0,0, IATab[i-1]);
-            listeJoueur.add(player);
-            i++;
-        }
-
-        initNbPingouins(nbJoueur);
-
-        this.IATab = new int[nbJoueur];
-        this.IA = IA;
-        this.nbLignes = jeu.getNbLigne();
-        this.nbColonnes = jeu.getNbColonne();
-        this.nbJoueur = jeu.getNbJoueur();
-        this.nbPingouinJoueur = jeu.getNbPingouinJoueur();
-        this.nbPingouinPlace = jeu.getNbPingouinPlace();
-        this.joueurCourant = jeu.getJoueurCourant();
-    }
+   
 
 
     // Constructeur pour creer un jeu depuis un fichier
@@ -425,8 +397,8 @@ public class Jeu{
 
             switchJoueur();
 
-            //l'IA n'enregistre pas de coup lors de sa reflexion
-            if (!IA) {
+            //l'IA min/max n'enregistre pas de coup lors de sa reflexion
+            if(!IA){
                 Coup cp = new Coup(l,c,ping,true);
                 coupJoue.add(cp);
                 coupAnnule = new ArrayList<Coup>();
@@ -533,13 +505,13 @@ public class Jeu{
             caseDep.setNbPoissons(0);
             caseArrive.setPingouin(joueurCourant);
 
-            //pour optimiser la reflexion de l'ia on ne stocke pas les coups
-            if (!IA) {
+            //pour optimiser la réflexion de l'ia min max on ne stocke pas les coups
+            if(!IA){
                 coupJoue.add(cp);
                 coupAnnule = new ArrayList<Coup>();
             }
 
-            //on enleve un pingouin des qu'il est bloque
+            //on enlève un pingouin dés qu'il est bloqué
             retirePingouin();
 
             switchJoueur();
@@ -547,7 +519,8 @@ public class Jeu{
             if (jeuTermine()) {
                 etat = ETAT_FINAL;
             }
-        } else {
+
+        }else{
             System.out.println("JeuA: joue() - Impossible de jouer en :" + cp);
             retirePingouin();
         }
@@ -911,17 +884,6 @@ public class Jeu{
         }
         boolean bonPinguoin = false;
 
-        /*
-        System.out.println("///////////////////////////////////////////////////:");
-        System.out.println("size p =" + p.size());
-        System.out.println("k =" +k);
-        System.out.println("Joueur courant =" +getJoueurCourant());
-        System.out.println(cp);
-        System.out.println(p.get(0));
-        System.out.println(p.get(1));
-        System.out.println("///////////////////////////////////////////////////:");
-        */
-
         if (k<p.size()) {
             bonPinguoin = true;
         } else {
@@ -1141,8 +1103,8 @@ public class Jeu{
                 passeTour = false;
             }
         }
-
-        if (passeTour && !jeuTermine()) {
+        
+        if(passeTour && !jeuTermine()){
             switchJoueur();
         }
     }

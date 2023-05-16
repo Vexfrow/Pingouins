@@ -16,7 +16,7 @@ import java.util.Hashtable;
 
 public class MainTestIA{
     private static int nbP = 100;
-    private static int nbJ = 4;
+    private static int nbJ = 2;
 
     public static void main(String[] args){
         testerIA(nbP);
@@ -36,10 +36,8 @@ public class MainTestIA{
             ArrayList<IAJoueur> ialist = new ArrayList<IAJoueur>();
 
 
-            ialist.add(new IAMinimax(j));
-            ialist.add(new IAMinimax(j));
-            ialist.add(new IAMinimax(j));
-            ialist.add(new IAMinimaxTriche(j));
+            ialist.add(new IAFacile(j));
+            ialist.add(new IAMoyen(j));
 
             while(!j.pingouinTousPlace()){
                 k=0;

@@ -57,7 +57,7 @@ public class IAMinimax extends IAJoueur{
         this.start = System.currentTimeMillis();
         this.iajoueur = this.j.getJoueurCourant();
         ArrayList<Joueur> listeJoueur = this.j.getListeJoueur();
-        int nbcase= 0;
+        int nbcase = 0;
         int bonus;
         for(int i = 0; i< listeJoueur.size(); i++){
             nbcase+= listeJoueur.get(i).getNbCasesMange();
@@ -118,9 +118,10 @@ public class IAMinimax extends IAJoueur{
         double tempo;
         ArrayList<Configuration> fils = Configuration.coupFilsPhase2(config);
         if((System.currentTimeMillis() - start > Time_out_ms) || depth <= 10 || config.jeu.jeuTermine()){
-            value = Heuristique.Hilot(config,this.iajoueur)*4 + Heuristique.HnbCaseAccessible(config,this.iajoueur)
-            + Heuristique.Hdiffscore(config,this.iajoueur)*2;
-            return value;
+            // value = Heuristique.Hilot(config,this.iajoueur)*4 + Heuristique.HnbCaseAccessible(config,this.iajoueur)
+            // + Heuristique.Hdiffscore(config,this.iajoueur)*2;
+            //return value;
+            return Heuristique.montecarlo(config,this.iajoueur);
 
         }if(fils.size()==0){
             return minimaxPhase2(config,profo,max-1);

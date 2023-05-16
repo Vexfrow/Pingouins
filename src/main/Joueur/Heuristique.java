@@ -210,12 +210,14 @@ public class Heuristique{
         int k =0;
 
 
-        while ( i < 500){
+        while ( i < 200){
             Jeu j = config.jeu.cloner();
             IAJoueur ia = new IAAleatoire(j);
 
             while(!j.pingouinTousPlace()){
                 pos = ia.elaborePlacement();
+                j.placePingouin(pos.x, pos.y);
+
             }
             while(!j.jeuTermine()){
                 cp = ia.elaboreCoup();
