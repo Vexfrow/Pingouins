@@ -18,10 +18,13 @@ public class Position {
     }
 
     public boolean equals(Object o){
-        if(!(o instanceof Position p))
-            return false;
+        if((o instanceof Position )){
+            Position p = (Position) o;
+            return (x == p.x && y == p.y);
+            
+        }
 
-        return (x == p.x && y == p.y);
+        return false;
     }
 
     public int hash(){
