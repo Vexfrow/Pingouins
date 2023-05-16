@@ -14,6 +14,41 @@ public class Heuristique{
         return value;
     }
 
+
+    public static double HcoupPossibleAdv(Configuration config, int joueuria){
+        int nbjoueur = config.jeu.getNbJoueur();
+        ArrayList<Pingouin> listePingouinTotal = new ArrayList<Pingouin>();
+        ArrayList<Pingouin> listePingouin = new ArrayList<Pingouin>();
+        int k = 0;
+        int i = 0;
+        while(k < nbjoueur){
+            i=0;
+            if(k != joueuria-1){
+                listePingouin = config.jeu.getListeJoueur().get(k).getListePingouin();
+                while(i<listePingouin.size()){
+                    listePingouinTotal.add(listePingouin.get(i));
+                    i++;
+                }
+            }
+            k++;
+        }
+        ArrayList<Position> listePos;
+        ArrayList<Position> listePosTotal = new ArrayList<Position>();
+        i = 0;
+        int j = 0;
+        while( i < listePingouinTotal.size()){
+            listePos = null;
+            listePos = config.jeu.getCaseAccessible(listePingouin.get(i).getLigne(),listePingouin.get(i).getColonne());
+            j=0;
+            while(j < listePos.size()){
+                listePosTotal.add(listePos.get(j));
+                j++;
+            }
+            i++;
+        }
+        return ((double)listePosTotal.size()/40.0);
+    }
+
     // Ce truc marche moin bien que l'aléatoire
     //Nombre de coup possible
     public static double HcoupPossible(Configuration config, int joueuria){
@@ -32,7 +67,7 @@ public class Heuristique{
             }
             i++;
         }
-            return ((double)listePosTotal.size()/20.0);
+        return ((double)listePosTotal.size()/20.0);
         }
 
     public static double HnbCaseAccessible(Configuration config, int joueuria){
@@ -52,20 +87,53 @@ public class Heuristique{
         while( i < listePingouin.size()){
             listePos = config.jeu.getCaseAccessible(listePingouin.get(i).getLigne(),listePingouin.get(i).getColonne());
             j=0;
-            if(estIlot(listePingouin.get(i), config.jeu, joueur2, false) == 0){
-                while(j < listePos.size()){
-                    if(!vuPos.containsKey(listePos.get(j))){
-                        vuPos.put(listePos.get(j).hash(),listePos.get(j));
-                        score++;
-                    }
-                    j++;
+            while(j < listePos.size()){
+                if(!vuPos.containsKey(listePos.get(j))){
+                    vuPos.put(listePos.get(j).hash(),listePos.get(j));
+                    score++;
                 }
+                j++;
             }
             i++;
         }
         return (score/15);
+    }
 
-
+    public static double HnbCaseAccessibleAdv(Configuration config, int joueuria){
+        int nbjoueur = config.jeu.getNbJoueur();
+        ArrayList<Pingouin> listePingouinTotal = new ArrayList<Pingouin>();
+        ArrayList<Pingouin> listePingouin = new ArrayList<Pingouin>();
+        int k = 0;
+        int i = 0;
+        while(k < nbjoueur){
+            i=0;
+            if(k != joueuria-1){
+                listePingouin = config.jeu.getListeJoueur().get(k).getListePingouin();
+                while(i<listePingouin.size()){
+                    listePingouinTotal.add(listePingouin.get(i));
+                    i++;
+                }
+            k++;
+            }
+        }
+        Hashtable<Integer, Position> vuPos= new Hashtable<Integer, Position>();
+        ArrayList<Position> listePos;
+        double score=0;
+        int j = 0;
+        i = 0;
+        while( i < listePingouinTotal.size()){
+            listePos = config.jeu.getCaseAccessible(listePingouinTotal.get(i).getLigne(),listePingouinTotal.get(i).getColonne());
+            j=0;
+            while(j < listePos.size()){
+                if(!vuPos.containsKey(listePos.get(j))){
+                    vuPos.put(listePos.get(j).hash(),listePos.get(j));
+                    score++;
+                }
+                j++;
+            }
+            i++;
+        }
+        return (score/20);
     }
 
 
@@ -133,6 +201,7 @@ public class Heuristique{
 
 
     public static double montecarlo(Configuration config, int joueuria){
+        int nbJoueur = config.jeu.getNbJoueur();
         int i = 0;
         int winj1 =0;
         int winj2 =0;
@@ -140,50 +209,23 @@ public class Heuristique{
         IAJoueur ia2;
         Coup cp;
         Position pos;
+        int k =0;
 
 
-        while ( i < 5){
-            Jeu j = config.jeu.cloner(); 
-
-            ia1 = new IAAleatoire(j);
-            ia2 = new IAAleatoire(j);
+        while ( i < 100){
+            Jeu j = config.jeu.cloner();
+            IAJoueur ia = new IAAleatoire(j);
 
             while(!j.pingouinTousPlace()){
-
-                pos = ia1.elaborePlacement();
-                j.placePingouin(pos.x, pos.y);
-                
-                pos = ia2.elaborePlacement();
-                j.placePingouin(pos.x,pos.y);
-
+                pos = ia.elaborePlacement();
             }
             while(!j.jeuTermine()){
-                cp = ia1.elaboreCoup();
-
+                cp = ia.elaboreCoup();
                 if(cp == null){
                    j.switchJoueur();
                 }else{
                     j.joue(cp);
-                    //System.out.println( "j1 JOUE ");
                 }
-
-
-
-                cp= ia2.elaboreCoup();
-                if(cp == null){
-                   j.switchJoueur();
-                }else{
-                    j.joue(cp);
-                    //System.out.println( "j2 JOUE ");
-                }
-
-
-            }
-
-            if(j.getScore(1) > j.getScore(2)){
-                winj1++;
-            }else if(j.getScore(1) < j.getScore(2)){
-                winj2++;
             }
             i++;
         }

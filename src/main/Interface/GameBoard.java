@@ -116,7 +116,6 @@ public class GameBoard extends JPanel {
         //----------Score--------------
         setScore();
 
-
         //----------Historique-------------
         bHistorique = new JButton("Historique");
 
@@ -125,7 +124,6 @@ public class GameBoard extends JPanel {
         c.gridy = 3+jeu.getListeJoueur().size();
         c.fill = GridBagConstraints.BOTH;
         menuGame.add(bHistorique,c);
-
 
 
         //----------Boutons annuler et refaire --------------
@@ -158,7 +156,6 @@ public class GameBoard extends JPanel {
         c.weighty = 10;
         c.gridy = 4+jeu.getListeJoueur().size();
         menuGame.add(boutonPanel2, c);
-
 
         misAJour();
 
@@ -304,6 +301,14 @@ public class GameBoard extends JPanel {
         bRefaire.setEnabled(!bRefaire.isEnabled());
         bAnnuler.setEnabled(!bAnnuler.isEnabled());
         bHistorique.setEnabled(!bHistorique.isEnabled());
+    }
+
+    public void activateButton(){
+        bPause.setEnabled(true);
+        bSuggestion.setEnabled(true);
+        bRefaire.setEnabled(true);
+        bAnnuler.setEnabled(true);
+        bHistorique.setEnabled(true);
     }
 
 
