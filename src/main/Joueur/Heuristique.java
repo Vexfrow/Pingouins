@@ -229,11 +229,7 @@ public class Heuristique{
             }
             i++;
         }
-        if(joueuria == 1){
-            return (double)winj1;  
-        }else{
-            return (double)winj2;
-        }
+        
 
     }
 
