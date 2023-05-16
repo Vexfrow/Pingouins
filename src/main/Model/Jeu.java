@@ -439,7 +439,7 @@ public class Jeu{
 
             switchJoueur();
 
-            //l'IA n'enregistre pas de coup lors de sa reflexion
+            //l'IA min/max n'enregistre pas de coup lors de sa reflexion
             if(!IA){
                 Coup cp = new Coup(l,c,ping,true);
 
@@ -553,12 +553,11 @@ public class Jeu{
             caseDep.setNbPoissons(0);
             caseArrive.setPingouin(joueurCourant);
 
-            //pour optimiser la réflexion de l'ia on ne stocke pas les coups
+            //pour optimiser la réflexion de l'ia min max on ne stocke pas les coups
             if(!IA){
                 coupJoue.add(cp);
                 coupAnnule = new ArrayList<Coup>();
             }
-
 
             //on enlève un pingouin dés qu'il est bloqué
             retirePingouin();
@@ -569,8 +568,7 @@ public class Jeu{
                 etat = ETAT_FINAL;
             }
 
-        }
-        else {
+        }else {
             System.out.println("JeuA: joue() - Impossible de jouer en :" + cp);
             retirePingouin();
         }
@@ -668,9 +666,11 @@ public class Jeu{
                     if(nbPingouinPlace == 0){
                         etat = ETAT_SELECTIONP;
                     }
+                    System.out.println("placement");
                 }else{ 
                     etat = ETAT_SELECTIONP;
                     j.joue(cp);
+                    System.out.println("joue coup anule");
                 }
                 i++;
             }
@@ -926,18 +926,7 @@ public class Jeu{
 
         boolean bonPinguoin = false;
 
-
-        /*
-        System.out.println("///////////////////////////////////////////////////:");
-        System.out.println("size p =" + p.size());
-        System.out.println("k =" +k);
-        System.out.println("Joueur courant =" +getJoueurCourant());
-        System.out.println(cp);
-        System.out.println(p.get(0));
-        System.out.println(p.get(1));
-        System.out.println("///////////////////////////////////////////////////:");
-        */
-        
+        bonPinguoin = true;
 
         if(k<p.size() ){
             bonPinguoin = true;
@@ -1052,14 +1041,30 @@ public class Jeu{
     }
 
     public Cases getCase(int ligne, int colonne){
+
         int val = 0;
         if (ligne%2==0)
             val = 1;
         if(coordValideTab(ligne, colonne*2+val)){
+
             if( ligne%2 ==1 ){
-                return terrainCourant[ligne][colonne*2];
+                //////////////////////////////////NULL ICI QUAND ON A UN ANNULER AVEC IA
+                //System.out.println(terrainCourant[ligne][colonne*2]);
+                try{
+                    return terrainCourant[ligne][colonne*2];
+                } catch (Exception e){
+                    System.out.println("Exception" +e);
+                    return null;
+                }
             }else{
-                return terrainCourant[ligne][colonne*2+1];
+                //////////////////////////////////NULL ICI QUAND ON A UN ANNULER AVEC IA
+                //System.out.println(terrainCourant[ligne][colonne*2]);
+                try{
+                    return terrainCourant[ligne][colonne*2+1];
+                } catch (Exception e){
+                    System.out.println("Exception" +e);
+                    return null;
+                }
             }
         } else {
             System.out.println("impossible de récuperer la case ligne: "+ligne+ ", colonne:"+colonne + "");
@@ -1136,8 +1141,6 @@ public class Jeu{
                 passeTour = false;
             }
         }
-
-
         
         if(passeTour && !jeuTermine()){
             switchJoueur();

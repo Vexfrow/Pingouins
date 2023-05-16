@@ -282,10 +282,10 @@ public class GameBoard extends JPanel {
 
             if(i+1 == jeu.getJoueurCourant()){
                 switch(i+1){
-                    case 1 -> {listeScore.get(i).setBackground(GameConstants.BLEU); listePanelScoreH.get(i).setBackground(GameConstants.BLEU); listePanelScoreP.get(i).setBackground(GameConstants.BLEU);}
-                    case 2 -> {listeScore.get(i).setBackground(GameConstants.ROUGE); listePanelScoreH.get(i).setBackground(GameConstants.ROUGE); listePanelScoreP.get(i).setBackground(GameConstants.ROUGE);}
-                    case 3 -> {listeScore.get(i).setBackground(GameConstants.VERT); listePanelScoreH.get(i).setBackground(GameConstants.VERT); listePanelScoreP.get(i).setBackground(GameConstants.VERT);}
-                    case 4 -> {listeScore.get(i).setBackground(GameConstants.JAUNE); listePanelScoreH.get(i).setBackground(GameConstants.JAUNE); listePanelScoreP.get(i).setBackground(GameConstants.JAUNE);}
+                    case 1 : {listeScore.get(i).setBackground(GameConstants.BLEU); listePanelScoreH.get(i).setBackground(GameConstants.BLEU); listePanelScoreP.get(i).setBackground(GameConstants.BLEU);}
+                    case 2 : {listeScore.get(i).setBackground(GameConstants.ROUGE); listePanelScoreH.get(i).setBackground(GameConstants.ROUGE); listePanelScoreP.get(i).setBackground(GameConstants.ROUGE);}
+                    case 3 : {listeScore.get(i).setBackground(GameConstants.VERT); listePanelScoreH.get(i).setBackground(GameConstants.VERT); listePanelScoreP.get(i).setBackground(GameConstants.VERT);}
+                    case 4 : {listeScore.get(i).setBackground(GameConstants.JAUNE); listePanelScoreH.get(i).setBackground(GameConstants.JAUNE); listePanelScoreP.get(i).setBackground(GameConstants.JAUNE);}
                 }
             }else{
                 listeScore.get(i).setBackground(new Color(200,200,200)); listePanelScoreH.get(i).setBackground(new Color(200,200,200)); listePanelScoreP.get(i).setBackground(new Color(200,200,200));
