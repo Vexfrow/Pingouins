@@ -18,6 +18,7 @@ public class ListeFile extends JPanel {
     Chargement panel;
     String[] listeFichier;
     JButton[] affichage;
+    JLabel[] indices;
     private String current;
     private Image up;
     private Image down;
@@ -34,15 +35,18 @@ public class ListeFile extends JPanel {
         sommet = 0;
         listeFichier = getAllSaves();
         affichage = new JButton[5];
+        indices = new JLabel[5];
         flecheHaut = new JButton();
         flecheBas = new JButton();
         current = "";
         for(int i = 0; i < 5; i++){
             if(i < listeFichier.length){
+                indices[i] = new JLabel((i+1) + "/" + listeFichier.length);
                 affichage[i] = new JButton(listeFichier[i]);
                 affichage[i].setBackground(GameConstants.SELECTION);
                 affichage[i].setBorderPainted(false);
             }else{
+                indices[i] = new JLabel(" ");
                 affichage[i] = new JButton("");
                 affichage[i].setBackground(GameConstants.SELECTION);
                 affichage[i].setBorderPainted(false);
@@ -78,13 +82,20 @@ public class ListeFile extends JPanel {
         add(flecheBas, gbc);
 
         gbc.insets = new Insets(10, 20, 10, 10);
-        gbc.gridx = 0;
+
         gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weighty = 2;
-        gbc.weightx = 2;
+
         for(int i = 0; i < 5; i++){
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.weighty = 2;
+            gbc.weightx = 2;
+            gbc.gridx = 1;
             add(affichage[i], gbc);
+            gbc.fill = GridBagConstraints.NONE;
+            gbc.weighty = 0;
+            gbc.weightx = 0;
+            gbc.gridx = 0;
+            add(indices[i], gbc);
             gbc.gridy++;
         }
         majFleche();
@@ -142,6 +153,7 @@ public class ListeFile extends JPanel {
         int i = sommet;
 
         while(i < listeFichier.length &&  j < 5){
+            indices[j].setText((i+1) + "/" + listeFichier.length);
             affichage[j].setText(listeFichier[i]);
             i++;
             j++;

@@ -21,11 +21,12 @@ public class IconeSelection extends JPanel {
 
 
 
-    private final int MAX = 4;
+    private final int MAX = 5;
     public static final String HUMAIN = "Humain";
     public static final String IA_EASY = "IA Facile";
     public static final String IA_MEDIUM = "IA Moyenne";
     public static final String IA_DIFFICILE = "IA Difficile";
+    public static final String IA_EXPERTE = "IA Experte";
 
     private int rotation;
     private JButton minus;
@@ -45,7 +46,6 @@ public class IconeSelection extends JPanel {
 
 
     public IconeSelection(Color color, int size, boolean notInit){
-        this.setPreferredSize(new Dimension(size*2, size*2));
         this.setBackground(GameConstants.BACKGROUND_COLOR);
         this.setLayout(new GridBagLayout());
 
@@ -76,7 +76,6 @@ public class IconeSelection extends JPanel {
             System.out.println("une erreur " + e);
         }
 
-        Dimension taille = getSize();
         gauche  = new JButton(new ImageIcon(selGauche));
         droite = new JButton(new ImageIcon(selDroite));
         icon = new JLabel(new ImageIcon(pengouin));
@@ -93,13 +92,10 @@ public class IconeSelection extends JPanel {
 
         gauche.setBackground(new Color(0x2678A7));
         gauche.setForeground(Color.WHITE);
-        gauche.setPreferredSize(new Dimension(50, 30));
         droite.setBackground(new Color(0x2678A7));
         droite.setForeground(Color.WHITE);
-        droite.setPreferredSize(new Dimension(50, 30));
 
         type = new JLabel(HUMAIN, SwingConstants.CENTER);
-        type.setPreferredSize(new Dimension(80, 30));
         type.setBackground(Color.WHITE);
         type.setOpaque(true);
 
@@ -130,7 +126,7 @@ public class IconeSelection extends JPanel {
         this.add(droite, gbc);
 
         gbc.gridx = 2;
-
+        gbc.weighty= 1;
         this.add(type, gbc);
 
 
@@ -193,6 +189,10 @@ public class IconeSelection extends JPanel {
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+        type.setPreferredSize(new Dimension((int)(getWidth()*0.23), (int)(getHeight()*0.06)));
+        gauche.setPreferredSize(new Dimension((int)(getWidth()*0.12),(int)(getHeight()*0.06)));
+        droite.setPreferredSize(new Dimension((int)(getWidth()*0.12), (int)(getHeight()*0.06)));
+
         type.setBackground(Color.WHITE);
 
         Polygon p = new Polygon();
@@ -212,7 +212,7 @@ public class IconeSelection extends JPanel {
         g.setColor(this.color);
         g.fillPolygon(p);
 
-        //g.drawRect(0,0, this.getWidth(), this.getHeight());
+        g.drawRect(0,0, this.getWidth(), this.getHeight());
     }
 
 
@@ -237,6 +237,9 @@ public class IconeSelection extends JPanel {
                 break;
             case 4:
                 res = IA_DIFFICILE;
+                break;
+            case 5:
+                res = IA_EXPERTE;
                 break;
             default:
                 res= "Erreur";

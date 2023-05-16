@@ -148,6 +148,10 @@ public class Selection extends JPanel {
         valide.setBackground(new Color(0x155D85));
         valide.setForeground(Color.WHITE);
 
+        for(int i =0; i < 4; i++){
+            listJoueur[i].repaint();
+        }
+
 
         //Action sur les boutons
         retour.addActionListener(new ActionListener() {

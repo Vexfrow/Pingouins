@@ -25,7 +25,6 @@ public class MenuP extends JPanel {
     private boolean icone;
 
     public MenuP(CollecteurEvenements ctrl){
-        super();
         this.c = ctrl;
         //Création des éléments
         try{
