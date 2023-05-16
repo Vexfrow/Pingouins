@@ -72,35 +72,7 @@ public class Jeu{
 
 
     // ??
-    public Jeu(Jeu jeu, boolean IA ){
-        this.terrainCourant = jeu.clonerTerrain(jeu.getTerrain());
-
-        int i = 0;
-        this.listeJoueur = new ArrayList<Joueur>();
-        while(i < jeu.getListeJoueur().size()){
-            this.listeJoueur.add(jeu.getListeJoueur().get(i).cloner());
-            i++;
-        }
-
-        i = 1;
-        Joueur player;
-        while(i <= nbJoueur){
-            player = new Joueur(i,0,0, IATab[i-1]);
-            listeJoueur.add(player);
-            i++;
-        }
-
-        initNbPingouins(nbJoueur);
-
-        this.IATab = new int[nbJoueur];
-        this.IA = IA;
-        this.nbLignes = jeu.getNbLigne();
-        this.nbColonnes = jeu.getNbColonne();
-        this.nbJoueur = jeu.getNbJoueur();
-        this.nbPingouinJoueur = jeu.getNbPingouinJoueur();
-        this.nbPingouinPlace = jeu.getNbPingouinPlace();
-        this.joueurCourant = jeu.getJoueurCourant();
-    }
+   
 
 
     // Constructeur pour creer un jeu depuis un fichier
