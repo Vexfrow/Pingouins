@@ -51,7 +51,6 @@ public class TestsTerrains {
                 }
             }
         }
-
         // Test sauvegarde invalide 
         //jeuSauve = new Jeu("src/test/Terrains/terrainFixeInvalide.txt");
         //System.out.println(jeuSauve.toString());

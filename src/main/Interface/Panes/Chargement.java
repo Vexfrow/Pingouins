@@ -82,7 +82,6 @@ public class Chargement extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(collecteurEvenements.getEtatBackPane() == 2){
-                    //System.out.println("Here");
                     collecteurEvenements.togglePause(false);
 
                 }else{
@@ -109,11 +108,9 @@ public class Chargement extends JPanel {
 
     public void genererPartie(){
         Jeu j = new Jeu(fichier);
-        System.out.println("Etat Chagrement :" + j.getEtat());
         ArrayList<IAJoueur> ari = getIA(j, fichier);
         collecteurEvenements.setJeu(j, ari);
         collecteurEvenements.switchGameBoard();
-
     }
     public ArrayList<IAJoueur> getIA(Jeu j, String s){
         ArrayList<IAJoueur> ari = new ArrayList<IAJoueur>();
