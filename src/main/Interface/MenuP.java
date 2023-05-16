@@ -62,19 +62,6 @@ public class MenuP extends JPanel {
 
     }
 
-
-
-
-    private Image reScale(Image source, int width, int height){
-        return source.getScaledInstance(width, height, java.awt.Image.SCALE_AREA_AVERAGING);
-    }
-
-    private Image reScale(Image source, float percent){
-        ImageIcon ic = new ImageIcon(source);
-
-        return source.getScaledInstance((int)(ic.getIconWidth()*percent), (int)(ic.getIconHeight()*percent), java.awt.Image.SCALE_AREA_AVERAGING);
-    }
-
     private void setMenu(){
         //Button
         partiePersonnalisee.setBorderPainted(false);
@@ -183,23 +170,20 @@ public class MenuP extends JPanel {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
-                titreS = new ImageIcon(reScale(titreI));
-                menu.setIcon(titreS);
-                allScale();
-                revalidate();
-                repaint();
+                menu.setIcon(new ImageIcon(reScale(titreI)));
+
                 regles.setIcon(new ImageIcon(imageOnButton(regles, hintI)));
                 partieRapide.setIcon(new ImageIcon(imageOnButton(partieRapide, partieRapideI)));
                 partiePersonnalisee.setIcon(new ImageIcon(imageOnButton(partiePersonnalisee, partiePersoI)));
                 chargerPartie.setIcon(new ImageIcon(imageOnButton(chargerPartie, chargerPartieI)));
                 tutoriel.setIcon(new ImageIcon(imageOnButton(tutoriel, tutorielI)));
-
+                revalidate();
+                repaint();
             }
 
         });
 
     }
-
 
     public void toggleButtons() {
         chargerPartie.setEnabled(!chargerPartie.isEnabled());
@@ -237,6 +221,13 @@ public class MenuP extends JPanel {
 
     public Image imageOnButton(JButton b, Image img){
         return img.getScaledInstance(b.getWidth(), b.getHeight(), Image.SCALE_SMOOTH);
+    }
+
+    @Override
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        allScale();
+
     }
 
 }
