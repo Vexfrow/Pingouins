@@ -428,7 +428,6 @@ public class Jeu{
     public boolean placePingouin(int l, int c){
         int joueurCourant = getJoueurCourant();
         Joueur joueur = listeJoueur.get(joueurCourant-1);
-        System.out.println("probleme de placement : " +  nbPingouinJoueur + "\n" + joueur.listePingouin.size() + "\n" );
         if( (joueur.listePingouin.size() < nbPingouinJoueur) && getCase(l, c) != null && !pingouinPresent(l, c) && getCase(l,c).getNbPoissons() == 1 && !pingouinTousPlace()){
             etat = ETAT_PLACEMENTP;
             Pingouin ping = new Pingouin(l,c);
