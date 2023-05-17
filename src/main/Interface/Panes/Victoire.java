@@ -33,7 +33,7 @@ public class Victoire extends JPanel{
     BufferedImage relancerPartieB,retourMenuB;
 
 
-    int gagnant;
+    ArrayList<Integer> gagnant;
 
     public Victoire(CollecteurEvenements c){
         jeu = c.getJeu();
@@ -203,13 +203,13 @@ public class Victoire extends JPanel{
 
     private BufferedImage getImage(int i) {
         if(i == 1){
-            return (gagnant == 1) ? pingouinBleuC : pingouinBleu;
+            return (gagnant.contains(1)) ? pingouinBleuC : pingouinBleu;
         }else if(i == 2){
-            return (gagnant == 2) ? pingouinRougeC : pingouinRouge;
+            return (gagnant.contains(2)) ? pingouinRougeC : pingouinRouge;
         }else if(i == 3){
-            return (gagnant == 3) ? pingouinVertC : pingouinVert;
+            return (gagnant.contains(3)) ? pingouinVertC : pingouinVert;
         }else{
-            return (gagnant == 4) ? pingouinJauneC : pingouinJaune;
+            return (gagnant.contains(4)) ? pingouinJauneC : pingouinJaune;
         }
     }
 

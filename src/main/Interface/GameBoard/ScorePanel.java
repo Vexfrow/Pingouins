@@ -63,10 +63,8 @@ public class ScorePanel extends JPanel {
     public void createPanel(Joueur joueur){
 
         //Panel de base pour chaque score
-        this.setLayout(new GridBagLayout());
+        this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         this.setBorder(new LineBorder(Color.BLACK));
-        GridBagConstraints c2 = new GridBagConstraints();
-
 
         //Panel pour les deux scores
         panelScores.setLayout(new BoxLayout(panelScores, BoxLayout.X_AXIS));
@@ -76,11 +74,12 @@ public class ScorePanel extends JPanel {
         //Panel pour le score poisson
         panelScorePoisson.setLayout(new BoxLayout(panelScorePoisson, BoxLayout.Y_AXIS));
 
-        scorePoisson = new JLabel(String.valueOf(joueur.getScore()));
-        panelScorePoisson.add(scorePoisson);
-
         ImagePanel jlP = new ImagePanel(poisson);
         panelScorePoisson.add(jlP);
+
+        scorePoisson = new JLabel(String.valueOf(joueur.getScore()));
+        scorePoisson.setFont(new Font("Serif", Font.PLAIN, 30));
+        panelScorePoisson.add(scorePoisson);
 
         panelScores.add(panelScorePoisson);
         //-----------------------------------
@@ -88,30 +87,25 @@ public class ScorePanel extends JPanel {
         //Panel pour le score hexagone
         panelScoreHexagone.setLayout(new BoxLayout(panelScoreHexagone, BoxLayout.Y_AXIS));
 
-        scoreHexagone = new JLabel(String.valueOf(joueur.getNbCasesMange()));
-        panelScoreHexagone.add(scoreHexagone);
-
         ImagePanel jlH = new ImagePanel(hexagone);
         panelScoreHexagone.add(jlH);
+
+        scoreHexagone = new JLabel(String.valueOf(joueur.getNbCasesMange()));
+        scoreHexagone.setFont(new Font("Serif", Font.PLAIN, 30));
+        panelScoreHexagone.add(scoreHexagone);
 
         panelScores.add(panelScoreHexagone);
         //-----------------------------------
 
         //Texte pour le numéro du joueur
         numJoueur.setText("Joueur "+ joueur.getNumeroJoueur());
+        numJoueur.setFont(new Font("Serif", Font.PLAIN, 20));
         numJoueur.setForeground(Color.BLACK);
 
-        c2.gridx = 0;
-        c2.gridy = 0;
-        c2.gridwidth = 2;
-        c2.weighty = 1;
-        this.add(numJoueur, c2);
 
-        c2.gridx = 0;
-        c2.gridy = 1;
-        c2.gridwidth = 2;
-        c2.weighty = 5;
-        this.add(panelScores, c2);
+        this.add(numJoueur);
+        this.add(panelScores);
+        this.add(Box.createRigidArea(new Dimension(0,40 - (10* jeu.getListeJoueur().size()))));
 
     }
 
@@ -132,6 +126,13 @@ public class ScorePanel extends JPanel {
         }else{
             panelScoreHexagone.setBackground(new Color(200,200,200)); panelScorePoisson.setBackground(new Color(200,200,200)); panelScores.setBackground(new Color(200,200,200));this.setBackground(new Color(200,200,200));
         }
+
+        switch(joueur.getNumeroJoueur()){
+            case 1 : numJoueur.setBackground(GameConstants.BLEU);break;
+            case 2 : numJoueur.setBackground(GameConstants.ROUGE); break;
+            case 3 : numJoueur.setBackground(GameConstants.VERT);break;
+            case 4 : numJoueur.setBackground(GameConstants.JAUNE);break;
+        }
     }
 
 
@@ -139,18 +140,6 @@ public class ScorePanel extends JPanel {
     @Override
     public void invalidate() {
         super.invalidate();
-        majSize();
     }
-
-
-
-    private void majSize() {
-        float largeur = panelScorePoisson.getSize().width;
-        float hauteur = panelScorePoisson.getSize().height;
-
-        sizeImage = (int) Math.min(largeur, hauteur);
-
-    }
-
 
 }
