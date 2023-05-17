@@ -1,17 +1,11 @@
 package Joueur;
 
-import java.util.Random;
 import java.lang.Math;
 import Model.Coup;
 import Model.Jeu;
 import Model.Position;
 import Model.Joueur;
-import Model.Cases;
-import Model.Pingouin;
 import java.util.ArrayList;
-import java.util.Hashtable;
-import Joueur.Heuristique;
-
 
 
 public class IAMinimax extends IAJoueur{

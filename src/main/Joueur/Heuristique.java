@@ -1,7 +1,6 @@
 package Joueur;
 
 import java.util.*;
-import java.lang.Math;
 import Model.*;
 
 public class Heuristique{

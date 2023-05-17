@@ -2,16 +2,8 @@ package Joueur;
 
 import Model.Coup;
 import Model.Jeu;
-import Model.Jeu;
 import Model.Position;
-import Model.Cases;
-import Model.Pingouin;
 import java.util.ArrayList;
-
-import Joueur.IAAleatoire;
-import Joueur.IAJoueur;
-import java.util.Enumeration;
-import java.util.Hashtable;
 
 
 public class MainTestIA{
