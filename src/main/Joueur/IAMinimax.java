@@ -17,13 +17,13 @@ import Joueur.Heuristique;
 public class IAMinimax extends IAJoueur{
     int iajoueur;
     private long start;
-    private double coefIlot = 8;
-    private double coefNBCoup = 1;
+    private double coefIlot = 0;
+    private double coefNBCoup = 0;
     private double coefDiffScore =4;
-    private double coefNBCaseAcc = 4;
-    private double coefMonteCarlo = 4;
+    private double coefNBCaseAcc = 2;
+    private double coefMonteCarlo = 0;
     private double coefCaseAccAdv = 4;
-    private double coefNBCoupAdv = 1;
+    private double coefNBCoupAdv = 0;
 
 
     private static final int Time_out_ms = 5000;
@@ -125,7 +125,7 @@ public class IAMinimax extends IAJoueur{
         double tempo;
         ArrayList<Configuration> fils = Configuration.coupFilsPhase2(config);
         if((System.currentTimeMillis() - start > Time_out_ms) || depth <= 0 || config.jeu.jeuTermine()){
-            value = Heuristique.Hilot(config,this.iajoueur)*coefIlot + Heuristique.HnbCaseAccessible(config,this.iajoueur)*coefNBCaseAcc
+            value = /*Heuristique.Hilot(config,this.iajoueur)*coefIlot*/ + Heuristique.HnbCaseAccessible(config,this.iajoueur)*coefNBCaseAcc
             + Heuristique.Hdiffscore(config,this.iajoueur)*coefDiffScore +Heuristique.HcoupPossible(config,this.iajoueur)*coefNBCoup
             + /*Heuristique.montecarlo(config,this.iajoueur,2)*coefMonteCarlo*/ -Heuristique.HcoupPossibleAdv(config,this.iajoueur)*coefNBCoupAdv
            -Heuristique.HnbCaseAccessibleAdv(config,this.iajoueur)*coefCaseAccAdv;

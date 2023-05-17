@@ -53,7 +53,7 @@ public class MainTestIA{
                     cp= ialist.get(k).elaboreCoup();
                     if(cp != null){
                         j.joue(cp);
-                        System.out.println("Joueur " +(k+1) + " joue");
+                        //System.out.println("Joueur " +(k+1) + " joue");
                     }
                     k++;
                 }
@@ -69,6 +69,6 @@ public class MainTestIA{
             line=line + "j"+(k+1)+" gagne "+tab[k]+ " fois " + (tab[k]*100/nbP) + "%\n";
             k++;
         }
-        System.out.println(line+ "oui");
+        System.out.println(line);
     }
 }
