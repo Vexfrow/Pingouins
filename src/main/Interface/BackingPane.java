@@ -82,8 +82,8 @@ public class BackingPane extends JPanel {
     }
 
     public void resize(){
-        wide = new EmptyBorder((int)(getHeight()*0.15), (int)(getWidth()*0.15), (int)(getHeight()*0.15), (int)(getWidth()*0.15));
-        small = new EmptyBorder((int)(getHeight()*0.10), (int)(getWidth()*0.42), (int)(getHeight()*0.10), (int)(getWidth()*0.42));
+        wide = new EmptyBorder((int)(getHeight()*0.10), (int)(getWidth()*0.18), (int)(getHeight()*0.10), (int)(getWidth()*0.18));
+        small = new EmptyBorder((int)(getHeight()*0.10), (int)(getWidth()*0.38), (int)(getHeight()*0.10), (int)(getWidth()*0.38));
         if(etat != 2){
             setBorder(wide);
         }else{
