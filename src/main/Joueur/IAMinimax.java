@@ -17,8 +17,16 @@ import Joueur.Heuristique;
 public class IAMinimax extends IAJoueur{
     int iajoueur;
     private long start;
+    private double coefIlot = 8;
+    private double coefNBCoup = 1;
+    private double coefDiffScore =4;
+    private double coefNBCaseAcc = 4;
+    private double coefMonteCarlo = 4;
+    private double coefCaseAccAdv = 4;
+    private double coefNBCoupAdv = 1;
 
-    private static final int Time_out_ms = 2000;
+
+    private static final int Time_out_ms = 5000;
 
 
     public IAMinimax(Jeu j){
@@ -62,10 +70,10 @@ public class IAMinimax extends IAJoueur{
         for(int i = 0; i< listeJoueur.size(); i++){
             nbcase+= listeJoueur.get(i).getNbCasesMange();
         }
-        if(nbcase <=4){
-            nbcase = 5;
+        if(nbcase <=10){
+            nbcase = 10;
         }
-        bonus = (int)Math.sqrt((double)nbcase-4);
+        bonus = (int)Math.cbrt((double)nbcase-9);
         Configuration conf = new Configuration(this.j.cloner());
         ArrayList<Configuration> fils = Configuration.coupFilsPhase2(conf);
         double max = -Double.MAX_VALUE;
@@ -107,7 +115,6 @@ public class IAMinimax extends IAJoueur{
                     value = tempo;
                 }
             }
-
         }
         return value;
     }
@@ -117,11 +124,12 @@ public class IAMinimax extends IAJoueur{
         int profo = depth-1;
         double tempo;
         ArrayList<Configuration> fils = Configuration.coupFilsPhase2(config);
-        if((System.currentTimeMillis() - start > Time_out_ms) || depth <= 10 || config.jeu.jeuTermine()){
-            // value = Heuristique.Hilot(config,this.iajoueur)*4 + Heuristique.HnbCaseAccessible(config,this.iajoueur)
-            // + Heuristique.Hdiffscore(config,this.iajoueur)*2;
-            //return value;
-            return Heuristique.montecarlo(config,this.iajoueur);
+        if((System.currentTimeMillis() - start > Time_out_ms) || depth <= 0 || config.jeu.jeuTermine()){
+            value = Heuristique.Hilot(config,this.iajoueur)*coefIlot + Heuristique.HnbCaseAccessible(config,this.iajoueur)*coefNBCaseAcc
+            + Heuristique.Hdiffscore(config,this.iajoueur)*coefDiffScore +Heuristique.HcoupPossible(config,this.iajoueur)*coefNBCoup
+            + /*Heuristique.montecarlo(config,this.iajoueur,2)*coefMonteCarlo*/ -Heuristique.HcoupPossibleAdv(config,this.iajoueur)*coefNBCoupAdv
+           -Heuristique.HnbCaseAccessibleAdv(config,this.iajoueur)*coefCaseAccAdv;
+            return value;
 
         }if(fils.size()==0){
             return minimaxPhase2(config,profo,max-1);
