@@ -47,23 +47,6 @@ public class Pause extends JPanel {
     }
 
     private void setPause(){
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        add(titrePause, gbc);
-        gbc.gridy = 1;
-        add(reprendre, gbc);
-        gbc.gridy = 2;
-        add(recommencer, gbc);
-        gbc.gridy = 3;
-        add(sauvegarder, gbc);
-        gbc.gridy = 4;
-        add(chargerPartie, gbc);
-        gbc.gridy = 5;
-        add(regles, gbc);
-        gbc.gridy = 6;
-        add(quitter, gbc);
-
         reprendre.setContentAreaFilled(false);
         recommencer.setContentAreaFilled(false);
         sauvegarder.setContentAreaFilled(false);
@@ -77,6 +60,29 @@ public class Pause extends JPanel {
         regles.setBorderPainted(false);
         quitter.setBorderPainted(false);
         chargerPartie.setBorderPainted(false);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridy = 0;
+        gbc.gridx = 0;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.CENTER;
+        add(titrePause, gbc);
+        gbc.weighty = 0;
+        gbc.gridy = 1;
+        add(reprendre, gbc);
+        gbc.gridy = 2;
+        add(recommencer, gbc);
+        gbc.gridy = 3;
+        add(sauvegarder, gbc);
+        gbc.gridy = 4;
+        add(chargerPartie, gbc);
+        gbc.gridy = 5;
+        add(regles, gbc);
+        gbc.gridy = 6;
+        add(quitter, gbc);
+
+
 
 
 
@@ -145,7 +151,7 @@ public class Pause extends JPanel {
     }
 
     public Image reSize(Image img){
-        return img.getScaledInstance((int)(getWidth()*0.9), (int)(getHeight()*0.15) ,Image.SCALE_SMOOTH);
+        return img.getScaledInstance((int)(getWidth()*0.9), (int)(getHeight()*0.12) ,Image.SCALE_SMOOTH);
     }
 
 }

@@ -2,20 +2,16 @@ package Interface;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import Controleur.Controleur;
+
+import Interface.SelElm.IconeSelection;
 import Model.Jeu;
 import Model.Joueur;
 import Joueur.*;
 import Vue.CollecteurEvenements;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 
@@ -28,21 +24,37 @@ public class Selection extends JPanel {
     private JButton sauvegarde;
     private JButton valide;
     private Image flecheRetour;
+    private Image lancer;
+    private Image defaut;
     private IconeSelection listJoueur[];
 
     public Selection(CollecteurEvenements ctrl){
 
         this.c = ctrl;
         retour = new JButton();
-        sauvegarde = new JButton("<html>Sauvegarder comme<br>option par défaut<br>(Partie rapide)</html>");
-        valide = new JButton("<html> Lancer la Partie</html>");
+
+        sauvegarde = new JButton();
+        valide = new JButton();
+
+
         try{
             flecheRetour = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheRetour.png"));
+            lancer = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonLancerPartie.png"));
+            defaut = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonChoixDefaut.png"));
         }catch(Exception e){
             System.out.println("une erreur " + e);
         }
         listJoueur = new IconeSelection[4];
         setSelection();
+
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                sauvegarde.setIcon(new ImageIcon(reScale(sauvegarde.getSize(), defaut)));
+                valide.setIcon(new ImageIcon(reScale(valide.getSize(), lancer)));
+            }
+        });
 
     }
 
@@ -61,6 +73,12 @@ public class Selection extends JPanel {
         retour.setContentAreaFilled(false);
         retour.setPreferredSize(new Dimension(100, 52));
 
+        valide.setBorderPainted(false);
+        valide.setContentAreaFilled(false);
+
+        sauvegarde.setBorderPainted(false);
+        sauvegarde.setContentAreaFilled(false);
+
         this.setLayout(new GridBagLayout());
         this.setBackground(GameConstants.BACKGROUND_COLOR);
         //Dessin des hexagones
@@ -72,10 +90,10 @@ public class Selection extends JPanel {
 
         gbc.fill = GridBagConstraints.BOTH;
 
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridheight = 1;
-        gbc.gridwidth = 2;
+        gbc.gridwidth = 3;
         gbc.weightx = 2;
         JLabel j = new JLabel("Selection des Joueurs", SwingConstants.CENTER);
         j.setFont(new Font("Helvetica", Font.BOLD, 50));
@@ -84,35 +102,33 @@ public class Selection extends JPanel {
 
 
         gbc.gridheight = 1;
-        gbc.gridwidth =1;
+        gbc.gridwidth =3;
 
         gbc.gridx = 0;
         gbc.gridy = 4;
 
 
-        gbc.weightx = 1;
+        gbc.weightx = 2;
         gbc.weighty = 3;
 
         IconeSelection p1 = new IconeSelection(GameConstants.BLEU, 100, false);
-        this.add(p1, gbc);
 
-        gbc.gridx = 1;
         IconeSelection p2 = new IconeSelection(GameConstants.ROUGE, 100, false);
-        this.add(p2, gbc);
 
-        gbc.gridx = 2;
         IconeSelection p3 = new IconeSelection(GameConstants.VERT, 100, true);
-        this.add(p3, gbc);
 
-        gbc.gridx = 3;
         IconeSelection p4 = new IconeSelection(GameConstants.JAUNE, 100, true);
-        this.add(p4, gbc);
 
 
         listJoueur[0] = p1;
         listJoueur[1] = p2;
         listJoueur[2] = p3;
         listJoueur[3] = p4;
+        JPanel pane = new JPanel(new GridLayout(1, 4));
+        for(int i =0; i < 4; i++){
+            pane.add(listJoueur[i]);
+        }
+        add(pane, gbc);
 
 
 
@@ -122,7 +138,7 @@ public class Selection extends JPanel {
         gbc.gridwidth = 1;
 
         gbc.gridy = 5;
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.weighty = 1;
         this.add(sauvegarde, gbc);
         sauvegarde.setBackground(new Color(0x7292A4));
@@ -131,6 +147,10 @@ public class Selection extends JPanel {
         this.add(valide, gbc);
         valide.setBackground(new Color(0x155D85));
         valide.setForeground(Color.WHITE);
+
+        for(int i =0; i < 4; i++){
+            listJoueur[i].repaint();
+        }
 
 
         //Action sur les boutons
@@ -205,6 +225,15 @@ public class Selection extends JPanel {
             }
         }
         return arj;
+    }
+
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        for(int i = 0; i < listJoueur.length; i++){
+            if(!listJoueur[i].isActif()){
+
+            }
+        }
     }
 }
 

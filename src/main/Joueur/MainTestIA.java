@@ -32,11 +32,11 @@ public class MainTestIA{
         Position pos;
 
         while ( i < nbPartie){
-            Jeu j = new Jeu(nbJ);
+            Jeu j = new Jeu((char)nbJ);
             ArrayList<IAJoueur> ialist = new ArrayList<IAJoueur>();
 
 
-            ialist.add(new IAFacile(j));
+            ialist.add(new IAMinimax(j));
             ialist.add(new IAMoyen(j));
 
             while(!j.pingouinTousPlace()){
@@ -53,6 +53,7 @@ public class MainTestIA{
                     cp= ialist.get(k).elaboreCoup();
                     if(cp != null){
                         j.joue(cp);
+                        System.out.println("Joueur " +(k+1) + " joue");
                     }
                     k++;
                 }
