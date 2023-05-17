@@ -36,13 +36,8 @@ public class MainTestIA{
             ArrayList<IAJoueur> ialist = new ArrayList<IAJoueur>();
 
 
-<<<<<<< HEAD
-            ialist.add(new IADifficile(j));
-            ialist.add(new IAExpert(j));
-=======
             ialist.add(new IAMinimax(j));
             ialist.add(new IAMoyen(j));
->>>>>>> cac8734f57872e9abbb94d6cc3589d7eb74aea44
 
             while(!j.pingouinTousPlace()){
                 k=0;
