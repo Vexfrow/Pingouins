@@ -1,7 +1,7 @@
 package Vue;
 
 import Interface.Fenetre;
-import Interface.GameBoard;
+import Interface.GameBoard.GameBoard;
 import Model.Jeu;
 import Model.Joueur;
 import Joueur.IAJoueur;
@@ -42,4 +42,5 @@ public interface CollecteurEvenements {
     void save(String s);
 
     Jeu getJeu();
+
 }

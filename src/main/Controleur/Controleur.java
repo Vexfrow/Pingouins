@@ -3,9 +3,8 @@ package Controleur;
 import Interface.GameConstants;
 import Interface.MenuP;
 import Interface.Fenetre;
-import Interface.GameBoard;
+import Interface.GameBoard.GameBoard;
 import Joueur.IAJoueur;
-import Joueur.IATroisPoissons;
 import Model.*;
 import Vue.AdaptateurSourisPlateau;
 import Vue.CollecteurEvenements;
@@ -19,6 +18,9 @@ public class Controleur implements CollecteurEvenements {
     private GameBoard plateauJeu;
     private Jeu jeu;
 
+    private AdaptateurSourisPlateau cliqueBq;
+
+
     private ArrayList<IAJoueur> listeIA;
 
     public Controleur(){
@@ -26,6 +28,9 @@ public class Controleur implements CollecteurEvenements {
         window = null;
         plateauJeu = null;
         listeIA = new ArrayList<>();
+
+
+        cliqueBq = null;
 
     }
 
@@ -49,7 +54,7 @@ public class Controleur implements CollecteurEvenements {
         if(change){
             this.window.workingPane.toggleBackingPane();
             this.window.getGameBoard().toggleButton();
-
+            toogleClique();
         }
 
     }
@@ -60,6 +65,7 @@ public class Controleur implements CollecteurEvenements {
         if(change){
             this.window.workingPane.toggleBackingPane();
             this.window.getGameBoard().toggleButton();
+            toogleClique();
 
         }
 
@@ -78,6 +84,7 @@ public class Controleur implements CollecteurEvenements {
         if(change){
             this.window.workingPane.toggleBackingPane();
             this.plateauJeu.activateButton();
+            toogleClique();
         }
     }
 
@@ -115,7 +122,17 @@ public class Controleur implements CollecteurEvenements {
 
     public void setPlateauJeu(GameBoard gb){
         plateauJeu = gb;
-        plateauJeu.getBq().addMouseListener(new AdaptateurSourisPlateau(plateauJeu.getBq(), this));
+        cliqueBq = new AdaptateurSourisPlateau(plateauJeu.getBq(), this);
+        toogleClique();
+    }
+
+    private void toogleClique(){
+        if(plateauJeu.getBq().getMouseListeners().length == 0)
+            plateauJeu.getBq().addMouseListener(cliqueBq);
+        else
+            plateauJeu.getBq().removeMouseListener(cliqueBq);
+
+        System.out.println("Change");
     }
 
 
@@ -124,7 +141,6 @@ public class Controleur implements CollecteurEvenements {
         plateauJeu.misAJour(jeu);
         listeIA = ar;
         this.window.setGameBoard(plateauJeu);
-        System.out.println("first");
         joueCoup();
 
 

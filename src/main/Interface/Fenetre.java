@@ -3,17 +3,14 @@ package Interface;
 import javax.swing.*;
 
 import Controleur.Controleur;
-import Interface.MenuP;
+import Interface.GameBoard.GameBoard;
 import Model.Jeu;
 import Model.Joueur;
-import Vue.AdaptateurSourisPlateau;
-import Vue.BanquiseGraphique;
 import Vue.CollecteurEvenements;
 
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public class Fenetre implements Runnable {
