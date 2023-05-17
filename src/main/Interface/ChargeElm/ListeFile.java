@@ -10,6 +10,8 @@ import javax.swing.border.CompoundBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.FileInputStream;
 
@@ -74,10 +76,10 @@ public class ListeFile extends JPanel {
         setLayout(new GridBagLayout());
         setBackground(GameConstants.BACKGROUND_COLOR);
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.gridy = 0;
         add(flecheHaut, gbc);
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.gridy = 6;
         add(flecheBas, gbc);
 
@@ -103,8 +105,9 @@ public class ListeFile extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 resetBorder();
-                majListe(true);
+                majListe(false);
                 majFleche();
+                scaleAll();
             }
         });
 
@@ -112,26 +115,44 @@ public class ListeFile extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 resetBorder();
-                majListe(false);
+                majListe(true);
                 majFleche();
+                scaleAll();
             }
         });
 
-        for(int i =0; i < 5; i++){
+        for(int i =0; i < affichage.length; i++){
             JButton b = affichage[i];
-            b.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    panel.changePreview(b.getText());
-                    resetBorder();
-                    current = b.getText();
-                    b.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
-                    b.setBorderPainted(!b.isBorderPainted());
-                }
-            });
+            if(i < listeFichier.length){
+                b.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        panel.changePreview(b.getText());
+                        resetBorder();
+                        current = b.getText();
+                        b.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
+                        b.setBorderPainted(!b.isBorderPainted());
+                    }
+                });
+            }
+
         }
-        affichage[0].setBorder(BorderFactory.createLineBorder(Color.YELLOW));
-        current = affichage[0].getText();
+        //affichage[0].setBorder(BorderFactory.createLineBorder(Color.YELLOW));
+        //current = affichage[0].getText();
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                scaleAll();
+            }
+        });
+    }
+
+    public void scaleAll(){
+        flecheHaut.setIcon(new ImageIcon(reScale(up, 0.08, 0.1)));
+        flecheHaut.setDisabledIcon(new ImageIcon(reScale(upVide, 0.08, 0.1)));
+        flecheBas.setIcon(new ImageIcon(reScale(down, 0.08, 0.1)));
+        flecheBas.setDisabledIcon(new ImageIcon(reScale(downVide, 0.08, 0.1)));
     }
 
 
@@ -161,13 +182,13 @@ public class ListeFile extends JPanel {
     }
 
     public void majFleche(){
-        if(isTop()){
+        if(isBottom()){
             flecheBas.setEnabled(false);
         }else{
             flecheBas.setIcon(new ImageIcon(down));
             flecheBas.setEnabled(true);
         }
-        if(isBottom()){
+        if(isTop()){
             flecheHaut.setEnabled(false);
         }else{
             flecheHaut.setIcon(new ImageIcon(up));
@@ -206,6 +227,9 @@ public class ListeFile extends JPanel {
         return (sommet+5) >= listeFichier.length;
     }
 
+    public Image reScale(Image img, double coefX, double coefY){
+        return img.getScaledInstance((int)(getWidth()*coefX), (int)(getHeight()*coefY), Image.SCALE_REPLICATE);
+    }
 
     @Override
     public void paintComponent(Graphics g){

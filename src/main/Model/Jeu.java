@@ -134,7 +134,7 @@ public class Jeu{
             }
 
             terrainInitiale = clonerTerrain(terrainCourant);
-            
+            etat = ETAT_PLACEMENTP;
             // recupere tous les coups à jouer
             System.out.println("Liste Coup");
             while ((line = bufferedReader.readLine()) != null && (!line.equals("b"))) {

@@ -83,7 +83,6 @@ public class Controleur implements CollecteurEvenements {
         this.window.workingPane.switchBackPane(4);
         if(change){
             this.window.workingPane.toggleBackingPane();
-
             this.plateauJeu.activateButton();
             toogleClique();
         }
@@ -132,6 +131,8 @@ public class Controleur implements CollecteurEvenements {
             plateauJeu.getBq().addMouseListener(cliqueBq);
         else
             plateauJeu.getBq().removeMouseListener(cliqueBq);
+
+        System.out.println("Change");
     }
 
 

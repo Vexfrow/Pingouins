@@ -19,7 +19,16 @@ public class Preview extends JPanel {
         setBackground(GameConstants.BACKGROUND_COLOR);
         setLayout(new GridBagLayout());
         visuel = new JLabel("Choisissez une partie");
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                if(screen != null){
+                    visuel.setIcon(new ImageIcon(reScale(screen)));
+                }
 
+            }
+        });
 
 
     }
@@ -37,6 +46,7 @@ public class Preview extends JPanel {
         String line = "0";
         int nbJoueur = 0;
         int scores[];
+        int cases[];
         int types[];
         try {
             line = bufferedReader.readLine();
@@ -45,12 +55,13 @@ public class Preview extends JPanel {
             bufferedReader.readLine(); //irrelevant
             scores = new int[nbJoueur];
             types = new int[nbJoueur];
+            cases = new int[nbJoueur];
 
             for(int i =0; i < nbJoueur; i++){
                 scores[i] = Integer.parseInt(bufferedReader.readLine());
             }
             for(int i =0; i < nbJoueur; i++){
-                bufferedReader.readLine();
+                cases[i] = Integer.parseInt(bufferedReader.readLine());
             }
             for(int i =0; i < nbJoueur; i++){
                 types[i] = Integer.parseInt(bufferedReader.readLine());
@@ -70,19 +81,19 @@ public class Preview extends JPanel {
         for(int i = 0; i < nbJoueur; i++){
             players[i] = new JLabel(""+ i);
             players[i].setOpaque(true);
-            players[i].setFont(new Font("Arial", Font.BOLD, 15 ));
+            players[i].setFont(new Font("Arial", Font.BOLD, 20 ));
             switch (i){
                 case 0:
-                    players[i].setBackground(GameConstants.BLEU);
+                    players[i].setBackground(GameConstants.BLEU_CLAIR);
                     break;
                 case 1:
-                    players[i].setBackground(GameConstants.ROUGE);
+                    players[i].setBackground(GameConstants.ROUGE_CLAIR);
                     break;
                 case 2:
-                    players[i].setBackground(GameConstants.VERT);
+                    players[i].setBackground(GameConstants.JAUNE_CLAIR);
                     break;
                 case 3:
-                    players[i].setBackground(GameConstants.JAUNE);
+                    players[i].setBackground(GameConstants.VERT_CLAIR);
                     break;
 
             }
@@ -101,7 +112,7 @@ public class Preview extends JPanel {
                     categories = "IA Difficile :";
                     break;
             }
-            categories += " Score = " + scores[i];
+            categories += " Score = " + scores[i] + " Cases = " + cases[i];
             players[i].setText(categories);
             add(players[i], gbc);
             gbc.gridy++;
@@ -121,19 +132,12 @@ public class Preview extends JPanel {
         gbc.weighty = 2;
         gbc.weightx = 1;
         add(visuel, gbc);
-        revalidate();
-        repaint();
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                visuel.setIcon(new ImageIcon(reScale(screen)));
-            }
-        });
+
 
     }
 
     public Image reScale(Image img){
-        return img.getScaledInstance((int)(getWidth()*0.8),(int)(getHeight()*0.6), Image.SCALE_SMOOTH);
+        return img.getScaledInstance((int)(getWidth()*0.8),(int)(getHeight()*0.6), Image.SCALE_AREA_AVERAGING);
     }
 
 

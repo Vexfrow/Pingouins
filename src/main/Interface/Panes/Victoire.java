@@ -214,20 +214,6 @@ public class Victoire extends JPanel{
     }
 
 
-//    private int getGagnant(){
-//        jeu.ga
-//        ArrayList<Joueur> arl = jeu.getListeJoueur();
-//        int jMax = 0;
-//
-//        for(int i = 0; i < arl.size(); i++){
-//            if(i == 0 || arl.get(i).getScore() > arl.get(jMax-1).getScore())
-//                jMax = i+1;
-//        }
-//
-//        return jMax;
-//    }
-
-
     private BufferedImage chargeImage(String nom){
         try {
             InputStream in = new FileInputStream("resources/assets/jeu/victoire/" + nom + ".png");
