@@ -36,8 +36,8 @@ public class MainTestIA{
             ArrayList<IAJoueur> ialist = new ArrayList<IAJoueur>();
 
 
-            ialist.add(new IAFacile(j));
-            ialist.add(new IAMoyen(j));
+            ialist.add(new IADifficile(j));
+            ialist.add(new IAExpert(j));
 
             while(!j.pingouinTousPlace()){
                 k=0;
@@ -58,7 +58,7 @@ public class MainTestIA{
                 }
             }
             i++;
-            tab[j.gagnant()-1]++;
+            tab[j.gagnant().get(0)-1]++;
             System.out.println("j"+j.gagnant()+" gagne");
 
         }

@@ -224,7 +224,8 @@ public class Heuristique{
                 j.joue(cp);
                 }
             i++;
-            tab[j.gagnant()-1]++;
+            System.out.println(j.gagnant().get(0));
+            tab[j.gagnant().get(0)-1]++;
         }
         return (double)tab[joueuria-1];
     }
