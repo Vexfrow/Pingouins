@@ -1,18 +1,10 @@
 package Joueur;
 
 import java.util.*;
-import java.lang.Math;
 import Model.Coup;
 import Model.Jeu;
 import Model.Position;
-import Model.Joueur;
-import Model.Cases;
-import Model.Pingouin;
 import java.util.ArrayList;
-import java.util.Hashtable;
-import Joueur.Heuristique;
-import Joueur.CoupPondere;
-
 
 
 public class IAFacile extends IAJoueur{

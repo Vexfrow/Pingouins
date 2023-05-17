@@ -7,7 +7,6 @@ import Model.Jeu;
 import Model.Position;
 import Model.Cases;
 import Model.Pingouin;
-import Model.Joueur;
 import java.util.ArrayList;
 
 public class IATroisPoissons extends IAJoueur{

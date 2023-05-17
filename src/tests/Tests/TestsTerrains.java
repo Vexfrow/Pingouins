@@ -14,6 +14,7 @@ public class TestsTerrains {
         assert jeu.getNbLigne() == 8: "Nombre de lignes different de 8";
         assert jeu.getNbColonne() == 15: "Nombre de colonnes different de 15";
         assert jeu.getNbCases() == 60: "Nombre de cases different de 60";
+        assert jeu.case1poisson().size() == 30: "Nombre de cases a 1 poisson different de 30";
 
         // Test cloner terrain
         Cases[][] jeuClone = jeu.clonerTerrain(jeu.getTerrain());
@@ -36,6 +37,9 @@ public class TestsTerrains {
         assert (c == jeu.getCase(0, 0));
         jeu.setCase(c, 0, 7);
         assert jeu.getCase(0,7) == null: "Case (0,7) en dehors du terrain";
+        assert jeu.getCase(0, 0).getNbPoissons() == 4: "La case (0,0) a 4 poissons";
+        assert jeu.getCase(0, 0).estMange() == false: "La case (0,0) n'est pas mangee";
+        assert jeu.getCase(0, 0).pingouinPresent() == 0: "Aucun pingouin n'est sur la case (0,0)";
 
 
         // Test sauvegarde
@@ -50,12 +54,6 @@ public class TestsTerrains {
                     assert (jeu.getCase(i,j).pingouinPresent() == jeuSauve.getCase(i,j).pingouinPresent());
                 }
             }
-        }
-        // Test sauvegarde invalide 
-        //jeuSauve = new Jeu("src/test/Terrains/terrainFixeInvalide.txt");
-        //System.out.println(jeuSauve.toString());
-        //assert jeuSauve.getNbCases() != 60;
-        //assert jeuSauve.placePingouin(0, 0) == false: "Terrain inexistant, impossible de placer un pingouin";
-        
+        }        
     }
 }
