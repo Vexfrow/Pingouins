@@ -166,11 +166,14 @@ public class Selection extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("nb P " + numberOfPlayer());
                 ArrayList<Joueur> ar = getJoueur();
-                Jeu j = new Jeu(ar);
-                ArrayList<IAJoueur> arj = getIA(j);
-                c.newGame(j, arj, ar);
-                c.switchGameBoard();
-                c.startGame();
+                if(ar.size() >= 2){
+                    Jeu j = new Jeu(ar);
+                    ArrayList<IAJoueur> arj = getIA(j);
+                    c.newGame(j, arj, ar);
+                    c.switchGameBoard();
+                    c.startGame();
+                }
+
             }
         });
     }
@@ -227,15 +230,6 @@ public class Selection extends JPanel {
             }
         }
         return arj;
-    }
-
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
-        for(int i = 0; i < listJoueur.length; i++){
-            if(!listJoueur[i].isActif()){
-
-            }
-        }
     }
 }
 

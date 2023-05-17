@@ -190,7 +190,6 @@ public class Aide extends JPanel{
     public void majFleche(){
         flecheGauche.setEnabled(!debut());
         flecheDroite.setEnabled(!fin());
-
     }
 
     public void resize(){
@@ -199,7 +198,6 @@ public class Aide extends JPanel{
         flecheGauche.setDisabledIcon(new ImageIcon(reScale(flecheLeftVide, 0.06f, 0.04f)));
         flecheDroite.setDisabledIcon(new ImageIcon(reScale(flecheRightVide, 0.06f, 0.04f)));
         image.setIcon(new ImageIcon(reScale(panels[avancement], 0.6f, 0.5f)));
-
     }
 
     public void setTexts(){
@@ -236,12 +234,6 @@ public class Aide extends JPanel{
         i++;
         indications[i] = "<html>Choisissez votre stratégie et soyez sans pitié!<br> C'est MON poisson!</html>";
         titres[i] = "C'est parti";
-
-
-
-
-
-
     }
 
 
