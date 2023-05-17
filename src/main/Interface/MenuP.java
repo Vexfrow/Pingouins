@@ -152,7 +152,7 @@ public class MenuP extends JPanel {
                 Jeu j = new Jeu(ar);
                 ArrayList<IAJoueur> arj = new ArrayList<IAJoueur>();
                 arj.add(null);
-                arj.add(new IAMinimax(j));
+                arj.add(new IAFacile(j));
 
                 c.newGame(j, arj, ar);
                 c.switchGameBoard();
