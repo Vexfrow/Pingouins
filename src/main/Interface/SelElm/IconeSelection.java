@@ -126,7 +126,8 @@ public class IconeSelection extends JPanel {
         this.add(droite, gbc);
 
         gbc.gridx = 2;
-        gbc.weighty= 1;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         this.add(type, gbc);
 
 
