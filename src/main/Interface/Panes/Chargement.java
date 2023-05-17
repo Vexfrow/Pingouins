@@ -3,9 +3,7 @@ package Interface.Panes;
 import Interface.ChargeElm.ListeFile;
 import Interface.ChargeElm.Preview;
 import Interface.GameConstants;
-import Interface.IconeSelection;
 import Model.Jeu;
-import Model.Joueur;
 import Joueur.*;
 import Vue.CollecteurEvenements;
 
@@ -13,12 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 
@@ -34,6 +27,8 @@ public class Chargement extends JPanel {
     private String fichier;
 
     public Chargement(CollecteurEvenements c){
+        File d = new File("resources/sauvegarde");
+        d.mkdir();
         collecteurEvenements = c;
         setLayout(new GridBagLayout());
         setBackground(GameConstants.BACKGROUND_COLOR);
@@ -112,6 +107,7 @@ public class Chargement extends JPanel {
         collecteurEvenements.setJeu(j, ari);
         collecteurEvenements.switchGameBoard();
     }
+
     public ArrayList<IAJoueur> getIA(Jeu j, String s){
         ArrayList<IAJoueur> ari = new ArrayList<IAJoueur>();
         FileReader reader = null;

@@ -15,80 +15,60 @@ import java.util.Hashtable;
 
 
 public class MainTestIA{
-
+    private static int nbP = 100;
+    private static int nbJ = 2;
 
     public static void main(String[] args){
-        testerIA(100);
+        testerIA(nbP);
     }
 
     public static void testerIA(int nbPartie){
         int i = 0;
-        int winj1 =0;
-        int winj2 =0;
+        int k = 0;
+        int tab[] = new int[4];
         IAJoueur ia1;
         IAJoueur ia2;
         Coup cp;
         Position pos;
 
-
         while ( i < nbPartie){
-            Jeu j = new Jeu(2);
+            Jeu j = new Jeu((char)nbJ);
+            ArrayList<IAJoueur> ialist = new ArrayList<IAJoueur>();
 
-            ia1 = new IATroisPoissons(j);
-            ia2 = new IAMinimax(j);
+
+            ialist.add(new IAMinimax(j));
+            ialist.add(new IAMoyen(j));
 
             while(!j.pingouinTousPlace()){
-
-                pos = ia1.elaborePlacement();
-                 //System.out.println(j);
-                 //System.out.println("position vaut + "+ pos);                
-                j.placePingouin(pos.x, pos.y);
-                
-                pos = ia2.elaborePlacement();
-                 //System.out.println(j);
-                 //System.out.println("position vaut + "+ pos);
-                j.placePingouin(pos.x,pos.y);
-
-
-                //System.out.println("nb pingouin reste pllacer = " + j.getNbPingouinPlace());
-                
-
+                k=0;
+                while(k < ialist.size()){
+                    pos= ialist.get(k).elaborePlacement();
+                    j.placePingouin(pos.x, pos.y);
+                    k++;
+                }
             }
             while(!j.jeuTermine()){
-                cp = ia1.elaboreCoup();
-
-                if(cp == null){
-                }else{
-                    j.joue(cp);
-                    //System.out.println( "j1 JOUE ");
-                    //System.out.println(j);
+                k=0;
+                while(k < ialist.size()){
+                    cp= ialist.get(k).elaboreCoup();
+                    if(cp != null){
+                        j.joue(cp);
+                        System.out.println("Joueur " +(k+1) + " joue");
+                    }
+                    k++;
                 }
-
-
-
-                cp= ia2.elaboreCoup();
-                if(cp == null){
-                }else{
-                    j.joue(cp);
-                    //System.out.println( "j2 JOUE ");
-                    //System.out.println(j);
-                }
-
-
-            }
-
-            if(j.getScore(1) > j.getScore(2)){
-                winj1++;
-                System.out.println( "j1 gagne ");
-            }else if(j.getScore(1) < j.getScore(2)){
-                winj2++;
-                System.out.println( "j2 gagne ");
             }
             i++;
+            tab[j.gagnant()-1]++;
+            System.out.println("j"+j.gagnant()+" gagne");
+
         }
-        System.out.println( "j1 gagne: "+ winj1+ "   j2 gagne: "+ winj2);
-        if((winj1 + winj2) !=0){
-            System.out.println("j1 gagne avec " + (winj1*100)/(winj2 + winj1)+"% de chance" +"\nj2 gagne avec " + (winj2*100)/(winj2 + winj1)+"% de chance");
+        String line = "";
+        k=0;
+        while(k< nbJ){
+            line=line + "j"+(k+1)+" gagne "+tab[k]+ " fois " + (tab[k]*100/nbP) + "%\n";
+            k++;
         }
+        System.out.println(line+ "oui");
     }
 }

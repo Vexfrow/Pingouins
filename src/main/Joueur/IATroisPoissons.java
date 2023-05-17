@@ -28,9 +28,9 @@ public class IATroisPoissons extends IAJoueur{
         Cases caseCourant;
         Position posCourant;
 
-        int nbc;
-        int l = 0;
-        int c = 0;
+        char nbc;
+        char l = 0;
+        char c = 0;
         while( l < terrainCourant.length){
             c = 0;
             if( l%2 == 1){// si ligne impaire
@@ -79,7 +79,7 @@ public class IATroisPoissons extends IAJoueur{
                 while(k < listePos.size()){
                     cases = j.getCase(listePos.get(k).x , listePos.get(k).y);
                     if(cases.getNbPoissons() == nbpoisson){
-                        cp = new Coup(listePos.get(k).x , listePos.get(k).y , listePingouin.get(i), false) ;
+                        cp = new Coup(listePos.get(k).x , listePos.get(k).y , listePingouin.get(i).cloner(), false) ;
                         coupPossible.add(cp);
                     }
                     k++;

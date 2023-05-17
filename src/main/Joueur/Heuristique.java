@@ -113,8 +113,8 @@ public class Heuristique{
                     listePingouinTotal.add(listePingouin.get(i));
                     i++;
                 }
-            k++;
             }
+            k++;
         }
         Hashtable<Integer, Position> vuPos= new Hashtable<Integer, Position>();
         ArrayList<Position> listePos;
@@ -125,7 +125,7 @@ public class Heuristique{
             listePos = config.jeu.getCaseAccessible(listePingouinTotal.get(i).getLigne(),listePingouinTotal.get(i).getColonne());
             j=0;
             while(j < listePos.size()){
-                if(!vuPos.containsKey(listePos.get(j))){
+                if(!vuPos.containsKey(listePos.get(j).hash())){
                     vuPos.put(listePos.get(j).hash(),listePos.get(j));
                     score++;
                 }
@@ -146,95 +146,34 @@ public class Heuristique{
         return scores;
     }
 
-    public static double coller(Configuration config, int joueuria){
-        Joueur joueur1=config.jeu.getListeJoueur().get(joueuria-1);
-        ArrayList<Pingouin> listePingouin1 = joueur1.getListePingouin();
-        int score = 0;
 
-        int i = 0;
-        int j = 0;
-        while(i < listePingouin1.size()){
-            Pingouin ping1 = listePingouin1.get(i);
-            j = 0;
-            while(j < listePingouin1.size()){
-                Pingouin ping2 = listePingouin1.get(j);
-                if(pingouinColler(ping1,ping2)){
-                    score--;
-                }
-                j++;
-            }
-            i++;
-        }
-        return (double)score;
-    }
-
-
-
-    public static boolean pingouinColler(Pingouin ping1, Pingouin ping2){
-        ArrayList<Position> posVoisin= new ArrayList<Position>();
-        int ligne = ping1.getLigne();
-        int colonne = ping1.getColonne();
-        Position position;
-        posVoisin.add(new Position(ligne,colonne+1));
-        posVoisin.add(new Position(ligne,colonne+1));
-        posVoisin.add(new Position(ligne-1,colonne));
-        posVoisin.add(new Position(ligne+1,colonne));
-        if(ligne % 2 == 0){
-            posVoisin.add(new Position(ligne-1,colonne+1));
-            posVoisin.add(new Position(ligne+1,colonne+1));
-
-        }else{
-            posVoisin.add(new Position(ligne-1,colonne-1));
-            posVoisin.add(new Position(ligne+1,colonne-1));
-        }
-        int i = 0;
-        position = posVoisin.get(i);
-        i++;
-        while(i < posVoisin.size() && (ping2.getLigne() != posVoisin.get(i).x || ping2.getColonne() != posVoisin.get(i).y)){
-            i++;
-        }
-        return (i != posVoisin.size());
-
-    }
-
-
-
-
-    public static double montecarlo(Configuration config, int joueuria){
+    public static double montecarlo(Configuration config, int joueuria,int nbPartie){
         int nbJoueur = config.jeu.getNbJoueur();
+        int tab[] = new int[nbJoueur];
         int i = 0;
-        int winj1 =0;
-        int winj2 =0;
         IAJoueur ia1;
-        IAJoueur ia2;
         Coup cp;
         Position pos;
         int k =0;
 
 
-        while ( i < 100){
+        while ( i < nbPartie){
             Jeu j = config.jeu.cloner();
             IAJoueur ia = new IAAleatoire(j);
 
             while(!j.pingouinTousPlace()){
                 pos = ia.elaborePlacement();
+                j.placePingouin(pos.x, pos.y);
+
             }
             while(!j.jeuTermine()){
                 cp = ia.elaboreCoup();
-                if(cp == null){
-                   j.switchJoueur();
-                }else{
-                    j.joue(cp);
+                j.joue(cp);
                 }
-            }
             i++;
+            tab[j.gagnant()-1]++;
         }
-        if(joueuria == 1){
-            return (double)winj1;  
-        }else{
-            return (double)winj2;
-        }
-
+        return (double)tab[joueuria-1];
     }
 
 

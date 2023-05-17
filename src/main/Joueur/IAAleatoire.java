@@ -32,9 +32,10 @@ public class IAAleatoire extends IAJoueur{
         Cases caseCourant;
         Position posCourant;
 
-        int nbc;
-        int l = 0;
-        int c = 0;
+        char nbc;
+        char l = 0;
+        char c = 0;
+        Position pos = null;
         while( l < terrainCourant.length){
             c = 0;
             if( l%2 == 1){// si ligne impaire
@@ -55,7 +56,9 @@ public class IAAleatoire extends IAJoueur{
             l++;
         }
 
-        return posPossible.get(r.nextInt(posPossible.size()));
+        pos = posPossible.get(r.nextInt(posPossible.size()));
+
+        return pos;
     }
     
 
@@ -72,23 +75,29 @@ public class IAAleatoire extends IAJoueur{
         int i = 0;
         int j = 0;
 
+        Coup coupChoix = null;
+
         while( i < listePingouin.size()){
             listePos = null;
             listePos = this.j.getCaseAccessible(listePingouin.get(i).getLigne(),listePingouin.get(i).getColonne());
             j=0;
             while(j < listePos.size()){
-                cp = new Coup(listePos.get(j).x , listePos.get(j).y , listePingouin.get(i), false) ;
+                cp = new Coup(listePos.get(j).x , listePos.get(j).y , listePingouin.get(i).cloner(), false) ;
                 coupPossible.add(cp);
                 j++;
             }
             i++;
 
         }
+
+
         if(coupPossible.size()==0){
-            return null;
+            coupChoix = null;
         }else{
-            return coupPossible.get(r.nextInt(coupPossible.size()));
+            coupChoix = coupPossible.get(r.nextInt(coupPossible.size()));
         }
+  
+        return coupChoix;
     }
 
 }

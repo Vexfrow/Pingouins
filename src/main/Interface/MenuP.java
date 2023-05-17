@@ -22,9 +22,9 @@ public class MenuP extends JPanel {
     private SpringLayout layout;
     private  JLabel menu;
     private CollecteurEvenements c;
+    private boolean icone;
 
     public MenuP(CollecteurEvenements ctrl){
-        super();
         this.c = ctrl;
 
 
@@ -62,19 +62,6 @@ public class MenuP extends JPanel {
         fondMenuS = new ImageIcon(fondMenuI);
         setMenu();
 
-    }
-
-
-
-
-    private Image reScale(Image source, int width, int height){
-        return source.getScaledInstance(width, height, java.awt.Image.SCALE_AREA_AVERAGING);
-    }
-
-    private Image reScale(Image source, float percent){
-        ImageIcon ic = new ImageIcon(source);
-
-        return source.getScaledInstance((int)(ic.getIconWidth()*percent), (int)(ic.getIconHeight()*percent), java.awt.Image.SCALE_AREA_AVERAGING);
     }
 
     private void setMenu(){
@@ -161,11 +148,11 @@ public class MenuP extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Joueur> ar = new ArrayList<Joueur>();
                 ar.add(new Joueur(1,0,0,0));
-                ar.add(new Joueur(2,0,0,1));
+                ar.add(new Joueur(2,0,0,3));
                 Jeu j = new Jeu(ar);
                 ArrayList<IAJoueur> arj = new ArrayList<IAJoueur>();
                 arj.add(null);
-                arj.add(new IAAleatoire(j));
+                arj.add(new IAMinimax(j));
 
                 c.newGame(j, arj, ar);
                 c.switchGameBoard();
@@ -185,23 +172,12 @@ public class MenuP extends JPanel {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
-                titreS = new ImageIcon(reScale(titreI));
-                menu.setIcon(titreS);
-                allScale();
-                revalidate();
-                repaint();
-                regles.setIcon(new ImageIcon(imageOnButton(regles, hintI)));
-                partieRapide.setIcon(new ImageIcon(imageOnButton(partieRapide, partieRapideI)));
-                partiePersonnalisee.setIcon(new ImageIcon(imageOnButton(partiePersonnalisee, partiePersoI)));
-                chargerPartie.setIcon(new ImageIcon(imageOnButton(chargerPartie, chargerPartieI)));
-                tutoriel.setIcon(new ImageIcon(imageOnButton(tutoriel, tutorielI)));
-
+                maj();
             }
 
         });
 
     }
-
 
     public void toggleButtons() {
         chargerPartie.setEnabled(!chargerPartie.isEnabled());
@@ -241,5 +217,23 @@ public class MenuP extends JPanel {
         return img.getScaledInstance(b.getWidth(), b.getHeight(), Image.SCALE_SMOOTH);
     }
     
+
+    public void iconfied(){
+        System.out.println("Iconified");
+        maj();
+    }
+
+    private void maj(){
+        allScale();
+        menu.setIcon(new ImageIcon(reScale(titreI)));
+
+        regles.setIcon(new ImageIcon(imageOnButton(regles, hintI)));
+        partieRapide.setIcon(new ImageIcon(imageOnButton(partieRapide, partieRapideI)));
+        partiePersonnalisee.setIcon(new ImageIcon(imageOnButton(partiePersonnalisee, partiePersoI)));
+        chargerPartie.setIcon(new ImageIcon(imageOnButton(chargerPartie, chargerPartieI)));
+        tutoriel.setIcon(new ImageIcon(imageOnButton(tutoriel, tutorielI)));
+        revalidate();
+        repaint();
+    }
 
 }
