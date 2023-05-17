@@ -7,10 +7,13 @@ import Model.Jeu;
 import Joueur.*;
 import Vue.CollecteurEvenements;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -25,10 +28,16 @@ public class Chargement extends JPanel {
     private JLabel titre;
     private JPanel selection;
     private String fichier;
+    private Image img;
 
     public Chargement(CollecteurEvenements c){
         File d = new File("resources/sauvegarde");
         d.mkdir();
+        try{
+            img = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheRetour.png"));
+        }catch(Exception e){
+            System.err.println(e);
+        }
         collecteurEvenements = c;
         setLayout(new GridBagLayout());
         setBackground(GameConstants.BACKGROUND_COLOR);
@@ -37,11 +46,14 @@ public class Chargement extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         retour = new JButton();
         valider = new JButton("Valider");
-        titre = new JLabel("Chargement de partie");
+        titre = new JLabel("<html><p align=\"center\">Chargement de partie</p></html>");
         selection = new JPanel(new GridLayout(1, 2));
 
         selection.add(lf);
         selection.add(preview);
+
+        retour.setContentAreaFilled(false);
+        retour.setBorderPainted(false);
 
         gbc.gridx =0;
         gbc.gridy = 0;
@@ -72,7 +84,7 @@ public class Chargement extends JPanel {
         gbc.gridy = 3;
         gbc.gridwidth = 2;
         add(valider, gbc);
-
+        retour.setIcon(new ImageIcon(img));
         retour.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -94,6 +106,18 @@ public class Chargement extends JPanel {
         });
         fichier = "";
 
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                retour.setIcon(new ImageIcon(reScale(img, 0.06, 0.05)));
+            }
+        });
+
+    }
+
+    public Image reScale(Image img, double coefX, double coefY){
+        return img.getScaledInstance((int)(getWidth()*coefX), (int)(getHeight()*coefY), Image.SCALE_FAST);
     }
 
     public void changePreview(String s){

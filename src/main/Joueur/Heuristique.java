@@ -1,7 +1,6 @@
 package Joueur;
 
 import java.util.*;
-import java.lang.Math;
 import Model.*;
 
 public class Heuristique{
@@ -99,6 +98,37 @@ public class Heuristique{
         return (score/15);
     }
 
+    public static double HnbPoisson(Configuration config, int joueuria){
+        Joueur joueur1=config.jeu.getListeJoueur().get(joueuria-1);
+        ArrayList<Pingouin> listePingouin = joueur1.getListePingouin();
+        ArrayList<Position> listePos;
+
+        int joueurCourant = (joueuria % config.jeu.getNbJoueur()) + 1;  
+        Joueur joueur2=config.jeu.getListeJoueur().get(joueurCourant-1);
+        ArrayList<Pingouin> listePingouin2 = config.jeu.getListeJoueur().get(joueurCourant-1).getListePingouin();
+
+
+        Hashtable<Integer, Position> vuPos= new Hashtable<Integer, Position>();
+        double score=0;
+        int j = 0;
+        int i = 0;
+        while( i < listePingouin.size()){
+            listePos = config.jeu.getCaseAccessible(listePingouin.get(i).getLigne(),listePingouin.get(i).getColonne());
+            j=0;
+            while(j < listePos.size()){
+                if(!vuPos.containsKey(listePos.get(j))){
+                    vuPos.put(listePos.get(j).hash(),listePos.get(j));
+                    score+=config.jeu.getCase(listePos.get(j).x,listePos.get(j).y).getNbPoissons();
+                }
+                j++;
+            }
+            i++;
+        }
+        return (double)score;
+    }
+
+
+
     public static double HnbCaseAccessibleAdv(Configuration config, int joueuria){
         int nbjoueur = config.jeu.getNbJoueur();
         ArrayList<Pingouin> listePingouinTotal = new ArrayList<Pingouin>();
@@ -177,7 +207,7 @@ public class Heuristique{
                 j.joue(cp);
                 }
             i++;
-            tab[j.gagnant()-1]++;
+            tab[j.gagnant().get(0)-1]++;
         }
         return (double)tab[joueuria-1];
     }

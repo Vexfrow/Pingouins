@@ -4,7 +4,6 @@ import java.util.Random;
 import Model.Coup;
 import Model.Jeu;
 import Model.Position;
-import Model.Joueur;
 import Model.Cases;
 import Model.Pingouin;
 import java.util.ArrayList;
@@ -65,7 +64,6 @@ public class IAAleatoire extends IAJoueur{
 
     @Override
     public Coup elaboreCoup(){
-        Joueur joueur2= this.j.getListeJoueur().get(this.j.getJoueurCourant()-1);
         Random r = new Random();
         ArrayList<Coup> coupPossible = new ArrayList<Coup>();
         int joueurCourant = this.j.getJoueurCourant()-1;

@@ -2,16 +2,8 @@ package Joueur;
 
 import Model.Coup;
 import Model.Jeu;
-import Model.Jeu;
 import Model.Position;
-import Model.Cases;
-import Model.Pingouin;
 import java.util.ArrayList;
-
-import Joueur.IAAleatoire;
-import Joueur.IAJoueur;
-import java.util.Enumeration;
-import java.util.Hashtable;
 
 
 public class MainTestIA{
@@ -59,7 +51,7 @@ public class MainTestIA{
                 }
             }
             i++;
-            tab[j.gagnant()-1]++;
+            tab[j.gagnant().get(0)-1]++;
             System.out.println("j"+j.gagnant()+" gagne");
 
         }

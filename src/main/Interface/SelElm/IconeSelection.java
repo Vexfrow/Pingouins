@@ -41,6 +41,7 @@ public class IconeSelection extends JPanel {
     private Image ajout;
     private Image supp;
     private JLabel icon;
+    private Icone centre;
 
 
 
@@ -56,6 +57,7 @@ public class IconeSelection extends JPanel {
         int y = GameConstants.JAUNE.getRGB();
         this.size = size;
         this.rotation = 1;
+        this.centre = new Icone();
 
         try{
             if(this.color.getRGB() == r){
@@ -103,34 +105,42 @@ public class IconeSelection extends JPanel {
         empty.setOpaque(false);
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(size, 0, size, 0);
-
-        //add(empty,gbc);
-
         gbc.gridy = 0;
-        gbc.gridx = 3;
+        gbc.gridx = 2;
         gbc.gridwidth = 1;
+        gbc.weighty = 0.3;
         this.add(minus, gbc);
         gbc.gridy = 1;
-        gbc.gridx = 2;
-        gbc.gridwidth = 1;
-        this.add(plus, gbc);
-
-
-        gbc.insets = new Insets(size, 0, size, 0);
-        gbc.gridy = 3;
         gbc.gridx = 1;
-        this.add(gauche, gbc);
+        gbc.gridwidth = 1;
+        gbc.weighty = 1;
+        gbc.weightx = 1;
+        this.add(plus, gbc);
+        gbc.gridx = 0;
+        gbc.gridwidth = 3;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weighty = 1;
+        gbc.weightx = 1;
+        this.add(centre,gbc);
 
-        gbc.gridx = 3;
+
+
+        gbc.gridwidth = 1;
+        gbc.gridy = 3;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.weightx = 0.1;
+        gbc.insets = new Insets(0, 20, 0, 0);
+        this.add(gauche, gbc);
+        gbc.insets = new Insets(0, 0, 0, 20);
+        gbc.gridx = 2;
         this.add(droite, gbc);
 
-        gbc.gridx = 2;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.gridx = 1;
         gbc.weighty = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 0.4;
         this.add(type, gbc);
-
-
 
 
         if(notInit){
@@ -169,6 +179,8 @@ public class IconeSelection extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 selection();
+                revalidate();
+                repaint();
             }
         });
 
@@ -178,42 +190,27 @@ public class IconeSelection extends JPanel {
                 selection();
             }
         });
-
-
     }
 
-    public IconeSelection(Color color, int size, boolean notInit, Dimension dim){
-        this(color, size,notInit);
-        setPreferredSize(dim);
-    }
 
 
     public void paintComponent(Graphics g){
-        super.paintComponent(g);
-        type.setPreferredSize(new Dimension((int)(getWidth()*0.23), (int)(getHeight()*0.06)));
-        gauche.setPreferredSize(new Dimension((int)(getWidth()*0.12),(int)(getHeight()*0.06)));
-        droite.setPreferredSize(new Dimension((int)(getWidth()*0.12), (int)(getHeight()*0.06)));
 
+        type.setPreferredSize(new Dimension((int)(getWidth()*0.20), (int)(getHeight()*0.09)));
+        type.revalidate();
+        gauche.setPreferredSize(new Dimension((int)(getWidth()*0.1),(int)(getHeight()*0.09)));
+        droite.setPreferredSize(new Dimension((int)(getWidth()*0.1), (int)(getHeight()*0.09)));
         type.setBackground(Color.WHITE);
-
         Polygon p = new Polygon();
-        //Dessin du polygone
         Dimension taille = getSize();
         System.out.println(taille);
         this.coorX = taille.width/2;
         this.coorY = taille.height/2 ;
-
-        double angle_deg;
-        double angle_rad;
-        for (int i = 0; i < 6; i++) {
-            angle_deg = 60 * i +30;
-            angle_rad = ((Math.PI / 180) * angle_deg);
-            p.addPoint((int) (coorX + size*Math.cos(angle_rad)), (int)(coorY + size * Math.sin(angle_rad)) );
-        }
-        g.setColor(this.color);
-        g.fillPolygon(p);
-
-        g.drawRect(0,0, this.getWidth(), this.getHeight());
+        this.size = getHeight()/6;
+        System.out.println("Taille selection = " + size );
+        centre.setSize(size);
+        centre.setColor(color);
+        super.paintComponent(g);
     }
 
 
