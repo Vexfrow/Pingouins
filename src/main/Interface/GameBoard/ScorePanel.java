@@ -1,15 +1,13 @@
-package Interface;
+package Interface.GameBoard;
 
+import Interface.GameConstants;
 import Model.Jeu;
 import Model.Joueur;
-import Vue.Hexagone;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -64,16 +62,6 @@ public class ScorePanel extends JPanel {
 
     public void createPanel(Joueur joueur){
 
-        ImageIcon iiP = new ImageIcon(poisson);
-        Image image = iiP.getImage();
-        Image newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
-        iiP = new ImageIcon(newimg);
-
-        ImageIcon iiH = new ImageIcon(hexagone);
-        image = iiH.getImage();
-        newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
-        iiH = new ImageIcon(newimg);
-
         //Panel de base pour chaque score
         this.setLayout(new GridBagLayout());
         this.setBorder(new LineBorder(Color.BLACK));
@@ -91,7 +79,7 @@ public class ScorePanel extends JPanel {
         scorePoisson = new JLabel(String.valueOf(joueur.getScore()));
         panelScorePoisson.add(scorePoisson);
 
-        JLabel jlP = new JLabel(iiP);
+        ImagePanel jlP = new ImagePanel(poisson);
         panelScorePoisson.add(jlP);
 
         panelScores.add(panelScorePoisson);
@@ -103,7 +91,7 @@ public class ScorePanel extends JPanel {
         scoreHexagone = new JLabel(String.valueOf(joueur.getNbCasesMange()));
         panelScoreHexagone.add(scoreHexagone);
 
-        JLabel jlH = new JLabel(iiH);
+        ImagePanel jlH = new ImagePanel(hexagone);
         panelScoreHexagone.add(jlH);
 
         panelScores.add(panelScoreHexagone);
@@ -161,13 +149,8 @@ public class ScorePanel extends JPanel {
         float hauteur = panelScorePoisson.getSize().height;
 
         sizeImage = (int) Math.min(largeur, hauteur);
+
     }
 
-
-//    public void paintComponent(Graphics g) {
-//        majSize();
-//        panelScorePoisson.getGraphics().drawImage(poisson, 0,0, null);
-//        panelScoreHexagone.getGraphics().drawImage(hexagone, 0,0, null);
-//    }
 
 }

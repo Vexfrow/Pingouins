@@ -1,4 +1,4 @@
-package Interface;
+package Interface.GameBoard;
 
 import Model.Jeu;
 import Vue.BanquiseGraphique;
@@ -9,7 +9,6 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.Console;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -35,6 +34,7 @@ public class GameBoard extends JPanel {
     private final ArrayList<ScorePanel> listeScorePanel;
 
     public GameBoard(Jeu j, CollecteurEvenements c){
+
         bq = new BanquiseGraphique(j);
         gamePanel = new JPanel();
         menuGame = new JPanel();
@@ -258,7 +258,9 @@ public class GameBoard extends JPanel {
         GridBagConstraints c = new GridBagConstraints();
 
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
+            //PlacementPanel s = new PlacementPanel(jeu,jeu.getListeJoueur().get(i));
             ScorePanel s = new ScorePanel(jeu,jeu.getListeJoueur().get(i));
+            s.setBorder(new LineBorder(Color.BLUE));
             listeScorePanel.add(s);
 
             c.gridx = 0;
@@ -268,7 +270,6 @@ public class GameBoard extends JPanel {
             c.weighty = 75;
             menuGame.add(s, c);
         }
-
     }
 
 
@@ -312,9 +313,25 @@ public class GameBoard extends JPanel {
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
     public BanquiseGraphique getBq(){
         return bq;
     }
+
+
+
+
 
     public void toggleButton(){
         bPause.setEnabled(!bPause.isEnabled());
@@ -323,6 +340,8 @@ public class GameBoard extends JPanel {
         bAnnuler.setEnabled(!bAnnuler.isEnabled());
         bHistorique.setEnabled(!bHistorique.isEnabled());
     }
+
+
 
     public void activateButton(){
         bPause.setEnabled(true);

@@ -151,7 +151,7 @@ public class Pause extends JPanel {
     }
 
     public Image reSize(Image img){
-        return img.getScaledInstance((int)(getWidth()*0.9), (int)(getHeight()*0.12) ,Image.SCALE_SMOOTH);
+        return img.getScaledInstance((int)(getWidth()*0.8), (int)(getHeight()*0.14) ,Image.SCALE_SMOOTH);
     }
 
 }

@@ -17,8 +17,8 @@ public class MenuP extends JPanel {
     private JButton chargerPartie;
     private JButton tutoriel;
     private JButton regles;
-    private Image titreI, hintI, partieRapideI, partiePersoI, chargerPartieI, tutorielI, fondMenuI;
-    private ImageIcon titreS, hintS, partieRapideS, partiePersoS, chargerPartieS, tutorielS, fondMenuS;
+    private Image titreI, hintI, partieRapideI, partiePersoI, chargerPartieI, tutorielI, fond;
+    private ImageIcon titreS, hintS, partieRapideS, partiePersoS, chargerPartieS, tutorielS;
     private SpringLayout layout;
     private  JLabel menu;
     private CollecteurEvenements c;
@@ -26,17 +26,15 @@ public class MenuP extends JPanel {
 
     public MenuP(CollecteurEvenements ctrl){
         this.c = ctrl;
-
-
         //Création des éléments
         try{
-            titreI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/Titre.png"));
-            hintI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonRegles.png"));
-            partieRapideI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonPartieRapide.png"));
-            partiePersoI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonPartiePerso.png"));
-            chargerPartieI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonChargerPartie.png"));
-            tutorielI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonTuto.png"));
-            fondMenuI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/fondMenu.png"));
+            fond = ImageIO.read(new FileInputStream("resources/assets/menu/fondMenu.png"));
+            titreI = ImageIO.read(new FileInputStream("resources/assets/menu/Titre.png"));
+            hintI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonRegles.png"));
+            partieRapideI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonPartieRapide.png"));
+            partiePersoI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonPartiePerso.png"));
+            chargerPartieI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonChargerPartie.png"));
+            tutorielI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonTuto.png"));
         }catch(Exception e){
             System.out.println("une erreur " + e);
         }
@@ -59,12 +57,14 @@ public class MenuP extends JPanel {
         partiePersoS = new ImageIcon(partiePersoI);
         chargerPartieS = new ImageIcon(chargerPartieI);
         tutorielS = new ImageIcon(tutorielI);
-        fondMenuS = new ImageIcon(fondMenuI);
         setMenu();
+
+
 
     }
 
     private void setMenu(){
+
         //Button
         partiePersonnalisee.setBorderPainted(false);
         chargerPartie.setBorderPainted(false);
@@ -74,14 +74,6 @@ public class MenuP extends JPanel {
         regles.setContentAreaFilled(false);
 
 
-        //Colorization
-        Color reglesColor = new Color(0xFDCF76);
-        Color partieRapideColor = new Color(0x155D85);
-        Color partiPersonnaliseeColor = new Color(0x2678A7);
-        Color chargerPartieColor = new Color(0x4D88A9);
-        Color tutorielColor = new Color(0x7292A4);
-
-        this.setBackground(GameConstants.BACKGROUND_COLOR);
         menu.setIcon(titreS);
 
         partieRapide.setForeground(Color.WHITE);
@@ -172,10 +164,13 @@ public class MenuP extends JPanel {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
+                System.out.println("RESIZE");
                 maj();
+                revalidate();
             }
 
         });
+
 
     }
 
@@ -203,7 +198,7 @@ public class MenuP extends JPanel {
     }
 
     public Dimension scaleButton(int x,int y){
-        return new Dimension((int)(x*0.2), (int)(y * 0.12));
+        return new Dimension((int)(x*0.23), (int)(y * 0.13));
     }
 
     public void allScale(){
@@ -216,7 +211,6 @@ public class MenuP extends JPanel {
     public Image imageOnButton(JButton b, Image img){
         return img.getScaledInstance(b.getWidth(), b.getHeight(), Image.SCALE_SMOOTH);
     }
-    
 
     public void iconfied(){
         System.out.println("Iconified");
@@ -232,8 +226,14 @@ public class MenuP extends JPanel {
         partiePersonnalisee.setIcon(new ImageIcon(imageOnButton(partiePersonnalisee, partiePersoI)));
         chargerPartie.setIcon(new ImageIcon(imageOnButton(chargerPartie, chargerPartieI)));
         tutoriel.setIcon(new ImageIcon(imageOnButton(tutoriel, tutorielI)));
-        revalidate();
-        repaint();
     }
+
+    @Override
+    public void paintComponent(Graphics g){
+        g.drawImage(fond,0, 0,this.getWidth(), this.getHeight(), this);
+        maj();
+    }
+
+
 
 }
