@@ -77,7 +77,6 @@ public class Controleur implements CollecteurEvenements {
         this.window.workingPane.switchBackPane(4);
         if(change){
             this.window.workingPane.toggleBackingPane();
-
             this.plateauJeu.activateButton();
         }
     }
