@@ -17,7 +17,7 @@ public class MenuP extends JPanel {
     private JButton chargerPartie;
     private JButton tutoriel;
     private JButton regles;
-    private Image titreI, hintI, partieRapideI, partiePersoI, chargerPartieI, tutorielI;
+    private Image titreI, hintI, partieRapideI, partiePersoI, chargerPartieI, tutorielI, fond;
     private ImageIcon titreS, hintS, partieRapideS, partiePersoS, chargerPartieS, tutorielS;
     private SpringLayout layout;
     private  JLabel menu;
@@ -28,6 +28,7 @@ public class MenuP extends JPanel {
         this.c = ctrl;
         //Création des éléments
         try{
+            fond = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/fondMenu.png"));
             titreI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/Titre.png"));
             hintI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonRegles.png"));
             partieRapideI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonPartieRapide.png"));
@@ -63,6 +64,7 @@ public class MenuP extends JPanel {
     }
 
     private void setMenu(){
+
         //Button
         partiePersonnalisee.setBorderPainted(false);
         chargerPartie.setBorderPainted(false);
@@ -79,7 +81,7 @@ public class MenuP extends JPanel {
         Color chargerPartieColor = new Color(0x4D88A9);
         Color tutorielColor = new Color(0x7292A4);
 
-        this.setBackground(GameConstants.BACKGROUND_COLOR);
+        //this.setBackground(GameConstants.BACKGROUND_COLOR);
         menu.setIcon(titreS);
 
         partieRapide.setForeground(Color.WHITE);
@@ -170,10 +172,13 @@ public class MenuP extends JPanel {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
+                System.out.println("RESIZE");
                 maj();
+                revalidate();
             }
 
         });
+
 
     }
 
@@ -201,7 +206,7 @@ public class MenuP extends JPanel {
     }
 
     public Dimension scaleButton(int x,int y){
-        return new Dimension((int)(x*0.2), (int)(y * 0.12));
+        return new Dimension((int)(x*0.23), (int)(y * 0.13));
     }
 
     public void allScale(){
@@ -229,8 +234,15 @@ public class MenuP extends JPanel {
         partiePersonnalisee.setIcon(new ImageIcon(imageOnButton(partiePersonnalisee, partiePersoI)));
         chargerPartie.setIcon(new ImageIcon(imageOnButton(chargerPartie, chargerPartieI)));
         tutoriel.setIcon(new ImageIcon(imageOnButton(tutoriel, tutorielI)));
-        revalidate();
-        repaint();
     }
+
+    @Override
+    public void paintComponent(Graphics g){
+        g.drawImage(fond,0, 0,this.getWidth(), this.getHeight(), this);
+        //super.paintComponent(g);
+        maj();
+    }
+
+
 
 }

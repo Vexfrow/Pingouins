@@ -196,9 +196,9 @@ public class Selection extends JPanel {
         for(int i =0; i < 4; i++){
             if(listJoueur[i].isActif()){
                 if(listJoueur[i].getName().equals(IconeSelection.HUMAIN)) {
-                    ar.add(new Joueur(1, 0, 0, 0));
+                    ar.add(new Joueur(i, 0, 0, 0));
                 }else{
-                    ar.add(new Joueur(1, 0, 0, 1));
+                    ar.add(new Joueur(i, 0, 0, 1));
                 }
 
             }
@@ -214,10 +214,12 @@ public class Selection extends JPanel {
                     arj.add(null);
                 }else{
                     if(listJoueur[i].getName().equals(IconeSelection.IA_EASY)){
-                        arj.add(new IATroisPoissons(j));
+                        arj.add(new IAFacile(j));
                     }else if(listJoueur[i].getName().equals(IconeSelection.IA_MEDIUM)){
                         arj.add(new IAMoyen(j));
                     }else if(listJoueur[i].getName().equals(IconeSelection.IA_DIFFICILE)){
+                        arj.add(new IADifficile(j));
+                    }else if(listJoueur[i].getName().equals(IconeSelection.IA_EXPERTE)){
                         arj.add(new IAExpert(j));
                     }
                 }

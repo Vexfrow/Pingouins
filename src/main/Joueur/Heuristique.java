@@ -142,10 +142,11 @@ public class Heuristique{
         Joueur joueur1=config.jeu.getListeJoueur().get(joueuria-1);
         int joueurCourant = (joueuria % config.jeu.getNbJoueur()) + 1;       
         Joueur joueur2= config.jeu.getListeJoueur().get(joueurCourant-1);
-        int scores = joueur1.getScore()-joueur2.getScore()+ (int)Hilot(config,joueuria);
-        if(joueur1.getScore()>50){
+        int tempo = (int)Hilot(config,joueuria);
+        int scores = joueur1.getScore()-joueur2.getScore()+ tempo;
+        if(joueur1.getScore()+ tempo >50){
             return 9999999;
-        }else if(joueur2.getScore()>50){
+        }else if(joueur2.getScore()+tempo >50){
             return -999999;
         }
         return scores;

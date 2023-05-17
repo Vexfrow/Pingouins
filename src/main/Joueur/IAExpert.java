@@ -40,8 +40,8 @@ public class IAExpert extends IAJoueur{
         ArrayList<PositionPondere> listCp = new ArrayList<PositionPondere>();
 
         for(int i = 0; i < fils.size(); i++){
-             PositionPondere cpP = new PositionPondere(fils.get(i).position,Heuristique.HnbCaseAccessible(fils.get(i),this.iajoueur));
-             listCp.add(cpP);
+            PositionPondere cpP = new PositionPondere(fils.get(i).position,Heuristique.HnbCaseAccessible(fils.get(i),this.iajoueur));
+            listCp.add(cpP);
         }  
         Collections.sort(listCp);
         if(listCp.size()>0){

@@ -58,6 +58,7 @@ public class Fenetre implements Runnable {
         jf.addWindowStateListener(new WindowStateListener() {
             public void windowStateChanged(WindowEvent arg0) {
                 menu.iconfied();
+                jf.revalidate();
             }
         });
     }
