@@ -19,6 +19,7 @@ public class Cases {
         this.mange = false;
         this.pingouin=0;
     }
+
         //getters
 
     // Renvoie true si une case a ete mangee
@@ -31,7 +32,8 @@ public class Cases {
         return nbPoissons;
     }
 
-    // Renvoie n si un pingouin se trouve sur la case
+    // Si un pingouin se trouve sur la case, renvoie le numero 
+    // du joueur auquel il appartient
     public int pingouinPresent() {
         return pingouin;
     }
