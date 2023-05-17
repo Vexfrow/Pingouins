@@ -42,4 +42,5 @@ public interface CollecteurEvenements {
     void save(String s);
 
     Jeu getJeu();
+
 }

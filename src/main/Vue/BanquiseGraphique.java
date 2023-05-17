@@ -31,6 +31,7 @@ public class BanquiseGraphique extends JComponent {
     BufferedImage hPingouinB1h, hPingouinB2h, hPingouinB3h;
     BufferedImage hPingouinV1h, hPingouinV2h, hPingouinV3h;
     BufferedImage hPingouinJ1h, hPingouinJ2h, hPingouinJ3h;
+    BufferedImage hPoissonG1, hPoissonG2, hPoissonG3;
 
     TexturePaint paintFont;
 
@@ -102,6 +103,10 @@ public class BanquiseGraphique extends JComponent {
         hPingouinJ1h = chargeImage("contourBrilleJaune1");
         hPingouinJ2h = chargeImage("contourBrilleJaune2");
         hPingouinJ3h = chargeImage("contourBrilleJaune3");
+
+        hPoissonG1 = chargeImage("gris1-2");
+        hPoissonG2 = chargeImage("gris2-2");
+        hPoissonG3 = chargeImage("gris3-2");
 
 
         plateau = new ArrayList<>(60);
@@ -200,15 +205,22 @@ public class BanquiseGraphique extends JComponent {
             Cases c = jeu.getCase(coordHexa.x, coordHexa.y);
             Shape cell = plateau.get(i);
 
-            if(etat == Jeu.ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0){
-               if(jeu.getJoueurCourant() == 1)
-                   bfi = hPoisson1hB;
-               else if(jeu.getJoueurCourant() == 2)
-                   bfi = hPoisson1hR;
-               else if(jeu.getJoueurCourant() == 3)
-                   bfi = hPoisson1hV;
-               else if(jeu.getJoueurCourant() == 4)
-                   bfi = hPoisson1hJ;
+            if(etat == Jeu.ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0) {
+                if (jeu.getJoueurCourant() == 1)
+                    bfi = hPoisson1hB;
+                else if (jeu.getJoueurCourant() == 2)
+                    bfi = hPoisson1hR;
+                else if (jeu.getJoueurCourant() == 3)
+                    bfi = hPoisson1hV;
+                else if (jeu.getJoueurCourant() == 4)
+                    bfi = hPoisson1hJ;
+//            }else if(etat == Jeu.ETAT_PLACEMENTP && (c.getNbPoissons() != 1 || c.pingouinPresent() != 0)){
+//                if(c.getNbPoissons() == 1)
+//                    bfi = hPoissonG1;
+//                else if(c.getNbPoissons() == 2)
+//                    bfi = hPoissonG2;
+//                else if(c.getNbPoissons() == 3)
+//                    bfi = hPoissonG3;
 
             }else if(etat == Jeu.ETAT_CHOIXC && Objects.requireNonNull(listHexagone).contains(coordHexa)){
                 if(jeu.getJoueurCourant() == 1){

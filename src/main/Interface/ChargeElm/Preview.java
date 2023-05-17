@@ -73,16 +73,16 @@ public class Preview extends JPanel {
             players[i].setFont(new Font("Arial", Font.BOLD, 15 ));
             switch (i){
                 case 0:
-                    players[i].setBackground(GameConstants.ROUGE);
-                    break;
-                case 1:
                     players[i].setBackground(GameConstants.BLEU);
                     break;
+                case 1:
+                    players[i].setBackground(GameConstants.ROUGE);
+                    break;
                 case 2:
-                    players[i].setBackground(GameConstants.JAUNE);
+                    players[i].setBackground(GameConstants.VERT);
                     break;
                 case 3:
-                    players[i].setBackground(GameConstants.VERT);
+                    players[i].setBackground(GameConstants.JAUNE);
                     break;
 
             }

@@ -17,8 +17,8 @@ public class MenuP extends JPanel {
     private JButton chargerPartie;
     private JButton tutoriel;
     private JButton regles;
-    private Image titreI, hintI, partieRapideI, partiePersoI, chargerPartieI, tutorielI;
-    private ImageIcon titreS, hintS, partieRapideS, partiePersoS, chargerPartieS, tutorielS;
+    private Image titreI, hintI, partieRapideI, partiePersoI, chargerPartieI, tutorielI, fondMenuI;
+    private ImageIcon titreS, hintS, partieRapideS, partiePersoS, chargerPartieS, tutorielS, fondMenuS;
     private SpringLayout layout;
     private  JLabel menu;
     private CollecteurEvenements c;
@@ -26,6 +26,8 @@ public class MenuP extends JPanel {
     public MenuP(CollecteurEvenements ctrl){
         super();
         this.c = ctrl;
+
+
         //Création des éléments
         try{
             titreI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/Titre.png"));
@@ -34,6 +36,7 @@ public class MenuP extends JPanel {
             partiePersoI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonPartiePerso.png"));
             chargerPartieI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonChargerPartie.png"));
             tutorielI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonTuto.png"));
+            fondMenuI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/fondMenu.png"));
         }catch(Exception e){
             System.out.println("une erreur " + e);
         }
@@ -56,9 +59,8 @@ public class MenuP extends JPanel {
         partiePersoS = new ImageIcon(partiePersoI);
         chargerPartieS = new ImageIcon(chargerPartieI);
         tutorielS = new ImageIcon(tutorielI);
+        fondMenuS = new ImageIcon(fondMenuI);
         setMenu();
-
-
 
     }
 
@@ -238,5 +240,6 @@ public class MenuP extends JPanel {
     public Image imageOnButton(JButton b, Image img){
         return img.getScaledInstance(b.getWidth(), b.getHeight(), Image.SCALE_SMOOTH);
     }
+    
 
 }
