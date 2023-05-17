@@ -30,15 +30,17 @@ public class Victoire extends JPanel{
     BufferedImage pingouinBleu,pingouinRouge, pingouinVert, pingouinJaune;
     BufferedImage hexagone,poisson;
 
+    BufferedImage relancerPartieB,retourMenuB;
 
-    int gagnant;
+
+    ArrayList<Integer> gagnant;
 
     public Victoire(CollecteurEvenements c){
         jeu = c.getJeu();
         controlleur = c;
         this.setLayout(new BorderLayout());
         this.setBackground(GameConstants.BACKGROUND_COLOR);
-        gagnant = getGagnant();
+        gagnant = jeu.gagnant();
 
         pingouinBleuC = chargeImage("pingouinBleuWin");
         pingouinRougeC = chargeImage("pingouinRougeWin");
@@ -50,6 +52,8 @@ public class Victoire extends JPanel{
         pingouinJaune = chargeImage("pingouinJaune");
         poisson = chargeImage("poisson");
         hexagone = chargeImage("hexagone");
+        relancerPartieB = chargeImage("boutonRelancerPartie");
+        retourMenuB = chargeImage("boutonRetourMenu");
 
         setEcranVictoire();
     }
@@ -64,10 +68,11 @@ public class Victoire extends JPanel{
         //-------------message gagnant----------------
         messageVictoire = new Label();
         messageVictoire.setText("Victoire du joueur " + gagnant);
+        messageVictoire.setFont(new Font("Serif", Font.PLAIN, 30));
 
         c.gridy = 0;
         c.gridx = 0;
-        c.gridwidth = 2;
+        c.gridwidth = jeu.getListeJoueur().size();
         c.gridheight = 1;
         c.weighty = 5;
         this.add(messageVictoire, c);
@@ -79,9 +84,20 @@ public class Victoire extends JPanel{
 
 
         panelBoutons = new JPanel();
+        panelBoutons.setBackground(GameConstants.BACKGROUND_COLOR);
         panelBoutons.setLayout(new BoxLayout(panelBoutons, BoxLayout.X_AXIS));
-        relancerPartie = new JButton("Relancer une partie");
-        retourMenu = new JButton("Revenir au menu principal");
+        relancerPartie = new JButton(new ImageIcon(relancerPartieB));
+        retourMenu = new JButton(new ImageIcon(retourMenuB));
+
+
+        relancerPartie.setBorderPainted(false);
+        relancerPartie.setContentAreaFilled(false);
+        relancerPartie.setBackground(Color.CYAN);
+        //relancerPartie.addActionListener(e -> controlleur.togglePause(true));
+
+        retourMenu.setBorderPainted(false);
+        retourMenu.setContentAreaFilled(false);
+        retourMenu.setBackground(Color.CYAN);
         retourMenu.addActionListener(e -> controlleur.switchMenu());
 
 
@@ -90,8 +106,8 @@ public class Victoire extends JPanel{
 
         c.gridy = 2;
         c.gridx = 0;
-        c.gridwidth = 2;
-        c.gridheight = 5;
+        c.gridwidth = jeu.getListeJoueur().size();
+        c.gridheight = 2;
         c.weighty = 5;
         this.add(panelBoutons, c);
     }
@@ -101,14 +117,14 @@ public class Victoire extends JPanel{
 
     private void setScore(){
         ImageIcon iiP = new ImageIcon(poisson);
-//        Image image = iiP.getImage();
-//        Image newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
-//        iiP = new ImageIcon(newimg);
+        Image image = iiP.getImage();
+        Image newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
+        iiP = new ImageIcon(newimg);
 
         ImageIcon iiH = new ImageIcon(hexagone);
-//        image = iiH.getImage();
-//        newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
-//        iiH = new ImageIcon(newimg);
+        image = iiH.getImage();
+        newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
+        iiH = new ImageIcon(newimg);
 
         for(int i = 0; i < jeu.getListeJoueur().size();i++) {
 
@@ -187,33 +203,20 @@ public class Victoire extends JPanel{
 
     private BufferedImage getImage(int i) {
         if(i == 1){
-            return (gagnant == 1) ? pingouinBleuC : pingouinBleu;
+            return (gagnant.contains(1)) ? pingouinBleuC : pingouinBleu;
         }else if(i == 2){
-            return (gagnant == 2) ? pingouinRougeC : pingouinRouge;
+            return (gagnant.contains(2)) ? pingouinRougeC : pingouinRouge;
         }else if(i == 3){
-            return (gagnant == 3) ? pingouinVertC : pingouinVert;
+            return (gagnant.contains(3)) ? pingouinVertC : pingouinVert;
         }else{
-            return (gagnant == 4) ? pingouinJauneC : pingouinJaune;
+            return (gagnant.contains(4)) ? pingouinJauneC : pingouinJaune;
         }
-    }
-
-
-    private int getGagnant(){
-        ArrayList<Joueur> arl = jeu.getListeJoueur();
-        int jMax = 0;
-
-        for(int i = 0; i < arl.size(); i++){
-            if(i == 0 || arl.get(i).getScore() > arl.get(jMax-1).getScore())
-                jMax = i+1;
-        }
-
-        return jMax;
     }
 
 
     private BufferedImage chargeImage(String nom){
         try {
-            InputStream in = new FileInputStream("resources/assets/jeu/" + nom + ".png");
+            InputStream in = new FileInputStream("resources/assets/jeu/victoire/" + nom + ".png");
             return ImageIO.read(in);
         } catch (Exception e) {
             System.out.println("Fichier \"" + nom + "\" introuvable");

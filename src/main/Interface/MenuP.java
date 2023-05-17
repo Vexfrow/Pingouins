@@ -28,13 +28,13 @@ public class MenuP extends JPanel {
         this.c = ctrl;
         //Création des éléments
         try{
-            fond = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/fondMenu.png"));
-            titreI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/Titre.png"));
-            hintI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonRegles.png"));
-            partieRapideI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonPartieRapide.png"));
-            partiePersoI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonPartiePerso.png"));
-            chargerPartieI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonChargerPartie.png"));
-            tutorielI = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/boutonTuto.png"));
+            fond = ImageIO.read(new FileInputStream("resources/assets/menu/fondMenu.png"));
+            titreI = ImageIO.read(new FileInputStream("resources/assets/menu/Titre.png"));
+            hintI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonRegles.png"));
+            partieRapideI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonPartieRapide.png"));
+            partiePersoI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonPartiePerso.png"));
+            chargerPartieI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonChargerPartie.png"));
+            tutorielI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonTuto.png"));
         }catch(Exception e){
             System.out.println("une erreur " + e);
         }
@@ -74,14 +74,6 @@ public class MenuP extends JPanel {
         regles.setContentAreaFilled(false);
 
 
-        //Colorization
-        Color reglesColor = new Color(0xFDCF76);
-        Color partieRapideColor = new Color(0x155D85);
-        Color partiPersonnaliseeColor = new Color(0x2678A7);
-        Color chargerPartieColor = new Color(0x4D88A9);
-        Color tutorielColor = new Color(0x7292A4);
-
-        //this.setBackground(GameConstants.BACKGROUND_COLOR);
         menu.setIcon(titreS);
 
         partieRapide.setForeground(Color.WHITE);
@@ -152,7 +144,7 @@ public class MenuP extends JPanel {
                 Jeu j = new Jeu(ar);
                 ArrayList<IAJoueur> arj = new ArrayList<IAJoueur>();
                 arj.add(null);
-                arj.add(new IAMinimax(j));
+                arj.add(new IAFacile(j));
 
                 c.newGame(j, arj, ar);
                 c.switchGameBoard();
@@ -239,7 +231,6 @@ public class MenuP extends JPanel {
     @Override
     public void paintComponent(Graphics g){
         g.drawImage(fond,0, 0,this.getWidth(), this.getHeight(), this);
-        //super.paintComponent(g);
         maj();
     }
 
