@@ -31,9 +31,9 @@ public class IAAleatoire extends IAJoueur{
         Cases caseCourant;
         Position posCourant;
 
-        int nbc;
-        int l = 0;
-        int c = 0;
+        char nbc;
+        char l = 0;
+        char c = 0;
         Position pos = null;
         while( l < terrainCourant.length){
             c = 0;

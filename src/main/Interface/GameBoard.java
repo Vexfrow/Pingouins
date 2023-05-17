@@ -33,6 +33,7 @@ public class GameBoard extends JPanel {
     private final ArrayList<ScorePanel> listeScorePanel;
 
     public GameBoard(Jeu j, CollecteurEvenements c){
+
         bq = new BanquiseGraphique(j);
         gamePanel = new JPanel();
         menuGame = new JPanel();

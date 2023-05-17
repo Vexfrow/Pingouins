@@ -1080,29 +1080,49 @@ public class Jeu{
     }
 
 
-    // Renvoie le numero du joueur gagnant
-    public int gagnant(){
+    // Renvoie une arrayList du/des numéro(s) du/des gagnant(s)
+    public ArrayList<Integer> gagnant(){
+
         int [] score = new int[nbJoueur];
         for(int i=0; i<nbJoueur; i++){
             score[i] = listeJoueur.get(i).getScore(); 
         }
 
-        int max =0;
+        int max = 0;
         int joueurGagnant = 0;
+        boolean plusieursGagnants = false;
+        ArrayList<Integer> jGagnant = new ArrayList<>();
+
         for (int i =0; i< nbJoueur; i++){
             if (max < score[i]) {
                 max = score[i];
                 joueurGagnant = i;
+                if(jGagnant.size() !=0){
+                    jGagnant.clear();
+                    plusieursGagnants = false;
+                }
+
             } else if (max == score[i]) {
                 int nbCasesMangeA = listeJoueur.get(joueurGagnant).getNbCasesMange();
                 int nbCasesMangeB = listeJoueur.get(i).getNbCasesMange();
 
                 if (nbCasesMangeA < nbCasesMangeB) {
                     joueurGagnant = i;
+                } else if (nbCasesMangeA == nbCasesMangeB){
+                    plusieursGagnants = true;
+
+                    jGagnant.add(i+1);
+                    jGagnant.add(joueurGagnant +1);
                 }
             }
         }
-        return joueurGagnant +1;
+
+        if(!plusieursGagnants){
+            jGagnant.add(joueurGagnant +1);
+        }
+
+        //return joueurGagnant +1;
+        return jGagnant;
     }
 
     /* 

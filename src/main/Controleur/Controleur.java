@@ -36,6 +36,7 @@ public class Controleur implements CollecteurEvenements {
         }
         this.window.workingPane.switchBackPane(1);
         if(change){
+            this.window.getMenu().setOpaque(!this.window.getMenu().isOpaque());
             this.window.workingPane.toggleBackingPane();
         }
 
@@ -71,10 +72,12 @@ public class Controleur implements CollecteurEvenements {
     public void toggelCharge(boolean change){
         if(window.workingPane.actuel instanceof MenuP){
             window.getMenu().activateButton();
+            this.window.getMenu().setOpaque(!this.window.getMenu().isOpaque());
         }
         this.window.workingPane.switchBackPane(4);
         if(change){
             this.window.workingPane.toggleBackingPane();
+
             this.plateauJeu.activateButton();
         }
     }
