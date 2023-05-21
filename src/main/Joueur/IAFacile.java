@@ -32,8 +32,8 @@ public class IAFacile extends IAJoueur{
         ArrayList<PositionPondere> listCp = new ArrayList<PositionPondere>();
 
         for(int i = 0; i < fils.size(); i++){
-             PositionPondere cpP = new PositionPondere(fils.get(i).position,Heuristique.HnbCaseAccessible(fils.get(i),this.iajoueur));
-             listCp.add(cpP);
+            PositionPondere cpP = new PositionPondere(fils.get(i).position,Heuristique.HnbCaseAccessible(fils.get(i),this.iajoueur));
+            listCp.add(cpP);
         }  
         Collections.sort(listCp);
         Random r = new Random();
@@ -50,6 +50,7 @@ public class IAFacile extends IAJoueur{
         this.iajoueur = this.j.getJoueurCourant();
         Configuration conf = new Configuration(this.j.cloner());
         ArrayList<Configuration> fils = Configuration.coupFilsPhase2(conf);
+        System.out.println("elle vaut"+ Heuristique.HnbPoisson(conf,this.iajoueur));
 
         ArrayList<CoupPondere> listCp = new ArrayList<CoupPondere>();
 
