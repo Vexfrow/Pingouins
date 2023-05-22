@@ -94,7 +94,7 @@ public class Pause extends JPanel {
             rule = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonReglesPause.png"));
             quit = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonAbandonner.png"));
         }catch(Exception e){
-            System.out.println("Pause : Impossible de charger les images");
+            System.err.println("Pause : Impossible de charger les images");
         }
 
 
@@ -132,6 +132,13 @@ public class Pause extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 collecteur.switchMenu();
+            }
+        });
+
+        recommencer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                collecteur.replay();
             }
         });
 

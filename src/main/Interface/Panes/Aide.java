@@ -48,7 +48,7 @@ public class Aide extends JPanel{
                 panels[i-1] = (Image) ImageIO.read(new FileInputStream("resources/assets/aide/panelRegles" + i +".png"));
             }
         }catch(Exception e){
-            System.out.println("une erreur " + e);
+            System.err.println("une erreur " + e);
         }
         image = new JLabel();
         flecheGauche = new JButton();
@@ -84,7 +84,6 @@ public class Aide extends JPanel{
             public void actionPerformed(ActionEvent e) {
 
                 if(collecteur.getEtatBackPane() == 2){
-                    System.out.println("Here");
                     collecteur.togglePause(false);
 
                 }else{

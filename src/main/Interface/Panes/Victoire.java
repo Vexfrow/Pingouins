@@ -68,6 +68,7 @@ public class Victoire extends JPanel{
         retourMenu.setContentAreaFilled(false);
         retourMenu.setBackground(Color.CYAN);
         retourMenu.addActionListener(e -> controlleur.switchMenu());
+        relancerPartie.addActionListener(e -> controlleur.replay());
 
 
         panelBoutons.add(relancerPartie);

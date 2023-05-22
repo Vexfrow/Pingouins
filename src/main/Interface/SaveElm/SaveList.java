@@ -38,7 +38,6 @@ public class SaveList extends JPanel {
         }else{
             box.setListData(s);
             box.setEnabled(true);
-            System.out.println("Taille " + s.length);
             if((s.length/2) < 5) {
                 box.setVisibleRowCount(s.length/2);
             }
@@ -46,6 +45,7 @@ public class SaveList extends JPanel {
                 box.setVisibleRowCount(5);
             }
         }
+        box.setVisibleRowCount(5);
 
 
 
@@ -84,7 +84,6 @@ public class SaveList extends JPanel {
         develop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(open);
                 if(open){
 
                     box.setVisibleRowCount(0);
@@ -124,7 +123,6 @@ public class SaveList extends JPanel {
             String fileName = file.getName();
             int index = fileName.lastIndexOf(".");
             if (file.isFile() && fileName.substring(index).equals(".txt")) {
-                System.out.println(fileName);
                 s[i] = fileName.substring(0, index);
                 i++;
             }

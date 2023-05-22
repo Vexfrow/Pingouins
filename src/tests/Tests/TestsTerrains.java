@@ -10,13 +10,17 @@ public class TestsTerrains {
     public static void main(String[] args){
 
         // Test terrain correct
+        System.out.println("========== Test terrain correct ==========");
         Jeu jeu = new Jeu(4);
         assert jeu.getNbLigne() == 8: "Nombre de lignes different de 8";
         assert jeu.getNbColonne() == 15: "Nombre de colonnes different de 15";
         assert jeu.getNbCases() == 60: "Nombre de cases different de 60";
         assert jeu.case1poisson().size() == 30: "Nombre de cases a 1 poisson different de 30";
+        System.out.println("========== Test terrain correct -- OK ==========\n");
+
 
         // Test cloner terrain
+        System.out.println("========== Test cloner terrain ==========");
         Cases[][] jeuClone = jeu.clonerTerrain(jeu.getTerrain());
         for(int i = 0; i < jeuClone.length; i++){
             for (int j = 0; j < jeuClone[0].length; j++){
@@ -30,8 +34,11 @@ public class TestsTerrains {
                 }
             }
         }
+        System.out.println("========== Test cloner terrain -- OK ==========\n");
+
 
         // Test set et get
+        System.out.println("Test set et get");
         Cases c = new Cases(4);
         jeu.setCase(c, 0, 0);
         assert (c == jeu.getCase(0, 0));
@@ -40,9 +47,11 @@ public class TestsTerrains {
         assert jeu.getCase(0, 0).getNbPoissons() == 4: "La case (0,0) a 4 poissons";
         assert jeu.getCase(0, 0).estMange() == false: "La case (0,0) n'est pas mangee";
         assert jeu.getCase(0, 0).pingouinPresent() == 0: "Aucun pingouin n'est sur la case (0,0)";
+        System.out.println("========== Test set et get -- OK ==========\n");
 
 
         // Test sauvegarde
+        System.out.println("========== Test sauvegarde ==========");
         jeu.sauvegarder("src/tests/Terrains/terrainNonFixe.txt");
         Jeu jeuSauve = new Jeu("src/tests/Terrains/terrainNonFixe.txt");
 
@@ -54,6 +63,7 @@ public class TestsTerrains {
                     assert (jeu.getCase(i,j).pingouinPresent() == jeuSauve.getCase(i,j).pingouinPresent());
                 }
             }
-        }        
+        }   
+        System.out.println("========== Test sauvegarde -- OK ==========\n");     
     }
 }
