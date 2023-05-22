@@ -116,6 +116,8 @@ public class GameConstants {
 
     public static final BufferedImage fondMer = chargeImagePlateau("fondMer");
 
+    public static final BufferedImage banquise = chargeImagePlateau("banquiseLarge");
+
 
     //--------------------------Images Victoire-------------------------------
 
@@ -143,6 +145,7 @@ public class GameConstants {
     public static final BufferedImage annuler = chargeImageJeu("boutonAnnuler");
     public static final BufferedImage refaire = chargeImageJeu("boutonRefaire");
     public static final BufferedImage regenerePlateau = chargeImageJeu("boutonRegen");
+    public static final BufferedImage boutonOk = chargeImageJeu("boutonOk");
 
 
 

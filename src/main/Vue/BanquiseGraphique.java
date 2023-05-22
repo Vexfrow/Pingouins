@@ -24,6 +24,9 @@ public class BanquiseGraphique extends JComponent {
 
     int etat;
 
+    boolean drawPing;
+    Position posPing;
+
     private Jeu jeu;
 
     private Coup suggestionCoup;
@@ -34,6 +37,8 @@ public class BanquiseGraphique extends JComponent {
     public BanquiseGraphique(Jeu jeu) {
         this.jeu = jeu;
         this.etat = jeu.getEtat();
+        drawPing = false;
+        posPing = null;
 
         Rectangle r = new Rectangle(0,0, 750, 750);
         paintFont = new TexturePaint(GameConstants.fondMer,r);
@@ -62,13 +67,13 @@ public class BanquiseGraphique extends JComponent {
 
         float largeur = getSize().width;
         float hauteur = getSize().height;
-        offsetX = (largeur / 10f);
+        offsetX = (largeur / 6f);
         offsetY = (hauteur / 20f);
 
         int colonnes = 8;
         int lignes = 8;
 
-        size = Math.min(((largeur - (offsetX * 2)) / colonnes), ((hauteur - (offsetY * 2)) / lignes / 0.9f));
+        size = Math.min(((largeur - (offsetX *2)) / colonnes), ((hauteur - (offsetY * 2)) / lignes / 0.9f));
 
         float radius = size / 2f;
 
@@ -101,6 +106,11 @@ public class BanquiseGraphique extends JComponent {
         g2d.setPaint(paintFont);
         g2d.fill(this.getBounds());
 
+//        if(drawPing)
+//            g2d.drawImage(GameConstants.pingouinBleu, posPing.x, posPing.y, 100, 100,null);
+
+        g2d.drawImage(GameConstants.banquise, 0, 0, getWidth(), getHeight(), null);
+
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
 
@@ -124,12 +134,8 @@ public class BanquiseGraphique extends JComponent {
         Position lastPos = null;
         Position newPos = null;
         if(lc != null){
-            //System.out.println("Last Coup = " + lc.getLigne() + " " + lc.getColonne());
             newPos = new Position(lc.getLigne(), lc.getColonne());
-            //System.out.println("newPos = " + newPos.x + " " + newPos.y);
             lastPos = new Position(lc.getPingouin().getLigne(), lc.getPingouin().getColonne());
-            //System.out.println("lastPos = " + lastPos.x + " " + lastPos.y);
-
         }
 
 
@@ -147,18 +153,8 @@ public class BanquiseGraphique extends JComponent {
             Cases c = jeu.getCase(coordHexa.x, coordHexa.y);
             Shape cell = plateau.get(i);
 
-            if(coordHexa.equals(lastPos) && etat != Jeu.ETAT_PLACEMENTP){
-                int lastJoueur = jeu.getLastPlayer();
-                if(lastJoueur == 1)
-                    bfi = GameConstants.hVideB;
-                else if(lastJoueur == 2)
-                    bfi = GameConstants.hVideR;
-                else if (lastJoueur == 3)
-                    bfi = GameConstants.hVideV;
-                else
-                    bfi = GameConstants.hVideJ;
 
-            }else if(coordHexa.equals(newPos)){
+            if(coordHexa.equals(newPos)){
                 Cases c2 = jeu.getCase(newPos.x,newPos.y);
                 if (c2.pingouinPresent() == 1) {
                     if (c2.getNbPoissons() == 1)
@@ -189,7 +185,16 @@ public class BanquiseGraphique extends JComponent {
                     else if (c2.getNbPoissons() == 3)
                         bfi = GameConstants.hPingouinJC3;
                 }
-
+            }else if(coordHexa.equals(lastPos) && etat != Jeu.ETAT_PLACEMENTP){
+                int lastJoueur = jeu.getLastPlayer();
+                if(lastJoueur == 1)
+                    bfi = GameConstants.hVideB;
+                else if(lastJoueur == 2)
+                    bfi = GameConstants.hVideR;
+                else if (lastJoueur == 3)
+                    bfi = GameConstants.hVideV;
+                else
+                    bfi = GameConstants.hVideJ;
             }else if(etat == Jeu.ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0 && jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA() == 0) {
                 if (jeu.getJoueurCourant() == 1)
                     bfi = GameConstants.hPoisson1hB;
@@ -369,6 +374,12 @@ public class BanquiseGraphique extends JComponent {
     public void misAJourSuggestionCoup(Jeu jeu, Coup coup) {
         suggestionCoup = coup;
         misAJour(jeu);
+    }
+
+    public void majMouseOverBq(int coupX, int coupY) {
+        drawPing = true;
+        posPing = new Position(coupX, coupY);
+        repaint();
     }
 }
 

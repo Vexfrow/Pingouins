@@ -20,9 +20,7 @@ public class Controleur implements CollecteurEvenements {
 
     private AdaptateurSourisPlateau cliqueBq;
 
-
     private volatile boolean threadActif;
-
 
     private ArrayList<IAJoueur> listeIA;
 
@@ -125,6 +123,19 @@ public class Controleur implements CollecteurEvenements {
     }
 
 
+    @Override
+    public void mouseOnBanquise(int coupX, int coupY) {
+        System.out.println("zzzz");
+        if(jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA() == 0){
+            System.out.println("Teststst");
+           plateauJeu.getBq().majMouseOverBq(coupX, coupY);
+        }
+    }
+
+
+
+
+
     public void setPlateauJeu(GameBoard gb){
         plateauJeu = gb;
         cliqueBq = new AdaptateurSourisPlateau(plateauJeu.getBq(), this);
@@ -132,10 +143,14 @@ public class Controleur implements CollecteurEvenements {
     }
 
     private void toggleClique(){
-        if(plateauJeu.getBq().getMouseListeners().length == 0)
+        if(plateauJeu.getBq().getMouseListeners().length == 0) {
             plateauJeu.getBq().addMouseListener(cliqueBq);
-        else
+            plateauJeu.getBq().addMouseMotionListener(cliqueBq);
+        }
+        else {
             plateauJeu.getBq().removeMouseListener(cliqueBq);
+            plateauJeu.getBq().removeMouseMotionListener(cliqueBq);
+        }
     }
 
     public void activateGameBoard(){
@@ -256,13 +271,13 @@ public class Controleur implements CollecteurEvenements {
     public void replay(){
 
         ArrayList<Joueur> arJV = jeu.getListeJoueur();
-        ArrayList<Joueur> arJ = new ArrayList<Joueur>();
+        ArrayList<Joueur> arJ = new ArrayList<>();
         for(int i = 0; i < arJV.size(); i++){
             arJ.add(new Joueur(i+1, 0 ,0, arJV.get(i).estIA()));
         }
         jeu = new Jeu(arJ);
         ArrayList<IAJoueur> arIAV = listeIA;
-        ArrayList<IAJoueur> arIA = new ArrayList<IAJoueur>();
+        ArrayList<IAJoueur> arIA = new ArrayList<>();
         for(int i = 0; i< arIAV.size(); i++){
             IAJoueur ia = null;
             if(arIAV.get(i) instanceof IAFacile){
@@ -282,7 +297,6 @@ public class Controleur implements CollecteurEvenements {
         this.window.setGameBoard(plateauJeu);
         System.out.println(arJ);
         switchGameBoard();
-        startGame();
     }
 
 }

@@ -32,7 +32,7 @@ public class GameBoard extends JPanel {
     private final JButton bRefaire;
     private final JButton bSuggestion;
     private final JButton bAnnuler;
-    private final JButton bHistorique;
+    private final JButton bOk;
     private final JButton bStart;
 
     private final JButton bRegenereP;
@@ -58,7 +58,7 @@ public class GameBoard extends JPanel {
         bRefaire = new JButton(new ImageIcon(GameConstants.refaire));
         bSuggestion = new JButton(new ImageIcon(GameConstants.suggestion));
         bAnnuler = new JButton(new ImageIcon(GameConstants.annuler));
-        bHistorique= new JButton("Historique");
+        bOk= new JButton(new ImageIcon(GameConstants.boutonOk));
         bStart = new JButton("Commencer Partie");
         bRegenereP= new JButton(new ImageIcon(GameConstants.regenerePlateau));
 
@@ -73,10 +73,10 @@ public class GameBoard extends JPanel {
         bPause.addActionListener(e -> collecteur.togglePause(true));
     }
 
-    private void setHistorique(){
-        bPause.setBorderPainted(false);
-        bPause.setContentAreaFilled(false);
-        bPause.addActionListener(e -> collecteur.togglePause(true));
+    private void setOk(){
+        bOk.setBorderPainted(false);
+        bOk.setContentAreaFilled(false);
+        bOk.addActionListener(e -> collecteur.togglePause(true));
     }
 
     private void setSuggestion(){
@@ -149,6 +149,7 @@ public class GameBoard extends JPanel {
     private void setMenuGameJeuPlacement() {
 
         menuGame.setLayout(new GridBagLayout());
+        menuGame.setBorder(new LineBorder(Color.BLACK));
         menuGame.setBackground(Color.ORANGE);
         GridBagConstraints c = new GridBagConstraints();
 
@@ -185,31 +186,24 @@ public class GameBoard extends JPanel {
         //----------Score--------------
         setScorePlacement();
 
-        //----------Historique-------------
-
-        setHistorique();
-
-        c.gridx = 0;
-        c.weighty = 15;
-        c.gridy = 3+jeu.getListeJoueur().size();
-        c.fill = GridBagConstraints.BOTH;
-        menuGame.add(bHistorique,c);
 
 
         //----------Boutons annuler et refaire --------------
         setAnnuler();
+        setOk();
         setRefaire();
 
         JPanel boutonPanel2 = new JPanel();
         boutonPanel2.setLayout(new BoxLayout(boutonPanel2, BoxLayout.X_AXIS));
 
         boutonPanel2.add(bAnnuler);
+        boutonPanel2.add(bOk);
         boutonPanel2.add(bRefaire);
 
 
         c.gridx = 0;
         c.weighty = 10;
-        c.gridy = 4+jeu.getListeJoueur().size();
+        c.gridy = 2+jeu.getListeJoueur().size();
         menuGame.add(boutonPanel2, c);
 
         misAJour();
@@ -219,6 +213,7 @@ public class GameBoard extends JPanel {
     private void setMenuGameJeuDeplacement(){
         menuGame.setLayout(new GridBagLayout());
         menuGame.setBackground(Color.ORANGE);
+        menuGame.setBorder(new LineBorder(Color.BLACK));
         GridBagConstraints c = new GridBagConstraints();
 
         JPanel boutonPanel = new JPanel();
@@ -254,31 +249,24 @@ public class GameBoard extends JPanel {
         //----------Score--------------
         setScoreDeplacement();
 
-        //----------Historique-------------
-
-        setHistorique();
-
-        c.gridx = 0;
-        c.weighty = 15;
-        c.gridy = 3+jeu.getListeJoueur().size();
-        c.fill = GridBagConstraints.BOTH;
-        menuGame.add(bHistorique,c);
 
 
         //----------Boutons annuler et refaire --------------
         setAnnuler();
+        setOk();
         setRefaire();
 
         JPanel boutonPanel2 = new JPanel();
         boutonPanel2.setLayout(new BoxLayout(boutonPanel2, BoxLayout.X_AXIS));
 
         boutonPanel2.add(bAnnuler);
+        boutonPanel2.add(bOk);
         boutonPanel2.add(bRefaire);
 
 
         c.gridx = 0;
         c.weighty = 10;
-        c.gridy = 4+jeu.getListeJoueur().size();
+        c.gridy = 2+jeu.getListeJoueur().size();
         menuGame.add(boutonPanel2, c);
 
         misAJour();
@@ -308,18 +296,20 @@ public class GameBoard extends JPanel {
         setCommencerPartie();
         c.gridx = 0;
         c.weighty = 15;
-        c.gridy = 3+jeu.getListeJoueur().size();
+        c.gridy = 1;
         c.fill = GridBagConstraints.BOTH;
-        menuGame.add(bRegenereP,c);
+        menuGame.add(bStart,c);
 
 
         //----------Regenere Plateau-------------
         setRegenereP();
         c.gridx = 0;
         c.weighty = 15;
-        c.gridy = 4+jeu.getListeJoueur().size();
+        c.gridy = 2;
         c.fill = GridBagConstraints.BOTH;
-        menuGame.add(bStart,c);
+        menuGame.add(bRegenereP,c);
+
+        menuGame.setBorder(new LineBorder(Color.BLACK));
 
 
         misAJour();
@@ -433,7 +423,7 @@ public class GameBoard extends JPanel {
         bSuggestion.setEnabled(!bSuggestion.isEnabled());
         bRefaire.setEnabled(!bRefaire.isEnabled());
         bAnnuler.setEnabled(!bAnnuler.isEnabled());
-        bHistorique.setEnabled(!bHistorique.isEnabled());
+        bOk.setEnabled(!bOk.isEnabled());
     }
 
 
@@ -443,9 +433,7 @@ public class GameBoard extends JPanel {
         bSuggestion.setEnabled(true);
         bRefaire.setEnabled(true);
         bAnnuler.setEnabled(true);
-        bHistorique.setEnabled(true);
+        bOk.setEnabled(true);
     }
-
-
 
 }
