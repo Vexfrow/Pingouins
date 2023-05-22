@@ -17,6 +17,8 @@ public class Jeu{
     protected int nbJoueur;
     protected int nbPingouinJoueur;
     protected int nbPingouinPlace;
+
+    private int lastJoueur;
     protected int joueurCourant = 1;  // En supposant que c'est le joueur 1 qui commence comprit entre 1 et nbJoueur inclus
 
     public final static int ETAT_INITIAL = 0; //Etat de base
@@ -482,6 +484,7 @@ public class Jeu{
                 coupAnnule = new ArrayList<Coup>();
             }
 
+            lastJoueur = joueurCourant;
             //on enlève un pingouin dés qu'il est bloqué
             retirePingouin();
             switchJoueur();
@@ -951,6 +954,11 @@ public class Jeu{
     }
 
 
+    public int getLastPlayer(){
+        return lastJoueur;
+    }
+
+
     // Renvoie le terrain
     public Cases [][] getTerrain(){
         return this.terrainCourant;
@@ -960,6 +968,14 @@ public class Jeu{
     // Renvoie la liste des joueurs
     public ArrayList<Joueur> getListeJoueur(){
         return this.listeJoueur;
+    }
+
+
+    public Coup getLastCoup() {
+        if (coupJoue != null && (coupJoue.size() > 0))
+            return coupJoue.get(coupJoue.size() - 1);
+        else
+            return null;
     }
 
 

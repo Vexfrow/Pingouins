@@ -22,10 +22,11 @@ public class MenuP extends JPanel {
     private SpringLayout layout;
     private  JLabel menu;
     private CollecteurEvenements c;
-    private boolean icone;
+    private boolean hover;
 
     public MenuP(CollecteurEvenements ctrl){
         this.c = ctrl;
+        hover = false;
         //Création des éléments
         try{
             fond = ImageIO.read(new FileInputStream("resources/assets/menu/fondMenu.png"));
@@ -44,9 +45,8 @@ public class MenuP extends JPanel {
         tutoriel = new JButton();
         regles = new JButton();
 
-        layout = new SpringLayout();
         menu = new JLabel();
-        this.setLayout(layout);
+        this.setLayout(new GridBagLayout());
 
         ImageIcon c = new ImageIcon(hintI);
         regles.setPreferredSize(new Dimension(c.getIconWidth(), c.getIconHeight() ));
@@ -93,32 +93,34 @@ public class MenuP extends JPanel {
         tutoriel.setContentAreaFilled(false);
 
         //Ajouts
-        this.add(menu);
-        this.add(partieRapide);
-        this.add(partiePersonnalisee);
-        this.add(chargerPartie);
-        this.add(tutoriel);
-        this.add(regles);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        gbc.insets = new Insets(5, 0, 5, 0);
+        this.add(menu, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        this.add(partieRapide,gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        this.add(partiePersonnalisee, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        this.add(chargerPartie,gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.insets = new Insets(5, 0, 0, 0);
+        this.add(tutoriel,gbc);
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        this.add(regles,gbc);
 
-
-        //Placement
-        //Par rapport à la fenetre
-        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, partieRapide, 0 , SpringLayout.HORIZONTAL_CENTER, this);
-        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, partiePersonnalisee, 0 , SpringLayout.HORIZONTAL_CENTER, this);
-        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, chargerPartie, 0 , SpringLayout.HORIZONTAL_CENTER, this);
-        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, tutoriel, 0 , SpringLayout.HORIZONTAL_CENTER, this);
-        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, menu, 0 , SpringLayout.HORIZONTAL_CENTER, this);
-        layout.putConstraint(SpringLayout.NORTH, menu, 20, SpringLayout.NORTH, this);
-        layout.putConstraint(SpringLayout.EAST, regles, -30, SpringLayout.EAST, this);
-        layout.putConstraint(SpringLayout.SOUTH, regles, -30, SpringLayout.SOUTH, this);
-
-        //Par rapport aux elements
-        layout.putConstraint(SpringLayout.NORTH, partiePersonnalisee, 20,  SpringLayout.SOUTH, partieRapide);
-        layout.putConstraint(SpringLayout.NORTH, chargerPartie, 20,  SpringLayout.SOUTH, partiePersonnalisee);
-        layout.putConstraint(SpringLayout.NORTH, tutoriel, 20,  SpringLayout.SOUTH, chargerPartie);
-        layout.putConstraint(SpringLayout.NORTH, partieRapide, 20, SpringLayout.SOUTH, menu );
-
-        //Commande
         regles.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -155,17 +157,89 @@ public class MenuP extends JPanel {
             }
         });
 
+
+        partiePersonnalisee.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                partiePersonnalisee.setIcon(new ImageIcon(imageOnButton(partiePersonnalisee, partiePersoI, 0.8, 0.8)));
+                hover = true;
+            }
+            @Override
+            public void mouseExited(MouseEvent e){
+                super.mouseExited(e);
+                partiePersonnalisee.setIcon(new ImageIcon(imageOnButton(partiePersonnalisee, partiePersoI)));
+                hover = false;
+            }
+        });
+
+        partieRapide.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                partieRapide.setIcon(new ImageIcon(imageOnButton(partieRapide, partieRapideI, 0.8, 0.8)));
+                hover = true;
+            }
+            @Override
+            public void mouseExited(MouseEvent e){
+                super.mouseExited(e);
+                partieRapide.setIcon(new ImageIcon(imageOnButton(partieRapide, partieRapideI)));
+                hover = false;
+            }
+        });
+
+        chargerPartie.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                chargerPartie.setIcon(new ImageIcon(imageOnButton(chargerPartie, chargerPartieI, 0.8, 0.8)));
+                hover = true;
+            }
+            @Override
+            public void mouseExited(MouseEvent e){
+                super.mouseExited(e);
+                chargerPartie.setIcon(new ImageIcon(imageOnButton(chargerPartie, chargerPartieI)));
+                hover = false;
+            }
+        });
+
+        tutoriel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                tutoriel.setIcon(new ImageIcon(imageOnButton(tutoriel, tutorielI, 0.8, 0.8)));
+                hover = true;
+            }
+            @Override
+            public void mouseExited(MouseEvent e){
+                super.mouseExited(e);
+                tutoriel.setIcon(new ImageIcon(imageOnButton(tutoriel, tutorielI)));
+                hover = false;
+            }
+        });
+
+        regles.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                regles.setIcon(new ImageIcon(imageOnButton(regles, hintI, 0.8, 0.8)));
+                hover = true;
+            }
+            @Override
+            public void mouseExited(MouseEvent e){
+                super.mouseExited(e);
+                regles.setIcon(new ImageIcon(imageOnButton(regles, hintI)));
+                hover = false;
+            }
+        });
+
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
                 maj();
-                revalidate();
             }
-
         });
-
-
     }
 
     public void toggleButtons() {
@@ -175,6 +249,7 @@ public class MenuP extends JPanel {
         partieRapide.setEnabled(!partieRapide.isEnabled());
         regles.setEnabled(!regles.isEnabled());
         //regles.setOpaque(!regles.isOpaque());
+        hover = false;
     }
 
     public void activateButton(){
@@ -183,6 +258,7 @@ public class MenuP extends JPanel {
         partiePersonnalisee.setEnabled(true);
         partieRapide.setEnabled(true);
         regles.setEnabled(true);
+        hover = false;
     }
 
     public Image reScale(Image img){
@@ -192,7 +268,7 @@ public class MenuP extends JPanel {
     }
 
     public Dimension scaleButton(int x,int y){
-        return new Dimension((int)(x*0.23), (int)(y * 0.13));
+        return new Dimension((int)(x*0.18), (int)(y * 0.10));
     }
 
     public void allScale(){
@@ -204,6 +280,10 @@ public class MenuP extends JPanel {
 
     public Image imageOnButton(JButton b, Image img){
         return img.getScaledInstance(b.getWidth(), b.getHeight(), Image.SCALE_SMOOTH);
+    }
+
+    public Image imageOnButton(JButton b, Image img, double x, double y){
+        return img.getScaledInstance((int)(b.getWidth()*x), (int)(b.getHeight()*y), Image.SCALE_SMOOTH);
     }
 
     public void iconfied(){
@@ -223,8 +303,12 @@ public class MenuP extends JPanel {
 
     @Override
     public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        if(!hover){
+            maj();
+        }
         g.drawImage(fond,0, 0,this.getWidth(), this.getHeight(), this);
-        maj();
+
     }
 
 

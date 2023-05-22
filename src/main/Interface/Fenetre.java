@@ -51,13 +51,6 @@ public class Fenetre implements Runnable {
         workingPane = new WorkingPane(this.menu, this.c);
         jf.add(workingPane);
         jf.setVisible(true);
-
-        jf.addWindowStateListener(new WindowStateListener() {
-            public void windowStateChanged(WindowEvent arg0) {
-                menu.iconfied();
-                jf.revalidate();
-            }
-        });
     }
 
 

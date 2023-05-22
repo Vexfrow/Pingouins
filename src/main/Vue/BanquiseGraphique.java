@@ -33,6 +33,11 @@ public class BanquiseGraphique extends JComponent {
     BufferedImage hPingouinJ1h, hPingouinJ2h, hPingouinJ3h;
     BufferedImage hPoissonG1, hPoissonG2, hPoissonG3;
 
+    BufferedImage hPingouinRC1, hPingouinRC2, hPingouinRC3, hPingouinVC1, hPingouinVC2 ,hPingouinVC3, hPingouinBC1, hPingouinBC2,hPingouinBC3, hPingouinJC1, hPingouinJC2, hPingouinJC3;
+
+
+    BufferedImage hVideR, hVideB, hVideV, hVideJ;
+
     TexturePaint paintFont;
 
     private float size;
@@ -42,6 +47,10 @@ public class BanquiseGraphique extends JComponent {
     int etat;
 
     private Jeu jeu;
+
+    private Coup suggestionCoup;
+    private Position suggestionPos;
+
     private final ArrayList<Shape> plateau;
 
     public BanquiseGraphique(Jeu jeu) {
@@ -108,8 +117,32 @@ public class BanquiseGraphique extends JComponent {
         hPoissonG2 = chargeImage("gris2-2");
         hPoissonG3 = chargeImage("gris3-2");
 
+        hVideR = chargeImage("contourRouge");
+        hVideB = chargeImage("contourBleu");
+        hVideV = chargeImage("contourVert");
+        hVideJ = chargeImage("contourJaune");
+
+
+        hPingouinRC1 = chargeImage("contourRouge1");
+        hPingouinRC2 = chargeImage("contourRouge2");
+        hPingouinRC3 = chargeImage("contourRouge3");
+
+        hPingouinVC1 = chargeImage("contourVert1");
+        hPingouinVC2 = chargeImage("contourVert2");
+        hPingouinVC3 = chargeImage("contourVert3");
+
+        hPingouinBC1 = chargeImage("contourBleu1");
+        hPingouinBC2 = chargeImage("contourBleu2");
+        hPingouinBC3 = chargeImage("contourBleu3");
+
+        hPingouinJC1 = chargeImage("contourJaune1");
+        hPingouinJC2 = chargeImage("contourJaune2");
+        hPingouinJC3 = chargeImage("contourJaune3");
 
         plateau = new ArrayList<>(60);
+
+        suggestionCoup = null;
+        suggestionPos = null;
     }
 
     private BufferedImage chargeImage(String nom) {
@@ -197,6 +230,26 @@ public class BanquiseGraphique extends JComponent {
             }
         }
 
+        Coup lc = jeu.getLastCoup();
+
+        Position lastPos = null;
+        Position newPos = null;
+        if(lc != null){
+            //System.out.println("Last Coup = " + lc.getLigne() + " " + lc.getColonne());
+            newPos = new Position(lc.getLigne(), lc.getColonne());
+            //System.out.println("newPos = " + newPos.x + " " + newPos.y);
+            lastPos = new Position(lc.getPingouin().getLigne(), lc.getPingouin().getColonne());
+            //System.out.println("lastPos = " + lastPos.x + " " + lastPos.y);
+
+        }
+
+
+        if(suggestionCoup != null)
+            System.out.println("scoup = " + suggestionCoup.getLigne() + " " + suggestionCoup.getColonne());
+
+        if(suggestionPos != null)
+            System.out.println("spos = " + suggestionPos.x + " " + suggestionPos.y);
+
         BufferedImage bfi = hVide;
 
         for (int i = 0; i < plateau.size(); i++) {
@@ -205,7 +258,51 @@ public class BanquiseGraphique extends JComponent {
             Cases c = jeu.getCase(coordHexa.x, coordHexa.y);
             Shape cell = plateau.get(i);
 
-            if(etat == Jeu.ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0) {
+            if(coordHexa.equals(lastPos) && etat != Jeu.ETAT_PLACEMENTP){
+                int lastJoueur = jeu.getLastPlayer();
+                System.out.println("jeu.getLastPlayer() = " + jeu.getLastPlayer());
+                if(lastJoueur == 1)
+                    bfi = hVideB;
+                else if(lastJoueur == 2)
+                    bfi = hVideR;
+                else if (lastJoueur == 3)
+                    bfi = hVideV;
+                else
+                    bfi = hVideJ;
+
+            }else if(coordHexa.equals(newPos)){
+                Cases c2 = jeu.getCase(newPos.x,newPos.y);
+                if (c2.pingouinPresent() == 1) {
+                    if (c2.getNbPoissons() == 1)
+                        bfi = hPingouinBC1;
+                    else if (c2.getNbPoissons() == 2)
+                        bfi = hPingouinBC2;
+                    else if (c2.getNbPoissons() == 3)
+                        bfi = hPingouinBC3;
+                } else if (c2.pingouinPresent() == 2) {
+                    if (c2.getNbPoissons() == 1)
+                        bfi = hPingouinRC1;
+                    else if (c2.getNbPoissons() == 2)
+                        bfi = hPingouinRC2;
+                    else if (c2.getNbPoissons() == 3)
+                        bfi = hPingouinRC3;
+                } else if (c2.pingouinPresent() == 3) {
+                    if (c2.getNbPoissons() == 1)
+                        bfi = hPingouinVC1;
+                    else if (c2.getNbPoissons() == 2)
+                        bfi = hPingouinVC2;
+                    else if (c2.getNbPoissons() == 3)
+                        bfi = hPingouinVC3;
+                } else if (c2.pingouinPresent() == 4) {
+                    if (c2.getNbPoissons() == 1)
+                        bfi = hPingouinJC1;
+                    else if (c2.getNbPoissons() == 2)
+                        bfi = hPingouinJC2;
+                    else if (c2.getNbPoissons() == 3)
+                        bfi = hPingouinJC3;
+                }
+
+            }else if(etat == Jeu.ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0) {
                 if (jeu.getJoueurCourant() == 1)
                     bfi = hPoisson1hB;
                 else if (jeu.getJoueurCourant() == 2)
@@ -376,5 +473,14 @@ public class BanquiseGraphique extends JComponent {
     }
 
 
+    public void misAJourSuggestionPlacement(Jeu jeu, Position position) {
+        suggestionPos = position;
+        misAJour(jeu);
+    }
+
+    public void misAJourSuggestionCoup(Jeu jeu, Coup coup) {
+        suggestionCoup = coup;
+        misAJour(jeu);
+    }
 }
 

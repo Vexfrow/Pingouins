@@ -45,6 +45,7 @@ public class SaveList extends JPanel {
                 box.setVisibleRowCount(5);
             }
         }
+        box.setVisibleRowCount(5);
 
 
 
