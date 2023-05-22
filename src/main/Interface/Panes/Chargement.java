@@ -147,7 +147,7 @@ public class Chargement extends JPanel {
             int nbJoueur = Integer.parseInt(line);
             bufferedReader.readLine(); //irrelevant
             bufferedReader.readLine(); //irrelevant
-            int types[] = new int[nbJoueur];
+            int[] types = new int[nbJoueur];
 
 
 

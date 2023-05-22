@@ -63,7 +63,7 @@ public class Controleur implements CollecteurEvenements {
             }
             this.window.workingPane.toggleBackingPane();
             this.window.getGameBoard().toggleButton();
-            toogleClique();
+            toggleClique();
         }
 
     }
@@ -74,7 +74,7 @@ public class Controleur implements CollecteurEvenements {
         if(change){
             this.window.workingPane.toggleBackingPane();
             this.window.getGameBoard().toggleButton();
-            toogleClique();
+            toggleClique();
 
         }
 
@@ -93,7 +93,7 @@ public class Controleur implements CollecteurEvenements {
         if(change){
             this.window.workingPane.toggleBackingPane();
             this.plateauJeu.activateButton();
-            toogleClique();
+            toggleClique();
         }
     }
 
@@ -105,22 +105,18 @@ public class Controleur implements CollecteurEvenements {
         window.switchPanel(1);
     }
 
-    public void switchGameBoard(){
-        window.switchPanel(3);
-    }
+    public void switchGameBoard(){  window.switchPanel(3); }
 
     @Override
     public void clicSourisPlateau(int coupX, int coupY) {
-        if(jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA() ==0){
+        if(jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA() == 0){
             for(int i = 0; i < plateauJeu.getBq().getPlateauJeu().size();i++) {
                 Shape cell = plateauJeu.getBq().getPlateauJeu().get(i);
                 if (cell.contains(coupX, coupY)) {
-                    if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP) {
-
+                    if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP)
                         joueCoupPhase1(plateauJeu.getBq().getPosFromNumber(i));
-                    } else if(jeu.getEtat() == Jeu.ETAT_SELECTIONP || jeu.getEtat() == Jeu.ETAT_CHOIXC){
+                    else if(jeu.getEtat() == Jeu.ETAT_SELECTIONP || jeu.getEtat() == Jeu.ETAT_CHOIXC)
                         joueCoupPhase2(plateauJeu.getBq().getPosFromNumber(i));
-                    }
                     plateauJeu.misAJour(jeu);
                     break;
                 }
@@ -132,25 +128,23 @@ public class Controleur implements CollecteurEvenements {
     public void setPlateauJeu(GameBoard gb){
         plateauJeu = gb;
         cliqueBq = new AdaptateurSourisPlateau(plateauJeu.getBq(), this);
-        toogleClique();
+        toggleClique();
     }
 
-    private void toogleClique(){
+    private void toggleClique(){
         if(plateauJeu.getBq().getMouseListeners().length == 0)
             plateauJeu.getBq().addMouseListener(cliqueBq);
         else
             plateauJeu.getBq().removeMouseListener(cliqueBq);
-
-        System.out.println("Change");
     }
 
 
     public void setJeu(Jeu j, ArrayList<IAJoueur> ar){
         this.jeu = j;
-        plateauJeu.misAJour(jeu);
+       plateauJeu = new GameBoard(jeu, this);
         listeIA = ar;
-        this.window.setGameBoard(plateauJeu);
         threadActif = true;
+        this.window.setGameBoard(plateauJeu);
         joueCoup();
     }
 
@@ -215,7 +209,6 @@ public class Controleur implements CollecteurEvenements {
             Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    System.out.println(threadActif);
                     if (jeu.getEtat() != Jeu.ETAT_FINAL && jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).estIA() !=0 && threadActif) {
                         IAJoueur jia = listeIA.get(jeu.getJoueurCourant() - 1);
                         if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP) {

@@ -1,5 +1,6 @@
 package Interface.GameBoard;
 
+import Interface.GameConstants;
 import Joueur.IAExpert;
 import Model.Coup;
 import Model.Jeu;
@@ -7,15 +8,9 @@ import Model.Position;
 import Vue.BanquiseGraphique;
 import Vue.CollecteurEvenements;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class GameBoard extends JPanel {
@@ -26,15 +21,21 @@ public class GameBoard extends JPanel {
 
     JPanel menuGame;
 
-    boolean initial;
+    int etat;
     CollecteurEvenements collecteur;
 
     Label messageTour;
 
     public Jeu jeu;
 
-    private JButton bPause, bRefaire, bSuggestion, bAnnuler, bHistorique;
-    BufferedImage annuler, refaire, pause, suggestion;
+    private final JButton bPause;
+    private final JButton bRefaire;
+    private final JButton bSuggestion;
+    private final JButton bAnnuler;
+    private final JButton bHistorique;
+    private final JButton bStart;
+
+    private final JButton bRegenereP;
 
     private final ArrayList<ScorePanel> listeScorePanel;
 
@@ -47,53 +48,105 @@ public class GameBoard extends JPanel {
 
         listeScorePanel = new ArrayList<>();
 
-        initial = true;
-
         jeu = j;
+        etat = jeu.getEtat();
 
         collecteur = c;
         collecteur.setPlateauJeu(this);
 
-        suggestion = chargeImage("boutonAstuce");
-        pause = chargeImage("boutonPause");
-        annuler = chargeImage("boutonAnnuler");
-        refaire = chargeImage("boutonRefaire");
-
-        bPause = new JButton(new ImageIcon(pause));
-        bRefaire = new JButton(new ImageIcon(refaire));
-        bSuggestion = new JButton(new ImageIcon(suggestion));
-        bAnnuler = new JButton(new ImageIcon(annuler));
+        bPause = new JButton(new ImageIcon(GameConstants.pause));
+        bRefaire = new JButton(new ImageIcon(GameConstants.refaire));
+        bSuggestion = new JButton(new ImageIcon(GameConstants.suggestion));
+        bAnnuler = new JButton(new ImageIcon(GameConstants.annuler));
         bHistorique= new JButton("Historique");
-
+        bStart = new JButton("Commencer Partie");
+        bRegenereP= new JButton(new ImageIcon(GameConstants.regenerePlateau));
 
         setMenuGame();
         setGamePanel();
     }
 
 
+    private void setPause(){
+        bPause.setBorderPainted(false);
+        bPause.setContentAreaFilled(false);
+        bPause.addActionListener(e -> collecteur.togglePause(true));
+    }
 
-    private BufferedImage chargeImage(String nom){
-        try {
-            InputStream in = new FileInputStream("resources/assets/jeu/menu/" + nom + ".png");
-            return ImageIO.read(in);
-        } catch (Exception e) {
-            System.out.println("Fichier \"" + nom + "\" introuvable");
-        }
-        return null;
+    private void setHistorique(){
+        bPause.setBorderPainted(false);
+        bPause.setContentAreaFilled(false);
+        bPause.addActionListener(e -> collecteur.togglePause(true));
+    }
+
+    private void setSuggestion(){
+        bSuggestion.setBorderPainted(false);
+        bSuggestion.setContentAreaFilled(false);
+        bSuggestion.addActionListener(e -> {
+            if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP){
+                bq.misAJourSuggestionPlacement(jeu,suggestionPlacement());
+            }else {
+                bq.misAJourSuggestionCoup(jeu, suggestionCoup());
+            }
+        });
+    }
+
+    private void setAnnuler(){
+        bAnnuler.setBorderPainted(false);
+        bAnnuler.setContentAreaFilled(false);
+
+        bAnnuler.addActionListener(e -> {
+            jeu.annule();
+            misAJour(jeu);
+        });
+    }
+
+
+    private void setRefaire(){
+        bRefaire.setBorderPainted(false);
+        bRefaire.setContentAreaFilled(false);
+
+        bRefaire.addActionListener(e -> {
+            jeu.refaire();
+            misAJour(jeu);
+        });
+    }
+
+
+    private void setRegenereP(){
+        bRegenereP.setBorderPainted(false);
+        bRegenereP.setContentAreaFilled(false);
+
+        bRegenereP.addActionListener(e -> {
+            jeu.terrainAleatoire(8, 8);
+            bq.misAJour(jeu);
+        });
+    }
+
+
+    private void setCommencerPartie(){
+        bStart.setBorderPainted(false);
+        bStart.setContentAreaFilled(false);
+
+        bStart.addActionListener(e -> {
+            collecteur.startGame();
+            misAJour();
+        });
     }
 
 
     private void setMenuGame(){
-
-//        if(jeu.getEtat() == Jeu.ETAT_INITIAL){
-//            System.out.println("TEst");
-//            setMenuGameInitial();
-//        }else{
-            setMenuGameJeu();
-//        }
+        if(jeu.getEtat() == Jeu.ETAT_INITIAL){
+            setMenuGameInitial();
+        }else if(jeu.getEtat() == Jeu.ETAT_PLACEMENTP){
+            setMenuGameJeuPlacement();
+        }else{
+            setMenuGameJeuDeplacement();
+        }
     }
 
-    private void setMenuGameJeu() {
+
+    private void setMenuGameJeuPlacement() {
 
         menuGame.setLayout(new GridBagLayout());
         menuGame.setBackground(Color.ORANGE);
@@ -103,24 +156,8 @@ public class GameBoard extends JPanel {
         boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.X_AXIS));
 
         //----------------Boutons Pause et suggestion-------------
-        bPause.setBorderPainted(false);
-        bPause.setContentAreaFilled(false);
-        bPause.addActionListener(e -> collecteur.togglePause(true));
-
-        bSuggestion.setBorderPainted(false);
-        bSuggestion.setContentAreaFilled(false);
-        bSuggestion.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP){
-                    bq.misAJourSuggestionPlacement(jeu,suggestionPlacement());
-                }else {
-                    bq.misAJourSuggestionCoup(jeu, suggestionCoup());
-                }
-            }
-        });
-
-
+        setPause();
+        setSuggestion();
 
         boutonPanel.add(bPause);
         boutonPanel.add(bSuggestion);
@@ -134,7 +171,7 @@ public class GameBoard extends JPanel {
 
 
         //----------------Message-------------
-        messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant());
+        messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant() + " de placer un pingouin");
         messageTour.setFont(new Font("Serif", Font.PLAIN, 20));
 
         c.gridx = 0;
@@ -146,9 +183,12 @@ public class GameBoard extends JPanel {
 
 
         //----------Score--------------
-        setScore();
+        setScorePlacement();
 
         //----------Historique-------------
+
+        setHistorique();
+
         c.gridx = 0;
         c.weighty = 15;
         c.gridy = 3+jeu.getListeJoueur().size();
@@ -157,21 +197,8 @@ public class GameBoard extends JPanel {
 
 
         //----------Boutons annuler et refaire --------------
-        bAnnuler.setBorderPainted(false);
-        bAnnuler.setContentAreaFilled(false);
-
-        bAnnuler.addActionListener(e -> {
-            jeu.annule();
-            misAJour(jeu);
-        });
-
-        bRefaire.setBorderPainted(false);
-        bRefaire.setContentAreaFilled(false);
-
-        bRefaire.addActionListener(e -> {
-            jeu.refaire();
-            misAJour(jeu);
-        });
+        setAnnuler();
+        setRefaire();
 
         JPanel boutonPanel2 = new JPanel();
         boutonPanel2.setLayout(new BoxLayout(boutonPanel2, BoxLayout.X_AXIS));
@@ -188,95 +215,146 @@ public class GameBoard extends JPanel {
         misAJour();
     }
 
-//    private void setMenuGameInitial() {
-//
-//        menuGame.setLayout(new GridBagLayout());
-//        menuGame.setBackground(Color.ORANGE);
-//        GridBagConstraints c = new GridBagConstraints();
-//
-//
-//        bPause.setBorderPainted(false);
-//        bPause.setContentAreaFilled(false);
-//        bPause.addActionListener(e -> collecteur.togglePause(true));
-//
-//        c.gridx = 0;
-//        c.gridy = 0;
-//        c.weighty = 10;
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.anchor = GridBagConstraints.PAGE_START;
-//        menuGame.add(bPause, c);
-//
-//
-//        //----------------Message-------------
-//        messageTour = new Label("C'est au tour du joueur " + jeu.getJoueurCourant() + " de placer un pingouin");
-//
-//        c.gridx = 0;
-//        c.gridy = 1;
-//        c.weighty = 10;
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.anchor = GridBagConstraints.PAGE_START;
-//        menuGame.add(messageTour, c);
-//
-//
-//        //----------Pingouin--------------
-//        for(int i = 0; i < jeu.getListeJoueur().size(); i++){
-//            JPanel panelPingouin = new JPanel();
-//            panelPingouin.setLayout(new GridBagLayout());
-//
-//
-//
-//        }
-//
-//        //----------Historique-------------
-//        c.gridx = 0;
-//        c.weighty = 15;
-//        c.gridy = 3+jeu.getListeJoueur().size();
-//        c.fill = GridBagConstraints.BOTH;
-//        menuGame.add(bHistorique,c);
-//
-//
-//        //----------Boutons annuler et refaire --------------
-//        bAnnuler.setBorderPainted(false);
-//        bAnnuler.setContentAreaFilled(false);
-//
-//        bAnnuler.addActionListener(e -> {
-//            jeu.annule();
-//            misAJour(jeu);
-//        });
-//
-//        bRefaire.setBorderPainted(false);
-//        bRefaire.setContentAreaFilled(false);
-//
-//        bRefaire.addActionListener(e -> {
-//            jeu.refaire();
-//            misAJour(jeu);
-//        });
-//
-//        JPanel boutonPanel2 = new JPanel();
-//        boutonPanel2.setLayout(new BoxLayout(boutonPanel2, BoxLayout.X_AXIS));
-//
-//        boutonPanel2.add(bAnnuler);
-//        boutonPanel2.add(bRefaire);
-//
-//
-//        c.gridx = 0;
-//        c.weighty = 10;
-//        c.gridy = 4+jeu.getListeJoueur().size();
-//        menuGame.add(boutonPanel2, c);
-//
-//        misAJour();
-//
-//
-//    }
 
-    private void setScore(){
+    private void setMenuGameJeuDeplacement(){
+        menuGame.setLayout(new GridBagLayout());
+        menuGame.setBackground(Color.ORANGE);
+        GridBagConstraints c = new GridBagConstraints();
+
+        JPanel boutonPanel = new JPanel();
+        boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.X_AXIS));
+
+        //----------------Boutons Pause et suggestion-------------
+        setPause();
+        setSuggestion();
+
+        boutonPanel.add(bPause);
+        boutonPanel.add(bSuggestion);
+
+        c.gridx = 0;
+        c.gridy = 0;
+        c.weighty = 10;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.PAGE_START;
+        menuGame.add(boutonPanel, c);
+
+
+        //----------------Message-------------
+        messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant() + " de deplacer un pingouin");
+        messageTour.setFont(new Font("Serif", Font.PLAIN, 20));
+
+        c.gridx = 0;
+        c.gridy = 1;
+        c.weighty = 10;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.PAGE_START;
+        menuGame.add(messageTour, c);
+
+
+        //----------Score--------------
+        setScoreDeplacement();
+
+        //----------Historique-------------
+
+        setHistorique();
+
+        c.gridx = 0;
+        c.weighty = 15;
+        c.gridy = 3+jeu.getListeJoueur().size();
+        c.fill = GridBagConstraints.BOTH;
+        menuGame.add(bHistorique,c);
+
+
+        //----------Boutons annuler et refaire --------------
+        setAnnuler();
+        setRefaire();
+
+        JPanel boutonPanel2 = new JPanel();
+        boutonPanel2.setLayout(new BoxLayout(boutonPanel2, BoxLayout.X_AXIS));
+
+        boutonPanel2.add(bAnnuler);
+        boutonPanel2.add(bRefaire);
+
+
+        c.gridx = 0;
+        c.weighty = 10;
+        c.gridy = 4+jeu.getListeJoueur().size();
+        menuGame.add(boutonPanel2, c);
+
+        misAJour();
+    }
+
+
+
+    private void setMenuGameInitial() {
+
+        menuGame.setLayout(new GridBagLayout());
+        menuGame.setBackground(Color.ORANGE);
+        GridBagConstraints c = new GridBagConstraints();
+
+
+        setPause();
+
+        c.gridx = 0;
+        c.gridy = 0;
+        c.weighty = 10;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.PAGE_START;
+        menuGame.add(bPause, c);
+
+
+
+        //----------Commencer partie-------------
+        setCommencerPartie();
+        c.gridx = 0;
+        c.weighty = 15;
+        c.gridy = 3+jeu.getListeJoueur().size();
+        c.fill = GridBagConstraints.BOTH;
+        menuGame.add(bRegenereP,c);
+
+
+        //----------Regenere Plateau-------------
+        setRegenereP();
+        c.gridx = 0;
+        c.weighty = 15;
+        c.gridy = 4+jeu.getListeJoueur().size();
+        c.fill = GridBagConstraints.BOTH;
+        menuGame.add(bStart,c);
+
+
+        misAJour();
+
+    }
+
+
+
+
+    private void setScoreDeplacement(){
 
         GridBagConstraints c = new GridBagConstraints();
 
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
-            //PlacementPanel s = new PlacementPanel(jeu,jeu.getListeJoueur().get(i));
-            ScorePanel s = new ScorePanel(jeu,jeu.getListeJoueur().get(i));
-            s.setBorder(new LineBorder(Color.BLUE));
+            ScoreDeplacementPanel s = new ScoreDeplacementPanel(jeu,jeu.getListeJoueur().get(i));
+            s.setBorder(new LineBorder(Color.BLACK));
+            listeScorePanel.add(s);
+
+            c.gridx = 0;
+            c.gridy = 2+i;
+            c.fill = GridBagConstraints.BOTH;
+            c.anchor = GridBagConstraints.CENTER;
+            c.weighty = 75;
+            menuGame.add(s, c);
+        }
+    }
+
+
+    private void setScorePlacement(){
+
+        GridBagConstraints c = new GridBagConstraints();
+
+        for(int i = 0; i < jeu.getListeJoueur().size();i++){
+            ScorePlacementPanel s = new ScorePlacementPanel(jeu,jeu.getListeJoueur().get(i));
+            s.setBorder(new LineBorder(Color.BLACK));
             listeScorePanel.add(s);
 
             c.gridx = 0;
@@ -305,21 +383,20 @@ public class GameBoard extends JPanel {
 
 
     private void misAJour(){
-//        if(initial && jeu.getEtat() == Jeu.ETAT_SELECTIONP){
-//            initial = false;
-//            menuGame.removeAll();
-//            setMenuGame();
-//        }
+        if((etat == Jeu.ETAT_INITIAL && jeu.getEtat() == Jeu.ETAT_PLACEMENTP) || (etat == Jeu.ETAT_PLACEMENTP && jeu.getEtat() == Jeu.ETAT_SELECTIONP) || (etat == Jeu.ETAT_SELECTIONP && jeu.getEtat() == Jeu.ETAT_PLACEMENTP)){
+            etat = jeu.getEtat();
+            menuGame.removeAll();
+            listeScorePanel.clear();
+            setMenuGame();
+            revalidate();
+        }
 
-
-        messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant());
-        for(int i = 0; i < jeu.getListeJoueur().size();i++){
-            if(listeScorePanel.size() < jeu.getListeJoueur().size()){
-                ScorePanel s = new ScorePanel(jeu, jeu.getListeJoueur().get(i));
-                listeScorePanel.add(s);
+        if(etat != Jeu.ETAT_INITIAL){
+            messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant());
+            for(int i = 0; i < jeu.getListeJoueur().size();i++){
+                System.out.println("Test");
+                listeScorePanel.get(i).misAJour(jeu, jeu.getListeJoueur().get(i));
             }
-
-            listeScorePanel.get(i).misAJour(jeu, jeu.getListeJoueur().get(i));
         }
         bq.misAJour(jeu);
 

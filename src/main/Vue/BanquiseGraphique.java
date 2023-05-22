@@ -1,5 +1,6 @@
 package Vue;
 
+import Interface.GameConstants;
 import Model.*;
 
 import javax.imageio.ImageIO;
@@ -9,34 +10,11 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
 
 public class BanquiseGraphique extends JComponent {
-
-    BufferedImage hPoisson1, hPoisson2, hPoisson3, hVide;
-    BufferedImage hPingouinR1, hPingouinR2, hPingouinR3;
-    BufferedImage hPingouinB1, hPingouinB2, hPingouinB3;
-    BufferedImage hPingouinV1, hPingouinV2, hPingouinV3;
-    BufferedImage hPingouinJ1, hPingouinJ2, hPingouinJ3;
-
-    BufferedImage hPoisson1hR, hPoisson2hR, hPoisson3hR;
-    BufferedImage hPoisson1hB, hPoisson2hB, hPoisson3hB;
-    BufferedImage hPoisson1hV, hPoisson2hV, hPoisson3hV;
-    BufferedImage hPoisson1hJ, hPoisson2hJ, hPoisson3hJ;
-    BufferedImage hPingouinR1h, hPingouinR2h, hPingouinR3h;
-    BufferedImage hPingouinB1h, hPingouinB2h, hPingouinB3h;
-    BufferedImage hPingouinV1h, hPingouinV2h, hPingouinV3h;
-    BufferedImage hPingouinJ1h, hPingouinJ2h, hPingouinJ3h;
-    BufferedImage hPoissonG1, hPoissonG2, hPoissonG3;
-
-    BufferedImage hPingouinRC1, hPingouinRC2, hPingouinRC3, hPingouinVC1, hPingouinVC2 ,hPingouinVC3, hPingouinBC1, hPingouinBC2,hPingouinBC3, hPingouinJC1, hPingouinJC2, hPingouinJC3;
-
-
-    BufferedImage hVideR, hVideB, hVideV, hVideJ;
 
     TexturePaint paintFont;
 
@@ -58,101 +36,12 @@ public class BanquiseGraphique extends JComponent {
         this.etat = jeu.getEtat();
 
         Rectangle r = new Rectangle(0,0, 750, 750);
-        paintFont = new TexturePaint(chargeImage("fondMer"),r);
-
-        hPoisson1 = chargeImage("casePoissons1");
-        hPoisson2 = chargeImage("casePoissons2");
-        hPoisson3 = chargeImage("casePoissons3");
-        hVide = chargeImage("caseVide");
-
-        hPingouinR1 = chargeImage("caseRouge1");
-        hPingouinR2 = chargeImage("caseRouge2");
-        hPingouinR3 = chargeImage("caseRouge3");
-
-        hPingouinV1 = chargeImage("caseVert1");
-        hPingouinV2 = chargeImage("caseVert2");
-        hPingouinV3 = chargeImage("caseVert3");
-
-        hPingouinB1 = chargeImage("caseBleu1");
-        hPingouinB2 = chargeImage("caseBleu2");
-        hPingouinB3 = chargeImage("caseBleu3");
-
-        hPingouinJ1 = chargeImage("caseJaune1");
-        hPingouinJ2 = chargeImage("caseJaune2");
-        hPingouinJ3 = chargeImage("caseJaune3");
-
-        hPoisson1hR = chargeImage("brilleRouge1");
-        hPoisson2hR = chargeImage("brilleRouge2");
-        hPoisson3hR = chargeImage("brilleRouge3-2");
-
-        hPoisson1hB = chargeImage("brilleBleu1");
-        hPoisson2hB = chargeImage("brilleBleu2");
-        hPoisson3hB = chargeImage("brilleBleu3-2");
-
-        hPoisson1hV = chargeImage("brilleVert1");
-        hPoisson2hV = chargeImage("brilleVert2");
-        hPoisson3hV = chargeImage("brilleVert3-2");
-
-        hPoisson1hJ = chargeImage("brilleJaune1");
-        hPoisson2hJ = chargeImage("brilleJaune2");
-        hPoisson3hJ = chargeImage("brilleJaune3-2");
-
-        hPingouinR1h = chargeImage("contourBrilleRouge1");
-        hPingouinR2h = chargeImage("contourBrilleRouge2");
-        hPingouinR3h = chargeImage("contourBrilleRouge3");
-
-        hPingouinV1h = chargeImage("contourBrilleVert1");
-        hPingouinV2h = chargeImage("contourBrilleVert2");
-        hPingouinV3h = chargeImage("contourBrilleVert3");
-
-        hPingouinB1h = chargeImage("contourBrilleBleu1");
-        hPingouinB2h = chargeImage("contourBrilleBleu2");
-        hPingouinB3h = chargeImage("contourBrilleBleu3");
-
-        hPingouinJ1h = chargeImage("contourBrilleJaune1");
-        hPingouinJ2h = chargeImage("contourBrilleJaune2");
-        hPingouinJ3h = chargeImage("contourBrilleJaune3");
-
-        hPoissonG1 = chargeImage("gris1-2");
-        hPoissonG2 = chargeImage("gris2-2");
-        hPoissonG3 = chargeImage("gris3-2");
-
-        hVideR = chargeImage("contourRouge");
-        hVideB = chargeImage("contourBleu");
-        hVideV = chargeImage("contourVert");
-        hVideJ = chargeImage("contourJaune");
-
-
-        hPingouinRC1 = chargeImage("contourRouge1");
-        hPingouinRC2 = chargeImage("contourRouge2");
-        hPingouinRC3 = chargeImage("contourRouge3");
-
-        hPingouinVC1 = chargeImage("contourVert1");
-        hPingouinVC2 = chargeImage("contourVert2");
-        hPingouinVC3 = chargeImage("contourVert3");
-
-        hPingouinBC1 = chargeImage("contourBleu1");
-        hPingouinBC2 = chargeImage("contourBleu2");
-        hPingouinBC3 = chargeImage("contourBleu3");
-
-        hPingouinJC1 = chargeImage("contourJaune1");
-        hPingouinJC2 = chargeImage("contourJaune2");
-        hPingouinJC3 = chargeImage("contourJaune3");
+        paintFont = new TexturePaint(GameConstants.fondMer,r);
 
         plateau = new ArrayList<>(60);
 
         suggestionCoup = null;
         suggestionPos = null;
-    }
-
-    private BufferedImage chargeImage(String nom) {
-        try {
-            InputStream in = new FileInputStream("resources/assets/jeu/plateau/" + nom + ".png");
-            return ImageIO.read(in);
-        } catch (Exception e) {
-            System.out.println("Fichier \"" + nom + "\" introuvable");
-        }
-        return null;
     }
 
 
@@ -222,7 +111,7 @@ public class BanquiseGraphique extends JComponent {
         if(etat == Jeu.ETAT_CHOIXC) {
             infoP = jeu.getSelectionP();
             listHexagone = jeu.getCaseAccessible(infoP.x, infoP.y);
-        }else if(etat == Jeu.ETAT_SELECTIONP){
+        }else if(etat == Jeu.ETAT_SELECTIONP && jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA() == 0){
             ArrayList<Pingouin> listPingouin = jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).listePingouin;
             listPingouinPos = new ArrayList<>();
             for(Pingouin p : listPingouin){
@@ -250,7 +139,7 @@ public class BanquiseGraphique extends JComponent {
         if(suggestionPos != null)
             System.out.println("spos = " + suggestionPos.x + " " + suggestionPos.y);
 
-        BufferedImage bfi = hVide;
+        BufferedImage bfi = GameConstants.hVide;
 
         for (int i = 0; i < plateau.size(); i++) {
 
@@ -260,125 +149,124 @@ public class BanquiseGraphique extends JComponent {
 
             if(coordHexa.equals(lastPos) && etat != Jeu.ETAT_PLACEMENTP){
                 int lastJoueur = jeu.getLastPlayer();
-                System.out.println("jeu.getLastPlayer() = " + jeu.getLastPlayer());
                 if(lastJoueur == 1)
-                    bfi = hVideB;
+                    bfi = GameConstants.hVideB;
                 else if(lastJoueur == 2)
-                    bfi = hVideR;
+                    bfi = GameConstants.hVideR;
                 else if (lastJoueur == 3)
-                    bfi = hVideV;
+                    bfi = GameConstants.hVideV;
                 else
-                    bfi = hVideJ;
+                    bfi = GameConstants.hVideJ;
 
             }else if(coordHexa.equals(newPos)){
                 Cases c2 = jeu.getCase(newPos.x,newPos.y);
                 if (c2.pingouinPresent() == 1) {
                     if (c2.getNbPoissons() == 1)
-                        bfi = hPingouinBC1;
+                        bfi = GameConstants.hPingouinBC1;
                     else if (c2.getNbPoissons() == 2)
-                        bfi = hPingouinBC2;
+                        bfi = GameConstants.hPingouinBC2;
                     else if (c2.getNbPoissons() == 3)
-                        bfi = hPingouinBC3;
+                        bfi = GameConstants.hPingouinBC3;
                 } else if (c2.pingouinPresent() == 2) {
                     if (c2.getNbPoissons() == 1)
-                        bfi = hPingouinRC1;
+                        bfi = GameConstants.hPingouinRC1;
                     else if (c2.getNbPoissons() == 2)
-                        bfi = hPingouinRC2;
+                        bfi = GameConstants.hPingouinRC2;
                     else if (c2.getNbPoissons() == 3)
-                        bfi = hPingouinRC3;
+                        bfi = GameConstants.hPingouinRC3;
                 } else if (c2.pingouinPresent() == 3) {
                     if (c2.getNbPoissons() == 1)
-                        bfi = hPingouinVC1;
+                        bfi = GameConstants.hPingouinVC1;
                     else if (c2.getNbPoissons() == 2)
-                        bfi = hPingouinVC2;
+                        bfi = GameConstants.hPingouinVC2;
                     else if (c2.getNbPoissons() == 3)
-                        bfi = hPingouinVC3;
+                        bfi = GameConstants.hPingouinVC3;
                 } else if (c2.pingouinPresent() == 4) {
                     if (c2.getNbPoissons() == 1)
-                        bfi = hPingouinJC1;
+                        bfi = GameConstants.hPingouinJC1;
                     else if (c2.getNbPoissons() == 2)
-                        bfi = hPingouinJC2;
+                        bfi = GameConstants.hPingouinJC2;
                     else if (c2.getNbPoissons() == 3)
-                        bfi = hPingouinJC3;
+                        bfi = GameConstants.hPingouinJC3;
                 }
 
-            }else if(etat == Jeu.ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0) {
+            }else if(etat == Jeu.ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0 && jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA() == 0) {
                 if (jeu.getJoueurCourant() == 1)
-                    bfi = hPoisson1hB;
+                    bfi = GameConstants.hPoisson1hB;
                 else if (jeu.getJoueurCourant() == 2)
-                    bfi = hPoisson1hR;
+                    bfi = GameConstants.hPoisson1hR;
                 else if (jeu.getJoueurCourant() == 3)
-                    bfi = hPoisson1hV;
+                    bfi = GameConstants.hPoisson1hV;
                 else if (jeu.getJoueurCourant() == 4)
-                    bfi = hPoisson1hJ;
+                    bfi = GameConstants.hPoisson1hJ;
 //            }else if(etat == Jeu.ETAT_PLACEMENTP && (c.getNbPoissons() != 1 || c.pingouinPresent() != 0)){
 //                if(c.getNbPoissons() == 1)
-//                    bfi = hPoissonG1;
+//                    bfi = GameConstants.hPoissonG1;
 //                else if(c.getNbPoissons() == 2)
-//                    bfi = hPoissonG2;
+//                    bfi = GameConstants.hPoissonG2;
 //                else if(c.getNbPoissons() == 3)
-//                    bfi = hPoissonG3;
+//                    bfi = GameConstants.hPoissonG3;
 
-            }else if(etat == Jeu.ETAT_CHOIXC && Objects.requireNonNull(listHexagone).contains(coordHexa)){
+            }else if(etat == Jeu.ETAT_CHOIXC && listHexagone != null && listHexagone.contains(coordHexa)){
                 if(jeu.getJoueurCourant() == 1){
                     if (c.getNbPoissons() == 1)
-                        bfi = hPoisson1hB;
+                        bfi = GameConstants.hPoisson1hB;
                     else if (c.getNbPoissons() == 2)
-                        bfi = hPoisson2hB;
+                        bfi = GameConstants.hPoisson2hB;
                     else if (c.getNbPoissons() == 3)
-                        bfi = hPoisson3hB;
+                        bfi = GameConstants.hPoisson3hB;
                 }else if(jeu.getJoueurCourant() == 2){
                     if (c.getNbPoissons() == 1)
-                        bfi = hPoisson1hR;
+                        bfi = GameConstants.hPoisson1hR;
                     else if (c.getNbPoissons() == 2)
-                        bfi = hPoisson2hR;
+                        bfi = GameConstants.hPoisson2hR;
                     else if (c.getNbPoissons() == 3)
-                        bfi = hPoisson3hR;
+                        bfi = GameConstants.hPoisson3hR;
                 }else if(jeu.getJoueurCourant() == 3){
                     if (c.getNbPoissons() == 1)
-                        bfi = hPoisson1hV;
+                        bfi = GameConstants.hPoisson1hV;
                     else if (c.getNbPoissons() == 2)
-                        bfi = hPoisson2hV;
+                        bfi = GameConstants.hPoisson2hV;
                     else if (c.getNbPoissons() == 3)
-                        bfi = hPoisson3hV;
+                        bfi = GameConstants.hPoisson3hV;
                 }else{
                     if (c.getNbPoissons() == 1)
-                        bfi = hPoisson1hJ;
+                        bfi = GameConstants.hPoisson1hJ;
                     else if (c.getNbPoissons() == 2)
-                        bfi = hPoisson2hJ;
+                        bfi = GameConstants.hPoisson2hJ;
                     else if (c.getNbPoissons() == 3)
-                        bfi = hPoisson3hJ;
+                        bfi = GameConstants.hPoisson3hJ;
                 }
 
-            }else if ((etat == Jeu.ETAT_CHOIXC && coordHexa.equals(infoP)) || (etat == Jeu.ETAT_SELECTIONP && Objects.requireNonNull(listPingouinPos).contains(coordHexa))){
+            }else if ((etat == Jeu.ETAT_CHOIXC && coordHexa.equals(infoP)) || (etat == Jeu.ETAT_SELECTIONP && listPingouinPos != null && listPingouinPos.contains(coordHexa))){
                 if(jeu.getJoueurCourant() == 1){
                     if (c.getNbPoissons() == 1)
-                        bfi = hPingouinB1h;
+                        bfi = GameConstants.hPingouinB1h;
                     else if (c.getNbPoissons() == 2)
-                        bfi = hPingouinB2h;
+                        bfi = GameConstants.hPingouinB2h;
                     else if (c.getNbPoissons() == 3)
-                        bfi = hPingouinB3h;
+                        bfi = GameConstants.hPingouinB3h;
                 }else if(jeu.getJoueurCourant() == 2){
                     if (c.getNbPoissons() == 1)
-                        bfi = hPingouinR1h;
+                        bfi = GameConstants.hPingouinR1h;
                     else if (c.getNbPoissons() == 2)
-                        bfi = hPingouinR2h;
+                        bfi = GameConstants.hPingouinR2h;
                     else if (c.getNbPoissons() == 3)
-                        bfi = hPingouinR3h;
+                        bfi = GameConstants.hPingouinR3h;
                 }else if(jeu.getJoueurCourant() == 3){
                     if (c.getNbPoissons() == 1)
-                        bfi = hPingouinV1h;
+                        bfi = GameConstants.hPingouinV1h;
                     else if (c.getNbPoissons() == 2)
-                        bfi = hPingouinV2h;
+                        bfi = GameConstants.hPingouinV2h;
                     else if (c.getNbPoissons() == 3)
-                        bfi = hPingouinV3h;
+                        bfi = GameConstants.hPingouinV3h;
                 }else{
                     if (c.getNbPoissons() == 1)
-                        bfi = hPingouinJ1h;
+                        bfi = GameConstants.hPingouinJ1h;
                     else if (c.getNbPoissons() == 2)
-                        bfi = hPingouinJ2h;
+                        bfi = GameConstants.hPingouinJ2h;
                     else if (c.getNbPoissons() == 3)
-                        bfi = hPingouinJ3h;
+                        bfi = GameConstants.hPingouinJ3h;
                 }
             }else{
                 bfi = getBfi(c);
@@ -394,42 +282,42 @@ public class BanquiseGraphique extends JComponent {
     private BufferedImage getBfi(Cases c) {
         BufferedImage bfi = null;
         if (c.estMange()) {
-            bfi = hVide;
+            bfi = GameConstants.hVide;
         } else if (c.pingouinPresent() == 0) {
             if (c.getNbPoissons() == 1)
-                bfi = hPoisson1;
+                bfi = GameConstants.hPoisson1;
             else if (c.getNbPoissons() == 2)
-                bfi = hPoisson2;
+                bfi = GameConstants.hPoisson2;
             else if (c.getNbPoissons() == 3)
-                bfi = hPoisson3;
+                bfi = GameConstants.hPoisson3;
         } else if (c.pingouinPresent() == 1) {
             if (c.getNbPoissons() == 1)
-                bfi = hPingouinB1;
+                bfi = GameConstants.hPingouinB1;
             else if (c.getNbPoissons() == 2)
-                bfi = hPingouinB2;
+                bfi = GameConstants.hPingouinB2;
             else if (c.getNbPoissons() == 3)
-                bfi = hPingouinB3;
+                bfi = GameConstants.hPingouinB3;
         } else if (c.pingouinPresent() == 2) {
             if (c.getNbPoissons() == 1)
-                bfi = hPingouinR1;
+                bfi = GameConstants.hPingouinR1;
             else if (c.getNbPoissons() == 2)
-                bfi = hPingouinR2;
+                bfi = GameConstants.hPingouinR2;
             else if (c.getNbPoissons() == 3)
-                bfi = hPingouinR3;
+                bfi = GameConstants.hPingouinR3;
         } else if (c.pingouinPresent() == 3) {
             if (c.getNbPoissons() == 1)
-                bfi = hPingouinV1;
+                bfi = GameConstants.hPingouinV1;
             else if (c.getNbPoissons() == 2)
-                bfi = hPingouinV2;
+                bfi = GameConstants.hPingouinV2;
             else if (c.getNbPoissons() == 3)
-                bfi = hPingouinV3;
+                bfi = GameConstants.hPingouinV3;
         } else if (c.pingouinPresent() == 4) {
             if (c.getNbPoissons() == 1)
-                bfi = hPingouinJ1;
+                bfi = GameConstants.hPingouinJ1;
             else if (c.getNbPoissons() == 2)
-                bfi = hPingouinJ2;
+                bfi = GameConstants.hPingouinJ2;
             else if (c.getNbPoissons() == 3)
-                bfi = hPingouinJ3;
+                bfi = GameConstants.hPingouinJ3;
         }
         return bfi;
     }
@@ -467,7 +355,7 @@ public class BanquiseGraphique extends JComponent {
     public void sauvegardeBanquise(String nomFichier){
         BufferedImage bi = new BufferedImage((int) (size*8 + 2*offsetX), (int) (size*8 + offsetY), BufferedImage.TYPE_INT_ARGB);
         Graphics g = bi.createGraphics();
-        this.paint(g);  //this == JComponent
+        this.paint(g);
         g.dispose();
         try{ImageIO.write(bi,"png",new File("resources/sauvegarde/"+nomFichier+".png"));}catch (Exception ignored) {}
     }

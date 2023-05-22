@@ -148,7 +148,7 @@ public class MenuP extends JPanel {
 
                 c.newGame(j, arj, ar);
                 c.switchGameBoard();
-                c.startGame();
+               //c.startGame();
             }
         });
 
