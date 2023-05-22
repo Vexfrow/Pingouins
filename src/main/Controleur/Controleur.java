@@ -147,7 +147,7 @@ public class Controleur implements CollecteurEvenements {
 
     public void setJeu(Jeu j, ArrayList<IAJoueur> ar){
         this.jeu = j;
-        plateauJeu.misAJour(jeu);
+        plateauJeu = new GameBoard(jeu, this);
         listeIA = ar;
         this.window.setGameBoard(plateauJeu);
         threadActif = true;
