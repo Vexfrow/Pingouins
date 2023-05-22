@@ -4,7 +4,7 @@ import Interface.GameConstants;
 import Interface.MenuP;
 import Interface.Fenetre;
 import Interface.GameBoard.GameBoard;
-import Joueur.IAJoueur;
+import Joueur.*;
 import Model.*;
 import Vue.AdaptateurSourisPlateau;
 import Vue.CollecteurEvenements;
@@ -17,6 +17,7 @@ public class Controleur implements CollecteurEvenements {
     private Fenetre window;
     private GameBoard plateauJeu;
     private Jeu jeu;
+    public  volatile boolean paused;
 
     private AdaptateurSourisPlateau cliqueBq;
 
@@ -28,7 +29,7 @@ public class Controleur implements CollecteurEvenements {
         window = null;
         plateauJeu = null;
         listeIA = new ArrayList<>();
-
+        paused = false;
 
         cliqueBq = null;
 
@@ -50,6 +51,7 @@ public class Controleur implements CollecteurEvenements {
 
     //change est a true si il faut toggle la backingPane
     public void togglePause(boolean change){
+        System.out.println("Nombre de Thread " + Thread.activeCount());
         this.window.workingPane.switchBackPane(2);
         if(change){
             this.window.workingPane.toggleBackingPane();
@@ -133,6 +135,11 @@ public class Controleur implements CollecteurEvenements {
             plateauJeu.getBq().removeMouseListener(cliqueBq);
 
         System.out.println("Change");
+    }
+
+    public void activateGameBoard(){
+        if(plateauJeu.getBq().getMouseListeners().length == 0)
+            plateauJeu.getBq().addMouseListener(cliqueBq);
     }
 
 
@@ -226,11 +233,13 @@ public class Controleur implements CollecteurEvenements {
                                 jeu.joue(c);
                         }
                         plateauJeu.misAJour(jeu);
+
                         run();
                     }
                 }
             });
             t.start();
+
         }
     }
 
@@ -243,5 +252,36 @@ public class Controleur implements CollecteurEvenements {
         return jeu;
     }
 
+    public void replay(){
+
+        ArrayList<Joueur> arJV = jeu.getListeJoueur();
+        ArrayList<Joueur> arJ = new ArrayList<Joueur>();
+        for(int i = 0; i < arJV.size(); i++){
+            arJ.add(new Joueur(i+1, 0 ,0, arJV.get(i).estIA()));
+        }
+        jeu = new Jeu(arJ);
+        ArrayList<IAJoueur> arIAV = listeIA;
+        ArrayList<IAJoueur> arIA = new ArrayList<IAJoueur>();
+        for(int i = 0; i< arIAV.size(); i++){
+            IAJoueur ia = null;
+            if(arIAV.get(i) instanceof IAFacile){
+                ia = new IAFacile(jeu);
+            }else if(arIAV.get(i) instanceof IAMoyen){
+                ia = new IAMoyen(jeu);
+            }else if(arIAV.get(i) instanceof IADifficile){
+                ia = new IADifficile(jeu);
+            }else if(arIAV.get(i) instanceof IAExpert){
+                ia = new IAExpert(jeu);
+            }
+            arIA.add(ia);
+        }
+        plateauJeu = new GameBoard(jeu, this);
+        listeIA = arIA;
+
+        this.window.setGameBoard(plateauJeu);
+        System.out.println(arJ);
+        switchGameBoard();
+        startGame();
+    }
 
 }

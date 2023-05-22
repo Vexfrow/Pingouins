@@ -33,7 +33,7 @@ public class Sauvegarde extends JPanel {
         try{
             flecheRetour = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheRetour.png"));
         }catch(Exception e){
-            System.out.println("une erreur " + e);
+            System.err.println("une erreur " + e);
         }
         collecteur = c;
         listeSave = new SaveList();
@@ -116,7 +116,6 @@ public class Sauvegarde extends JPanel {
                 gbc.weightx = 3;
                 gbc.insets = new Insets(0, (int)(getWidth()*0.2), 0 , (int)(getWidth()*0.2 ));
                 layout.setConstraints(listeSave, gbc);
-                System.out.println("Ici");
             }
         });
 

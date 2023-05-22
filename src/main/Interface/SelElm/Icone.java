@@ -26,7 +26,6 @@ public class Icone extends JPanel{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D gd = (Graphics2D)g;
-        System.out.println("Taille icone = " + size );
         Polygon p = new Polygon();
         double angle_deg;
         double angle_rad;

@@ -36,7 +36,7 @@ public class MenuP extends JPanel {
             chargerPartieI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonChargerPartie.png"));
             tutorielI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonTuto.png"));
         }catch(Exception e){
-            System.out.println("une erreur " + e);
+            System.err.println("une erreur " + e);
         }
         partiePersonnalisee = new JButton();
         partieRapide = new JButton();
@@ -49,7 +49,6 @@ public class MenuP extends JPanel {
         this.setLayout(layout);
 
         ImageIcon c = new ImageIcon(hintI);
-        System.out.println(c.getIconWidth() + " h -> " + c.getIconHeight());
         regles.setPreferredSize(new Dimension(c.getIconWidth(), c.getIconHeight() ));
         titreS = new ImageIcon(titreI);
         hintS = new ImageIcon(hintI);
@@ -138,14 +137,10 @@ public class MenuP extends JPanel {
         partieRapide.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ArrayList<Joueur> ar = new ArrayList<Joueur>();
-                ar.add(new Joueur(1,0,0,0));
-                ar.add(new Joueur(2,0,0,3));
+                Settings s = new Settings();
+                ArrayList<Joueur> ar = s.getJoueur();
                 Jeu j = new Jeu(ar);
-                ArrayList<IAJoueur> arj = new ArrayList<IAJoueur>();
-                arj.add(null);
-                arj.add(new IAFacile(j));
-
+                ArrayList<IAJoueur> arj = s.getTypes(j);
                 c.newGame(j, arj, ar);
                 c.switchGameBoard();
                 c.startGame();
@@ -164,7 +159,6 @@ public class MenuP extends JPanel {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
-                System.out.println("RESIZE");
                 maj();
                 revalidate();
             }
@@ -213,7 +207,6 @@ public class MenuP extends JPanel {
     }
 
     public void iconfied(){
-        System.out.println("Iconified");
         maj();
     }
 

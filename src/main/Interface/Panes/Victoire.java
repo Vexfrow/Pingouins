@@ -99,6 +99,7 @@ public class Victoire extends JPanel{
         retourMenu.setContentAreaFilled(false);
         retourMenu.setBackground(Color.CYAN);
         retourMenu.addActionListener(e -> controlleur.switchMenu());
+        relancerPartie.addActionListener(e -> controlleur.replay());
 
 
         panelBoutons.add(relancerPartie);
@@ -219,12 +220,9 @@ public class Victoire extends JPanel{
             InputStream in = new FileInputStream("resources/assets/jeu/victoire/" + nom + ".png");
             return ImageIO.read(in);
         } catch (Exception e) {
-            System.out.println("Fichier \"" + nom + "\" introuvable");
+            System.err.println("Fichier \"" + nom + "\" introuvable");
         }
         return null;
     }
-
-
-
 
 }

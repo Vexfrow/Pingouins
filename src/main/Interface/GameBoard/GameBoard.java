@@ -88,7 +88,7 @@ public class GameBoard extends JPanel {
 //        }
     }
 
-    private void setMenuGameJeu() {
+    public void setMenuGameJeu() {
 
         menuGame.setLayout(new GridBagLayout());
         menuGame.setBackground(Color.ORANGE);

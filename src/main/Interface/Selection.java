@@ -42,7 +42,7 @@ public class Selection extends JPanel {
             lancer = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonLancerPartie.png"));
             defaut = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonChoixDefaut.png"));
         }catch(Exception e){
-            System.out.println("une erreur " + e);
+            System.err.println("une erreur " + e);
         }
         listJoueur = new IconeSelection[4];
         setSelection();
@@ -164,7 +164,6 @@ public class Selection extends JPanel {
         valide.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("nb P " + numberOfPlayer());
                 ArrayList<Joueur> ar = getJoueur();
                 if(ar.size() >= 2){
                     Jeu j = new Jeu(ar);
@@ -176,6 +175,22 @@ public class Selection extends JPanel {
 
             }
         });
+
+        sauvegarde.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Settings s = new Settings();
+                ArrayList<Joueur> ar = getJoueur();
+                int t = ar.size();
+                int[] tj = new int[t];
+                for(int i = 0; i < t; i++){
+                    tj[i] = ar.get(i).estIA();
+                }
+                s.writeSettings(t, tj);
+            }
+        });
+
+
     }
 
     public void changeIcon(){
@@ -230,6 +245,14 @@ public class Selection extends JPanel {
             }
         }
         return arj;
+    }
+
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        for(int i = 0; i < 4; i++){
+            listJoueur[i].revalidate();
+            listJoueur[i].repaint();
+        }
     }
 }
 

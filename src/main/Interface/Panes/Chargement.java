@@ -78,11 +78,11 @@ public class Chargement extends JPanel {
         gbc.fill = GridBagConstraints.BOTH;
         add(selection, gbc);
 
-
+        gbc.fill = GridBagConstraints.NONE;
         gbc.weighty = 0;
         gbc.gridx = 1;
         gbc.gridy = 3;
-        gbc.gridwidth = 2;
+        gbc.gridwidth = 1;
         add(valider, gbc);
         retour.setIcon(new ImageIcon(img));
         retour.addActionListener(new ActionListener() {
@@ -93,6 +93,7 @@ public class Chargement extends JPanel {
 
                 }else{
                     collecteurEvenements.toggelCharge(true);
+
                 }
             }
         });
@@ -102,6 +103,7 @@ public class Chargement extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 collecteurEvenements.toggelCharge(true);
                 genererPartie();
+                collecteurEvenements.activateGameBoard();
             }
         });
         fichier = "";
@@ -183,7 +185,6 @@ public class Chargement extends JPanel {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Chargement : NB J" + ari.size());
         return ari;
     }
 

@@ -61,7 +61,7 @@ public class ListeFile extends JPanel {
             upVide = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheChargeHautTransparente.png"));
             downVide = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/flecheChargeBasTransparente.png"));
         }catch(Exception e){
-            System.out.println("une erreur " + e);
+            System.err.println("une erreur " + e);
         }
 
 
@@ -207,7 +207,6 @@ public class ListeFile extends JPanel {
             String fileName = file.getName();
             int index = fileName.lastIndexOf(".");
             if (file.isFile() && fileName.substring(index).equals(".txt")) {
-                System.out.println(fileName);
                 s[i] = fileName.substring(0, index);
                 i++;
             }
