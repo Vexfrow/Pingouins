@@ -55,12 +55,19 @@ public class GameBoard extends JPanel {
         collecteur.setPlateauJeu(this);
 
         bPause = new JButton(new ImageIcon(GameConstants.pause));
+        setPause();
         bRefaire = new JButton(new ImageIcon(GameConstants.refaire));
+        setRefaire();
         bSuggestion = new JButton(new ImageIcon(GameConstants.suggestion));
+        setSuggestion();
         bAnnuler = new JButton(new ImageIcon(GameConstants.annuler));
+        setAnnuler();
         bOk= new JButton(new ImageIcon(GameConstants.boutonOk));
+        setOk();
         bStart = new JButton("Commencer Partie");
+        setCommencerPartie();
         bRegenereP= new JButton(new ImageIcon(GameConstants.regenerePlateau));
+        setRegenereP();
 
         setMenuGame();
         setGamePanel();
@@ -156,9 +163,7 @@ public class GameBoard extends JPanel {
         JPanel boutonPanel = new JPanel();
         boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.X_AXIS));
 
-        //----------------Boutons Pause et suggestion-------------
-        setPause();
-        setSuggestion();
+        //----------------Boutons Pause et suggestion------------
 
         boutonPanel.add(bPause);
         boutonPanel.add(bSuggestion);
@@ -189,11 +194,7 @@ public class GameBoard extends JPanel {
 
 
         //----------Boutons annuler et refaire --------------
-        setAnnuler();
-        setOk();
-        setRefaire();
-
-        JPanel boutonPanel2 = new JPanel();
+          JPanel boutonPanel2 = new JPanel();
         boutonPanel2.setLayout(new BoxLayout(boutonPanel2, BoxLayout.X_AXIS));
 
         boutonPanel2.add(bAnnuler);
@@ -220,8 +221,6 @@ public class GameBoard extends JPanel {
         boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.X_AXIS));
 
         //----------------Boutons Pause et suggestion-------------
-        setPause();
-        setSuggestion();
 
         boutonPanel.add(bPause);
         boutonPanel.add(bSuggestion);
@@ -252,10 +251,6 @@ public class GameBoard extends JPanel {
 
 
         //----------Boutons annuler et refaire --------------
-        setAnnuler();
-        setOk();
-        setRefaire();
-
         JPanel boutonPanel2 = new JPanel();
         boutonPanel2.setLayout(new BoxLayout(boutonPanel2, BoxLayout.X_AXIS));
 
@@ -280,9 +275,6 @@ public class GameBoard extends JPanel {
         menuGame.setBackground(Color.ORANGE);
         GridBagConstraints c = new GridBagConstraints();
 
-
-        setPause();
-
         c.gridx = 0;
         c.gridy = 0;
         c.weighty = 10;
@@ -293,7 +285,6 @@ public class GameBoard extends JPanel {
 
 
         //----------Commencer partie-------------
-        setCommencerPartie();
         c.gridx = 0;
         c.weighty = 15;
         c.gridy = 1;
@@ -302,7 +293,6 @@ public class GameBoard extends JPanel {
 
 
         //----------Regenere Plateau-------------
-        setRegenereP();
         c.gridx = 0;
         c.weighty = 15;
         c.gridy = 2;

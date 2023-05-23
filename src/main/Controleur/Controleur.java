@@ -107,6 +107,7 @@ public class Controleur implements CollecteurEvenements {
 
     @Override
     public void clicSourisPlateau(int coupX, int coupY) {
+        System.out.println("Clique !");
         if(jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA() == 0){
             for(int i = 0; i < plateauJeu.getBq().getPlateauJeu().size();i++) {
                 Shape cell = plateauJeu.getBq().getPlateauJeu().get(i);
@@ -125,11 +126,11 @@ public class Controleur implements CollecteurEvenements {
 
     @Override
     public void mouseOnBanquise(int coupX, int coupY) {
-        System.out.println("zzzz");
-        if(jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA() == 0){
-            System.out.println("Teststst");
-           plateauJeu.getBq().majMouseOverBq(coupX, coupY);
-        }
+//        System.out.println("zzzz");
+//        if(jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA() == 0){
+//            System.out.println("Teststst");
+//           plateauJeu.getBq().majMouseOverBq(coupX, coupY);
+//        }
     }
 
 
@@ -145,11 +146,11 @@ public class Controleur implements CollecteurEvenements {
     private void toggleClique(){
         if(plateauJeu.getBq().getMouseListeners().length == 0) {
             plateauJeu.getBq().addMouseListener(cliqueBq);
-            plateauJeu.getBq().addMouseMotionListener(cliqueBq);
+            //plateauJeu.getBq().addMouseMotionListener(cliqueBq);
         }
         else {
             plateauJeu.getBq().removeMouseListener(cliqueBq);
-            plateauJeu.getBq().removeMouseMotionListener(cliqueBq);
+            //plateauJeu.getBq().removeMouseMotionListener(cliqueBq);
         }
     }
 

@@ -64,7 +64,7 @@ public class GameConstants {
     public static final BufferedImage hPoisson2hV = chargeImagePlateau("brilleVert2");
     public static final BufferedImage hPoisson3hV = chargeImagePlateau("brilleVert3-2");
 
-    public static final BufferedImage hPoisson1hJ = chargeImagePlateau("brilleJaune2");
+    public static final BufferedImage hPoisson1hJ = chargeImagePlateau("brilleJaune1");
     public static final BufferedImage hPoisson2hJ = chargeImagePlateau("brilleJaune2");
     public static final BufferedImage hPoisson3hJ = chargeImagePlateau("brilleJaune3-2");
 
