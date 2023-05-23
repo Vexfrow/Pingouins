@@ -146,7 +146,7 @@ public class MenuP extends JPanel {
                 ArrayList<IAJoueur> arj = s.getTypes(j);
                 c.newGame(j, arj, ar);
                 c.switchGameBoard();
-                c.startGame();
+               //c.startGame();
             }
         });
 
