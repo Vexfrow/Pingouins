@@ -56,7 +56,7 @@ public class ScoreDeplacementPanel extends ScorePanel {
         panelScorePoisson.add(jlP);
 
         scorePoisson = new JLabel(String.valueOf(joueur.getScore()));
-        scorePoisson.setFont(new Font("Serif", Font.PLAIN, 25));
+        scorePoisson.setFont(new Font(scorePoisson.getFont().getFontName(), Font.PLAIN, 25));
         panelScorePoisson.add(scorePoisson);
 
         panelScores.add(panelScorePoisson);
@@ -69,7 +69,7 @@ public class ScoreDeplacementPanel extends ScorePanel {
         panelScoreHexagone.add(jlH);
 
         scoreHexagone = new JLabel(String.valueOf(joueur.getNbCasesMange()));
-        scoreHexagone.setFont(new Font("Serif", Font.PLAIN, 25));
+        scoreHexagone.setFont(new Font(scoreHexagone.getFont().getFontName(), Font.PLAIN, 25));
         panelScoreHexagone.add(scoreHexagone);
 
         panelScores.add(panelScoreHexagone);
@@ -77,7 +77,8 @@ public class ScoreDeplacementPanel extends ScorePanel {
 
         //Texte pour le numéro du joueur
         numJoueur.setText("Joueur "+ joueur.getNumeroJoueur() + " - " + joueur.getName());
-        numJoueur.setFont(new Font("Serif", Font.PLAIN, 19));
+        numJoueur.setFont(new Font(numJoueur.getFont().getFontName(), Font.PLAIN, 19));
+        numJoueur.setHorizontalTextPosition(SwingConstants.LEFT);
         numJoueur.setForeground(Color.BLACK);
 
 

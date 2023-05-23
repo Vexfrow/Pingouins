@@ -43,7 +43,8 @@ public class ScorePlacementPanel extends ScorePanel{
         this.setBackground(new Color(200,200,200));
 
         textJoueur.setText("Joueur " + joueur.getNumeroJoueur() + " - " + joueur.getName());
-        textJoueur.setFont(new Font("Serif", Font.PLAIN, 19));
+        textJoueur.setHorizontalTextPosition(SwingConstants.LEFT);
+        textJoueur.setFont(new Font(textJoueur.getFont().getFontName(), Font.PLAIN, 19));
         this.add(textJoueur);
 
 
@@ -57,7 +58,7 @@ public class ScorePlacementPanel extends ScorePanel{
 
 
         textNbPingouin.setText("X" + (jeu.getNbPingouinJoueur() - joueur.getListePingouin().size()));
-        textNbPingouin.setFont(new Font("Serif", Font.PLAIN, 30));
+        textNbPingouin.setFont(new Font(textNbPingouin.getFont().getFontName(), Font.PLAIN, 30));
         panelPingouin.add(textNbPingouin);
         panelPingouin.add(Box.createRigidArea(new Dimension(40, 0)));
         this.add(panelPingouin);

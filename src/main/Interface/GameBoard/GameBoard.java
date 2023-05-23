@@ -22,7 +22,7 @@ public class GameBoard extends JPanel {
     int etat;
     CollecteurEvenements collecteur;
 
-    Label messageTour;
+    JLabel messageTour;
 
     public Jeu jeu;
 
@@ -41,7 +41,7 @@ public class GameBoard extends JPanel {
 
         bq = new BanquiseGraphique(j);
         menuGame = new JPanel();
-        messageTour = new Label();
+        messageTour = new JLabel();
         messageTour.setBackground(Color.ORANGE);
 
         listeScorePanel = new ArrayList<>();
@@ -172,7 +172,8 @@ public class GameBoard extends JPanel {
 
         //----------------Message-------------
         messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant() + " de placer un pingouin");
-        messageTour.setFont(new Font("Serif", Font.PLAIN, 20));
+        messageTour.setFont(new Font(messageTour.getFont().getFontName(), Font.PLAIN, 20));
+        messageTour.setHorizontalAlignment(SwingConstants.CENTER);
 
         c.gridx = 0;
         c.gridy = 1;
@@ -230,7 +231,7 @@ public class GameBoard extends JPanel {
 
         //----------------Message-------------
         messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant() + " de deplacer un pingouin");
-        messageTour.setFont(new Font("Serif", Font.PLAIN, 20));
+        messageTour.setFont(new Font(messageTour.getFont().getFontName(), Font.PLAIN, 20));
 
         c.gridx = 0;
         c.gridy = 1;
@@ -282,6 +283,7 @@ public class GameBoard extends JPanel {
         //----------Commencer partie-------------
         c.gridx = 0;
         c.weighty = 15;
+        c.gridwidth = 2;
         c.gridy = 1;
         c.fill = GridBagConstraints.BOTH;
         menuGame.add(bStart,c);
@@ -290,6 +292,7 @@ public class GameBoard extends JPanel {
         //----------Regenere Plateau-------------
         c.gridx = 0;
         c.weighty = 15;
+        c.gridwidth = 2;
         c.gridy = 2;
         c.fill = GridBagConstraints.BOTH;
         menuGame.add(bRegenereP,c);
@@ -324,7 +327,6 @@ public class GameBoard extends JPanel {
 
 
     private void setScorePlacement(){
-
         GridBagConstraints c = new GridBagConstraints();
 
         for(int i = 0; i < jeu.getListeJoueur().size();i++){
@@ -372,6 +374,10 @@ public class GameBoard extends JPanel {
                 listeScorePanel.get(i).misAJour(jeu, jeu.getListeJoueur().get(i));
             }
         }
+
+        bAnnuler.setEnabled(jeu.peutAnnuler());
+        bRefaire.setEnabled(jeu.peutRefaire());
+
         bq.misAJour(jeu);
 
         if(jeu.getEtat() == Jeu.ETAT_FINAL) {
@@ -405,10 +411,10 @@ public class GameBoard extends JPanel {
         bAnnuler.setPreferredSize(new Dimension(widthMenuSize/4,widthMenuSize/4));
 
 
-        bStart.setSize(new Dimension(widthMenuSize,widthMenuSize/2));
-        bStart.setPreferredSize(new Dimension(widthMenuSize,widthMenuSize/2));
-        bRegenereP.setSize(new Dimension(widthMenuSize,widthMenuSize/2));
-        bRegenereP.setPreferredSize(new Dimension(widthMenuSize,widthMenuSize/2));
+        bStart.setSize(new Dimension(widthMenuSize,widthMenuSize/3));
+        bStart.setPreferredSize(new Dimension(widthMenuSize,widthMenuSize/3));
+        bRegenereP.setSize(new Dimension(widthMenuSize,widthMenuSize/3));
+        bRegenereP.setPreferredSize(new Dimension(widthMenuSize,widthMenuSize/3));
 
 
 
@@ -454,10 +460,10 @@ public class GameBoard extends JPanel {
     public void toggleButton(){
         bPause.setEnabled(!bPause.isEnabled());
         bSuggestion.setEnabled(!bSuggestion.isEnabled());
-        bRefaire.setEnabled(!bRefaire.isEnabled());
-        bAnnuler.setEnabled(!bAnnuler.isEnabled());
         bStart.setEnabled(!bStart.isEnabled());
         bRegenereP.setEnabled(!bRegenereP.isEnabled());
+        bRefaire.setEnabled(jeu.peutRefaire() && !bRefaire.isEnabled());
+        bAnnuler.setEnabled(jeu.peutAnnuler() && !bAnnuler.isEnabled());
     }
 
 

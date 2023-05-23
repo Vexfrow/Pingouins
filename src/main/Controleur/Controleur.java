@@ -107,7 +107,6 @@ public class Controleur implements CollecteurEvenements {
 
     @Override
     public void clicSourisPlateau(int coupX, int coupY) {
-        System.out.println("Clique !");
         if(jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA() == 0){
             for(int i = 0; i < plateauJeu.getBq().getPlateauJeu().size();i++) {
                 Shape cell = plateauJeu.getBq().getPlateauJeu().get(i);
@@ -206,7 +205,6 @@ public class Controleur implements CollecteurEvenements {
     public void startGame(){
         jeu.startGame();
         plateauJeu.getBq().misAJour(jeu);
-      // ?????  threadActif = true;
         joueCoup();
     }
 
@@ -221,7 +219,7 @@ public class Controleur implements CollecteurEvenements {
                         if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP) {
                             Position p = jia.elaborePlacement();
                             try {
-                                Thread.sleep(500);
+                                Thread.sleep(100);
                             } catch (InterruptedException ignored) {
 
                             }
@@ -229,7 +227,7 @@ public class Controleur implements CollecteurEvenements {
                         } else {
                             Coup c = jia.elaboreCoup();
                             try {
-                                Thread.sleep(500);
+                                Thread.sleep(100);
                             } catch (InterruptedException ignored) {
 
                             }
@@ -282,7 +280,6 @@ public class Controleur implements CollecteurEvenements {
         listeIA = arIA;
 
         this.window.setGameBoard(plateauJeu);
-        System.out.println(arJ);
         switchGameBoard();
     }
 
