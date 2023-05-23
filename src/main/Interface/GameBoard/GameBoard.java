@@ -1,6 +1,9 @@
 package Interface.GameBoard;
 
+import Joueur.IAExpert;
+import Model.Coup;
 import Model.Jeu;
+import Model.Position;
 import Vue.BanquiseGraphique;
 import Vue.CollecteurEvenements;
 
@@ -8,6 +11,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -104,6 +109,17 @@ public class GameBoard extends JPanel {
 
         bSuggestion.setBorderPainted(false);
         bSuggestion.setContentAreaFilled(false);
+        bSuggestion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP){
+                    bq.misAJourSuggestionPlacement(jeu,suggestionPlacement());
+                }else {
+                    bq.misAJourSuggestionCoup(jeu, suggestionCoup());
+                }
+            }
+        });
+
 
 
         boutonPanel.add(bPause);
@@ -316,14 +332,16 @@ public class GameBoard extends JPanel {
 
 
 
+    private Coup suggestionCoup(){
+        IAExpert sugg = new IAExpert(jeu);
+        return sugg.elaboreCoup();
+    }
 
 
-
-
-
-
-
-
+    private Position suggestionPlacement(){
+        IAExpert sugg = new IAExpert(jeu);
+        return sugg.elaborePlacement();
+    }
 
     public BanquiseGraphique getBq(){
         return bq;

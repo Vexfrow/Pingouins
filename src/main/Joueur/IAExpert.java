@@ -25,21 +25,23 @@ public class IAExpert extends IAJoueur{
        @Override
     public Position elaborePlacement(){
         
+        this.start = System.currentTimeMillis();
+        
         this.iajoueur = this.j.getJoueurCourant();
         Configuration conf = new Configuration(this.j.cloner());
+
         ArrayList<Configuration> fils = Configuration.coupFilsPhase1(conf);
-
-        ArrayList<PositionPondere> listCp = new ArrayList<PositionPondere>();
-
+        double max = -Double.MAX_VALUE;
+        double temp = 0;
+        Position posmax = null;
         for(int i = 0; i < fils.size(); i++){
-            PositionPondere cpP = new PositionPondere(fils.get(i).position,Heuristique.HnbCaseAccessible(fils.get(i),this.iajoueur));
-            listCp.add(cpP);
-        }  
-        Collections.sort(listCp);
-        if(listCp.size()>0){
-            return listCp.get(0).pos;
+            if((temp = Heuristique.HnbCaseAccessible(fils.get(i),this.iajoueur)) > max ){
+                max =temp;
+                posmax = fils.get(i).position;
+            }
+            
         }
-        return null;
+        return posmax;
     }
     
     @Override

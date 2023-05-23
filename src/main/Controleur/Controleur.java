@@ -21,6 +21,9 @@ public class Controleur implements CollecteurEvenements {
     private AdaptateurSourisPlateau cliqueBq;
 
 
+    private volatile boolean threadActif;
+
+
     private ArrayList<IAJoueur> listeIA;
 
     public Controleur(){
@@ -28,7 +31,7 @@ public class Controleur implements CollecteurEvenements {
         window = null;
         plateauJeu = null;
         listeIA = new ArrayList<>();
-
+        threadActif = true;
 
         cliqueBq = null;
 
@@ -52,6 +55,12 @@ public class Controleur implements CollecteurEvenements {
     public void togglePause(boolean change){
         this.window.workingPane.switchBackPane(2);
         if(change){
+            if(threadActif)
+                threadActif = false;
+            else{
+                threadActif = true;
+                joueCoup();
+            }
             this.window.workingPane.toggleBackingPane();
             this.window.getGameBoard().toggleButton();
             toogleClique();
@@ -138,12 +147,11 @@ public class Controleur implements CollecteurEvenements {
 
     public void setJeu(Jeu j, ArrayList<IAJoueur> ar){
         this.jeu = j;
-        plateauJeu.misAJour(jeu);
+        plateauJeu = new GameBoard(jeu, this);
         listeIA = ar;
         this.window.setGameBoard(plateauJeu);
+        threadActif = true;
         joueCoup();
-
-
     }
 
     public void setInterface(Fenetre window){
@@ -190,12 +198,14 @@ public class Controleur implements CollecteurEvenements {
         jeu = j;
         plateauJeu = new GameBoard(jeu, this);
         listeIA = liste;
+        threadActif = true;
         this.window.setGameBoard(plateauJeu);
     }
 
     public void startGame(){
         jeu.startGame();
         plateauJeu.getBq().misAJour(jeu);
+
         joueCoup();
     }
 
@@ -205,7 +215,8 @@ public class Controleur implements CollecteurEvenements {
             Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    if (jeu.getEtat() != Jeu.ETAT_FINAL && jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).estIA() !=0) {
+                    System.out.println(threadActif);
+                    if (jeu.getEtat() != Jeu.ETAT_FINAL && jeu.getListeJoueur().get(jeu.getJoueurCourant() - 1).estIA() !=0 && threadActif) {
                         IAJoueur jia = listeIA.get(jeu.getJoueurCourant() - 1);
                         if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP) {
                             Position p = jia.elaborePlacement();

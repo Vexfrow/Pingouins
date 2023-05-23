@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 
 public class MainTestIA{
-    private static int nbP = 100000;
+    private static int nbP = 100;
     private static int nbJ = 2;
 
     public static void main(String[] args){
@@ -28,8 +28,8 @@ public class MainTestIA{
             ArrayList<IAJoueur> ialist = new ArrayList<IAJoueur>();
 
 
-            ialist.add(new IATroisPoissons(j)); // 9.6 et 90.3
-            ialist.add(new IATroisPoissons(j));
+            ialist.add(new IAMinimax(j));
+            ialist.add(new IAExpert(j));
 
             while(!j.pingouinTousPlace()){
                 k=0;
