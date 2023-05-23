@@ -29,7 +29,7 @@ public class MainTestIA{
 
 
             ialist.add(new IAMinimax(j));
-            ialist.add(new IAMoyen(j));
+            ialist.add(new IAExpert(j));
 
             while(!j.pingouinTousPlace()){
                 k=0;
