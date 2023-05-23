@@ -62,7 +62,7 @@ public class IconeSelection extends JPanel {
         int y = GameConstants.JAUNE.getRGB();
         this.size = size;
         this.rotation = 1;
-        this.centre = new Icone();
+
         this.indice = i;
         try{
             if(this.color.getRGB() == r){
@@ -82,6 +82,8 @@ public class IconeSelection extends JPanel {
         }catch(Exception e){
             System.err.println("une erreur " + e);
         }
+
+        this.centre = new Icone(indice);
 
         gauche  = new JButton(new ImageIcon(selGauche));
         droite = new JButton(new ImageIcon(selDroite));
@@ -174,6 +176,8 @@ public class IconeSelection extends JPanel {
             this.plus.setVisible(false);
         }
 
+        centre.setActif(actif);
+
 
         gauche.addActionListener(new ActionListener() {
             @Override
@@ -194,8 +198,10 @@ public class IconeSelection extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 s.ajout();
                 selection();
-                revalidate();
+                centre.setActif(actif);
                 s.refresh();
+                centre.refresh();
+
 
             }
         });
@@ -205,8 +211,10 @@ public class IconeSelection extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 selection();
                 s.del();
-                revalidate();
+                centre.setActif(actif);
                 s.refresh();
+                centre.refresh();
+
             }
         });
     }

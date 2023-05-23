@@ -216,15 +216,15 @@ public class Selection extends JPanel {
         for(int i =0; i < 4; i++){
             if(listJoueur[i].isActif()){
                 if(listJoueur[i].getName().equals(IconeSelection.IA_EASY)){
-                    ar.add(new Joueur(i, 0, 0, 1));
+                    ar.add(new Joueur((i+1), 0, 0, 1));
                 }else if(listJoueur[i].getName().equals(IconeSelection.IA_MEDIUM)){
-                    ar.add(new Joueur(i, 0, 0, 2));
+                    ar.add(new Joueur((i+1), 0, 0, 2));
                 }else if(listJoueur[i].getName().equals(IconeSelection.IA_DIFFICILE)){
-                    ar.add(new Joueur(i, 0, 0, 3));
+                    ar.add(new Joueur((i+1), 0, 0, 3));
                 }else if(listJoueur[i].getName().equals(IconeSelection.IA_EXPERTE)){
-                    ar.add(new Joueur(i, 0, 0, 4));
+                    ar.add(new Joueur((i+1), 0, 0, 4));
                 }else{
-                    ar.add(new Joueur(i, 0, 0, 0));
+                    ar.add(new Joueur((i+1), 0, 0, 0));
                 }
 
             }
