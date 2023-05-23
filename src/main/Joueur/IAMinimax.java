@@ -75,7 +75,7 @@ public class IAMinimax extends IAJoueur{
         Coup coupMax = null;
 
         for(int i = 0; i < fils.size(); i++){
-            if((temp = minimaxPhase2(fils.get(i), 1+bonus, conf.jeu.getNbJoueur()-1)) > max ){
+            if((temp = minimaxPhase2(fils.get(i), 1, conf.jeu.getNbJoueur()-1)) > max ){
                 max = temp;
                 coupMax = fils.get(i).coup;
             }
@@ -119,11 +119,8 @@ public class IAMinimax extends IAJoueur{
         double tempo;
         ArrayList<Configuration> fils = Configuration.coupFilsPhase2(config);
         if((System.currentTimeMillis() - start > Time_out_ms) || depth <= 0 || config.jeu.jeuTermine()){
-            value = /*Heuristique.Hilot(config,this.iajoueur)*coefIlot*/ + Heuristique.HnbCaseAccessible(config,this.iajoueur)*coefNBCaseAcc
-            + Heuristique.Hdiffscore(config,this.iajoueur)*coefDiffScore +Heuristique.HcoupPossible(config,this.iajoueur)*coefNBCoup
-            + /*Heuristique.montecarlo(config,this.iajoueur,2)*coefMonteCarlo*/ -Heuristique.HcoupPossibleAdv(config,this.iajoueur)*coefNBCoupAdv
-           -Heuristique.HnbCaseAccessibleAdv(config,this.iajoueur)*coefCaseAccAdv;
-            return value;
+            return Heuristique.montecarlo(config,this.iajoueur,10);
+            
 
         }if(fils.size()==0){
             return minimaxPhase2(config,profo,max-1);

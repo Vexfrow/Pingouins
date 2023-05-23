@@ -124,7 +124,7 @@ public class Heuristique{
             }
             i++;
         }
-        return (double)score;
+        return (double)score/20;
     }
 
 
