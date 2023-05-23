@@ -75,7 +75,7 @@ public class IconeSelection extends JPanel {
             supp = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/croix.png"));
 
         }catch(Exception e){
-            System.out.println("une erreur " + e);
+            System.err.println("une erreur " + e);
         }
 
         gauche  = new JButton(new ImageIcon(selGauche));
@@ -203,11 +203,9 @@ public class IconeSelection extends JPanel {
         type.setBackground(Color.WHITE);
         Polygon p = new Polygon();
         Dimension taille = getSize();
-        System.out.println(taille);
         this.coorX = taille.width/2;
         this.coorY = taille.height/2 ;
         this.size = getHeight()/6;
-        System.out.println("Taille selection = " + size );
         centre.setSize(size);
         centre.setColor(color);
         super.paintComponent(g);

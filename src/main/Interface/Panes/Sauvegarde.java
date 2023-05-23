@@ -23,6 +23,7 @@ public class Sauvegarde extends JPanel {
     private CollecteurEvenements collecteur;
     private GridBagLayout layout;
     private Image flecheRetour;
+    private Image val;
 
     public Sauvegarde(CollecteurEvenements c){
         File d = new File("resources/sauvegarde");
@@ -32,19 +33,20 @@ public class Sauvegarde extends JPanel {
 
         try{
             flecheRetour = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheRetour.png"));
+            val = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonValider.png"));
         }catch(Exception e){
-            System.out.println("une erreur " + e);
+            System.err.println("une erreur " + e);
         }
         collecteur = c;
         listeSave = new SaveList();
         titre = new JLabel("Sauvegarde de la partie actuelle");
-        valider = new JButton("Valider");
-        retour = new JButton(new ImageIcon(flecheRetour));
-
+        valider = new JButton();
+        retour = new JButton();
         retour.setContentAreaFilled(false);
         retour.setBorderPainted(false);
 
         valider.setBorderPainted(false);
+        valider.setContentAreaFilled(false);
 
         layout = new GridBagLayout();
         setLayout(layout);
@@ -54,7 +56,6 @@ public class Sauvegarde extends JPanel {
         gbc.gridy = 0;
         gbc.weighty = 1;
         gbc.anchor = GridBagConstraints.NORTHWEST;
-        //gbc.insets = new Insets(50,30, 0, 30);
         add(retour, gbc);
 
 
@@ -64,19 +65,19 @@ public class Sauvegarde extends JPanel {
         gbc.gridwidth =  5;
         gbc.weightx = 5;
         gbc.anchor = GridBagConstraints.NORTH;
-        //gbc.insets = new Insets(0,0, 0, 0);
         add(titre, gbc);
 
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.BOTH;
+        //gbc.anchor = GridBagConstraints.CENTER;
         gbc.gridx = 0;
         gbc.gridy = 2;
 
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.weightx = 3;
-        //gbc.insets = new Insets(0,50, 0, 150);
+        gbc.weighty = 3;
         add(listeSave, gbc);
 
+        gbc.weighty = 0;
         gbc.gridx = 2;
         gbc.gridy = 3;
         gbc.gridwidth = 1;
@@ -84,15 +85,18 @@ public class Sauvegarde extends JPanel {
         gbc.fill = GridBagConstraints.NONE;
         add(valider, gbc);
 
-
-        //valider.setPreferredSize(new Dimension(200, 80));
-
         valider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String res = listeSave.getText();
-                c.save(res);
-                collecteur.togglePause(false);
+                if(res == ""){
+                    JOptionPane.showInternalMessageDialog(null, "<html>Le nom entré <br>n'est pas correct</html>");
+                }else{
+                    c.save(res);
+                    JOptionPane.showInternalMessageDialog(null, "Sauvegarde terminé");
+                    collecteur.togglePause(false);
+                }
+
             }
         });
 
@@ -106,17 +110,18 @@ public class Sauvegarde extends JPanel {
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                retour.setIcon(new ImageIcon(reScale(0.5f, flecheRetour )));
                 GridBagConstraints gbc = new GridBagConstraints();
                 gbc.anchor = GridBagConstraints.CENTER;
                 gbc.gridx = 0;
                 gbc.gridy = 2;
-                gbc.fill = GridBagConstraints.HORIZONTAL;
+                gbc.fill = GridBagConstraints.BOTH;
                 gbc.gridwidth = GridBagConstraints.REMAINDER;
                 gbc.weightx = 3;
-                gbc.insets = new Insets(0, (int)(getWidth()*0.2), 0 , (int)(getWidth()*0.2 ));
+                gbc.weighty = 3;
+                gbc.insets = new Insets(0, (int)(getWidth()*0.2), 0 , (int)(getHeight()*0.2 ));
                 layout.setConstraints(listeSave, gbc);
-                System.out.println("Ici");
+                retour.setIcon(new ImageIcon(reScale(0.5f, flecheRetour )));
+                valider.setIcon(new ImageIcon(reScale(0.4f, val )));
             }
         });
 

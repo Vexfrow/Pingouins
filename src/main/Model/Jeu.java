@@ -138,7 +138,6 @@ public class Jeu{
             terrainInitiale = clonerTerrain(terrainCourant);
             etat = ETAT_PLACEMENTP;
             // recupere tous les coups à jouer
-            System.out.println("Liste Coup");
             while ((line = bufferedReader.readLine()) != null && (!line.equals("b"))) {
 
                 //split la ligne
@@ -147,14 +146,12 @@ public class Jeu{
                 Pingouin ping = new Pingouin(Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
 
                 Coup cp = new Coup(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), ping , Boolean.parseBoolean(parts[4]));
-                System.out.println("Erreur de placement ? Etat = "  + getEtat());
                 if (Boolean.parseBoolean(parts[4])) {
                     placePingouin(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
                 } else {
                     joue(cp);
                 }
             }
-            System.out.println("Au final = " + getEtat());
 
             // recupere les coups annules
             while ((line = bufferedReader.readLine()) != null && (!line.equals("b"))) {
@@ -166,10 +163,9 @@ public class Jeu{
                 Coup cp = new Coup(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), ping , Boolean.parseBoolean(parts[4]));
                 coupAnnule.add(cp);
             }
-            System.out.println("A la fin = " + getEtat());
             reader.close();
         } catch (IOException e) {
-            System.out.print("Erreur : " + e);
+            System.err.print("Erreur : " + e);
         }
     }
 
@@ -354,7 +350,7 @@ public class Jeu{
             terrainCourant[ligne][colonne*2+val] = cases;
             terrainInitiale[ligne][colonne*2+val] = cases;
         } else {
-            System.out.println("impossible de mettre à jour la case ligne: " + ligne +", colonne:" + colonne );
+            System.err.println("impossible de mettre à jour la case ligne: " + ligne +", colonne:" + colonne );
         }
     }
 
@@ -402,7 +398,7 @@ public class Jeu{
 
             return true;
         } else {
-            System.out.println("Impossible de placer le pingouin la");
+            System.err.println("Impossible de placer le pingouin la");
             return false;
         }
     }
@@ -447,7 +443,7 @@ public class Jeu{
 
             return true;
         } else {
-            System.out.println("Impossible de placer le pingouin ici ");
+            System.err.println("Impossible de placer le pingouin ici ");
             return false;
         }
     }
@@ -498,7 +494,7 @@ public class Jeu{
             }
 
         } else {
-            System.out.println("JeuA: joue() - Impossible de jouer en :" + cp);
+            System.err.println("JeuA: joue() - Impossible de jouer en :" + cp);
             retirePingouin();
         }
     }
@@ -561,7 +557,7 @@ public class Jeu{
             retirePingouin();
             switchJoueur();
         } else {
-            System.out.println("JeuA: joueAnnuler() - Impossible de jouer\n");
+            System.err.println("JeuA: joueAnnuler() - Impossible de jouer\n");
         }
     }
 
@@ -602,7 +598,7 @@ public class Jeu{
             this.listeJoueur = j.getListeJoueur();
             this.joueurCourant = j.getJoueurCourant();
         } else {
-            System.out.println("JeuA: annule() - Impossible d'annuler\n");
+            System.err.println("JeuA: annule() - Impossible d'annuler\n");
         }
     }
 
@@ -625,7 +621,7 @@ public class Jeu{
             }
             coupAnnule.remove(coupAnnule.size()-1);
         } else {
-            System.out.println("JeuA: refaire() - Impossible de refaire\n");
+            System.err.println("JeuA: refaire() - Impossible de refaire\n");
         }
     }
 
@@ -680,12 +676,12 @@ public class Jeu{
             //enregistrer tous les coups annules
             int tailleLista = coupAnnule.size();
             for(int i = 0; i< tailleLista; i++) {
-                w.write(coupAnnule.get(i).getLigne() + " "+ coupAnnule.get(i).getColonne() + " " + coupAnnule.get(i).getPingouin().getColonne()+ " " + coupAnnule.get(i).getPingouin().getLigne() + " " + coupJoue.get(i).estPlace() +"\n");
+                w.write(coupAnnule.get(i).getLigne() + " "+ coupAnnule.get(i).getColonne() + " " + coupAnnule.get(i).getPingouin().getColonne()+ " " + coupAnnule.get(i).getPingouin().getLigne() + " " + coupAnnule.get(i).estPlace() +"\n");
             }
 
             w.close();
         } catch (IOException e) {
-            System.out.print("Erreur : " + e);
+            System.err.print("Erreur : " + e);
         }
     }
 
@@ -842,7 +838,7 @@ public class Jeu{
         if (k<p.size()) {
             bonPinguoin = true;
         } else {
-            System.out.println("Le pingouin choisit n'est pas déplacable pour le moment");
+            System.err.println("Le pingouin choisit n'est pas déplacable pour le moment");
         }
         return (index != casesAccessible.size() && bonPinguoin && nbPingouinPlace == 0);
     }
@@ -989,7 +985,7 @@ public class Jeu{
         if (coordValideTab(ligne, colonne*2+val)) {
             return terrainCourant[ligne][colonne*2+val];
         } else {
-            System.out.println("impossible de récuperer la case ligne: "+ligne+ ", colonne:"+colonne + "");
+            System.err.println("impossible de récuperer la case ligne: "+ligne+ ", colonne:"+colonne + "");
             return null;
         }
     }

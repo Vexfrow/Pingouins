@@ -29,12 +29,14 @@ public class Chargement extends JPanel {
     private JPanel selection;
     private String fichier;
     private Image img;
+    private Image val;
 
     public Chargement(CollecteurEvenements c){
         File d = new File("resources/sauvegarde");
         d.mkdir();
         try{
             img = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheRetour.png"));
+            val = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonValider.png"));
         }catch(Exception e){
             System.err.println(e);
         }
@@ -45,15 +47,19 @@ public class Chargement extends JPanel {
         preview = new Preview();
         GridBagConstraints gbc = new GridBagConstraints();
         retour = new JButton();
-        valider = new JButton("Valider");
+        valider = new JButton();
         titre = new JLabel("<html><p align=\"center\">Chargement de partie</p></html>");
         selection = new JPanel(new GridLayout(1, 2));
-
+        fichier = "";
         selection.add(lf);
         selection.add(preview);
 
         retour.setContentAreaFilled(false);
         retour.setBorderPainted(false);
+
+        valider.setBorderPainted(false);
+        valider.setContentAreaFilled(false);
+
 
         gbc.gridx =0;
         gbc.gridy = 0;
@@ -78,19 +84,19 @@ public class Chargement extends JPanel {
         gbc.fill = GridBagConstraints.BOTH;
         add(selection, gbc);
 
-
+        gbc.fill = GridBagConstraints.NONE;
         gbc.weighty = 0;
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 3;
-        gbc.gridwidth = 2;
+        gbc.gridwidth = 3;
         add(valider, gbc);
         retour.setIcon(new ImageIcon(img));
+        valider.setIcon(new ImageIcon(val));
         retour.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(collecteurEvenements.getEtatBackPane() == 2){
                     collecteurEvenements.togglePause(false);
-
                 }else{
                     collecteurEvenements.toggelCharge(true);
                 }
@@ -102,15 +108,17 @@ public class Chargement extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 collecteurEvenements.toggelCharge(true);
                 genererPartie();
+                collecteurEvenements.activateGameBoard();
             }
         });
-        fichier = "";
+
 
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
-                retour.setIcon(new ImageIcon(reScale(img, 0.06, 0.05)));
+                retour.setIcon(new ImageIcon(reScale(img, 0.05, 0.04)));
+                valider.setIcon(new ImageIcon(reScale(val, 0.3, 0.12)));
             }
         });
 
@@ -147,7 +155,7 @@ public class Chargement extends JPanel {
             int nbJoueur = Integer.parseInt(line);
             bufferedReader.readLine(); //irrelevant
             bufferedReader.readLine(); //irrelevant
-            int types[] = new int[nbJoueur];
+            int[] types = new int[nbJoueur];
 
 
 
@@ -183,7 +191,6 @@ public class Chargement extends JPanel {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Chargement : NB J" + ari.size());
         return ari;
     }
 

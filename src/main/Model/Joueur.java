@@ -106,5 +106,15 @@ public class Joueur {
     public String toString() {
         return "Joueur = " + getNumeroJoueur() + ", score = " + getScore() + ", nombre cases mangés = " + getNbCasesMange() + ", IA ="+ estIA() +", Pingouins  = " + getListePingouin().toString() ;
     }
+
+    public String getName(){
+        switch(IA){
+            case 0 : return "Humain";
+            case 1 : return "IA Facile";
+            case 2 : return "IA Moyenne";
+            case 3 : return "IA Difficile";
+            default: return "IA Experte";
+        }
+    }
     
 }

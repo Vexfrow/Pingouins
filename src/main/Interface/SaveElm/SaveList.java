@@ -13,13 +13,17 @@ import java.io.File;
 
 public class SaveList extends JPanel {
     private JTextField listeSave;
+    private JLabel echec;
     private JButton develop;
     private JButton clear;
     private JList<String> box;
     private JScrollPane listScroller;
     private boolean open;
+    private String[] problem = {"\\", "/", "<", ">", ":", "\"", "|", "*", "?"};
     public SaveList(){
         setLayout(new GridBagLayout());
+        echec =new JLabel("Les caractères: \\, /, <, >, :, \", |, *, ? sont interdits");
+        echec.setForeground(Color.RED);
         listeSave = new JTextField("");
         develop = new JButton(">");
         clear = new JButton("X");
@@ -38,7 +42,6 @@ public class SaveList extends JPanel {
         }else{
             box.setListData(s);
             box.setEnabled(true);
-            System.out.println("Taille " + s.length);
             if((s.length/2) < 5) {
                 box.setVisibleRowCount(s.length/2);
             }
@@ -46,15 +49,17 @@ public class SaveList extends JPanel {
                 box.setVisibleRowCount(5);
             }
         }
+        box.setVisibleRowCount(5);
 
 
 
         GridBagConstraints gbc = new GridBagConstraints();
 
-        gbc.gridy = 1;
-        gbc.gridx = 1;
-        gbc.weighty = 1;
+        gbc.gridy = 2;
+        gbc.gridx = 0;
         gbc.gridwidth = 2;
+        gbc.gridheight =2;
+        gbc.weighty =2;
         gbc.fill = GridBagConstraints.BOTH;
         box.setBorder(new EmptyBorder(0, 10, 0, 0));
         JScrollPane jp = new JScrollPane(box);
@@ -62,16 +67,24 @@ public class SaveList extends JPanel {
         jp.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
         add(jp, gbc);
 
+        gbc.gridheight =1;
+        gbc.weightx = 0;
+        gbc.weighty =0;
         gbc.fill = GridBagConstraints.NONE;
-        gbc.gridy = 0;
-        gbc.gridx = 2;
+        gbc.gridy = 1;
+        gbc.gridx = 1;
         gbc.gridwidth = 1;
         add(clear, gbc);
 
-        gbc.gridx = 1;
-        gbc.weightx = 2;
+        gbc.gridx = 0;
+
         gbc.fill = GridBagConstraints.BOTH;
         add(listeSave, gbc);
+
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridy = 0;
+        gbc.gridx = 0;
+        add(echec, gbc);
 
         clear.addActionListener(new ActionListener() {
             @Override
@@ -84,7 +97,6 @@ public class SaveList extends JPanel {
         develop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(open);
                 if(open){
 
                     box.setVisibleRowCount(0);
@@ -111,8 +123,45 @@ public class SaveList extends JPanel {
         });
     }
 
+    public boolean isValideName(String s){
+        int i =0;
+        while( i < problem.length && !s.contains(problem[i])){
+            i++;
+        }
+        return (s.length() != 0 && i >= problem.length);
+    }
+
+    public String removeSpace(String s){
+        int i =0;
+        String res = null;
+
+        while(i < s.length() && s.charAt(i)==' '){
+            i++;
+        }
+        res = s.substring(i);
+        System.out.println("Coupure avant: " + res);
+        int j = res.length()-1;
+        while( j>=0 && res.charAt(j)==' '){
+            j--;
+        }
+        if(j >= 0){
+            res = res.substring(i, j+1);
+        }else{
+            res = "";
+        }
+
+        System.out.println("Resultat: " + res);
+        return res;
+    }
+
     public String getText(){
-        return listeSave.getText();
+        String res = removeSpace(listeSave.getText());
+        if(!isValideName(res)){
+            System.err.println("Le nom du fichier est impossible");
+            return "";
+        }
+
+        return res;
     }
 
     public String[] getAllSaves(){
@@ -124,9 +173,11 @@ public class SaveList extends JPanel {
             String fileName = file.getName();
             int index = fileName.lastIndexOf(".");
             if (file.isFile() && fileName.substring(index).equals(".txt")) {
-                System.out.println(fileName);
-                s[i] = fileName.substring(0, index);
-                i++;
+                if(!fileName.substring(0, index).equals("")){
+                    s[i] = fileName.substring(0, index);
+                    i++;
+                }
+
             }
         }
         return s;

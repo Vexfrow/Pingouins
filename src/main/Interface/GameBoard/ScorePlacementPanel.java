@@ -1,66 +1,48 @@
 package Interface.GameBoard;
 
-import Interface.GameBoard.ImagePanel;
+import Interface.GameConstants;
 import Model.Jeu;
 import Model.Joueur;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
-import java.io.InputStream;
 
+public class ScorePlacementPanel extends ScorePanel{
 
-
-public class PlacementPanel extends JPanel {
-
-    BufferedImage pingouinR, pingouinV, pingouinB, pingouinJ;
-    Jeu jeu;
 
     Joueur joueur;
 
     JLabel textJoueur;
     JLabel textNbPingouin;
-
     ImagePanel imagePanel;
 
+    public ScorePlacementPanel(Jeu j) {
+        super(j);
 
-    public PlacementPanel(Jeu j, Joueur player){
-        pingouinR = chargeImage("pingouinRouge");
-        pingouinJ = chargeImage("pingouinJaune");
-        pingouinB = chargeImage("pingouinBleu");
-        pingouinV = chargeImage("pingouinVert");
-
-        jeu = j;
-        joueur = player;
-
+        joueur = null;
         textJoueur = new JLabel();
         textNbPingouin = new JLabel();
         imagePanel = new ImagePanel(getImage());
+    }
 
+
+    public ScorePlacementPanel(Jeu j, Joueur player) {
+        super(j);
+
+        joueur = player;
+        textJoueur = new JLabel();
+        textNbPingouin = new JLabel();
+        imagePanel = new ImagePanel(getImage());
         setPanel();
     }
 
+    public void setPanel(){
 
-    private BufferedImage chargeImage(String nom){
-        try {
-            InputStream in = new FileInputStream("resources/assets/jeu/menu/" + nom + ".png");
-            return ImageIO.read(in);
-        } catch (Exception e) {
-            System.out.println("Fichier \"" + nom + "\" introuvable");
-        }
-        return null;
-    }
-
-
-
-
-    private void setPanel(){
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         //this.setBackground(new Color(200,200,200));
 
-        textJoueur.setText("Joueur " + joueur.getNumeroJoueur());
+        textJoueur.setText("Joueur " + joueur.getNumeroJoueur() + " - " + joueur.getName());
         this.add(textJoueur);
 
 
@@ -84,24 +66,23 @@ public class PlacementPanel extends JPanel {
 
     private BufferedImage getImage(){
         if(joueur.getNumeroJoueur() == 1)
-            return pingouinB;
+            return GameConstants.pingouinBleu;
         else if(joueur.getNumeroJoueur() == 2)
-            return pingouinR;
+            return GameConstants.pingouinRouge;
         else if(joueur.getNumeroJoueur() == 3)
-            return pingouinV;
+            return GameConstants.pingouinVert;
         else
-            return pingouinJ;
+            return GameConstants.pingouinJaune;
 
     }
 
 
     public void misAJour(Jeu j, Joueur je){
-        jeu = j;
+
         joueur = je;
         textNbPingouin.setText("X" + (jeu.getNbPingouinJoueur() - joueur.getListePingouin().size()));
+        revalidate();
     }
-
-
 
 
 }

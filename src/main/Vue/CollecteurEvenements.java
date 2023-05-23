@@ -43,4 +43,10 @@ public interface CollecteurEvenements {
 
     Jeu getJeu();
 
+    void activateGameBoard();
+
+    void replay();
+
+
+    void mouseOnBanquise(int coupX, int coupY);
 }
