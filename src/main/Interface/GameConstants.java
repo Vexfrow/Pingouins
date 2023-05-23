@@ -114,9 +114,9 @@ public class GameConstants {
     public static final BufferedImage hVideV = chargeImagePlateau("caseVertTransparent");
     public static final BufferedImage hVideJ = chargeImagePlateau("caseJauneTransparent");
 
-    public static final BufferedImage fondMer = chargeImagePlateau("fondMer");
+    public static final BufferedImage fondMer = chargeImagePlateau("fondMerBleu");
 
-    public static final BufferedImage banquise = chargeImagePlateau("banquiseLarge");
+    public static final BufferedImage banquise = chargeImagePlateau("banquise2");
 
 
     //--------------------------Images Victoire-------------------------------

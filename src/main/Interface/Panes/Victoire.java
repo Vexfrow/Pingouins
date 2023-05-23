@@ -25,6 +25,7 @@ public class Victoire extends JPanel{
 
     ArrayList<Integer> gagnant;
 
+
     public Victoire(CollecteurEvenements c){
         jeu = c.getJeu();
         controlleur = c;
@@ -54,7 +55,7 @@ public class Victoire extends JPanel{
 
         panelBoutons = new JPanel();
         panelBoutons.setBackground(GameConstants.BACKGROUND_COLOR);
-        panelBoutons.setLayout(new BoxLayout(panelBoutons, BoxLayout.X_AXIS));
+        panelBoutons.setLayout(new BorderLayout());
         relancerPartie = new JButton(new ImageIcon(GameConstants.relancerPartieB));
         retourMenu = new JButton(new ImageIcon(GameConstants.retourMenuB));
 
@@ -62,17 +63,15 @@ public class Victoire extends JPanel{
         relancerPartie.setBorderPainted(false);
         relancerPartie.setContentAreaFilled(false);
         relancerPartie.setBackground(Color.CYAN);
-        //relancerPartie.addActionListener(e -> controlleur.togglePause(true));
+        relancerPartie.addActionListener(e -> controlleur.replay());
 
         retourMenu.setBorderPainted(false);
         retourMenu.setContentAreaFilled(false);
         retourMenu.setBackground(Color.CYAN);
         retourMenu.addActionListener(e -> controlleur.switchMenu());
-        relancerPartie.addActionListener(e -> controlleur.replay());
 
-
-        panelBoutons.add(relancerPartie);
-        panelBoutons.add(retourMenu);
+        panelBoutons.add(relancerPartie, BorderLayout.LINE_START);
+        panelBoutons.add(retourMenu, BorderLayout.LINE_END);
 
         this.add(panelBoutons, BorderLayout.SOUTH);
     }
@@ -146,6 +145,36 @@ public class Victoire extends JPanel{
         }else{
             return (gagnant.contains(4)) ? GameConstants.pingouinJauneC : GameConstants.pingouinJaune;
         }
+    }
+
+
+    public Image imageOnButton(JButton b, Image img){
+        if(b.getWidth() != 0 && b.getHeight() != 0)
+            return img.getScaledInstance(b.getWidth(), b.getHeight(), Image.SCALE_SMOOTH);
+        else
+            return img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+    }
+
+
+    @Override
+    public void invalidate() {
+        super.invalidate();
+        majSize();
+    }
+
+    private void majSize(){
+
+
+        relancerPartie.setSize(new Dimension(getWidth()/4,getWidth()/8));
+        relancerPartie.setPreferredSize(new Dimension(getWidth()/4,getWidth()/8));
+
+
+        retourMenu.setSize(new Dimension(getWidth()/4,getWidth()/8));
+        retourMenu.setPreferredSize(new Dimension(getWidth()/4,getWidth()/8));
+
+
+        relancerPartie.setIcon(new ImageIcon(imageOnButton(relancerPartie, GameConstants.relancerPartieB)));
+        retourMenu.setIcon(new ImageIcon(imageOnButton(retourMenu, GameConstants.retourMenuB)));
     }
 
 }
