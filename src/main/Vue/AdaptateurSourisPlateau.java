@@ -16,7 +16,7 @@ public class AdaptateurSourisPlateau extends MouseAdapter implements MouseMotion
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mousePressed(MouseEvent e) {
 
         int coupX = e.getX();
         int coupY = e.getY();
@@ -24,12 +24,12 @@ public class AdaptateurSourisPlateau extends MouseAdapter implements MouseMotion
     }
 
 
-    public void mouseMoved(MouseEvent e) {
-        int coupX = e.getX();
-        int coupY = e.getY();
-        System.out.println("zzzz");
-        collecteurEvenements.mouseOnBanquise(coupX, coupY);
-    }
+//    public void mouseMoved(MouseEvent e) {
+//        int coupX = e.getX();
+//        int coupY = e.getY();
+//        System.out.println("zzzz");
+//        collecteurEvenements.mouseOnBanquise(coupX, coupY);
+//    }
 
 
 }

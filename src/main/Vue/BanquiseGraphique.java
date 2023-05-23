@@ -106,9 +106,6 @@ public class BanquiseGraphique extends JComponent {
         g2d.setPaint(paintFont);
         g2d.fill(this.getBounds());
 
-//        if(drawPing)
-//            g2d.drawImage(GameConstants.pingouinBleu, posPing.x, posPing.y, 100, 100,null);
-
         g2d.drawImage(GameConstants.banquise, 0, 0, getWidth(), getHeight(), null);
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
