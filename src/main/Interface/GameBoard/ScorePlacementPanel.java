@@ -42,7 +42,7 @@ public class ScorePlacementPanel extends ScorePanel{
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         //this.setBackground(new Color(200,200,200));
 
-        textJoueur.setText("Joueur " + joueur.getNumeroJoueur());
+        textJoueur.setText("Joueur " + joueur.getNumeroJoueur() + " - " + joueur.getName());
         this.add(textJoueur);
 
 

@@ -676,7 +676,7 @@ public class Jeu{
             //enregistrer tous les coups annules
             int tailleLista = coupAnnule.size();
             for(int i = 0; i< tailleLista; i++) {
-                w.write(coupAnnule.get(i).getLigne() + " "+ coupAnnule.get(i).getColonne() + " " + coupAnnule.get(i).getPingouin().getColonne()+ " " + coupAnnule.get(i).getPingouin().getLigne() + " " + coupJoue.get(i).estPlace() +"\n");
+                w.write(coupAnnule.get(i).getLigne() + " "+ coupAnnule.get(i).getColonne() + " " + coupAnnule.get(i).getPingouin().getColonne()+ " " + coupAnnule.get(i).getPingouin().getLigne() + " " + coupAnnule.get(i).estPlace() +"\n");
             }
 
             w.close();
