@@ -23,13 +23,4 @@ public class AdaptateurSourisPlateau extends MouseAdapter implements MouseMotion
         collecteurEvenements.clicSourisPlateau(coupX, coupY);
     }
 
-
-//    public void mouseMoved(MouseEvent e) {
-//        int coupX = e.getX();
-//        int coupY = e.getY();
-//        System.out.println("zzzz");
-//        collecteurEvenements.mouseOnBanquise(coupX, coupY);
-//    }
-
-
 }

@@ -11,7 +11,6 @@ public class IAExpert extends IAJoueur{
     int iajoueur;
     private long start;
 
-    private static final int Time_out_ms = 2000;
 
 
     public IAExpert(Jeu j){
@@ -25,7 +24,6 @@ public class IAExpert extends IAJoueur{
        @Override
     public Position elaborePlacement(){
         
-        this.start = System.currentTimeMillis();
         
         this.iajoueur = this.j.getJoueurCourant();
         Configuration conf = new Configuration(this.j.cloner());

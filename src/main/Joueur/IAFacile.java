@@ -11,7 +11,6 @@ public class IAFacile extends IAJoueur{
     int iajoueur;
     private long start;
 
-    private static final int Time_out_ms = 2000;
 
 
     public IAFacile(Jeu j){
