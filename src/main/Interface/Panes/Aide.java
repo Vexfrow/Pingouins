@@ -60,8 +60,6 @@ public class Aide extends JPanel{
 
     }
 
-
-
     private void setAide(){
         flecheGauche.setContentAreaFilled(false);
         flecheGauche.setBorderPainted(false);
@@ -207,7 +205,7 @@ public class Aide extends JPanel{
         indications[i] ="<html>Un plateau est généré aléatoirement.<br> Il est composé de 60 cases hexagonales, pouvant contenir 1 (x30), 2 (x20) ou 3 (x10) poissons. </html>";
         titres[i] = "Plateau";
         i++;
-        indications[i] = "<html>Chacun son tour, les joueurs vont placer leurs pingouins sur la banquise.<br> Vous ne pouvez les poser que sur des cases de 1 poisson.<br> Le nombre total de pingouins sur le plateau dépend du nombre de joueurs. </html>";
+        indications[i] = "<html>Chacun son tour, les joueurs vont placer leurs pingouins, en cliquant sur la banquise.<br> Vous ne pouvez les poser que sur des cases de 1 poisson.<br> Le nombre total de pingouins sur le plateau dépend du nombre de joueurs. </html>";
         titres[i] = "Placer";
         i++;
         indications[i] = "<html>Lors de la phase de jeu, cliquez sur le pingouin que vous souhaiter déplacer.<br> Vous ne pouvez le faire que dans une des 6 directions proposées par les tuiles hexagonales.<br> Le pingouin ne peut se déplacer qu’en ligne droite, et ne peut traverser des pingouins ou la mer.</html>";

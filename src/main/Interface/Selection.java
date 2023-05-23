@@ -64,7 +64,6 @@ public class Selection extends JPanel {
         return neoImg;
     }
 
-
     public void setSelection(){
         valide.setPreferredSize(new Dimension(200, 80));
         valide.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -112,13 +111,14 @@ public class Selection extends JPanel {
         gbc.weightx = 2;
         gbc.weighty = 3;
 
-        IconeSelection p1 = new IconeSelection(GameConstants.BLEU, 100, false);
-
-        IconeSelection p2 = new IconeSelection(GameConstants.ROUGE, 100, false);
-
-        IconeSelection p3 = new IconeSelection(GameConstants.VERT, 100, true);
-
-        IconeSelection p4 = new IconeSelection(GameConstants.JAUNE, 100, true);
+        int k =0;
+        IconeSelection p1 = new IconeSelection(GameConstants.BLEU, 100, false, this,k);
+        k++;
+        IconeSelection p2 = new IconeSelection(GameConstants.ROUGE, 100, false, this,k);
+        k++;
+        IconeSelection p3 = new IconeSelection(GameConstants.VERT, 100, true, this,k);
+        k++;
+        IconeSelection p4 = new IconeSelection(GameConstants.JAUNE, 100, true, this, k);
 
 
         listJoueur[0] = p1;
@@ -197,7 +197,6 @@ public class Selection extends JPanel {
             retour.setIcon(new ImageIcon(flecheRetour));
     }
 
-
     public int numberOfPlayer(){
         int j = 0;
         for(int i =0; i < 4; i++){
@@ -250,9 +249,33 @@ public class Selection extends JPanel {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         for(int i = 0; i < 4; i++){
+            if(i < last){
+                listJoueur[i].fixed();
+            }else{
+                listJoueur[i].unfixed();
+            }
             listJoueur[i].revalidate();
             listJoueur[i].repaint();
         }
+    }
+
+    public void ajout(){
+
+        last++;
+        if(last > 3){
+            last = 3;
+        }
+    }
+
+    public void del(){
+        last--;
+        if(last < 2){
+            last =2;
+        }
+    }
+
+    public int getLast(){
+        return last;
     }
 }
 

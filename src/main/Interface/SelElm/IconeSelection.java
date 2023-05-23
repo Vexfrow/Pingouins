@@ -2,6 +2,8 @@ package Interface.SelElm;
 
 
 import Interface.GameConstants;
+import Interface.Selection;
+import Vue.CollecteurEvenements;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -42,14 +44,17 @@ public class IconeSelection extends JPanel {
     private Image supp;
     private JLabel icon;
     private Icone centre;
+    private boolean fixe;
+    private int indice;
+    private Selection sel;
 
 
 
 
-    public IconeSelection(Color color, int size, boolean notInit){
+    public IconeSelection(Color color, int size, boolean notInit, Selection s, int i){
         this.setBackground(GameConstants.BACKGROUND_COLOR);
         this.setLayout(new GridBagLayout());
-
+        this.sel = s;
         this.color = color;
         final int r = GameConstants.ROUGE.getRGB();
         final int g = GameConstants.VERT.getRGB();
@@ -58,7 +63,7 @@ public class IconeSelection extends JPanel {
         this.size = size;
         this.rotation = 1;
         this.centre = new Icone();
-
+        this.indice = i;
         try{
             if(this.color.getRGB() == r){
                 pengouin = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/pingouinRouge.png"));
@@ -144,6 +149,7 @@ public class IconeSelection extends JPanel {
 
 
         if(notInit){
+
             actif =false;
             this.droite.setEnabled(false);
             this.droite.setVisible(false);
@@ -153,10 +159,15 @@ public class IconeSelection extends JPanel {
             this.minus.setVisible(false);
             this.type.setEnabled(false);
             this.type.setVisible(false);
+
         }else{
             actif = true;
             this.plus.setEnabled(false);
             this.plus.setVisible(false);
+        }
+
+        if(indice < s.getLast()) {
+
         }
 
 
@@ -179,6 +190,7 @@ public class IconeSelection extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 selection();
+                s.ajout();
                 revalidate();
                 repaint();
             }
@@ -188,6 +200,7 @@ public class IconeSelection extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 selection();
+                s.del();
             }
         });
     }
@@ -210,8 +223,6 @@ public class IconeSelection extends JPanel {
         centre.setColor(color);
         super.paintComponent(g);
     }
-
-
 
     public void rotationNom(int i){
         rotation += i;
@@ -268,4 +279,15 @@ public class IconeSelection extends JPanel {
     public boolean isActif(){
         return actif;
     }
+
+    public void fixed(){
+        fixe = true;
+        minus.setEnabled(false);
+    }
+
+    public void unfixed(){
+        fixe = false;
+        minus.setEnabled(true);
+    }
+
 }

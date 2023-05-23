@@ -116,7 +116,7 @@ public class MenuP extends JPanel {
         this.add(tutoriel,gbc);
         gbc.gridx = 1;
         gbc.gridy = 5;
-        gbc.anchor = GridBagConstraints.EAST;
+        gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.gridwidth = GridBagConstraints.REMAINDER;
