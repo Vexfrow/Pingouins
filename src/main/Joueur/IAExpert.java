@@ -11,7 +11,6 @@ public class IAExpert extends IAJoueur{
     int iajoueur;
     private long start;
 
-    private static final int Time_out_ms = 2000;
 
 
     public IAExpert(Jeu j){
@@ -25,21 +24,22 @@ public class IAExpert extends IAJoueur{
        @Override
     public Position elaborePlacement(){
         
+        
         this.iajoueur = this.j.getJoueurCourant();
         Configuration conf = new Configuration(this.j.cloner());
+
         ArrayList<Configuration> fils = Configuration.coupFilsPhase1(conf);
-
-        ArrayList<PositionPondere> listCp = new ArrayList<PositionPondere>();
-
+        double max = -Double.MAX_VALUE;
+        double temp = 0;
+        Position posmax = null;
         for(int i = 0; i < fils.size(); i++){
-            PositionPondere cpP = new PositionPondere(fils.get(i).position,Heuristique.HnbCaseAccessible(fils.get(i),this.iajoueur));
-            listCp.add(cpP);
-        }  
-        Collections.sort(listCp);
-        if(listCp.size()>0){
-            return listCp.get(0).pos;
+            if((temp = Heuristique.HnbCaseAccessible(fils.get(i),this.iajoueur)) > max ){
+                max =temp;
+                posmax = fils.get(i).position;
+            }
+            
         }
-        return null;
+        return posmax;
     }
     
     @Override
@@ -52,7 +52,7 @@ public class IAExpert extends IAJoueur{
         ArrayList<CoupPondere> listCp = new ArrayList<CoupPondere>();
 
         for(int i = 0; i < fils.size(); i++){
-             CoupPondere cpP = new CoupPondere(fils.get(i).coup,Heuristique.montecarlo(fils.get(i),this.iajoueur,100));
+             CoupPondere cpP = new CoupPondere(fils.get(i).coup,Heuristique.montecarlo(fils.get(i),this.iajoueur,200));
              listCp.add(cpP);
         }  
         Collections.sort(listCp);
