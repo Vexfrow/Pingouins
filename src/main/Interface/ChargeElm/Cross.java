@@ -14,10 +14,13 @@ public class Cross implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         liste.supprime(indice);
-        liste.initFile();
         liste.removeAll();
+        liste.initFile();
         liste.setPosition();
-        liste.resetBorder();
         liste.majFleche();
+        liste.setListeFichier();
+
+        liste.revalidate();
+        liste.repaint();
     }
 }

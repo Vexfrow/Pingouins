@@ -97,9 +97,10 @@ public class MenuP extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.CENTER;
-        gbc.fill = GridBagConstraints.VERTICAL;
+        gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(5, 0, 5, 0);
         this.add(menu, gbc);
+        gbc.fill = GridBagConstraints.VERTICAL;
         gbc.gridx = 0;
         gbc.gridy = 1;
         this.add(partieRapide,gbc);
@@ -162,7 +163,7 @@ public class MenuP extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                partiePersonnalisee.setIcon(new ImageIcon(imageOnButton(partiePersonnalisee, partiePersoI, 0.8, 0.8)));
+                partiePersonnalisee.setIcon(new ImageIcon(imageOnButton(partiePersonnalisee, partiePersoI, 0.9, 0.9)));
                 hover = true;
             }
             @Override
@@ -177,7 +178,7 @@ public class MenuP extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                partieRapide.setIcon(new ImageIcon(imageOnButton(partieRapide, partieRapideI, 0.8, 0.8)));
+                partieRapide.setIcon(new ImageIcon(imageOnButton(partieRapide, partieRapideI, 0.9, 0.9)));
                 hover = true;
             }
             @Override
@@ -192,7 +193,7 @@ public class MenuP extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                chargerPartie.setIcon(new ImageIcon(imageOnButton(chargerPartie, chargerPartieI, 0.8, 0.8)));
+                chargerPartie.setIcon(new ImageIcon(imageOnButton(chargerPartie, chargerPartieI, 0.9, 0.9)));
                 hover = true;
             }
             @Override
@@ -207,7 +208,7 @@ public class MenuP extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                tutoriel.setIcon(new ImageIcon(imageOnButton(tutoriel, tutorielI, 0.8, 0.8)));
+                tutoriel.setIcon(new ImageIcon(imageOnButton(tutoriel, tutorielI, 0.9, 0.9)));
                 hover = true;
             }
             @Override
@@ -222,7 +223,7 @@ public class MenuP extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                regles.setIcon(new ImageIcon(imageOnButton(regles, hintI, 0.8, 0.8)));
+                regles.setIcon(new ImageIcon(imageOnButton(regles, hintI, 0.9, 0.9)));
                 hover = true;
             }
             @Override
@@ -262,7 +263,7 @@ public class MenuP extends JPanel {
     }
 
     public Image reScale(Image img){
-        Dimension d = new Dimension((int)(getWidth()*0.45), (int)(getHeight()*0.3) );
+        Dimension d = new Dimension((int)(getWidth()*0.5), (int)(getHeight()*0.35) );
         Image neoImg = img.getScaledInstance(d.width, d.height, Image.SCALE_SMOOTH) ;
         return neoImg;
     }

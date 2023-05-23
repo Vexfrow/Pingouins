@@ -39,7 +39,7 @@ public class ListeFile extends JPanel {
     public ListeFile(Chargement c){
         panel = c;
 
-        initFile();
+
 
 
         try{
@@ -51,10 +51,7 @@ public class ListeFile extends JPanel {
         }catch(Exception e){
             System.err.println("une erreur " + e);
         }
-
-        setPosition();
-
-        setLayout(new GridBagLayout());
+        initFile();
         setPosition();
         majFleche();
         setListeFichier();
@@ -79,8 +76,6 @@ public class ListeFile extends JPanel {
             }
         });
 
-
-
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -89,17 +84,24 @@ public class ListeFile extends JPanel {
             }
         });
 
+        revalidate();
+        repaint();
+
     }
 
     public void setPosition(){
+        setLayout(new GridBagLayout());
+
         flecheHaut.setIcon(new ImageIcon(up));
         flecheHaut.setBorderPainted(false);
         flecheHaut.setContentAreaFilled(false);
         flecheHaut.setDisabledIcon(new ImageIcon(upVide));
+
         flecheBas.setIcon(new ImageIcon(down));
         flecheBas.setBorderPainted(false);
         flecheBas.setContentAreaFilled(false);
         flecheBas.setDisabledIcon(new ImageIcon(downVide));
+
         setBackground(GameConstants.BACKGROUND_COLOR);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 3;
@@ -129,6 +131,9 @@ public class ListeFile extends JPanel {
             elimine[i].setContentAreaFilled(false);
             elimine[i].setBorderPainted(false);
             add(elimine[i], gbc);
+            if(i >= listeFichier.length){
+                elimine[i].setEnabled(false);
+            }
             gbc.gridy++;
         }
 
