@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,6 +38,7 @@ public class ListeFile extends JPanel {
     private int indice;
 
     public ListeFile(Chargement c){
+        setLayout(new GridBagLayout());
         panel = c;
         try{
             erase = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/croix.png"));
@@ -72,21 +74,39 @@ public class ListeFile extends JPanel {
             }
         });
 
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                super.componentResized(e);
-                scaleAll();
-            }
-        });
 
-        revalidate();
-        repaint();
+    }
+
+
+
+    public void initFile(){
+        sommet = 0;
+        listeFichier = getAllSaves();
+        affichage = new JButton[5];
+        indices = new JLabel[5];
+        elimine = new JButton[5];
+        positions = new int[5];
+        flecheHaut = new JButton();
+        flecheBas = new JButton();
+        current = "";
+        for(int i = 0; i < 5; i++){
+            if(i < listeFichier.length){
+                indices[i] = new JLabel((i+1) + "/" + listeFichier.length);
+                affichage[i] = new JButton(listeFichier[i]);
+                affichage[i].setBackground(GameConstants.SELECTION);
+                affichage[i].setBorderPainted(false);
+            }else{
+                indices[i] = new JLabel(" ");
+                affichage[i] = new JButton("");
+                affichage[i].setBackground(GameConstants.SELECTION);
+                affichage[i].setBorderPainted(false);
+            }
+        }
 
     }
 
     public void setPosition(){
-        setLayout(new GridBagLayout());
+
 
         flecheHaut.setIcon(new ImageIcon(up));
         flecheHaut.setBorderPainted(false);
@@ -115,7 +135,7 @@ public class ListeFile extends JPanel {
             gbc.insets = new Insets(10, 20, 10, 10);
             gbc.fill = GridBagConstraints.BOTH;
             gbc.weighty = 2;
-            gbc.weightx = 2;
+            gbc.weightx = 1;
             gbc.gridx = 1;
             add(affichage[i], gbc);
 
@@ -126,40 +146,33 @@ public class ListeFile extends JPanel {
             gbc.gridx = 0;
             add(indices[i], gbc);
             gbc.gridx = 2;
-            elimine[i] = new JButton(new ImageIcon(erase));
+            elimine[i] = new JButton();
             elimine[i].setContentAreaFilled(false);
-            elimine[i].setBorderPainted(true);
+            elimine[i].setBorderPainted(false);
             add(elimine[i], gbc);
             if(i >= listeFichier.length){
                 elimine[i].setEnabled(false);
             }
             gbc.gridy++;
+
         }
+
+
 
     }
 
-    public void initFile(){
-        sommet = 0;
-        listeFichier = getAllSaves();
-        affichage = new JButton[5];
-        indices = new JLabel[5];
-        elimine = new JButton[5];
-        positions = new int[5];
-        flecheHaut = new JButton();
-        flecheBas = new JButton();
-        current = "";
-        for(int i = 0; i < 5; i++){
-            if(i < listeFichier.length){
-                indices[i] = new JLabel((i+1) + "/" + listeFichier.length);
-                affichage[i] = new JButton(listeFichier[i]);
-                affichage[i].setBackground(GameConstants.SELECTION);
-                affichage[i].setBorderPainted(false);
-            }else{
-                indices[i] = new JLabel(" ");
-                affichage[i] = new JButton("");
-                affichage[i].setBackground(GameConstants.SELECTION);
-                affichage[i].setBorderPainted(false);
-            }
+    public void majFleche(){
+        if(isBottom()){
+            flecheBas.setEnabled(false);
+        }else{
+            flecheBas.setIcon(new ImageIcon(down));
+            flecheBas.setEnabled(true);
+        }
+        if(isTop()){
+            flecheHaut.setEnabled(false);
+        }else{
+            flecheHaut.setIcon(new ImageIcon(up));
+            flecheHaut.setEnabled(true);
         }
 
     }
@@ -185,10 +198,12 @@ public class ListeFile extends JPanel {
         }
     }
 
+
+
     public void scaleAll(){
         for(int i = 0; i < 5; i++){
-            elimine[i].setPreferredSize(new Dimension((int)(getWidth()*0.08) , (int)(getHeight()*0.08)));
-            elimine[i].setIcon(new ImageIcon(reScale(erase, 0.08, 0.08)));
+            elimine[i].setPreferredSize(new Dimension((int)(getWidth()*0.07) , (int)(getHeight()*0.07)));
+            elimine[i].setIcon(new ImageIcon(reScale(erase, 0.07, 0.07)));
         }
         flecheHaut.setIcon(new ImageIcon(reScale(up, 0.08, 0.1)));
         flecheHaut.setDisabledIcon(new ImageIcon(reScale(upVide, 0.08, 0.1)));
@@ -218,22 +233,6 @@ public class ListeFile extends JPanel {
             i++;
             j++;
         }
-    }
-
-    public void majFleche(){
-        if(isBottom()){
-            flecheBas.setEnabled(false);
-        }else{
-            flecheBas.setIcon(new ImageIcon(down));
-            flecheBas.setEnabled(true);
-        }
-        if(isTop()){
-            flecheHaut.setEnabled(false);
-        }else{
-            flecheHaut.setIcon(new ImageIcon(up));
-            flecheHaut.setEnabled(true);
-        }
-
     }
 
     public String[] getAllSaves(){
@@ -270,25 +269,37 @@ public class ListeFile extends JPanel {
 
     @Override
     public void paintComponent(Graphics g){
+
         super.paintComponent(g);
-        for(int i =0; i < 5; i++){
-            affichage[i].setMinimumSize(new Dimension((int)(getWidth()*0.8), (int)(getHeight()*0.15)));
-        }
+        scaleAll();
+
     }
 
     public void resetBorder(){
         for(int i =0; i < 5; i++){
+            affichage[i].setBorder(new EmptyBorder(1,1,1,1));
             affichage[i].setBorderPainted(false);
+
         }
     }
 
     public void supprime(int position){
+        if(listeFichier[position].equals(current)){
+            current = "";
+        }
         File f = new File("resources/sauvegarde/"+ listeFichier[position]+ ".txt");
         File iF = new File("resources/sauvegarde/" +  listeFichier[position]+ ".png");
         if(f.delete()){
             System.out.println("Fichier "+ f.getName()+ " supprimé");
         }
-        iF.delete();
+        if(iF.delete()){
+            System.out.println("Fichier "+ iF.getName()+ " supprimé");
+        }
+
+    }
+
+    public boolean choose(){
+        return current != "";
     }
 
 

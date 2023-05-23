@@ -48,7 +48,7 @@ public class Fenetre implements Runnable {
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        jf.setMinimumSize(new Dimension(800, 600));
+        jf.setMinimumSize(new Dimension((int)(Toolkit.getDefaultToolkit().getScreenSize().width*0.7), (int)(Toolkit.getDefaultToolkit().getScreenSize().height*0.8)));
         workingPane = new WorkingPane(this.menu, this.c);
         jf.add(workingPane);
         jf.setVisible(true);

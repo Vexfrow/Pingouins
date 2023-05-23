@@ -199,7 +199,7 @@ public class Aide extends JPanel{
 
     public void setTexts(){
         int i = 0;
-        indications[i] = "<html>Hey, that’s my fish! est un jeu de 2 à 4 joueurs.<br> Vous incarnez des pingouins et le but du jeu est de manger le plus de poissons.</html>";
+        indications[i] = "<html>Hey, that’s my fish! est un jeu de 2 à 4 joueurs.<br> Vous incarnez une équipe de pingouin et le but du jeu est de manger le plus de poissons.</html>";
         titres[i] = "But du jeu";
         i++;
         indications[i] ="<html>Un plateau est généré aléatoirement.<br> Il est composé de 60 cases hexagonales, pouvant contenir 1 (x30), 2 (x20) ou 3 (x10) poissons. </html>";
@@ -208,22 +208,22 @@ public class Aide extends JPanel{
         indications[i] = "<html>Chacun son tour, les joueurs vont placer leurs pingouins, en cliquant sur la banquise.<br> Vous ne pouvez les poser que sur des cases de 1 poisson.<br> Le nombre total de pingouins sur le plateau dépend du nombre de joueurs. </html>";
         titres[i] = "Placer";
         i++;
-        indications[i] = "<html>Lors de la phase de jeu, cliquez sur le pingouin que vous souhaiter déplacer.<br> Vous ne pouvez le faire que dans une des 6 directions proposées par les tuiles hexagonales.<br> Le pingouin ne peut se déplacer qu’en ligne droite, et ne peut traverser des pingouins ou la mer.</html>";
+        indications[i] = "<html>Lors de la phase de jeu, cliquez sur le pingouin que vous souhaitez déplacer.<br>Les déplacements se font dans les 6 directions proposées par les tuiles hexagonales sur toute la ligne.<br> Le pingouin ne peut se déplacer qu’en ligne droite, et ne peut traverser des pingouins ou la mer.</html>";
         titres[i] = "Bouger pingouin";
         i++;
         indications[i] = "<html>Les poissons que vous avez collectés sont ajoutés à votre score quand votre pingouin quitte sa case.<br>La case disparaît et un trou non franchissable s’y trouve alors.</html>";
         titres[i] = "Collecte";
         i++;
-        indications[i] = "<html>Si un pingouins est bloqué sur une tuile, il ne peut plus être déplacé et <br>disparaît en récupérant ses poissons.<br> Si tous les pingouins d’un joueur sont indisponibles, il passe ses tours.</html>";
+        indications[i] = "<html>Si un pingouin est bloqué sur une tuile, il ne peut plus être déplacé et <br>disparaît en récupérant ses poissons.<br> Si tous les pingouins d’un joueur sont indisponibles, il passe ses tours.</html>";
         titres[i] = "Pingouin bloqué";
         i++;
         indications[i] = "<html>Quand plus aucun pingouin ne peut bouger, le jeu est terminé.<br> Les derniers poissons sont comptabilisés et le joueur avec le plus haut score gagne.</html>";
         titres[i] = "Fin de jeu";
         i++;
-        indications[i] = "<html>En cas d’égalité, le nombre de tuiles que les pingouins ont retiré <br><p align=\"center\"> est ajouté aux scores pour départager les joueurs</p>.</html>";
+        indications[i] = "<html>En cas d’égalité, le nombre de tuiles que les pingouins ont retiré <br>est ajouté aux scores pour départager les joueurs.</html>";
         titres[i] = "Égalité";
         i++;
-        indications[i] ="<html>Si vous voulez annuler ou refaire le placement de votre pingouin ou votre dernier coup,<br> des flèches se trouvent en bas à droite de l’écran.<br Un historique (bord droit de l’écran) permet de revenir plus loin dans la partie.</html>" ;
+        indications[i] ="<html>Si vous voulez annuler ou refaire votre dernier coup, des flèches se trouvent en bas à droite de l’écran.<br> La flèche de droite refait, celle de gauche annule</html>" ;
         titres[i] = "Annuler";
         i++;
         indications[i] ="<html>Si vous ne savez pas quoi jouer, cliquez sur l’icône de suggestion, en haut à droite.<br> Un conseil de jeu s’affichera.</html>";

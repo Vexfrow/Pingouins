@@ -174,13 +174,16 @@ public class Chargement extends JPanel {
                         ari.add(null);
                         break;
                     case 1:
-                        ari.add(new IAAleatoire(j));
+                        ari.add(new IAFacile(j));
                         break;
                     case 2:
-                        ari.add(new IATroisPoissons(j));
+                        ari.add(new IAMoyen(j));
                         break;
                     case 3:
-                        ari.add(new IAMinimax(j));
+                        ari.add(new IADifficile(j));
+                        break;
+                    case 4:
+                        ari.add(new IAExpert(j));
                         break;
                 }
             }
@@ -194,6 +197,19 @@ public class Chargement extends JPanel {
             throw new RuntimeException(e);
         }
         return ari;
+    }
+
+    @Override
+    public void paintComponent(Graphics g){
+        if(!lf.choose()){
+            valider.setEnabled(false);
+            preview.reset();
+
+        }else{
+            valider.setEnabled(true);
+        }
+        super.paintComponent(g);
+
     }
 
 

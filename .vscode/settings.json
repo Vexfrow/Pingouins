@@ -1,0 +1,7 @@
+{
+    "java.project.sourcePaths": [
+        "resources",
+        "src",
+        "src\\main"
+    ]
+}
