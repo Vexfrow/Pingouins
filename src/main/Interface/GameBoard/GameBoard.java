@@ -17,8 +17,6 @@ public class GameBoard extends JPanel {
 
     BanquiseGraphique bq;
 
-    JPanel gamePanel;
-
     JPanel menuGame;
 
     int etat;
@@ -34,21 +32,22 @@ public class GameBoard extends JPanel {
     private final JButton bAnnuler;
     private final JButton bOk;
     private final JButton bStart;
-
     private final JButton bRegenereP;
 
     private final ArrayList<ScorePanel> listeScorePanel;
 
+    private int widthMenuSize;
+
     public GameBoard(Jeu j, CollecteurEvenements c){
 
         bq = new BanquiseGraphique(j);
-        gamePanel = new JPanel();
         menuGame = new JPanel();
         messageTour = new Label();
 
         listeScorePanel = new ArrayList<>();
 
         jeu = j;
+        widthMenuSize = (int) this.getMaximumSize().getWidth();
         etat = jeu.getEtat();
 
         collecteur = c;
@@ -64,10 +63,11 @@ public class GameBoard extends JPanel {
         setAnnuler();
         bOk= new JButton(new ImageIcon(GameConstants.boutonOk));
         setOk();
-        bStart = new JButton("Commencer Partie");
+        bStart = new JButton(new ImageIcon(GameConstants.commencerP));
         setCommencerPartie();
         bRegenereP= new JButton(new ImageIcon(GameConstants.regenerePlateau));
         setRegenereP();
+
 
         setMenuGame();
         setGamePanel();
@@ -273,6 +273,9 @@ public class GameBoard extends JPanel {
 
         menuGame.setLayout(new GridBagLayout());
         menuGame.setBackground(Color.ORANGE);
+        menuGame.setMaximumSize(new Dimension(widthMenuSize, (int) this.getMaximumSize().getHeight()));
+        //menuGame.setPreferredSize(new Dimension((int) (this.getPreferredSize().getWidth()/7), (int) this.getPreferredSize().getHeight()));
+        //menuGame.setMaximumSize(new Dimension((int) (this.getMaximumSize().getWidth()/5), (int) this.getMaximumSize().getWidth()));
         GridBagConstraints c = new GridBagConstraints();
 
         c.gridx = 0;
@@ -387,6 +390,59 @@ public class GameBoard extends JPanel {
 
 
 
+//    public void paintComponent(Graphics g) {
+//        super.paintComponent(g);
+//        /majSize();
+//    }
+
+    @Override
+    public void invalidate() {
+        super.invalidate();
+        majSize();
+    }
+
+    private void majSize(){
+        widthMenuSize = (int) (this.getWidth()/4.5);
+
+        menuGame.setPreferredSize(new Dimension(widthMenuSize, getHeight()));
+        menuGame.setMaximumSize(new Dimension(widthMenuSize, getHeight()));
+        menuGame.setMinimumSize(new Dimension(widthMenuSize, getHeight()));
+
+        bPause.setSize(new Dimension(widthMenuSize/4,widthMenuSize/4));
+        bSuggestion.setSize(new Dimension(widthMenuSize/4,widthMenuSize/4));
+
+
+        bRefaire.setSize(new Dimension(widthMenuSize/6,widthMenuSize/6));
+        bAnnuler.setSize(new Dimension(widthMenuSize/6,widthMenuSize/6));
+        bOk.setSize(new Dimension(widthMenuSize/6,widthMenuSize/6));
+
+
+        bStart.setSize(new Dimension(widthMenuSize,widthMenuSize/2));
+        bRegenereP.setSize(new Dimension(widthMenuSize,widthMenuSize/2));
+
+
+
+        bPause.setIcon(new ImageIcon(imageOnButton(bPause, GameConstants.pause)));
+        bSuggestion.setIcon(new ImageIcon(imageOnButton(bSuggestion, GameConstants.suggestion)));
+        bRefaire.setIcon(new ImageIcon(imageOnButton(bRefaire, GameConstants.refaire)));
+        bAnnuler.setIcon(new ImageIcon(imageOnButton(bAnnuler, GameConstants.annuler)));
+        bOk.setIcon(new ImageIcon(imageOnButton(bOk, GameConstants.boutonOk)));
+        bStart.setIcon(new ImageIcon(imageOnButton(bStart, GameConstants.commencerP)));
+        bRegenereP.setIcon(new ImageIcon(imageOnButton(bRegenereP, GameConstants.regenerePlateau)));
+
+    }
+
+
+    public Dimension scaleButton(int x,int y){
+        return new Dimension((int)(x*0.18), (int)(y * 0.10));
+    }
+
+    public Image imageOnButton(JButton b, Image img){
+        if(b.getWidth() != 0 && b.getHeight() != 0)
+            return img.getScaledInstance(b.getWidth(), b.getHeight(), Image.SCALE_SMOOTH);
+        else
+            return img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+    }
 
 
     private Coup suggestionCoup(){
@@ -414,6 +470,8 @@ public class GameBoard extends JPanel {
         bRefaire.setEnabled(!bRefaire.isEnabled());
         bAnnuler.setEnabled(!bAnnuler.isEnabled());
         bOk.setEnabled(!bOk.isEnabled());
+        bStart.setEnabled(!bStart.isEnabled());
+        bRegenereP.setEnabled(!bRegenereP.isEnabled());
     }
 
 
@@ -424,6 +482,8 @@ public class GameBoard extends JPanel {
         bRefaire.setEnabled(true);
         bAnnuler.setEnabled(true);
         bOk.setEnabled(true);
+        bRegenereP.setEnabled(true);
+        bStart.setEnabled(true);
     }
 
 }

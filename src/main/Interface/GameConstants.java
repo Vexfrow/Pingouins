@@ -146,6 +146,7 @@ public class GameConstants {
     public static final BufferedImage refaire = chargeImageJeu("boutonRefaire");
     public static final BufferedImage regenerePlateau = chargeImageJeu("boutonRegen");
     public static final BufferedImage boutonOk = chargeImageJeu("boutonOk");
+    public static final BufferedImage commencerP = chargeImageMenu("boutonValider");
 
 
 
@@ -173,9 +174,22 @@ public class GameConstants {
     }
 
 
+
+
     private static BufferedImage chargeImageVictoire(String nom){
         try {
             InputStream in = new FileInputStream("resources/assets/jeu/victoire/" + nom + ".png");
+            return ImageIO.read(in);
+        } catch (Exception e) {
+            System.out.println("Fichier \"" + nom + "\" introuvable");
+        }
+        return null;
+    }
+
+
+    private static BufferedImage chargeImageMenu(String nom){
+        try {
+            InputStream in = new FileInputStream("resources/assets/menu/" + nom + ".png");
             return ImageIO.read(in);
         } catch (Exception e) {
             System.out.println("Fichier \"" + nom + "\" introuvable");

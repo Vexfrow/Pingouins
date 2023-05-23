@@ -76,7 +76,7 @@ public class ScoreDeplacementPanel extends ScorePanel {
         //-----------------------------------
 
         //Texte pour le numéro du joueur
-        numJoueur.setText("Joueur "+ joueur.getNumeroJoueur());
+        numJoueur.setText("Joueur "+ joueur.getNumeroJoueur() + " - " + joueur.getName());
         numJoueur.setFont(new Font("Serif", Font.PLAIN, 20));
         numJoueur.setForeground(Color.BLACK);
 
