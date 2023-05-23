@@ -159,17 +159,20 @@ public class IconeSelection extends JPanel {
             this.minus.setVisible(false);
             this.type.setEnabled(false);
             this.type.setVisible(false);
+            if(indice == 3){
+                this.plus.setEnabled(false);
+                //this.plus.setVisible(false);
+            }else{
+                this.plus.setEnabled(true);
+                //this.plus.setVisible(true);
+            }
+
 
         }else{
             actif = true;
             this.plus.setEnabled(false);
             this.plus.setVisible(false);
         }
-
-        if(indice < s.getLast()) {
-
-        }
-
 
 
         gauche.addActionListener(new ActionListener() {
@@ -189,10 +192,11 @@ public class IconeSelection extends JPanel {
         plus.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                selection();
                 s.ajout();
+                selection();
                 revalidate();
-                repaint();
+                s.refresh();
+
             }
         });
 
@@ -201,6 +205,8 @@ public class IconeSelection extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 selection();
                 s.del();
+                revalidate();
+                s.refresh();
             }
         });
     }
@@ -270,8 +276,6 @@ public class IconeSelection extends JPanel {
         this.droite.setVisible(!this.type.isVisible());
         this.gauche.setEnabled(!this.gauche.isEnabled());
         this.gauche.setVisible(!this.type.isVisible());
-        this.minus.setEnabled(!this.minus.isEnabled());
-        this.minus.setVisible(!this.type.isVisible());
         this.type.setEnabled(!this.type.isEnabled());
         this.type.setVisible(!this.type.isVisible());
     }
@@ -280,14 +284,32 @@ public class IconeSelection extends JPanel {
         return actif;
     }
 
-    public void fixed(){
-        fixe = true;
-        minus.setEnabled(false);
-    }
+    public void maj(){
+        if(indice < 2){
+            minus.setEnabled(false);
+        }else{
+            if(actif ){
+                if(indice == sel.getLast()){
+                    minus.setEnabled(true);
+                    minus.setVisible(true);
+                }else{
+                    minus.setEnabled(false);
+                    //minus.setVisible(false);
+                }
+            }else{
+                if(indice == (sel.getLast()+1)){
+                    plus.setEnabled(true);
+                    plus.setVisible(true);
+                    minus.setVisible(false);
+                }else{
+                    plus.setEnabled(false);
+                    plus.setVisible(false);
+                    minus.setVisible(false);
+                }
+            }
+        }
 
-    public void unfixed(){
-        fixe = false;
-        minus.setEnabled(true);
+
     }
 
 }

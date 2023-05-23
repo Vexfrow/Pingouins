@@ -54,7 +54,7 @@ public class IAExpert extends IAJoueur{
         ArrayList<CoupPondere> listCp = new ArrayList<CoupPondere>();
 
         for(int i = 0; i < fils.size(); i++){
-             CoupPondere cpP = new CoupPondere(fils.get(i).coup,Heuristique.montecarlo(fils.get(i),this.iajoueur,500));
+             CoupPondere cpP = new CoupPondere(fils.get(i).coup,Heuristique.montecarlo(fils.get(i),this.iajoueur,200));
              listCp.add(cpP);
         }  
         Collections.sort(listCp);

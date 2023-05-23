@@ -27,10 +27,11 @@ public class Selection extends JPanel {
     private Image lancer;
     private Image defaut;
     private IconeSelection listJoueur[];
+    // 0 - 3
     private int last;
 
     public Selection(CollecteurEvenements ctrl){
-        last = 2;
+        last = 1;
         this.c = ctrl;
         retour = new JButton();
 
@@ -190,6 +191,8 @@ public class Selection extends JPanel {
             }
         });
 
+        refresh();
+
 
     }
 
@@ -212,10 +215,16 @@ public class Selection extends JPanel {
         ArrayList<Joueur> ar = new ArrayList<>();
         for(int i =0; i < 4; i++){
             if(listJoueur[i].isActif()){
-                if(listJoueur[i].getName().equals(IconeSelection.HUMAIN)) {
-                    ar.add(new Joueur(i+1, 0, 0, 0));
+                if(listJoueur[i].getName().equals(IconeSelection.IA_EASY)){
+                    ar.add(new Joueur(i, 0, 0, 1));
+                }else if(listJoueur[i].getName().equals(IconeSelection.IA_MEDIUM)){
+                    ar.add(new Joueur(i, 0, 0, 2));
+                }else if(listJoueur[i].getName().equals(IconeSelection.IA_DIFFICILE)){
+                    ar.add(new Joueur(i, 0, 0, 3));
+                }else if(listJoueur[i].getName().equals(IconeSelection.IA_EXPERTE)){
+                    ar.add(new Joueur(i, 0, 0, 4));
                 }else{
-                    ar.add(new Joueur(i+1, 0, 0, 1));
+                    ar.add(new Joueur(i, 0, 0, 0));
                 }
 
             }
@@ -249,11 +258,6 @@ public class Selection extends JPanel {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         for(int i = 0; i < 4; i++){
-            if(i < last){
-                listJoueur[i].fixed();
-            }else{
-                listJoueur[i].unfixed();
-            }
             listJoueur[i].revalidate();
             listJoueur[i].repaint();
         }
@@ -269,13 +273,19 @@ public class Selection extends JPanel {
 
     public void del(){
         last--;
-        if(last < 2){
+        if(last < 1){
             last =2;
         }
     }
 
     public int getLast(){
         return last;
+    }
+
+    public void refresh(){
+        for(int i =0; i < 4; i++){
+            listJoueur[i].maj();
+        }
     }
 }
 
