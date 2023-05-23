@@ -2,6 +2,8 @@ package Interface.SelElm;
 
 
 import Interface.GameConstants;
+import Interface.Selection;
+import Vue.CollecteurEvenements;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -42,14 +44,17 @@ public class IconeSelection extends JPanel {
     private Image supp;
     private JLabel icon;
     private Icone centre;
+    private boolean fixe;
+    private int indice;
+    private Selection sel;
 
 
 
 
-    public IconeSelection(Color color, int size, boolean notInit){
+    public IconeSelection(Color color, int size, boolean notInit, Selection s, int i){
         this.setBackground(GameConstants.BACKGROUND_COLOR);
         this.setLayout(new GridBagLayout());
-
+        this.sel = s;
         this.color = color;
         final int r = GameConstants.ROUGE.getRGB();
         final int g = GameConstants.VERT.getRGB();
@@ -57,8 +62,8 @@ public class IconeSelection extends JPanel {
         int y = GameConstants.JAUNE.getRGB();
         this.size = size;
         this.rotation = 1;
-        this.centre = new Icone();
 
+        this.indice = i;
         try{
             if(this.color.getRGB() == r){
                 pengouin = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/pingouinRouge.png"));
@@ -77,6 +82,8 @@ public class IconeSelection extends JPanel {
         }catch(Exception e){
             System.err.println("une erreur " + e);
         }
+
+        this.centre = new Icone(indice);
 
         gauche  = new JButton(new ImageIcon(selGauche));
         droite = new JButton(new ImageIcon(selDroite));
@@ -144,6 +151,7 @@ public class IconeSelection extends JPanel {
 
 
         if(notInit){
+
             actif =false;
             this.droite.setEnabled(false);
             this.droite.setVisible(false);
@@ -153,12 +161,22 @@ public class IconeSelection extends JPanel {
             this.minus.setVisible(false);
             this.type.setEnabled(false);
             this.type.setVisible(false);
+            if(indice == 3){
+                this.plus.setEnabled(false);
+                //this.plus.setVisible(false);
+            }else{
+                this.plus.setEnabled(true);
+                //this.plus.setVisible(true);
+            }
+
+
         }else{
             actif = true;
             this.plus.setEnabled(false);
             this.plus.setVisible(false);
         }
 
+        centre.setActif(actif);
 
 
         gauche.addActionListener(new ActionListener() {
@@ -178,9 +196,13 @@ public class IconeSelection extends JPanel {
         plus.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                s.ajout();
                 selection();
-                revalidate();
-                repaint();
+                centre.setActif(actif);
+                s.refresh();
+                centre.refresh();
+
+
             }
         });
 
@@ -188,6 +210,11 @@ public class IconeSelection extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 selection();
+                s.del();
+                centre.setActif(actif);
+                s.refresh();
+                centre.refresh();
+
             }
         });
     }
@@ -210,8 +237,6 @@ public class IconeSelection extends JPanel {
         centre.setColor(color);
         super.paintComponent(g);
     }
-
-
 
     public void rotationNom(int i){
         rotation += i;
@@ -259,8 +284,6 @@ public class IconeSelection extends JPanel {
         this.droite.setVisible(!this.type.isVisible());
         this.gauche.setEnabled(!this.gauche.isEnabled());
         this.gauche.setVisible(!this.type.isVisible());
-        this.minus.setEnabled(!this.minus.isEnabled());
-        this.minus.setVisible(!this.type.isVisible());
         this.type.setEnabled(!this.type.isEnabled());
         this.type.setVisible(!this.type.isVisible());
     }
@@ -268,4 +291,33 @@ public class IconeSelection extends JPanel {
     public boolean isActif(){
         return actif;
     }
+
+    public void maj(){
+        if(indice < 2){
+            minus.setEnabled(false);
+        }else{
+            if(actif ){
+                if(indice == sel.getLast()){
+                    minus.setEnabled(true);
+                    minus.setVisible(true);
+                }else{
+                    minus.setEnabled(false);
+                    //minus.setVisible(false);
+                }
+            }else{
+                if(indice == (sel.getLast()+1)){
+                    plus.setEnabled(true);
+                    plus.setVisible(true);
+                    minus.setVisible(false);
+                }else{
+                    plus.setEnabled(false);
+                    plus.setVisible(false);
+                    minus.setVisible(false);
+                }
+            }
+        }
+
+
+    }
+
 }

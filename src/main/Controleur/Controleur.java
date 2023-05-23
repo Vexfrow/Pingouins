@@ -286,4 +286,7 @@ public class Controleur implements CollecteurEvenements {
         switchGameBoard();
     }
 
+    public void close(){
+        this.window.close();
+    }
 }

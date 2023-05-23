@@ -38,10 +38,6 @@ public class ListeFile extends JPanel {
 
     public ListeFile(Chargement c){
         panel = c;
-
-
-
-
         try{
             erase = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/croix.png"));
             up = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheChargeHaut.png"));
@@ -111,16 +107,19 @@ public class ListeFile extends JPanel {
         gbc.gridy = 6;
         add(flecheBas, gbc);
 
-        gbc.insets = new Insets(10, 20, 10, 10);
+
 
         gbc.gridy = 1;
 
         for(int i = 0; i < 5; i++){
+            gbc.insets = new Insets(10, 20, 10, 10);
             gbc.fill = GridBagConstraints.BOTH;
             gbc.weighty = 2;
             gbc.weightx = 2;
             gbc.gridx = 1;
             add(affichage[i], gbc);
+
+            gbc.insets = new Insets(0, 10, 0, 0);
             gbc.fill = GridBagConstraints.NONE;
             gbc.weighty = 0;
             gbc.weightx = 0;
@@ -129,7 +128,7 @@ public class ListeFile extends JPanel {
             gbc.gridx = 2;
             elimine[i] = new JButton(new ImageIcon(erase));
             elimine[i].setContentAreaFilled(false);
-            elimine[i].setBorderPainted(false);
+            elimine[i].setBorderPainted(true);
             add(elimine[i], gbc);
             if(i >= listeFichier.length){
                 elimine[i].setEnabled(false);
@@ -165,8 +164,6 @@ public class ListeFile extends JPanel {
 
     }
 
-
-
     public void setListeFichier(){
         for(int i =0; i < affichage.length; i++){
             positions[i] = i;
@@ -188,8 +185,11 @@ public class ListeFile extends JPanel {
         }
     }
 
-
     public void scaleAll(){
+        for(int i = 0; i < 5; i++){
+            elimine[i].setPreferredSize(new Dimension((int)(getWidth()*0.08) , (int)(getHeight()*0.08)));
+            elimine[i].setIcon(new ImageIcon(reScale(erase, 0.08, 0.08)));
+        }
         flecheHaut.setIcon(new ImageIcon(reScale(up, 0.08, 0.1)));
         flecheHaut.setDisabledIcon(new ImageIcon(reScale(upVide, 0.08, 0.1)));
         flecheBas.setIcon(new ImageIcon(reScale(down, 0.08, 0.1)));

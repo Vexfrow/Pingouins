@@ -46,4 +46,6 @@ public interface CollecteurEvenements {
     void activateGameBoard();
 
     void replay();
+
+    void close();
 }

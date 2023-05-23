@@ -198,7 +198,7 @@ public class GameBoard extends JPanel {
 
         c.gridx = 0;
         c.weighty = 10;
-        c.gridy = 2+jeu.getListeJoueur().size();
+        c.gridy = 3+jeu.getListeJoueur().size();
         menuGame.add(boutonPanel2, c);
 
         misAJour();
@@ -256,7 +256,7 @@ public class GameBoard extends JPanel {
 
         c.gridx = 0;
         c.weighty = 10;
-        c.gridy = 2+jeu.getListeJoueur().size();
+        c.gridy = 3+jeu.getListeJoueur().size();
         menuGame.add(boutonPanel2, c);
 
         misAJour();
@@ -406,9 +406,9 @@ public class GameBoard extends JPanel {
 
 
         bStart.setSize(new Dimension(widthMenuSize,widthMenuSize/2));
-        bStart.setPreferredSize(new Dimension(widthMenuSize/2,widthMenuSize/2));
+        bStart.setPreferredSize(new Dimension(widthMenuSize,widthMenuSize/2));
         bRegenereP.setSize(new Dimension(widthMenuSize,widthMenuSize/2));
-        bRegenereP.setPreferredSize(new Dimension(widthMenuSize/2,widthMenuSize/2));
+        bRegenereP.setPreferredSize(new Dimension(widthMenuSize,widthMenuSize/2));
 
 
 

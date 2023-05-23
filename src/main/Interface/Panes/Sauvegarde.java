@@ -59,22 +59,21 @@ public class Sauvegarde extends JPanel {
         add(retour, gbc);
 
 
-        //
         gbc.gridx = 0;
         gbc.gridy =1;
-        gbc.gridwidth =  5;
-        gbc.weightx = 5;
+        gbc.gridwidth =  3;
+        gbc.weightx = 3;
         gbc.anchor = GridBagConstraints.NORTH;
+        gbc.fill = GridBagConstraints.CENTER;
         add(titre, gbc);
 
-        gbc.fill = GridBagConstraints.BOTH;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         //gbc.anchor = GridBagConstraints.CENTER;
         gbc.gridx = 0;
         gbc.gridy = 2;
-
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.weightx = 3;
         gbc.weighty = 3;
+        gbc.insets = new Insets(0, 40, 0, 40);
         add(listeSave, gbc);
 
         gbc.weighty = 0;
@@ -83,6 +82,7 @@ public class Sauvegarde extends JPanel {
         gbc.gridwidth = 1;
         gbc.anchor = GridBagConstraints.SOUTH;
         gbc.fill = GridBagConstraints.NONE;
+        gbc.insets = new Insets(0, 0, 0, 0);
         add(valider, gbc);
 
         valider.addActionListener(new ActionListener() {
@@ -110,7 +110,7 @@ public class Sauvegarde extends JPanel {
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                GridBagConstraints gbc = new GridBagConstraints();
+/*                GridBagConstraints gbc = new GridBagConstraints();
                 gbc.anchor = GridBagConstraints.CENTER;
                 gbc.gridx = 0;
                 gbc.gridy = 2;
@@ -119,9 +119,10 @@ public class Sauvegarde extends JPanel {
                 gbc.weightx = 3;
                 gbc.weighty = 3;
                 gbc.insets = new Insets(0, (int)(getWidth()*0.2), 0 , (int)(getHeight()*0.2 ));
-                layout.setConstraints(listeSave, gbc);
+                layout.setConstraints(listeSave, gbc);*/
                 retour.setIcon(new ImageIcon(reScale(0.5f, flecheRetour )));
                 valider.setIcon(new ImageIcon(reScale(0.4f, val )));
+                titre.setFont(new Font("Arial", Font.BOLD, (int)(getHeight()*0.06)));
             }
         });
 

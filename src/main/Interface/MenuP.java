@@ -15,10 +15,10 @@ public class MenuP extends JPanel {
     private JButton partieRapide;
     private JButton partiePersonnalisee;
     private JButton chargerPartie;
-    private JButton tutoriel;
+    private JButton quitter;
     private JButton regles;
-    private Image titreI, hintI, partieRapideI, partiePersoI, chargerPartieI, tutorielI, fond;
-    private ImageIcon titreS, hintS, partieRapideS, partiePersoS, chargerPartieS, tutorielS;
+    private Image titreI, hintI, partieRapideI, partiePersoI, chargerPartieI, quitterI, fond;
+    private ImageIcon titreS, hintS, partieRapideS, partiePersoS, chargerPartieS, quitterS;
     private SpringLayout layout;
     private  JLabel menu;
     private CollecteurEvenements c;
@@ -35,14 +35,14 @@ public class MenuP extends JPanel {
             partieRapideI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonPartieRapide.png"));
             partiePersoI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonPartiePerso.png"));
             chargerPartieI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonChargerPartie.png"));
-            tutorielI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonTuto.png"));
+            quitterI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonsQuit.png"));
         }catch(Exception e){
             System.err.println("une erreur " + e);
         }
         partiePersonnalisee = new JButton();
         partieRapide = new JButton();
         chargerPartie = new JButton();
-        tutoriel = new JButton();
+        quitter = new JButton();
         regles = new JButton();
 
         menu = new JLabel();
@@ -55,7 +55,7 @@ public class MenuP extends JPanel {
         partieRapideS = new ImageIcon(partieRapideI);
         partiePersoS = new ImageIcon(partiePersoI);
         chargerPartieS = new ImageIcon(chargerPartieI);
-        tutorielS = new ImageIcon(tutorielI);
+        quitterS = new ImageIcon(quitterI);
         setMenu();
 
 
@@ -67,7 +67,7 @@ public class MenuP extends JPanel {
         //Button
         partiePersonnalisee.setBorderPainted(false);
         chargerPartie.setBorderPainted(false);
-        tutoriel.setBorderPainted(false);
+        quitter.setBorderPainted(false);
         partieRapide.setBorderPainted(false);
         regles.setBorderPainted(false);
         regles.setContentAreaFilled(false);
@@ -78,19 +78,19 @@ public class MenuP extends JPanel {
         partieRapide.setForeground(Color.WHITE);
         partiePersonnalisee.setForeground(Color.WHITE);
         chargerPartie.setForeground(Color.WHITE);
-        tutoriel.setForeground(Color.WHITE);
+        quitter.setForeground(Color.WHITE);
 
         regles.setBorderPainted(false);
         partieRapide.setBorderPainted(false);
         partiePersonnalisee.setBorderPainted(false);
         chargerPartie.setBorderPainted(false);
-        tutoriel.setBorderPainted(false);
+        quitter.setBorderPainted(false);
 
         regles.setContentAreaFilled(false);
         partieRapide.setContentAreaFilled(false);
         partiePersonnalisee.setContentAreaFilled(false);
         chargerPartie.setContentAreaFilled(false);
-        tutoriel.setContentAreaFilled(false);
+        quitter.setContentAreaFilled(false);
 
         //Ajouts
         GridBagConstraints gbc = new GridBagConstraints();
@@ -113,10 +113,10 @@ public class MenuP extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.insets = new Insets(5, 0, 0, 0);
-        this.add(tutoriel,gbc);
+        this.add(quitter ,gbc);
         gbc.gridx = 1;
         gbc.gridy = 5;
-        gbc.anchor = GridBagConstraints.EAST;
+        gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -155,6 +155,13 @@ public class MenuP extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 c.toggelCharge(true);
                 toggleButtons();
+            }
+        });
+
+        quitter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.close();
             }
         });
 
@@ -204,17 +211,17 @@ public class MenuP extends JPanel {
             }
         });
 
-        tutoriel.addMouseListener(new MouseAdapter() {
+        quitter.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                tutoriel.setIcon(new ImageIcon(imageOnButton(tutoriel, tutorielI, 0.9, 0.9)));
+                quitter.setIcon(new ImageIcon(imageOnButton(quitter, quitterI, 0.9, 0.9)));
                 hover = true;
             }
             @Override
             public void mouseExited(MouseEvent e){
                 super.mouseExited(e);
-                tutoriel.setIcon(new ImageIcon(imageOnButton(tutoriel, tutorielI)));
+                quitter.setIcon(new ImageIcon(imageOnButton(quitter, quitterI)));
                 hover = false;
             }
         });
@@ -245,7 +252,7 @@ public class MenuP extends JPanel {
 
     public void toggleButtons() {
         chargerPartie.setEnabled(!chargerPartie.isEnabled());
-        tutoriel.setEnabled(!tutoriel.isEnabled());
+        quitter.setEnabled(!quitter.isEnabled());
         partiePersonnalisee.setEnabled(!partiePersonnalisee.isEnabled());
         partieRapide.setEnabled(!partieRapide.isEnabled());
         regles.setEnabled(!regles.isEnabled());
@@ -255,7 +262,7 @@ public class MenuP extends JPanel {
 
     public void activateButton(){
         chargerPartie.setEnabled(true);
-        tutoriel.setEnabled(true);
+        quitter.setEnabled(true);
         partiePersonnalisee.setEnabled(true);
         partieRapide.setEnabled(true);
         regles.setEnabled(true);
@@ -276,7 +283,7 @@ public class MenuP extends JPanel {
         partieRapide.setPreferredSize(scaleButton(getWidth(), getHeight()));
         partiePersonnalisee.setPreferredSize(scaleButton(getWidth(), getHeight()));
         chargerPartie.setPreferredSize(scaleButton(getWidth(), getHeight()));
-        tutoriel.setPreferredSize(scaleButton(getWidth(), getHeight()));
+        quitter.setPreferredSize(scaleButton(getWidth(), getHeight()));
     }
 
     public Image imageOnButton(JButton b, Image img){
@@ -299,7 +306,7 @@ public class MenuP extends JPanel {
         partieRapide.setIcon(new ImageIcon(imageOnButton(partieRapide, partieRapideI)));
         partiePersonnalisee.setIcon(new ImageIcon(imageOnButton(partiePersonnalisee, partiePersoI)));
         chargerPartie.setIcon(new ImageIcon(imageOnButton(chargerPartie, chargerPartieI)));
-        tutoriel.setIcon(new ImageIcon(imageOnButton(tutoriel, tutorielI)));
+        quitter.setIcon(new ImageIcon(imageOnButton(quitter, quitterI)));
     }
 
     @Override

@@ -27,10 +27,11 @@ public class Selection extends JPanel {
     private Image lancer;
     private Image defaut;
     private IconeSelection listJoueur[];
+    // 0 - 3
     private int last;
 
     public Selection(CollecteurEvenements ctrl){
-        last = 2;
+        last = 1;
         this.c = ctrl;
         retour = new JButton();
 
@@ -63,7 +64,6 @@ public class Selection extends JPanel {
         Image neoImg = img.getScaledInstance(d.width, d.height, Image.SCALE_AREA_AVERAGING) ;
         return neoImg;
     }
-
 
     public void setSelection(){
         valide.setPreferredSize(new Dimension(200, 80));
@@ -112,13 +112,14 @@ public class Selection extends JPanel {
         gbc.weightx = 2;
         gbc.weighty = 3;
 
-        IconeSelection p1 = new IconeSelection(GameConstants.BLEU, 100, false);
-
-        IconeSelection p2 = new IconeSelection(GameConstants.ROUGE, 100, false);
-
-        IconeSelection p3 = new IconeSelection(GameConstants.VERT, 100, true);
-
-        IconeSelection p4 = new IconeSelection(GameConstants.JAUNE, 100, true);
+        int k =0;
+        IconeSelection p1 = new IconeSelection(GameConstants.BLEU, 100, false, this,k);
+        k++;
+        IconeSelection p2 = new IconeSelection(GameConstants.ROUGE, 100, false, this,k);
+        k++;
+        IconeSelection p3 = new IconeSelection(GameConstants.VERT, 100, true, this,k);
+        k++;
+        IconeSelection p4 = new IconeSelection(GameConstants.JAUNE, 100, true, this, k);
 
 
         listJoueur[0] = p1;
@@ -190,13 +191,14 @@ public class Selection extends JPanel {
             }
         });
 
+        refresh();
+
 
     }
 
     public void changeIcon(){
             retour.setIcon(new ImageIcon(flecheRetour));
     }
-
 
     public int numberOfPlayer(){
         int j = 0;
@@ -213,10 +215,16 @@ public class Selection extends JPanel {
         ArrayList<Joueur> ar = new ArrayList<>();
         for(int i =0; i < 4; i++){
             if(listJoueur[i].isActif()){
-                if(listJoueur[i].getName().equals(IconeSelection.HUMAIN)) {
-                    ar.add(new Joueur(i+1, 0, 0, 0));
+                if(listJoueur[i].getName().equals(IconeSelection.IA_EASY)){
+                    ar.add(new Joueur((i+1), 0, 0, 1));
+                }else if(listJoueur[i].getName().equals(IconeSelection.IA_MEDIUM)){
+                    ar.add(new Joueur((i+1), 0, 0, 2));
+                }else if(listJoueur[i].getName().equals(IconeSelection.IA_DIFFICILE)){
+                    ar.add(new Joueur((i+1), 0, 0, 3));
+                }else if(listJoueur[i].getName().equals(IconeSelection.IA_EXPERTE)){
+                    ar.add(new Joueur((i+1), 0, 0, 4));
                 }else{
-                    ar.add(new Joueur(i+1, 0, 0, 1));
+                    ar.add(new Joueur((i+1), 0, 0, 0));
                 }
 
             }
@@ -252,6 +260,31 @@ public class Selection extends JPanel {
         for(int i = 0; i < 4; i++){
             listJoueur[i].revalidate();
             listJoueur[i].repaint();
+        }
+    }
+
+    public void ajout(){
+
+        last++;
+        if(last > 3){
+            last = 3;
+        }
+    }
+
+    public void del(){
+        last--;
+        if(last < 1){
+            last =2;
+        }
+    }
+
+    public int getLast(){
+        return last;
+    }
+
+    public void refresh(){
+        for(int i =0; i < 4; i++){
+            listJoueur[i].maj();
         }
     }
 }

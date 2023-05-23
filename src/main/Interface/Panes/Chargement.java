@@ -9,6 +9,7 @@ import Vue.CollecteurEvenements;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,7 +49,7 @@ public class Chargement extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         retour = new JButton();
         valider = new JButton();
-        titre = new JLabel("<html><p align=\"center\">Chargement de partie</p></html>");
+        titre = new JLabel("Chargement de partie");
         selection = new JPanel(new GridLayout(1, 2));
         fichier = "";
         selection.add(lf);
@@ -67,19 +68,19 @@ public class Chargement extends JPanel {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         add(retour, gbc);
 
-        gbc.gridx =1;
+        gbc.gridx =0;
         gbc.gridy = 1;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.anchor = GridBagConstraints.NORTH;
-        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.CENTER;
         add(titre, gbc);
 
 
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.weighty = 2;
         gbc.weightx = 3;
-        gbc.gridwidth = 2;
+        gbc.gridwidth = 3;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.BOTH;
         add(selection, gbc);
@@ -119,6 +120,7 @@ public class Chargement extends JPanel {
                 super.componentResized(e);
                 retour.setIcon(new ImageIcon(reScale(img, 0.05, 0.04)));
                 valider.setIcon(new ImageIcon(reScale(val, 0.3, 0.12)));
+                titre.setFont(new Font("Arial", Font.BOLD, (int)(getHeight()*0.06)));
             }
         });
 
@@ -172,13 +174,16 @@ public class Chargement extends JPanel {
                         ari.add(null);
                         break;
                     case 1:
-                        ari.add(new IAAleatoire(j));
+                        ari.add(new IAFacile(j));
                         break;
                     case 2:
-                        ari.add(new IATroisPoissons(j));
+                        ari.add(new IAMoyen(j));
                         break;
                     case 3:
-                        ari.add(new IAMinimax(j));
+                        ari.add(new IADifficile(j));
+                        break;
+                    case 4:
+                        ari.add(new IAExpert(j));
                         break;
                 }
             }
@@ -193,5 +198,6 @@ public class Chargement extends JPanel {
         }
         return ari;
     }
+
 
 }

@@ -22,6 +22,7 @@ public class IADifficile extends IAJoueur{
     @Override
     public Position elaborePlacement(){
         
+
         
         this.iajoueur = this.j.getJoueurCourant();
         Configuration conf = new Configuration(this.j.cloner());

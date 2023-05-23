@@ -79,9 +79,11 @@ public class SaveList extends JPanel {
         gbc.gridx = 0;
 
         gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1;
         add(listeSave, gbc);
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 0;
         gbc.gridy = 0;
         gbc.gridx = 0;
         add(echec, gbc);
