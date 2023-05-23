@@ -27,9 +27,10 @@ public class Selection extends JPanel {
     private Image lancer;
     private Image defaut;
     private IconeSelection listJoueur[];
+    private int last;
 
     public Selection(CollecteurEvenements ctrl){
-
+        last = 2;
         this.c = ctrl;
         retour = new JButton();
 

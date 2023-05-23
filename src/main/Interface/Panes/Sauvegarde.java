@@ -89,10 +89,17 @@ public class Sauvegarde extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String res = listeSave.getText();
-                c.save(res);
-                collecteur.togglePause(false);
+                if(res == ""){
+                    JOptionPane.showInternalMessageDialog(null, "<html>Le nom entré <br>n'est pas correct</html>");
+                }else{
+                    c.save(res);
+                    JOptionPane.showInternalMessageDialog(null, "Sauvegarde terminé");
+                    collecteur.togglePause(false);
+                }
+
             }
         });
+
         retour.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

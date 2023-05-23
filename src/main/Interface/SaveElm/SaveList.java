@@ -125,10 +125,10 @@ public class SaveList extends JPanel {
 
     public boolean isValideName(String s){
         int i =0;
-        while( i < problem.length && s.contains(problem[i])){
+        while( i < problem.length && !s.contains(problem[i])){
             i++;
         }
-        return (s.length() == 0 && i >= problem.length);
+        return (s.length() != 0 && i >= problem.length);
     }
 
     public String removeSpace(String s){
@@ -139,12 +139,18 @@ public class SaveList extends JPanel {
             i++;
         }
         res = s.substring(i);
+        System.out.println("Coupure avant: " + res);
         int j = res.length()-1;
         while( j>=0 && res.charAt(j)==' '){
             j--;
         }
-        res = res.substring(i, j);
+        if(j >= 0){
+            res = res.substring(i, j+1);
+        }else{
+            res = "";
+        }
 
+        System.out.println("Resultat: " + res);
         return res;
     }
 
@@ -154,6 +160,7 @@ public class SaveList extends JPanel {
             System.err.println("Le nom du fichier est impossible");
             return "";
         }
+
         return res;
     }
 
@@ -166,8 +173,11 @@ public class SaveList extends JPanel {
             String fileName = file.getName();
             int index = fileName.lastIndexOf(".");
             if (file.isFile() && fileName.substring(index).equals(".txt")) {
-                s[i] = fileName.substring(0, index);
-                i++;
+                if(!fileName.substring(0, index).equals("")){
+                    s[i] = fileName.substring(0, index);
+                    i++;
+                }
+
             }
         }
         return s;
