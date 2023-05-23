@@ -11,7 +11,7 @@ public class Coup {
     public Coup(int x, int y, Pingouin pingouin, boolean place) {
         this.x = x;
         this.y = y;
-        this.pingouin = pingouin;
+        this.pingouin = new Pingouin(pingouin.getLigne(), pingouin.getColonne());
         this.place = place;
     }
 
