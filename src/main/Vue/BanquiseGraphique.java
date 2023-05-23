@@ -373,10 +373,5 @@ public class BanquiseGraphique extends JComponent {
         misAJour(jeu);
     }
 
-    public void majMouseOverBq(int coupX, int coupY) {
-        drawPing = true;
-        posPing = new Position(coupX, coupY);
-        repaint();
-    }
 }
 

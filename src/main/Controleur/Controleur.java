@@ -123,20 +123,6 @@ public class Controleur implements CollecteurEvenements {
         }
     }
 
-
-    @Override
-    public void mouseOnBanquise(int coupX, int coupY) {
-//        System.out.println("zzzz");
-//        if(jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA() == 0){
-//            System.out.println("Teststst");
-//           plateauJeu.getBq().majMouseOverBq(coupX, coupY);
-//        }
-    }
-
-
-
-
-
     public void setPlateauJeu(GameBoard gb){
         plateauJeu = gb;
         cliqueBq = new AdaptateurSourisPlateau(plateauJeu.getBq(), this);
