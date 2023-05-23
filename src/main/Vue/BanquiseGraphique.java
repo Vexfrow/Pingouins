@@ -201,14 +201,11 @@ public class BanquiseGraphique extends JComponent {
                     bfi = GameConstants.hPoisson1hV;
                 else if (jeu.getJoueurCourant() == 4)
                     bfi = GameConstants.hPoisson1hJ;
-//            }else if(etat == Jeu.ETAT_PLACEMENTP && (c.getNbPoissons() != 1 || c.pingouinPresent() != 0)){
-//                if(c.getNbPoissons() == 1)
-//                    bfi = GameConstants.hPoissonG1;
-//                else if(c.getNbPoissons() == 2)
-//                    bfi = GameConstants.hPoissonG2;
-//                else if(c.getNbPoissons() == 3)
-//                    bfi = GameConstants.hPoissonG3;
-
+            }else if(etat == Jeu.ETAT_PLACEMENTP && c.getNbPoissons() != 1) {
+                if(c.getNbPoissons() == 2)
+                    bfi = GameConstants.hPoissonG2;
+                else
+                    bfi = GameConstants.hPoissonG3;
             }else if(etat == Jeu.ETAT_CHOIXC && listHexagone != null && listHexagone.contains(coordHexa)){
                 if(jeu.getJoueurCourant() == 1){
                     if (c.getNbPoissons() == 1)

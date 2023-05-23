@@ -40,14 +40,16 @@ public class ScorePlacementPanel extends ScorePanel{
     public void setPanel(){
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        //this.setBackground(new Color(200,200,200));
+        this.setBackground(new Color(200,200,200));
 
         textJoueur.setText("Joueur " + joueur.getNumeroJoueur() + " - " + joueur.getName());
+        textJoueur.setFont(new Font("Serif", Font.PLAIN, 19));
         this.add(textJoueur);
 
 
         JPanel panelPingouin = new JPanel();
         panelPingouin.setLayout(new BoxLayout(panelPingouin, BoxLayout.X_AXIS));
+        panelPingouin.setBackground(new Color(200,200,200));
 
         imagePanel.setBackground(new Color(200,200,200));
         panelPingouin.add(Box.createRigidArea(new Dimension(40, 0)));
@@ -81,8 +83,20 @@ public class ScorePlacementPanel extends ScorePanel{
 
         joueur = je;
         textNbPingouin.setText("X" + (jeu.getNbPingouinJoueur() - joueur.getListePingouin().size()));
-        revalidate();
-    }
 
+
+        if(joueur.getNumeroJoueur() == jeu.getJoueurCourant()){
+            switch(joueur.getNumeroJoueur()){
+                case 1 : this.setBackground(GameConstants.BLEU); textJoueur.setForeground(Color.WHITE);break;
+                case 2 : this.setBackground(GameConstants.ROUGE); break;
+                case 3 : this.setBackground(GameConstants.VERT); break;
+                case 4 : this.setBackground(GameConstants.JAUNE);break;
+            }
+        }else{
+            this.setBackground(new Color(200,200,200));textJoueur.setForeground(Color.BLACK);;
+        }
+
+     //   revalidate();
+    }
 
 }

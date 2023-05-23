@@ -590,6 +590,7 @@ public class Jeu{
                     }
                 } else { 
                     etat = ETAT_SELECTIONP;
+                    lastJoueur = j.getJoueurCourant();
                     j.joue(cp);
                 }
                 i++;
