@@ -192,5 +192,18 @@ public class Chargement extends JPanel {
         return ari;
     }
 
+    @Override
+    public void paintComponent(Graphics g){
+        if(!lf.choose()){
+            valider.setEnabled(false);
+            preview.reset();
+
+        }else{
+            valider.setEnabled(true);
+        }
+        super.paintComponent(g);
+
+    }
+
 
 }

@@ -208,22 +208,7 @@ public class IconeSelection extends JPanel {
 
 
 
-    public void paintComponent(Graphics g){
 
-        type.setPreferredSize(new Dimension((int)(getWidth()*0.20), (int)(getHeight()*0.09)));
-        type.revalidate();
-        gauche.setPreferredSize(new Dimension((int)(getWidth()*0.1),(int)(getHeight()*0.09)));
-        droite.setPreferredSize(new Dimension((int)(getWidth()*0.1), (int)(getHeight()*0.09)));
-        type.setBackground(Color.WHITE);
-        Polygon p = new Polygon();
-        Dimension taille = getSize();
-        this.coorX = taille.width/2;
-        this.coorY = taille.height/2 ;
-        this.size = getHeight()/6;
-        centre.setSize(size);
-        centre.setColor(color);
-        super.paintComponent(g);
-    }
 
     public void rotationNom(int i){
         rotation += i;
@@ -303,7 +288,27 @@ public class IconeSelection extends JPanel {
                 }
             }
         }
+    }
 
+    @Override
+    public void paintComponent(Graphics g){
+
+        type.setPreferredSize(new Dimension((int)(getWidth()*0.20), (int)(getHeight()*0.09)));
+        type.revalidate();
+        gauche.setPreferredSize(new Dimension((int)(getWidth()*0.1),(int)(getHeight()*0.09)));
+        droite.setPreferredSize(new Dimension((int)(getWidth()*0.1), (int)(getHeight()*0.09)));
+        type.setBackground(Color.WHITE);
+        Polygon p = new Polygon();
+        Dimension taille = getSize();
+        this.coorX = taille.width/2;
+        this.coorY = taille.height/2 ;
+        this.size = getHeight()/6;
+        centre.setSize(size);
+        centre.setColor(color);
+        super.paintComponent(g);
+        if(!actif){
+            plus.setIcon(new ImageIcon(GameConstants.plus.getScaledInstance(size, size, Image.SCALE_FAST)));
+        }
 
     }
 

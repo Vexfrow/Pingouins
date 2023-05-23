@@ -19,6 +19,7 @@ public class Preview extends JPanel {
         setBackground(GameConstants.BACKGROUND_COLOR);
         setLayout(new GridBagLayout());
         visuel = new JLabel("Choisissez une partie");
+
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -66,6 +67,7 @@ public class Preview extends JPanel {
             for(int i =0; i < nbJoueur; i++){
                 types[i] = Integer.parseInt(bufferedReader.readLine());
             }
+            bufferedReader.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -79,7 +81,8 @@ public class Preview extends JPanel {
         gbc.insets = new Insets(10, 20, 10, 50);
 
         for(int i = 0; i < nbJoueur; i++){
-            players[i] = new JLabel(""+ i);
+            players[i] = new JLabel();
+            players[i].setText(""+ i);
             players[i].setOpaque(true);
             players[i].setFont(new Font("Arial", Font.BOLD, 20 ));
             switch (i){
@@ -90,10 +93,10 @@ public class Preview extends JPanel {
                     players[i].setBackground(GameConstants.ROUGE_CLAIR);
                     break;
                 case 2:
-                    players[i].setBackground(GameConstants.JAUNE_CLAIR);
+                    players[i].setBackground(GameConstants.VERT_CLAIR);
                     break;
                 case 3:
-                    players[i].setBackground(GameConstants.VERT_CLAIR);
+                    players[i].setBackground(GameConstants.JAUNE_CLAIR);
                     break;
 
             }
@@ -110,6 +113,9 @@ public class Preview extends JPanel {
                     break;
                 case 3:
                     categories = "IA Difficile :";
+                    break;
+                case 4:
+                    categories = "IA Expert :";
                     break;
             }
             categories += " Score = " + scores[i] + " Cases = " + cases[i];
@@ -133,11 +139,19 @@ public class Preview extends JPanel {
         gbc.weightx = 1;
         add(visuel, gbc);
 
+        revalidate();
+        repaint();
 
     }
 
     public Image reScale(Image img){
         return img.getScaledInstance((int)(getWidth()*0.8),(int)(getHeight()*0.6), Image.SCALE_AREA_AVERAGING);
+    }
+
+    public void reset(){
+        removeAll();
+        revalidate();
+        repaint();
     }
 
 
