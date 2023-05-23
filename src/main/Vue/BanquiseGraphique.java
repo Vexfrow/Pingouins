@@ -136,11 +136,11 @@ public class BanquiseGraphique extends JComponent {
         }
 
 
-        if(suggestionCoup != null)
-            System.out.println("scoup = " + suggestionCoup.getLigne() + " " + suggestionCoup.getColonne());
-
-        if(suggestionPos != null)
-            System.out.println("spos = " + suggestionPos.x + " " + suggestionPos.y);
+//        if(suggestionCoup != null)
+//            System.out.println("scoup = " + suggestionCoup.getLigne() + " " + suggestionCoup.getColonne());
+//
+//        if(suggestionPos != null)
+//            System.out.println("spos = " + suggestionPos.x + " " + suggestionPos.y);
 
         BufferedImage bfi = GameConstants.hVide;
 
@@ -356,7 +356,7 @@ public class BanquiseGraphique extends JComponent {
         Graphics g = bi.createGraphics();
         this.paint(g);
         g.dispose();
-        try{ImageIO.write(bi,"png",new File("resources/sauvegarde/"+nomFichier+".png"));}catch (Exception ignored) {}
+        try{ImageIO.write(bi,"png",new File(GameConstants.DOSSIER_SAVE + nomFichier+".png"));}catch (Exception ignored) {}
     }
 
 

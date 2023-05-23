@@ -38,7 +38,7 @@ public class Preview extends JPanel {
 
         FileReader reader = null;
         try {
-            reader = new FileReader("resources/sauvegarde/"+ name+".txt");
+            reader = new FileReader(GameConstants.DOSSIER_SAVE + name+".txt");
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -120,7 +120,7 @@ public class Preview extends JPanel {
 
         screen = null;
         try{
-            screen = (Image) ImageIO.read(new FileInputStream("resources/sauvegarde/"+ name + ".png"));
+            screen = (Image) ImageIO.read(new FileInputStream(GameConstants.DOSSIER_SAVE + name + ".png"));
         }catch(Exception e){
             System.err.println("une erreur " + e);
         }

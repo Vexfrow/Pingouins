@@ -1,6 +1,9 @@
 package Model;
 
+import Interface.GameConstants;
+
 import java.util.*;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.FileReader;
@@ -630,6 +633,9 @@ public class Jeu{
     // Sauvegarde du jeu avec un nom de fichier
     public void sauvegarder(String name){
         try {
+
+            File dossier = new File(GameConstants.DOSSIER_SAVE);
+            dossier.mkdir();
 
             FileWriter w = new FileWriter(name);
             

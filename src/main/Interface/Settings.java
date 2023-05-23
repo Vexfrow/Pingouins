@@ -12,12 +12,15 @@ public class Settings {
     public int[] typeJoueur;
 
     public Settings(){
-        quickPlay = new File("resources/Settings/quickPlay");
+        quickPlay = new File(GameConstants.DOSSIER_SETTINGS + "quickPlay");
 
     }
 
     public void writeSettings(int nbJ, int[] types){
         try {
+            File f = new File( GameConstants.DOSSIER_SETTINGS);
+            f.mkdir();
+
             FileWriter fw = new FileWriter(quickPlay);
             fw.write(nbJ+"\n");
             for(int i =0; i < nbJ; i++){

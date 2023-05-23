@@ -29,18 +29,11 @@ public class Chargement extends JPanel {
     private JLabel titre;
     private JPanel selection;
     private String fichier;
-    private Image img;
-    private Image val;
 
     public Chargement(CollecteurEvenements c){
-        File d = new File("resources/sauvegarde");
+        File d = new File(GameConstants.DOSSIER_SAVE);
         d.mkdir();
-        try{
-            img = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheRetour.png"));
-            val = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonValider.png"));
-        }catch(Exception e){
-            System.err.println(e);
-        }
+
         collecteurEvenements = c;
         setLayout(new GridBagLayout());
         setBackground(GameConstants.BACKGROUND_COLOR);
@@ -91,8 +84,8 @@ public class Chargement extends JPanel {
         gbc.gridy = 3;
         gbc.gridwidth = 3;
         add(valider, gbc);
-        retour.setIcon(new ImageIcon(img));
-        valider.setIcon(new ImageIcon(val));
+        retour.setIcon(new ImageIcon(GameConstants.flecheRetour));
+        valider.setIcon(new ImageIcon(GameConstants.valider));
         retour.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -118,8 +111,8 @@ public class Chargement extends JPanel {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
-                retour.setIcon(new ImageIcon(reScale(img, 0.05, 0.04)));
-                valider.setIcon(new ImageIcon(reScale(val, 0.3, 0.12)));
+                retour.setIcon(new ImageIcon(reScale(GameConstants.flecheRetour, 0.05, 0.04)));
+                valider.setIcon(new ImageIcon(reScale(GameConstants.valider, 0.3, 0.12)));
                 titre.setFont(new Font("Arial", Font.BOLD, (int)(getHeight()*0.06)));
             }
         });
@@ -131,7 +124,7 @@ public class Chargement extends JPanel {
     }
 
     public void changePreview(String s){
-        fichier = "resources/sauvegarde/"+ s+ ".txt";
+        fichier = GameConstants.DOSSIER_SAVE + s+ ".txt";
         preview.setPreview(s);
     }
 

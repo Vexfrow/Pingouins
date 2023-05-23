@@ -1,5 +1,6 @@
 package Interface.Panes;
 
+import Interface.GameConstants;
 import Vue.CollecteurEvenements;
 
 import javax.imageio.ImageIO;
@@ -13,10 +14,6 @@ import java.io.FileInputStream;
 
 public class Aide extends JPanel{
 
-    private Image flecheLeft;
-    private Image flecheRight;
-    private Image flecheLeftVide;
-    private Image flecheRightVide;
     private CollecteurEvenements collecteur;
     private JLabel image;
     private JButton flecheGauche;
@@ -40,12 +37,8 @@ public class Aide extends JPanel{
         titre = new JLabel();
         text = new JLabel();
         try{
-            flecheLeft = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheRegleGauche.png"));
-            flecheRight = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheRegleDroite.png"));
-            flecheLeftVide = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheRegleGaucheTransparente.png"));
-            flecheRightVide = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheRegleDroiteTransparente.png"));
             for(int i =1; i <= panels.length; i++){
-                panels[i-1] = (Image) ImageIO.read(new FileInputStream("resources/assets/aide/panelRegles" + i +".png"));
+                panels[i-1] = ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("resources/assets/aide/panelRegles" + i +".png"));
             }
         }catch(Exception e){
             System.err.println("une erreur " + e);
@@ -63,13 +56,13 @@ public class Aide extends JPanel{
     private void setAide(){
         flecheGauche.setContentAreaFilled(false);
         flecheGauche.setBorderPainted(false);
-        flecheGauche.setDisabledIcon(new ImageIcon(flecheLeftVide));
-        flecheGauche.setIcon(new ImageIcon(flecheLeft));
+        flecheGauche.setDisabledIcon(new ImageIcon(GameConstants.flecheGaucheAideT));
+        flecheGauche.setIcon(new ImageIcon(GameConstants.flecheGaucheAide));
 
         flecheDroite.setContentAreaFilled(false);
         flecheDroite.setBorderPainted(false);
-        flecheDroite.setDisabledIcon(new ImageIcon(flecheRightVide));
-        flecheDroite.setIcon(new ImageIcon(flecheRight));
+        flecheDroite.setDisabledIcon(new ImageIcon(GameConstants.flecheDroiteAideT));
+        flecheDroite.setIcon(new ImageIcon(GameConstants.flecheDroiteAide));
         titre.setFont(new Font("Arial", Font.BOLD, 30));
         text.setFont(new Font("Arial", Font.PLAIN, 15));
         indications = new String[15];
@@ -190,10 +183,10 @@ public class Aide extends JPanel{
     }
 
     public void resize(){
-        flecheGauche.setIcon(new ImageIcon(reScale(flecheLeft, 0.06f, 0.04f)));
-        flecheDroite.setIcon(new ImageIcon(reScale(flecheRight, 0.06f, 0.04f)));
-        flecheGauche.setDisabledIcon(new ImageIcon(reScale(flecheLeftVide, 0.06f, 0.04f)));
-        flecheDroite.setDisabledIcon(new ImageIcon(reScale(flecheRightVide, 0.06f, 0.04f)));
+        flecheGauche.setIcon(new ImageIcon(reScale(GameConstants.flecheGaucheAide, 0.06f, 0.04f)));
+        flecheDroite.setIcon(new ImageIcon(reScale(GameConstants.flecheDroiteAide, 0.06f, 0.04f)));
+        flecheGauche.setDisabledIcon(new ImageIcon(reScale(GameConstants.flecheGaucheAideT, 0.06f, 0.04f)));
+        flecheDroite.setDisabledIcon(new ImageIcon(reScale(GameConstants.flecheDroiteAideT, 0.06f, 0.04f)));
         image.setIcon(new ImageIcon(reScale(panels[avancement], 0.6f, 0.5f)));
     }
 
@@ -214,7 +207,7 @@ public class Aide extends JPanel{
         indications[i] = "<html>Les poissons que vous avez collectés sont ajoutés à votre score quand votre pingouin quitte sa case.<br>La case disparaît et un trou non franchissable s’y trouve alors.</html>";
         titres[i] = "Collecte";
         i++;
-        indications[i] = "<html>Si un pingouins est bloqué sur une tuile, il ne peut plus être déplacé et <br>disparaît en récupérant ses poissons.<br> Si tous les pingouins d’un joueur sont indisponibles, il passe ses tours.</html>";
+        indications[i] = "<html>Si un pingouin est bloqué sur une tuile, il ne peut plus être déplacé et <br>disparaît en récupérant ses poissons.<br> Si tous les pingouins d’un joueur sont indisponibles, il passe ses tours.</html>";
         titres[i] = "Pingouin bloqué";
         i++;
         indications[i] = "<html>Quand plus aucun pingouin ne peut bouger, le jeu est terminé.<br> Les derniers poissons sont comptabilisés et le joueur avec le plus haut score gagne.</html>";

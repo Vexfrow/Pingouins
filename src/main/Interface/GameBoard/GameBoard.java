@@ -61,7 +61,7 @@ public class GameBoard extends JPanel {
         setSuggestion();
         bAnnuler = new JButton(new ImageIcon(GameConstants.annuler));
         setAnnuler();
-        bStart = new JButton(new ImageIcon(GameConstants.commencerP));
+        bStart = new JButton(new ImageIcon(GameConstants.valider));
         setCommencerPartie();
         bRegenereP= new JButton(new ImageIcon(GameConstants.regenerePlateau));
         setRegenereP();
@@ -422,7 +422,7 @@ public class GameBoard extends JPanel {
         bSuggestion.setIcon(new ImageIcon(imageOnButton(bSuggestion, GameConstants.suggestion)));
         bRefaire.setIcon(new ImageIcon(imageOnButton(bRefaire, GameConstants.refaire)));
         bAnnuler.setIcon(new ImageIcon(imageOnButton(bAnnuler, GameConstants.annuler)));
-        bStart.setIcon(new ImageIcon(imageOnButton(bStart, GameConstants.commencerP)));
+        bStart.setIcon(new ImageIcon(imageOnButton(bStart, GameConstants.valider)));
         bRegenereP.setIcon(new ImageIcon(imageOnButton(bRegenereP, GameConstants.regenerePlateau)));
 
     }

@@ -37,11 +37,7 @@ public class IconeSelection extends JPanel {
     private JButton droite;
     private JLabel type;
     private JLabel empty;
-    private Image selGauche;
-    private Image selDroite;
     private Image pengouin;
-    private Image ajout;
-    private Image supp;
     private JLabel icon;
     private Icone centre;
     private boolean fixe;
@@ -64,39 +60,30 @@ public class IconeSelection extends JPanel {
         this.rotation = 1;
 
         this.indice = i;
-        try{
-            if(this.color.getRGB() == r){
-                pengouin = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/pingouinRouge.png"));
-            }else if(this.color.getRGB() == g){
-                pengouin = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/pingouinVert.png"));
-            }else if(this.color.getRGB() == b){
-                pengouin = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/pingouinBleu.png"));
-            }else if(this.color.getRGB() == y){
-                pengouin = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/pingouinJaune.png"));
-            }
-            selGauche = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheSelectGauche.png"));
-            selDroite = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheSelectDroite.png"));
-            ajout = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/plus.png"));
-            supp = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/croix.png"));
-
-        }catch(Exception e){
-            System.err.println("une erreur " + e);
+        if(this.color.getRGB() == r){
+            pengouin = GameConstants.pingouinBleu;
+        }else if(this.color.getRGB() == g){
+            pengouin = GameConstants.pingouinRouge;
+        }else if(this.color.getRGB() == b){
+            pengouin = GameConstants.pingouinVert;
+        }else if(this.color.getRGB() == y){
+            pengouin = GameConstants.pingouinJaune;
         }
 
         this.centre = new Icone(indice);
 
-        gauche  = new JButton(new ImageIcon(selGauche));
-        droite = new JButton(new ImageIcon(selDroite));
+        gauche  = new JButton(new ImageIcon(GameConstants.flecheGaucheSelection));
+        droite = new JButton(new ImageIcon(GameConstants.flecheDroiteSelection));
         icon = new JLabel(new ImageIcon(pengouin));
-        plus = new JButton(new ImageIcon(ajout));
-        minus= new JButton(new ImageIcon(supp));
+        plus = new JButton(new ImageIcon(GameConstants.plus));
+        minus= new JButton(new ImageIcon(GameConstants.croix));
 
         plus.setBorderPainted(false);
         minus.setBorderPainted(false);
 
         plus.setContentAreaFilled(false);
         minus.setContentAreaFilled(false);
-        Icon ic = new ImageIcon(supp);
+        Icon ic = new ImageIcon(GameConstants.croix);
         minus.setPreferredSize(new Dimension(ic.getIconWidth(), ic.getIconHeight()));
 
         gauche.setBackground(new Color(0x2678A7));
@@ -108,7 +95,7 @@ public class IconeSelection extends JPanel {
         type.setBackground(Color.WHITE);
         type.setOpaque(true);
 
-        empty = new JLabel(new ImageIcon(supp));
+        empty = new JLabel(new ImageIcon(GameConstants.croix));
         empty.setOpaque(false);
 
         GridBagConstraints gbc = new GridBagConstraints();

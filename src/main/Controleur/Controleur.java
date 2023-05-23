@@ -219,7 +219,7 @@ public class Controleur implements CollecteurEvenements {
                         if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP) {
                             Position p = jia.elaborePlacement();
                             try {
-                                Thread.sleep(100);
+                                Thread.sleep(800);
                             } catch (InterruptedException ignored) {
 
                             }
@@ -227,7 +227,7 @@ public class Controleur implements CollecteurEvenements {
                         } else {
                             Coup c = jia.elaboreCoup();
                             try {
-                                Thread.sleep(100);
+                                Thread.sleep(800);
                             } catch (InterruptedException ignored) {
 
                             }
@@ -278,6 +278,7 @@ public class Controleur implements CollecteurEvenements {
         }
         plateauJeu = new GameBoard(jeu, this);
         listeIA = arIA;
+        threadActif = true;
 
         this.window.setGameBoard(plateauJeu);
         switchGameBoard();
