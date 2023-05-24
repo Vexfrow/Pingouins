@@ -47,7 +47,7 @@ public class Pause extends JPanel {
     }
 
     private void setPause(){
-        titrePause.setFont(new Font("Arial", Font.BOLD, 15));
+        titrePause.setFont(new Font("Arial", Font.BOLD, 20));
         reprendre.setContentAreaFilled(false);
         recommencer.setContentAreaFilled(false);
         sauvegarder.setContentAreaFilled(false);

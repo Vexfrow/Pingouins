@@ -1,5 +1,6 @@
 package Interface.Panes;
 
+import Interface.GameConstants;
 import Vue.CollecteurEvenements;
 
 import javax.imageio.ImageIO;
@@ -123,37 +124,42 @@ public class Aide extends JPanel{
         gbc.fill = GridBagConstraints.CENTER;
         gbc.gridx = 1;
         gbc.gridy = 1;
+        gbc.weightx = 1;
         this.add(image, gbc);
 
         gbc.gridy = 2;
         gbc.insets = new Insets(20, 10, 10, 10);
         gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 0;
         this.add(this.text, gbc);
 
         gbc.insets = new Insets(0,0,0,0);
         gbc.fill = GridBagConstraints.NONE;
         gbc.gridy = 2;
         gbc.gridx = 0;
+        gbc.weightx = 0.2;
         this.add(flecheGauche, gbc);
 
         gbc.fill = GridBagConstraints.NONE;
         gbc.gridx = 2;
+        gbc.weightx = 0.2;
         this.add(flecheDroite, gbc);
 
         gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
         gbc.gridx = 2;
         gbc.gridy = 0;
         this.add(sortie, gbc);
         flecheGauche.setEnabled(!debut());
         flecheDroite.setEnabled(!fin());
         slide(0);
-
+        text.setFont(new Font("Arial", Font.PLAIN, 20));
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
                 resize();
-                revalidate();
+                //revalidate();
             }
         });
     }
