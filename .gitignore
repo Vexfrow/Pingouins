@@ -2,4 +2,5 @@
 out/
 Pingouins.iml
 *.txt
-resources/sauvegarde/
+sauvegardes/*
+settings/quickPlay

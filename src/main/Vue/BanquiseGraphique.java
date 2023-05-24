@@ -151,7 +151,7 @@ public class BanquiseGraphique extends JComponent {
             Shape cell = plateau.get(i);
 
 
-            if(coordHexa.equals(newPos)){
+            if(coordHexa.equals(newPos) && !jeu.getCase(coordHexa.x, coordHexa.y).estMange()){
                 Cases c2 = jeu.getCase(newPos.x,newPos.y);
                 if (c2.pingouinPresent() == 1) {
                     if (c2.getNbPoissons() == 1)
@@ -239,6 +239,7 @@ public class BanquiseGraphique extends JComponent {
 
             }else if ((etat == Jeu.ETAT_CHOIXC && coordHexa.equals(infoP)) || (etat == Jeu.ETAT_SELECTIONP && listPingouinPos != null && listPingouinPos.contains(coordHexa))){
                 if(jeu.getJoueurCourant() == 1){
+                    System.out.println("Case " + coordHexa);
                     if (c.getNbPoissons() == 1)
                         bfi = GameConstants.hPingouinB1h;
                     else if (c.getNbPoissons() == 2)
@@ -272,6 +273,7 @@ public class BanquiseGraphique extends JComponent {
             }
 
             g2d.drawImage(bfi, cell.getBounds().x, cell.getBounds().y, cell.getBounds().width, cell.getBounds().height, null);
+            System.out.println(jeu.toString());
 
         }
 
@@ -290,6 +292,7 @@ public class BanquiseGraphique extends JComponent {
             else if (c.getNbPoissons() == 3)
                 bfi = GameConstants.hPoisson3;
         } else if (c.pingouinPresent() == 1) {
+            System.out.println("Case " + c);
             if (c.getNbPoissons() == 1)
                 bfi = GameConstants.hPingouinB1;
             else if (c.getNbPoissons() == 2)

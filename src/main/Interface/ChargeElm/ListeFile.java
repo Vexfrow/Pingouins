@@ -161,6 +161,7 @@ public class ListeFile extends JPanel {
                         current = b.getText();
                         b.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
                         b.setBorderPainted(!b.isBorderPainted());
+                        panel.repaint();
                     }
                 });
             }
