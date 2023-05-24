@@ -171,8 +171,10 @@ public class GameBoard extends JPanel {
 
 
         //----------------Message-------------
-        messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant() + " de placer un pingouin");
-        messageTour.setFont(new Font(messageTour.getFont().getFontName(), Font.PLAIN, 20));
+        messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant() + " \nde placer un pingouin");
+        messageTour.setFont(new Font(messageTour.getFont().getFontName(), Font.PLAIN, 15));
+        messageTour.setOpaque(true);
+        messageTour.setBackground(Color.ORANGE);
         messageTour.setHorizontalAlignment(SwingConstants.CENTER);
 
         c.gridx = 0;
@@ -230,8 +232,10 @@ public class GameBoard extends JPanel {
 
 
         //----------------Message-------------
-        messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant() + " de deplacer un pingouin");
-        messageTour.setFont(new Font(messageTour.getFont().getFontName(), Font.PLAIN, 20));
+        messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant() + " \nde deplacer un pingouin");
+        messageTour.setFont(new Font(messageTour.getFont().getFontName(), Font.PLAIN, 15));
+        messageTour.setOpaque(true);
+        messageTour.setBackground(Color.ORANGE);
 
         c.gridx = 0;
         c.gridy = 1;
@@ -369,7 +373,11 @@ public class GameBoard extends JPanel {
         }
 
         if(etat != Jeu.ETAT_INITIAL){
-            messageTour.setText("C'est au tour du joueur " + jeu.getJoueurCourant());
+            if(etat == Jeu.ETAT_PLACEMENTP)
+                messageTour.setText("<html>C'est au tour du joueur " + jeu.getJoueurCourant() + " <br>de placer un pingouin</html>");
+            else
+                messageTour.setText("<html>C'est au tour du joueur " + jeu.getJoueurCourant() + " <br>de deplacer un pingouin</html>");
+
             for(int i = 0; i < jeu.getListeJoueur().size();i++){
                 listeScorePanel.get(i).misAJour(jeu, jeu.getListeJoueur().get(i));
             }
