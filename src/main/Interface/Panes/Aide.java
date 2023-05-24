@@ -46,7 +46,7 @@ public class Aide extends JPanel{
         image = new JLabel();
         flecheGauche = new JButton();
         flecheDroite = new JButton();
-        sortie = new JButton("X");
+        sortie = new JButton();
         collecteur = c;
 
         setAide();
@@ -65,6 +65,8 @@ public class Aide extends JPanel{
         flecheDroite.setIcon(new ImageIcon(GameConstants.flecheDroiteAide));
         titre.setFont(new Font("Arial", Font.BOLD, 30));
         text.setFont(new Font("Arial", Font.PLAIN, 15));
+        sortie.setBorderPainted(false);
+        sortie.setContentAreaFilled(false);
         indications = new String[15];
         for(int i =0; i < indications.length; i++){
             indications[i]="here";
@@ -116,37 +118,42 @@ public class Aide extends JPanel{
         gbc.fill = GridBagConstraints.CENTER;
         gbc.gridx = 1;
         gbc.gridy = 1;
+        gbc.weightx = 1;
         this.add(image, gbc);
 
         gbc.gridy = 2;
         gbc.insets = new Insets(20, 10, 10, 10);
         gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 0;
         this.add(this.text, gbc);
 
         gbc.insets = new Insets(0,0,0,0);
         gbc.fill = GridBagConstraints.NONE;
         gbc.gridy = 2;
         gbc.gridx = 0;
+        gbc.weightx = 0.2;
         this.add(flecheGauche, gbc);
 
         gbc.fill = GridBagConstraints.NONE;
         gbc.gridx = 2;
+        gbc.weightx = 0.2;
         this.add(flecheDroite, gbc);
 
         gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
         gbc.gridx = 2;
         gbc.gridy = 0;
         this.add(sortie, gbc);
         flecheGauche.setEnabled(!debut());
         flecheDroite.setEnabled(!fin());
         slide(0);
-
+        text.setFont(new Font("Arial", Font.PLAIN, 20));
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
                 resize();
-                revalidate();
+                //revalidate();
             }
         });
     }
@@ -187,6 +194,7 @@ public class Aide extends JPanel{
         flecheDroite.setIcon(new ImageIcon(reScale(GameConstants.flecheDroiteAide, 0.06f, 0.04f)));
         flecheGauche.setDisabledIcon(new ImageIcon(reScale(GameConstants.flecheGaucheAideT, 0.06f, 0.04f)));
         flecheDroite.setDisabledIcon(new ImageIcon(reScale(GameConstants.flecheDroiteAideT, 0.06f, 0.04f)));
+        sortie.setIcon(new ImageIcon(reScale(GameConstants.croix, 0.03f, 0.04f)));
         image.setIcon(new ImageIcon(reScale(panels[avancement], 0.6f, 0.5f)));
     }
 

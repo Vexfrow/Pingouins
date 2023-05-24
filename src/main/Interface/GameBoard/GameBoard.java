@@ -453,7 +453,6 @@ public class GameBoard extends JPanel {
         return sugg.elaboreCoup();
     }
 
-
     private Position suggestionPlacement(){
         IAExpert sugg = new IAExpert(jeu);
         return sugg.elaborePlacement();
@@ -464,7 +463,6 @@ public class GameBoard extends JPanel {
     }
 
 
-
     public void toggleButton(){
         bPause.setEnabled(!bPause.isEnabled());
         bSuggestion.setEnabled(!bSuggestion.isEnabled());
@@ -473,8 +471,6 @@ public class GameBoard extends JPanel {
         bRefaire.setEnabled(jeu.peutRefaire() && !bRefaire.isEnabled());
         bAnnuler.setEnabled(jeu.peutAnnuler() && !bAnnuler.isEnabled());
     }
-
-
 
     public void activateButton(){
         bPause.setEnabled(true);

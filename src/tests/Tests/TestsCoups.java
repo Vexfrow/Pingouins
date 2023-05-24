@@ -2,7 +2,6 @@ package tests.Tests;
 
 import Model.Jeu;
 import Model.Coup;
-import Model.Pingouin;
 import Model.Joueur;
 
 /* Programme test pour tout ce qui a trait aux coups 

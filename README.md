@@ -23,3 +23,9 @@ java -ea -cp out tests.Tests.TestsCoups
 
 java -ea -cp out tests.Tests.MyTest
 ```
+
+# Pour exécuter Pingouins.jar
+
+```bash
+java -jar Pingouins.java
+```
