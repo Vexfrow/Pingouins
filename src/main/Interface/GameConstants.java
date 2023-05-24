@@ -182,7 +182,7 @@ public class GameConstants {
 
     private static BufferedImage chargeImagePlateau(String nom) {
         try {
-            InputStream in = GameConstants.class.getClassLoader().getResourceAsStream("resources/assets/jeu/plateau/" + nom + ".png");
+            InputStream in = GameConstants.class.getClassLoader().getResourceAsStream("assets/jeu/plateau/" + nom + ".png");
             return ImageIO.read(in);
         } catch (Exception e) {
             System.out.println("Fichier \"" + nom + "\" introuvable");
@@ -193,7 +193,7 @@ public class GameConstants {
 
     private static BufferedImage chargeImageJeu(String nom) {
         try {
-            InputStream in = GameConstants.class.getClassLoader().getResourceAsStream("resources/assets/jeu/menu/" + nom + ".png");
+            InputStream in = GameConstants.class.getClassLoader().getResourceAsStream("assets/jeu/menu/" + nom + ".png");
             return ImageIO.read(in);
         } catch (Exception e) {
             System.out.println("Fichier \"" + nom + "\" introuvable");
@@ -206,7 +206,7 @@ public class GameConstants {
 
     private static BufferedImage chargeImageVictoire(String nom){
         try {
-            InputStream in = GameConstants.class.getClassLoader().getResourceAsStream("resources/assets/jeu/victoire/" + nom + ".png");
+            InputStream in = GameConstants.class.getClassLoader().getResourceAsStream("assets/jeu/victoire/" + nom + ".png");
             return ImageIO.read(in);
         } catch (Exception e) {
             System.out.println("Fichier \"" + nom + "\" introuvable");
@@ -217,7 +217,7 @@ public class GameConstants {
 
     private static BufferedImage chargeImageMenu(String nom){
         try {
-            InputStream in = GameConstants.class.getClassLoader().getResourceAsStream("resources/assets/menu/" + nom + ".png");
+            InputStream in = GameConstants.class.getClassLoader().getResourceAsStream("assets/menu/" + nom + ".png");
             return ImageIO.read(in);
         } catch (Exception e) {
             System.out.println("Fichier \"" + nom + "\" introuvable");
