@@ -46,7 +46,7 @@ public class Aide extends JPanel{
         image = new JLabel();
         flecheGauche = new JButton();
         flecheDroite = new JButton();
-        sortie = new JButton("X");
+        sortie = new JButton();
         collecteur = c;
 
         setAide();
@@ -65,6 +65,8 @@ public class Aide extends JPanel{
         flecheDroite.setIcon(new ImageIcon(GameConstants.flecheDroiteAide));
         titre.setFont(new Font("Arial", Font.BOLD, 30));
         text.setFont(new Font("Arial", Font.PLAIN, 15));
+        sortie.setBorderPainted(false);
+        sortie.setContentAreaFilled(false);
         indications = new String[15];
         for(int i =0; i < indications.length; i++){
             indications[i]="here";
@@ -192,6 +194,7 @@ public class Aide extends JPanel{
         flecheDroite.setIcon(new ImageIcon(reScale(GameConstants.flecheDroiteAide, 0.06f, 0.04f)));
         flecheGauche.setDisabledIcon(new ImageIcon(reScale(GameConstants.flecheGaucheAideT, 0.06f, 0.04f)));
         flecheDroite.setDisabledIcon(new ImageIcon(reScale(GameConstants.flecheDroiteAideT, 0.06f, 0.04f)));
+        sortie.setIcon(new ImageIcon(reScale(GameConstants.croix, 0.03f, 0.04f)));
         image.setIcon(new ImageIcon(reScale(panels[avancement], 0.6f, 0.5f)));
     }
 

@@ -119,9 +119,6 @@ public class Selection extends JPanel {
             pane.add(listJoueur[i]);
         }
         add(pane, gbc);
-
-
-
         gbc.fill = GridBagConstraints.CENTER;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.gridheight = 1;
