@@ -38,7 +38,7 @@ public class Aide extends JPanel{
         text = new JLabel();
         try{
             for(int i =1; i <= panels.length; i++){
-                panels[i-1] = ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("resources/assets/aide/panelRegles" + i +".png"));
+                panels[i-1] = ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("assets/aide/panelRegles" + i +".png"));
             }
         }catch(Exception e){
             System.err.println("une erreur " + e);
