@@ -33,7 +33,7 @@ public class IAExpert extends IAJoueur{
         double temp = 0;
         Position posmax = null;
         for(int i = 0; i < fils.size(); i++){
-            if((temp = Heuristique.HnbCaseAccessible(fils.get(i),this.iajoueur)) > max ){
+            if((temp = Heuristique.montecarlo(fils.get(i),this.iajoueur,200)) > max ){
                 max =temp;
                 posmax = fils.get(i).position;
             }

@@ -28,8 +28,8 @@ public class MainTestIA{
             ArrayList<IAJoueur> ialist = new ArrayList<IAJoueur>();
 
 
-            ialist.add(new IAMinimax(j));
             ialist.add(new IAExpert(j));
+            ialist.add(new IADifficile(j));
 
             while(!j.pingouinTousPlace()){
                 k=0;
