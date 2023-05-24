@@ -29,7 +29,6 @@ public class Victoire extends JPanel{
     public Victoire(CollecteurEvenements c){
         jeu = c.getJeu();
         controlleur = c;
-        this.setLayout(new BorderLayout());
         this.setBackground(GameConstants.BACKGROUND_COLOR);
         gagnant = jeu.gagnant();
 
@@ -39,13 +38,21 @@ public class Victoire extends JPanel{
 
     private void setEcranVictoire(){
 
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+
 
         //-------------message gagnant----------------
         messageVictoire = new Label();
-        messageVictoire.setText("Victoire du joueur " + gagnant);
+        messageVictoire.setText(getTexteVictoire());
         messageVictoire.setFont(new Font("Serif", Font.PLAIN, 30));
 
-        this.add(messageVictoire, BorderLayout.NORTH);
+        c.gridx = 1;
+        c.gridy = 0;
+        c.weighty = 10;
+        c.fill = GridBagConstraints.CENTER;
+        c.anchor = GridBagConstraints.WEST;
+        this.add(messageVictoire, c);
 
 
 
@@ -53,9 +60,6 @@ public class Victoire extends JPanel{
 
 
 
-        panelBoutons = new JPanel();
-        panelBoutons.setBackground(GameConstants.BACKGROUND_COLOR);
-        panelBoutons.setLayout(new BorderLayout());
         relancerPartie = new JButton(new ImageIcon(GameConstants.relancerPartie));
         retourMenu = new JButton(new ImageIcon(GameConstants.retourMenu));
 
@@ -70,10 +74,15 @@ public class Victoire extends JPanel{
         retourMenu.setBackground(Color.CYAN);
         retourMenu.addActionListener(e -> controlleur.switchMenu());
 
-        panelBoutons.add(relancerPartie, BorderLayout.LINE_START);
-        panelBoutons.add(retourMenu, BorderLayout.LINE_END);
 
-        this.add(panelBoutons, BorderLayout.SOUTH);
+        c.gridy = 2;
+        c.weighty = 10;
+        c.gridx = 0;
+        c.fill = GridBagConstraints.BOTH;
+        this.add(relancerPartie, c);
+        c.gridx = 2;
+        this.add(retourMenu, c);
+
     }
 
 
@@ -82,7 +91,7 @@ public class Victoire extends JPanel{
     private void setScore(){
 
         JPanel allScore = new JPanel();
-        allScore.setLayout(new BoxLayout(allScore, BoxLayout.X_AXIS));
+        allScore.setLayout(new GridLayout(1,jeu.getListeJoueur().size()));
 
         for(int i = 0; i < jeu.getListeJoueur().size();i++) {
 
@@ -94,7 +103,7 @@ public class Victoire extends JPanel{
 
             //Panel de base pour chaque score
             JPanel mainP = new JPanel();
-            mainP.setLayout(new BorderLayout());
+            mainP.setLayout(new BoxLayout(mainP,BoxLayout.Y_AXIS));
             mainP.setBorder(new LineBorder(Color.BLACK));
 
             //Panel pour les deux scores
@@ -117,9 +126,9 @@ public class Victoire extends JPanel{
             JLabel numJoueur = new JLabel("Joueur " + (i + 1));
             numJoueur.setForeground(Color.BLACK);
 
-            mainP.add(numJoueur, BorderLayout.NORTH);
-            mainP.add(jlPing, BorderLayout.CENTER);
-            mainP.add(imageP, BorderLayout.SOUTH);
+            mainP.add(numJoueur);
+            mainP.add(jlPing);
+            mainP.add(imageP);
 
             JLabel scoreP = new JLabel(String.valueOf(jeu.getListeJoueur().get(i).getScore()));
             poissonP.add(jlP);
@@ -132,7 +141,14 @@ public class Victoire extends JPanel{
 
             allScore.add(mainP);
         }
-        this.add(allScore, BorderLayout.CENTER);
+
+        GridBagConstraints c = new GridBagConstraints();
+        c.weighty = 50;
+        c.fill = GridBagConstraints.BOTH;
+        c.gridy = 1;
+        c.gridwidth = 3;
+        c.gridx = 0;
+        this.add(allScore, c);
     }
 
     private BufferedImage getImage(int i) {
@@ -175,6 +191,30 @@ public class Victoire extends JPanel{
 
         relancerPartie.setIcon(new ImageIcon(imageOnButton(relancerPartie, GameConstants.relancerPartie)));
         retourMenu.setIcon(new ImageIcon(imageOnButton(retourMenu, GameConstants.retourMenu)));
+    }
+
+
+    private String getTexteVictoire(){
+        if (gagnant.size() == 1){
+            return "Victoire du joueur " + gagnant.get(0) + " !";
+        }else if(gagnant.size() == jeu.getNbJoueur()){
+            return "Égalité parfaite entre tous les joueurs !";
+        }else {
+            String result = "Victoire des joueurs ";
+            for(int i = 0; i < gagnant.size(); i++){
+                if(i == gagnant.size()-2)
+                    result += gagnant.get(i) + " et ";
+                else if(i == gagnant.size()-1)
+                    result += gagnant.get(i) + " !";
+                else
+                    result += gagnant.get(i) + ", ";
+            }
+            return result;
+        }
+
+
+
+
     }
 
 }

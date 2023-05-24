@@ -136,12 +136,18 @@ public class BanquiseGraphique extends JComponent {
         }
 
 
-//        if(suggestionCoup != null)
-//            System.out.println("scoup = " + suggestionCoup.getLigne() + " " + suggestionCoup.getColonne());
-//
-//        if(suggestionPos != null)
-//            System.out.println("spos = " + suggestionPos.x + " " + suggestionPos.y);
+        Coup coup = null;
+        if(suggestionCoup != null){
+            coup = suggestionCoup;
+            suggestionCoup = null;
+        }
 
+
+        Position pos = null;
+        if(suggestionPos != null){
+            pos = suggestionPos;
+            suggestionPos = null;
+        }
         BufferedImage bfi = GameConstants.hVide;
 
         for (int i = 0; i < plateau.size(); i++) {
@@ -150,130 +156,206 @@ public class BanquiseGraphique extends JComponent {
             Cases c = jeu.getCase(coordHexa.x, coordHexa.y);
             Shape cell = plateau.get(i);
 
-
-            if(coordHexa.equals(newPos) && !jeu.getCase(coordHexa.x, coordHexa.y).estMange()){
-                Cases c2 = jeu.getCase(newPos.x,newPos.y);
-                if (c2.pingouinPresent() == 1) {
-                    if (c2.getNbPoissons() == 1)
-                        bfi = GameConstants.hPingouinBC1;
-                    else if (c2.getNbPoissons() == 2)
-                        bfi = GameConstants.hPingouinBC2;
-                    else if (c2.getNbPoissons() == 3)
-                        bfi = GameConstants.hPingouinBC3;
-                } else if (c2.pingouinPresent() == 2) {
-                    if (c2.getNbPoissons() == 1)
-                        bfi = GameConstants.hPingouinRC1;
-                    else if (c2.getNbPoissons() == 2)
-                        bfi = GameConstants.hPingouinRC2;
-                    else if (c2.getNbPoissons() == 3)
-                        bfi = GameConstants.hPingouinRC3;
-                } else if (c2.pingouinPresent() == 3) {
-                    if (c2.getNbPoissons() == 1)
-                        bfi = GameConstants.hPingouinVC1;
-                    else if (c2.getNbPoissons() == 2)
-                        bfi = GameConstants.hPingouinVC2;
-                    else if (c2.getNbPoissons() == 3)
-                        bfi = GameConstants.hPingouinVC3;
-                } else if (c2.pingouinPresent() == 4) {
-                    if (c2.getNbPoissons() == 1)
-                        bfi = GameConstants.hPingouinJC1;
-                    else if (c2.getNbPoissons() == 2)
-                        bfi = GameConstants.hPingouinJC2;
-                    else if (c2.getNbPoissons() == 3)
-                        bfi = GameConstants.hPingouinJC3;
-                }
-            }else if(coordHexa.equals(lastPos) && etat != Jeu.ETAT_PLACEMENTP){
-                int lastJoueur = jeu.getLastPlayer();
-                if(lastJoueur == 1)
-                    bfi = GameConstants.hVideB;
-                else if(lastJoueur == 2)
-                    bfi = GameConstants.hVideR;
-                else if (lastJoueur == 3)
-                    bfi = GameConstants.hVideV;
-                else
-                    bfi = GameConstants.hVideJ;
-            }else if(etat == Jeu.ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0 && jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA() == 0) {
-                if (jeu.getJoueurCourant() == 1)
-                    bfi = GameConstants.hPoisson1hB;
-                else if (jeu.getJoueurCourant() == 2)
-                    bfi = GameConstants.hPoisson1hR;
-                else if (jeu.getJoueurCourant() == 3)
-                    bfi = GameConstants.hPoisson1hV;
-                else if (jeu.getJoueurCourant() == 4)
-                    bfi = GameConstants.hPoisson1hJ;
-            }else if(etat == Jeu.ETAT_PLACEMENTP && c.getNbPoissons() != 1) {
-                if(c.getNbPoissons() == 2)
-                    bfi = GameConstants.hPoissonG2;
-                else
-                    bfi = GameConstants.hPoissonG3;
-            }else if(etat == Jeu.ETAT_CHOIXC && listHexagone != null && listHexagone.contains(coordHexa)){
-                if(jeu.getJoueurCourant() == 1){
-                    if (c.getNbPoissons() == 1)
-                        bfi = GameConstants.hPoisson1hB;
-                    else if (c.getNbPoissons() == 2)
-                        bfi = GameConstants.hPoisson2hB;
-                    else if (c.getNbPoissons() == 3)
-                        bfi = GameConstants.hPoisson3hB;
-                }else if(jeu.getJoueurCourant() == 2){
-                    if (c.getNbPoissons() == 1)
-                        bfi = GameConstants.hPoisson1hR;
-                    else if (c.getNbPoissons() == 2)
-                        bfi = GameConstants.hPoisson2hR;
-                    else if (c.getNbPoissons() == 3)
-                        bfi = GameConstants.hPoisson3hR;
-                }else if(jeu.getJoueurCourant() == 3){
-                    if (c.getNbPoissons() == 1)
-                        bfi = GameConstants.hPoisson1hV;
-                    else if (c.getNbPoissons() == 2)
-                        bfi = GameConstants.hPoisson2hV;
-                    else if (c.getNbPoissons() == 3)
-                        bfi = GameConstants.hPoisson3hV;
+            if(pos != null){
+                if(coordHexa.equals(pos)){
+                    switch(jeu.getJoueurCourant()){
+                        case 1: bfi = GameConstants.hPoisson1hB; break;
+                        case 2: bfi = GameConstants.hPoisson1hR; break;
+                        case 3: bfi = GameConstants.hPoisson1hV; break;
+                        case 4: bfi = GameConstants.hPoisson1hJ; break;
+                    }
                 }else{
-                    if (c.getNbPoissons() == 1)
-                        bfi = GameConstants.hPoisson1hJ;
-                    else if (c.getNbPoissons() == 2)
-                        bfi = GameConstants.hPoisson2hJ;
-                    else if (c.getNbPoissons() == 3)
-                        bfi = GameConstants.hPoisson3hJ;
+                    if(c.pingouinPresent() == 0 && c.getNbPoissons() != 1){
+                        switch(c.getNbPoissons()){
+                            case 2: bfi = GameConstants.hPoissonG2; break;
+                            case 3: bfi = GameConstants.hPoissonG3; break;
+                        }
+                    }else{
+                        bfi = getBfi(c);
+                    }
+                }
+            }else if(coup != null){
+                Position p = new Position(coup.getLigne(), coup.getColonne());
+                Position pg = new Position(coup.getPingouin().getLigne(), coup.getPingouin().getColonne());
+                if(coordHexa.equals(pg)) {
+                    Position ping = new Position(coup.getPingouin().getLigne(), coup.getPingouin().getColonne());
+
+                    switch (jeu.getJoueurCourant()){
+                        case 1 : switch (jeu.getCase(ping.x, ping.y).getNbPoissons()){
+                            case 1 : bfi = GameConstants.hPingouinB1h; break;
+                            case 2 : bfi = GameConstants.hPingouinB2h; break;
+                            case 3 : bfi = GameConstants.hPingouinB3h; break;
+                        } break;
+                        case 2 : switch (jeu.getCase(ping.x, ping.y).getNbPoissons()){
+                            case 1 : bfi = GameConstants.hPingouinR1h; break;
+                            case 2 : bfi = GameConstants.hPingouinR2h; break;
+                            case 3 : bfi = GameConstants.hPingouinR3h; break;
+                        } break;
+                        case 3 : switch (jeu.getCase(ping.x, ping.y).getNbPoissons()){
+                            case 1 : bfi = GameConstants.hPingouinV1h; break;
+                            case 2 : bfi = GameConstants.hPingouinV2h; break;
+                            case 3 : bfi = GameConstants.hPingouinV3h; break;
+                        } break;
+                        case 4 : switch (jeu.getCase(ping.x, ping.y).getNbPoissons()){
+                            case 1 : bfi = GameConstants.hPingouinJ1h; break;
+                            case 2 : bfi = GameConstants.hPingouinJ2h; break;
+                            case 3 : bfi = GameConstants.hPingouinJ3h; break;
+                        } break;
+
+                    }
+                }else if(coordHexa.equals(p)){
+                    switch (jeu.getJoueurCourant()){
+                        case 1 : switch (jeu.getCase(p.x, p.y).getNbPoissons()){
+                            case 1 : bfi = GameConstants.hPoisson1hB; break;
+                            case 2 : bfi = GameConstants.hPoisson2hB; break;
+                            case 3 : bfi = GameConstants.hPoisson3hB; break;
+                        } break;
+                        case 2 : switch (jeu.getCase(p.x, p.y).getNbPoissons()){
+                            case 1 : bfi = GameConstants.hPoisson1hR; break;
+                            case 2 : bfi = GameConstants.hPoisson2hR; break;
+                            case 3 : bfi = GameConstants.hPoisson3hR; break;
+                        } break;
+                        case 3 : switch (jeu.getCase(p.x, p.y).getNbPoissons()){
+                            case 1 : bfi = GameConstants.hPoisson1hV; break;
+                            case 2 : bfi = GameConstants.hPoisson2hV; break;
+                            case 3 : bfi = GameConstants.hPoisson3hV; break;
+                        } break;
+                        case 4 : switch (jeu.getCase(p.x, p.y).getNbPoissons()){
+                            case 1 : bfi = GameConstants.hPoisson1hJ; break;
+                            case 2 : bfi = GameConstants.hPoisson2hJ; break;
+                            case 3 : bfi = GameConstants.hPoisson3hJ; break;
+                        } break;
+                    }
+
+                }else{
+                    bfi = getBfi(c);
                 }
 
-            }else if ((etat == Jeu.ETAT_CHOIXC && coordHexa.equals(infoP)) || (etat == Jeu.ETAT_SELECTIONP && listPingouinPos != null && listPingouinPos.contains(coordHexa))){
-                if(jeu.getJoueurCourant() == 1){
-                    System.out.println("Case " + coordHexa);
-                    if (c.getNbPoissons() == 1)
-                        bfi = GameConstants.hPingouinB1h;
-                    else if (c.getNbPoissons() == 2)
-                        bfi = GameConstants.hPingouinB2h;
-                    else if (c.getNbPoissons() == 3)
-                        bfi = GameConstants.hPingouinB3h;
-                }else if(jeu.getJoueurCourant() == 2){
-                    if (c.getNbPoissons() == 1)
-                        bfi = GameConstants.hPingouinR1h;
-                    else if (c.getNbPoissons() == 2)
-                        bfi = GameConstants.hPingouinR2h;
-                    else if (c.getNbPoissons() == 3)
-                        bfi = GameConstants.hPingouinR3h;
-                }else if(jeu.getJoueurCourant() == 3){
-                    if (c.getNbPoissons() == 1)
-                        bfi = GameConstants.hPingouinV1h;
-                    else if (c.getNbPoissons() == 2)
-                        bfi = GameConstants.hPingouinV2h;
-                    else if (c.getNbPoissons() == 3)
-                        bfi = GameConstants.hPingouinV3h;
-                }else{
-                    if (c.getNbPoissons() == 1)
-                        bfi = GameConstants.hPingouinJ1h;
-                    else if (c.getNbPoissons() == 2)
-                        bfi = GameConstants.hPingouinJ2h;
-                    else if (c.getNbPoissons() == 3)
-                        bfi = GameConstants.hPingouinJ3h;
-                }
+
+
             }else{
-                bfi = getBfi(c);
+                if(coordHexa.equals(newPos) && !jeu.getCase(coordHexa.x, coordHexa.y).estMange()){
+                    Cases c2 = jeu.getCase(newPos.x,newPos.y);
+                    if (c2.pingouinPresent() == 1) {
+                        if (c2.getNbPoissons() == 1)
+                            bfi = GameConstants.hPingouinBC1;
+                        else if (c2.getNbPoissons() == 2)
+                            bfi = GameConstants.hPingouinBC2;
+                        else if (c2.getNbPoissons() == 3)
+                            bfi = GameConstants.hPingouinBC3;
+                    } else if (c2.pingouinPresent() == 2) {
+                        if (c2.getNbPoissons() == 1)
+                            bfi = GameConstants.hPingouinRC1;
+                        else if (c2.getNbPoissons() == 2)
+                            bfi = GameConstants.hPingouinRC2;
+                        else if (c2.getNbPoissons() == 3)
+                            bfi = GameConstants.hPingouinRC3;
+                    } else if (c2.pingouinPresent() == 3) {
+                        if (c2.getNbPoissons() == 1)
+                            bfi = GameConstants.hPingouinVC1;
+                        else if (c2.getNbPoissons() == 2)
+                            bfi = GameConstants.hPingouinVC2;
+                        else if (c2.getNbPoissons() == 3)
+                            bfi = GameConstants.hPingouinVC3;
+                    } else if (c2.pingouinPresent() == 4) {
+                        if (c2.getNbPoissons() == 1)
+                            bfi = GameConstants.hPingouinJC1;
+                        else if (c2.getNbPoissons() == 2)
+                            bfi = GameConstants.hPingouinJC2;
+                        else if (c2.getNbPoissons() == 3)
+                            bfi = GameConstants.hPingouinJC3;
+                    }
+                }else if(coordHexa.equals(lastPos) && etat != Jeu.ETAT_PLACEMENTP){
+                    int lastJoueur = jeu.getLastPlayer();
+                    if(lastJoueur == 1)
+                        bfi = GameConstants.hVideB;
+                    else if(lastJoueur == 2)
+                        bfi = GameConstants.hVideR;
+                    else if (lastJoueur == 3)
+                        bfi = GameConstants.hVideV;
+                    else
+                        bfi = GameConstants.hVideJ;
+                }else if(etat == Jeu.ETAT_PLACEMENTP && c.getNbPoissons() == 1 && c.pingouinPresent() == 0 && jeu.getListeJoueur().get(jeu.getJoueurCourant()-1).estIA() == 0) {
+                    if (jeu.getJoueurCourant() == 1)
+                        bfi = GameConstants.hPoisson1hB;
+                    else if (jeu.getJoueurCourant() == 2)
+                        bfi = GameConstants.hPoisson1hR;
+                    else if (jeu.getJoueurCourant() == 3)
+                        bfi = GameConstants.hPoisson1hV;
+                    else if (jeu.getJoueurCourant() == 4)
+                        bfi = GameConstants.hPoisson1hJ;
+                }else if(etat == Jeu.ETAT_PLACEMENTP && c.getNbPoissons() != 1) {
+                    if(c.getNbPoissons() == 2)
+                        bfi = GameConstants.hPoissonG2;
+                    else
+                        bfi = GameConstants.hPoissonG3;
+                }else if(etat == Jeu.ETAT_CHOIXC && listHexagone != null && listHexagone.contains(coordHexa)){
+                    if(jeu.getJoueurCourant() == 1){
+                        if (c.getNbPoissons() == 1)
+                            bfi = GameConstants.hPoisson1hB;
+                        else if (c.getNbPoissons() == 2)
+                            bfi = GameConstants.hPoisson2hB;
+                        else if (c.getNbPoissons() == 3)
+                            bfi = GameConstants.hPoisson3hB;
+                    }else if(jeu.getJoueurCourant() == 2){
+                        if (c.getNbPoissons() == 1)
+                            bfi = GameConstants.hPoisson1hR;
+                        else if (c.getNbPoissons() == 2)
+                            bfi = GameConstants.hPoisson2hR;
+                        else if (c.getNbPoissons() == 3)
+                            bfi = GameConstants.hPoisson3hR;
+                    }else if(jeu.getJoueurCourant() == 3){
+                        if (c.getNbPoissons() == 1)
+                            bfi = GameConstants.hPoisson1hV;
+                        else if (c.getNbPoissons() == 2)
+                            bfi = GameConstants.hPoisson2hV;
+                        else if (c.getNbPoissons() == 3)
+                            bfi = GameConstants.hPoisson3hV;
+                    }else{
+                        if (c.getNbPoissons() == 1)
+                            bfi = GameConstants.hPoisson1hJ;
+                        else if (c.getNbPoissons() == 2)
+                            bfi = GameConstants.hPoisson2hJ;
+                        else if (c.getNbPoissons() == 3)
+                            bfi = GameConstants.hPoisson3hJ;
+                    }
+
+                }else if ((etat == Jeu.ETAT_CHOIXC && coordHexa.equals(infoP)) || (etat == Jeu.ETAT_SELECTIONP && listPingouinPos != null && listPingouinPos.contains(coordHexa))){
+                    if(jeu.getJoueurCourant() == 1){
+                        if (c.getNbPoissons() == 1)
+                            bfi = GameConstants.hPingouinB1h;
+                        else if (c.getNbPoissons() == 2)
+                            bfi = GameConstants.hPingouinB2h;
+                        else if (c.getNbPoissons() == 3)
+                            bfi = GameConstants.hPingouinB3h;
+                    }else if(jeu.getJoueurCourant() == 2){
+                        if (c.getNbPoissons() == 1)
+                            bfi = GameConstants.hPingouinR1h;
+                        else if (c.getNbPoissons() == 2)
+                            bfi = GameConstants.hPingouinR2h;
+                        else if (c.getNbPoissons() == 3)
+                            bfi = GameConstants.hPingouinR3h;
+                    }else if(jeu.getJoueurCourant() == 3){
+                        if (c.getNbPoissons() == 1)
+                            bfi = GameConstants.hPingouinV1h;
+                        else if (c.getNbPoissons() == 2)
+                            bfi = GameConstants.hPingouinV2h;
+                        else if (c.getNbPoissons() == 3)
+                            bfi = GameConstants.hPingouinV3h;
+                    }else{
+                        if (c.getNbPoissons() == 1)
+                            bfi = GameConstants.hPingouinJ1h;
+                        else if (c.getNbPoissons() == 2)
+                            bfi = GameConstants.hPingouinJ2h;
+                        else if (c.getNbPoissons() == 3)
+                            bfi = GameConstants.hPingouinJ3h;
+                    }
+                }else{
+                    bfi = getBfi(c);
+                }
             }
 
             g2d.drawImage(bfi, cell.getBounds().x, cell.getBounds().y, cell.getBounds().width, cell.getBounds().height, null);
-            System.out.println(jeu.toString());
 
         }
 
@@ -292,7 +374,6 @@ public class BanquiseGraphique extends JComponent {
             else if (c.getNbPoissons() == 3)
                 bfi = GameConstants.hPoisson3;
         } else if (c.pingouinPresent() == 1) {
-            System.out.println("Case " + c);
             if (c.getNbPoissons() == 1)
                 bfi = GameConstants.hPingouinB1;
             else if (c.getNbPoissons() == 2)

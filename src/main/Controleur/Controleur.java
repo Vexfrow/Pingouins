@@ -219,7 +219,7 @@ public class Controleur implements CollecteurEvenements {
                         if (jeu.getEtat() == Jeu.ETAT_PLACEMENTP) {
                             Position p = jia.elaborePlacement();
                             try {
-                                Thread.sleep(800);
+                                Thread.sleep(1000);
                             } catch (InterruptedException ignored) {
 
                             }
@@ -227,7 +227,7 @@ public class Controleur implements CollecteurEvenements {
                         } else {
                             Coup c = jia.elaboreCoup();
                             try {
-                                Thread.sleep(800);
+                                Thread.sleep(1000);
                             } catch (InterruptedException ignored) {
 
                             }
