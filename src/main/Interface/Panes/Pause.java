@@ -15,21 +15,14 @@ import java.io.FileInputStream;
 public class Pause extends JPanel {
 
     private CollecteurEvenements collecteur;
-    private JLabel titrePause;
-    private JButton reprendre;
-    private JButton sauvegarder;
-    private JButton chargerPartie;
-    private JButton regles;
-    private JButton quitter;
-    private JButton recommencer;
+    private final JLabel titrePause;
+    private final JButton reprendre;
+    private final JButton sauvegarder;
+    private final JButton chargerPartie;
+    private final JButton regles;
+    private final JButton quitter;
+    private final JButton recommencer;
 
-    private Image resume;
-    private Image rePlay;
-    private Image save;
-    private Image load;
-    private Image rule;
-    private Image quit;
-    //private Image rule;
 
     public Pause(CollecteurEvenements c){
         //this.setOpaque(false);
@@ -89,23 +82,6 @@ public class Pause extends JPanel {
 
 
 
-
-
-
-        try{
-            resume = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonReprendre.png"));
-            rePlay = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonRelancerPartie.png"));
-            save = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonSauvegarder.png"));
-            load = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonCharger.png"));
-            rule = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonReglesPause.png"));
-            quit = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonAbandonner.png"));
-        }catch(Exception e){
-            System.err.println("Pause : Impossible de charger les images");
-        }
-
-
-
-
         reprendre.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -152,12 +128,12 @@ public class Pause extends JPanel {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
-                reprendre.setIcon(new ImageIcon(reSize(reprendre, resume)));
-                recommencer.setIcon(new ImageIcon(reSize(recommencer, rePlay)));
-                chargerPartie.setIcon(new ImageIcon(reSize(chargerPartie, load)));
-                regles.setIcon(new ImageIcon(reSize(regles, rule)));
-                sauvegarder.setIcon(new ImageIcon(reSize(sauvegarder, save)));
-                quitter.setIcon(new ImageIcon(reSize(quitter, quit)));
+                reprendre.setIcon(new ImageIcon(reSize(reprendre, GameConstants.reprendre)));
+                recommencer.setIcon(new ImageIcon(reSize(recommencer, GameConstants.relancerPartie)));
+                chargerPartie.setIcon(new ImageIcon(reSize(chargerPartie, GameConstants.chargerPartie)));
+                regles.setIcon(new ImageIcon(reSize(regles, GameConstants.reglesPause)));
+                sauvegarder.setIcon(new ImageIcon(reSize(sauvegarder, GameConstants.sauvegarder)));
+                quitter.setIcon(new ImageIcon(reSize(quitter, GameConstants.abandonner)));
             }
         });
 

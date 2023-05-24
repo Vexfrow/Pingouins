@@ -56,8 +56,8 @@ public class Victoire extends JPanel{
         panelBoutons = new JPanel();
         panelBoutons.setBackground(GameConstants.BACKGROUND_COLOR);
         panelBoutons.setLayout(new BorderLayout());
-        relancerPartie = new JButton(new ImageIcon(GameConstants.relancerPartieB));
-        retourMenu = new JButton(new ImageIcon(GameConstants.retourMenuB));
+        relancerPartie = new JButton(new ImageIcon(GameConstants.relancerPartie));
+        retourMenu = new JButton(new ImageIcon(GameConstants.retourMenu));
 
 
         relancerPartie.setBorderPainted(false);
@@ -173,8 +173,8 @@ public class Victoire extends JPanel{
         retourMenu.setPreferredSize(new Dimension(getWidth()/4,getWidth()/8));
 
 
-        relancerPartie.setIcon(new ImageIcon(imageOnButton(relancerPartie, GameConstants.relancerPartieB)));
-        retourMenu.setIcon(new ImageIcon(imageOnButton(retourMenu, GameConstants.retourMenuB)));
+        relancerPartie.setIcon(new ImageIcon(imageOnButton(relancerPartie, GameConstants.relancerPartie)));
+        retourMenu.setIcon(new ImageIcon(imageOnButton(retourMenu, GameConstants.retourMenu)));
     }
 
 }

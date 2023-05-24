@@ -25,11 +25,6 @@ public class ListeFile extends JPanel {
     private int[] positions;
     JButton[] elimine;
     private String current;
-    private Image up;
-    private Image down;
-    private Image upVide;
-    private Image downVide;
-    private Image erase;
 
     private JButton flecheHaut;
     private JButton flecheBas;
@@ -40,15 +35,7 @@ public class ListeFile extends JPanel {
     public ListeFile(Chargement c){
         setLayout(new GridBagLayout());
         panel = c;
-        try{
-            erase = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/croix.png"));
-            up = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheChargeHaut.png"));
-            down = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/flecheChargeBas.png"));
-            upVide = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheChargeHautTransparente.png"));
-            downVide = (Image)ImageIO.read(new FileInputStream("resources/assets/menu/flecheChargeBasTransparente.png"));
-        }catch(Exception e){
-            System.err.println("une erreur " + e);
-        }
+
         initFile();
         setPosition();
         majFleche();
@@ -108,15 +95,15 @@ public class ListeFile extends JPanel {
     public void setPosition(){
 
 
-        flecheHaut.setIcon(new ImageIcon(up));
+        flecheHaut.setIcon(new ImageIcon(GameConstants.flecheChargeHaut));
         flecheHaut.setBorderPainted(false);
         flecheHaut.setContentAreaFilled(false);
-        flecheHaut.setDisabledIcon(new ImageIcon(upVide));
+        flecheHaut.setDisabledIcon(new ImageIcon(GameConstants.flecheChargeHautTransparente));
 
-        flecheBas.setIcon(new ImageIcon(down));
+        flecheBas.setIcon(new ImageIcon(GameConstants.flecheChargeBas));
         flecheBas.setBorderPainted(false);
         flecheBas.setContentAreaFilled(false);
-        flecheBas.setDisabledIcon(new ImageIcon(downVide));
+        flecheBas.setDisabledIcon(new ImageIcon(GameConstants.flecheChargeBasTransparente));
 
         setBackground(GameConstants.BACKGROUND_COLOR);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -161,22 +148,6 @@ public class ListeFile extends JPanel {
 
     }
 
-    public void majFleche(){
-        if(isBottom()){
-            flecheBas.setEnabled(false);
-        }else{
-            flecheBas.setIcon(new ImageIcon(down));
-            flecheBas.setEnabled(true);
-        }
-        if(isTop()){
-            flecheHaut.setEnabled(false);
-        }else{
-            flecheHaut.setIcon(new ImageIcon(up));
-            flecheHaut.setEnabled(true);
-        }
-
-    }
-
     public void setListeFichier(){
         for(int i =0; i < affichage.length; i++){
             positions[i] = i;
@@ -203,12 +174,12 @@ public class ListeFile extends JPanel {
     public void scaleAll(){
         for(int i = 0; i < 5; i++){
             elimine[i].setPreferredSize(new Dimension((int)(getWidth()*0.07) , (int)(getHeight()*0.07)));
-            elimine[i].setIcon(new ImageIcon(reScale(erase, 0.07, 0.07)));
+            elimine[i].setIcon(new ImageIcon(reScale(GameConstants.croix, 0.07, 0.07)));
         }
-        flecheHaut.setIcon(new ImageIcon(reScale(up, 0.08, 0.1)));
-        flecheHaut.setDisabledIcon(new ImageIcon(reScale(upVide, 0.08, 0.1)));
-        flecheBas.setIcon(new ImageIcon(reScale(down, 0.08, 0.1)));
-        flecheBas.setDisabledIcon(new ImageIcon(reScale(downVide, 0.08, 0.1)));
+        flecheHaut.setIcon(new ImageIcon(reScale(GameConstants.flecheChargeHaut, 0.08, 0.1)));
+        flecheHaut.setDisabledIcon(new ImageIcon(reScale(GameConstants.flecheChargeHautTransparente, 0.08, 0.1)));
+        flecheBas.setIcon(new ImageIcon(reScale(GameConstants.flecheChargeBas, 0.08, 0.1)));
+        flecheBas.setDisabledIcon(new ImageIcon(reScale(GameConstants.flecheChargeBasTransparente, 0.08, 0.1)));
     }
 
     public void majListe(boolean up){
@@ -235,8 +206,28 @@ public class ListeFile extends JPanel {
         }
     }
 
+    public void majFleche(){
+        if(isBottom()){
+            flecheBas.setEnabled(false);
+        }else{
+            flecheBas.setIcon(new ImageIcon(GameConstants.flecheChargeHaut));
+            flecheBas.setEnabled(true);
+        }
+        if(isTop()){
+            flecheHaut.setEnabled(false);
+        }else{
+            flecheHaut.setIcon(new ImageIcon(GameConstants.flecheChargeBas));
+            flecheHaut.setEnabled(true);
+        }
+
+    }
+
     public String[] getAllSaves(){
         File folder = new File(GameConstants.DOSSIER_SAVE);
+        folder.mkdir();
+
+        System.out.println(folder);
+
         File[] listOfFiles = folder.listFiles();
         String s[] = new String[listOfFiles.length];
         int i = 0;
@@ -287,8 +278,9 @@ public class ListeFile extends JPanel {
         if(listeFichier[position].equals(current)){
             current = "";
         }
-        File f = new File("resources/sauvegarde/"+ listeFichier[position]+ ".txt");
-        File iF = new File("resources/sauvegarde/" +  listeFichier[position]+ ".png");
+
+        File f = new File(GameConstants.DOSSIER_SAVE + listeFichier[position]+ ".txt");
+        File iF = new File(GameConstants.DOSSIER_SAVE +  listeFichier[position]+ ".png");
         if(f.delete()){
             System.out.println("Fichier "+ f.getName()+ " supprimé");
         }

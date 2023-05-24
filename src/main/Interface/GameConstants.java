@@ -3,6 +3,7 @@ package Interface;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
@@ -24,7 +25,8 @@ public class GameConstants {
 
 
     //----------------------------Dossier-----------------------------------
-    public static final String DOSSIER_SAVE = "resources/sauvegarde/";
+    public static final String DOSSIER_SAVE = System.getProperty("user.dir") + File.separator + "sauvegardes"  + File.separator;
+    public static final String DOSSIER_SETTINGS = System.getProperty("user.dir") + File.separator + "settings"  + File.separator;
 
 
     //--------------------------Images plateau-------------------------------
@@ -125,8 +127,8 @@ public class GameConstants {
     public static final BufferedImage pingouinRougeC = chargeImageVictoire("pingouinRougeWin");
     public static final BufferedImage pingouinVertC = chargeImageVictoire("pingouinVertWin");
     public static final BufferedImage pingouinJauneC = chargeImageVictoire("pingouinJauneWin");
-    public static final BufferedImage relancerPartieB = chargeImageVictoire("boutonRelancerPartie");
-    public static final BufferedImage retourMenuB = chargeImageVictoire("boutonRetourMenu");
+    public static final BufferedImage relancerPartie = chargeImageVictoire("boutonRelancerPartie");
+    public static final BufferedImage retourMenu = chargeImageVictoire("boutonRetourMenu");
 
 
     //--------------------------Images jeu-------------------------------
@@ -145,16 +147,42 @@ public class GameConstants {
     public static final BufferedImage annuler = chargeImageJeu("boutonAnnuler");
     public static final BufferedImage refaire = chargeImageJeu("boutonRefaire");
     public static final BufferedImage regenerePlateau = chargeImageJeu("boutonRegen");
-    public static final BufferedImage boutonOk = chargeImageJeu("boutonOk");
-    public static final BufferedImage commencerP = chargeImageMenu("boutonValider");
+    public static final BufferedImage valider = chargeImageMenu("boutonValider");
+    public static final BufferedImage fondMenu = chargeImageMenu("fondMenu");
+    public static final BufferedImage titre = chargeImageMenu("Titre");
+    public static final BufferedImage regles = chargeImageMenu("boutonRegles");
+    public static final BufferedImage partieRapide = chargeImageMenu("boutonPartieRapide");
+    public static final BufferedImage partiePerso = chargeImageMenu("boutonPartiePerso");
+    public static final BufferedImage chargerPartie = chargeImageMenu("boutonChargerPartie");
+    public static final BufferedImage quitter = chargeImageMenu("boutonsQuit");
+    public static final BufferedImage flecheRetour = chargeImageMenu("flecheRetour");
+    public static final BufferedImage lancerPartie = chargeImageMenu("boutonLancerPartie");
+    public static final BufferedImage defaut = chargeImageMenu("boutonChoixDefaut");
+    public static final BufferedImage flecheGaucheSelection = chargeImageMenu("flecheSelectGauche");
+    public static final BufferedImage flecheDroiteSelection = chargeImageMenu("flecheSelectDroite");
+    public static final BufferedImage plus = chargeImageMenu("plus");
+    public static final BufferedImage croix = chargeImageMenu("croix");
+    public static final BufferedImage flecheChargeHaut = chargeImageMenu("flecheChargeHaut");
+    public static final BufferedImage flecheChargeBas = chargeImageMenu("flecheChargeBas");
+    public static final BufferedImage flecheChargeHautTransparente = chargeImageMenu("flecheChargeHautTransparente");
+    public static final BufferedImage flecheChargeBasTransparente = chargeImageMenu("flecheChargeBasTransparente");
+    public static final BufferedImage reprendre = chargeImageMenu("boutonReprendre");
+    public static final BufferedImage sauvegarder = chargeImageMenu("boutonSauvegarder");
+    public static final BufferedImage reglesPause = chargeImageMenu("boutonReglesPause");
+    public static final BufferedImage abandonner = chargeImageMenu("boutonAbandonner");
 
 
+    //--------------------------Images Aide-------------------------------
+    public static final BufferedImage flecheGaucheAideT = chargeImageMenu("flecheRegleGaucheTransparente");
+    public static final BufferedImage flecheDroiteAideT = chargeImageMenu("flecheRegleDroiteTransparente");
+    public static final BufferedImage flecheGaucheAide = chargeImageMenu("flecheRegleGauche");
+    public static final BufferedImage flecheDroiteAide = chargeImageMenu("flecheRegleDroite");
 
 
 
     private static BufferedImage chargeImagePlateau(String nom) {
         try {
-            InputStream in = new FileInputStream("resources/assets/jeu/plateau/" + nom + ".png");
+            InputStream in = GameConstants.class.getClassLoader().getResourceAsStream("resources/assets/jeu/plateau/" + nom + ".png");
             return ImageIO.read(in);
         } catch (Exception e) {
             System.out.println("Fichier \"" + nom + "\" introuvable");
@@ -165,7 +193,7 @@ public class GameConstants {
 
     private static BufferedImage chargeImageJeu(String nom) {
         try {
-            InputStream in = new FileInputStream("resources/assets/jeu/menu/" + nom + ".png");
+            InputStream in = GameConstants.class.getClassLoader().getResourceAsStream("resources/assets/jeu/menu/" + nom + ".png");
             return ImageIO.read(in);
         } catch (Exception e) {
             System.out.println("Fichier \"" + nom + "\" introuvable");
@@ -178,7 +206,7 @@ public class GameConstants {
 
     private static BufferedImage chargeImageVictoire(String nom){
         try {
-            InputStream in = new FileInputStream("resources/assets/jeu/victoire/" + nom + ".png");
+            InputStream in = GameConstants.class.getClassLoader().getResourceAsStream("resources/assets/jeu/victoire/" + nom + ".png");
             return ImageIO.read(in);
         } catch (Exception e) {
             System.out.println("Fichier \"" + nom + "\" introuvable");
@@ -189,7 +217,7 @@ public class GameConstants {
 
     private static BufferedImage chargeImageMenu(String nom){
         try {
-            InputStream in = new FileInputStream("resources/assets/menu/" + nom + ".png");
+            InputStream in = GameConstants.class.getClassLoader().getResourceAsStream("resources/assets/menu/" + nom + ".png");
             return ImageIO.read(in);
         } catch (Exception e) {
             System.out.println("Fichier \"" + nom + "\" introuvable");

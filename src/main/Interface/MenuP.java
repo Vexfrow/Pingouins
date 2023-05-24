@@ -17,7 +17,6 @@ public class MenuP extends JPanel {
     private JButton chargerPartie;
     private JButton quitter;
     private JButton regles;
-    private Image titreI, hintI, partieRapideI, partiePersoI, chargerPartieI, quitterI, fond;
     private ImageIcon titreS, hintS, partieRapideS, partiePersoS, chargerPartieS, quitterS;
     private SpringLayout layout;
     private  JLabel menu;
@@ -27,18 +26,7 @@ public class MenuP extends JPanel {
     public MenuP(CollecteurEvenements ctrl){
         this.c = ctrl;
         hover = false;
-        //Création des éléments
-        try{
-            fond = ImageIO.read(new FileInputStream("resources/assets/menu/fondMenu.png"));
-            titreI = ImageIO.read(new FileInputStream("resources/assets/menu/Titre.png"));
-            hintI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonRegles.png"));
-            partieRapideI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonPartieRapide.png"));
-            partiePersoI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonPartiePerso.png"));
-            chargerPartieI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonChargerPartie.png"));
-            quitterI = ImageIO.read(new FileInputStream("resources/assets/menu/boutonsQuit.png"));
-        }catch(Exception e){
-            System.err.println("une erreur " + e);
-        }
+
         partiePersonnalisee = new JButton();
         partieRapide = new JButton();
         chargerPartie = new JButton();
@@ -48,14 +36,14 @@ public class MenuP extends JPanel {
         menu = new JLabel();
         this.setLayout(new GridBagLayout());
 
-        ImageIcon c = new ImageIcon(hintI);
+        ImageIcon c = new ImageIcon(GameConstants.regles);
         regles.setPreferredSize(new Dimension(c.getIconWidth(), c.getIconHeight() ));
-        titreS = new ImageIcon(titreI);
-        hintS = new ImageIcon(hintI);
-        partieRapideS = new ImageIcon(partieRapideI);
-        partiePersoS = new ImageIcon(partiePersoI);
-        chargerPartieS = new ImageIcon(chargerPartieI);
-        quitterS = new ImageIcon(quitterI);
+        titreS = new ImageIcon(GameConstants.titre);
+        hintS = new ImageIcon(GameConstants.regles);
+        partieRapideS = new ImageIcon(GameConstants.partieRapide);
+        partiePersoS = new ImageIcon(GameConstants.partiePerso);
+        chargerPartieS = new ImageIcon(GameConstants.chargerPartie);
+        quitterS = new ImageIcon(GameConstants.quitter);
         setMenu();
 
 
@@ -170,13 +158,13 @@ public class MenuP extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                partiePersonnalisee.setIcon(new ImageIcon(imageOnButton(partiePersonnalisee, partiePersoI, 0.9, 0.9)));
+                partiePersonnalisee.setIcon(new ImageIcon(imageOnButton(partiePersonnalisee, GameConstants.partiePerso, 0.9, 0.9)));
                 hover = true;
             }
             @Override
             public void mouseExited(MouseEvent e){
                 super.mouseExited(e);
-                partiePersonnalisee.setIcon(new ImageIcon(imageOnButton(partiePersonnalisee, partiePersoI)));
+                partiePersonnalisee.setIcon(new ImageIcon(imageOnButton(partiePersonnalisee, GameConstants.partiePerso)));
                 hover = false;
             }
         });
@@ -185,13 +173,13 @@ public class MenuP extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                partieRapide.setIcon(new ImageIcon(imageOnButton(partieRapide, partieRapideI, 0.9, 0.9)));
+                partieRapide.setIcon(new ImageIcon(imageOnButton(partieRapide, GameConstants.partieRapide, 0.9, 0.9)));
                 hover = true;
             }
             @Override
             public void mouseExited(MouseEvent e){
                 super.mouseExited(e);
-                partieRapide.setIcon(new ImageIcon(imageOnButton(partieRapide, partieRapideI)));
+                partieRapide.setIcon(new ImageIcon(imageOnButton(partieRapide, GameConstants.partieRapide)));
                 hover = false;
             }
         });
@@ -200,13 +188,13 @@ public class MenuP extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                chargerPartie.setIcon(new ImageIcon(imageOnButton(chargerPartie, chargerPartieI, 0.9, 0.9)));
+                chargerPartie.setIcon(new ImageIcon(imageOnButton(chargerPartie, GameConstants.chargerPartie, 0.9, 0.9)));
                 hover = true;
             }
             @Override
             public void mouseExited(MouseEvent e){
                 super.mouseExited(e);
-                chargerPartie.setIcon(new ImageIcon(imageOnButton(chargerPartie, chargerPartieI)));
+                chargerPartie.setIcon(new ImageIcon(imageOnButton(chargerPartie, GameConstants.chargerPartie)));
                 hover = false;
             }
         });
@@ -215,13 +203,13 @@ public class MenuP extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                quitter.setIcon(new ImageIcon(imageOnButton(quitter, quitterI, 0.9, 0.9)));
+                quitter.setIcon(new ImageIcon(imageOnButton(quitter, GameConstants.quitter, 0.9, 0.9)));
                 hover = true;
             }
             @Override
             public void mouseExited(MouseEvent e){
                 super.mouseExited(e);
-                quitter.setIcon(new ImageIcon(imageOnButton(quitter, quitterI)));
+                quitter.setIcon(new ImageIcon(imageOnButton(quitter, GameConstants.quitter)));
                 hover = false;
             }
         });
@@ -230,13 +218,13 @@ public class MenuP extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                regles.setIcon(new ImageIcon(imageOnButton(regles, hintI, 0.9, 0.9)));
+                regles.setIcon(new ImageIcon(imageOnButton(regles, GameConstants.regles, 0.9, 0.9)));
                 hover = true;
             }
             @Override
             public void mouseExited(MouseEvent e){
                 super.mouseExited(e);
-                regles.setIcon(new ImageIcon(imageOnButton(regles, hintI)));
+                regles.setIcon(new ImageIcon(imageOnButton(regles, GameConstants.regles)));
                 hover = false;
             }
         });
@@ -300,13 +288,13 @@ public class MenuP extends JPanel {
 
     private void maj(){
         allScale();
-        menu.setIcon(new ImageIcon(reScale(titreI)));
+        menu.setIcon(new ImageIcon(reScale(GameConstants.titre)));
 
-        regles.setIcon(new ImageIcon(imageOnButton(regles, hintI)));
-        partieRapide.setIcon(new ImageIcon(imageOnButton(partieRapide, partieRapideI)));
-        partiePersonnalisee.setIcon(new ImageIcon(imageOnButton(partiePersonnalisee, partiePersoI)));
-        chargerPartie.setIcon(new ImageIcon(imageOnButton(chargerPartie, chargerPartieI)));
-        quitter.setIcon(new ImageIcon(imageOnButton(quitter, quitterI)));
+        regles.setIcon(new ImageIcon(imageOnButton(regles, GameConstants.regles)));
+        partieRapide.setIcon(new ImageIcon(imageOnButton(partieRapide, GameConstants.partieRapide)));
+        partiePersonnalisee.setIcon(new ImageIcon(imageOnButton(partiePersonnalisee, GameConstants.partiePerso)));
+        chargerPartie.setIcon(new ImageIcon(imageOnButton(chargerPartie, GameConstants.chargerPartie)));
+        quitter.setIcon(new ImageIcon(imageOnButton(quitter, GameConstants.quitter)));
     }
 
     @Override
@@ -315,7 +303,7 @@ public class MenuP extends JPanel {
         if(!hover){
             maj();
         }
-        g.drawImage(fond,0, 0,this.getWidth(), this.getHeight(), this);
+        g.drawImage(GameConstants.fondMenu,0, 0,this.getWidth(), this.getHeight(), this);
 
     }
 

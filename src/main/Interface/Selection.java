@@ -1,6 +1,5 @@
 package Interface;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import Interface.SelElm.IconeSelection;
@@ -12,7 +11,6 @@ import Vue.CollecteurEvenements;
 import java.awt.*;
 import java.awt.event.*;
 
-import java.io.FileInputStream;
 import java.util.ArrayList;
 
 
@@ -23,9 +21,7 @@ public class Selection extends JPanel {
     private JButton retour;
     private JButton sauvegarde;
     private JButton valide;
-    private Image flecheRetour;
-    private Image lancer;
-    private Image defaut;
+
     private IconeSelection listJoueur[];
     // 0 - 3
     private int last;
@@ -38,14 +34,6 @@ public class Selection extends JPanel {
         sauvegarde = new JButton();
         valide = new JButton();
 
-
-        try{
-            flecheRetour = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheRetour.png"));
-            lancer = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonLancerPartie.png"));
-            defaut = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonChoixDefaut.png"));
-        }catch(Exception e){
-            System.err.println("une erreur " + e);
-        }
         listJoueur = new IconeSelection[4];
         setSelection();
 
@@ -53,8 +41,8 @@ public class Selection extends JPanel {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
-                sauvegarde.setIcon(new ImageIcon(reScale(sauvegarde.getSize(), defaut)));
-                valide.setIcon(new ImageIcon(reScale(valide.getSize(), lancer)));
+                sauvegarde.setIcon(new ImageIcon(reScale(sauvegarde.getSize(), GameConstants.defaut)));
+                valide.setIcon(new ImageIcon(reScale(valide.getSize(), GameConstants.lancerPartie)));
             }
         });
 
@@ -197,7 +185,7 @@ public class Selection extends JPanel {
     }
 
     public void changeIcon(){
-            retour.setIcon(new ImageIcon(flecheRetour));
+            retour.setIcon(new ImageIcon(GameConstants.flecheRetour));
     }
 
     public int numberOfPlayer(){

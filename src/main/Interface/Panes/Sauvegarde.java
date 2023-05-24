@@ -22,21 +22,13 @@ public class Sauvegarde extends JPanel {
     private JButton retour;
     private CollecteurEvenements collecteur;
     private GridBagLayout layout;
-    private Image flecheRetour;
-    private Image val;
 
     public Sauvegarde(CollecteurEvenements c){
-        File d = new File("resources/sauvegarde");
+        File d = new File(GameConstants.DOSSIER_SAVE);
         d.mkdir();
         //setBorder(new EmptyBorder(50, 50, 50, 50));
         setBackground(GameConstants.BACKGROUND_COLOR);
 
-        try{
-            flecheRetour = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/flecheRetour.png"));
-            val = (Image) ImageIO.read(new FileInputStream("resources/assets/menu/boutonValider.png"));
-        }catch(Exception e){
-            System.err.println("une erreur " + e);
-        }
         collecteur = c;
         listeSave = new SaveList();
         titre = new JLabel("Sauvegarde de la partie actuelle");
@@ -120,8 +112,8 @@ public class Sauvegarde extends JPanel {
                 gbc.weighty = 3;
                 gbc.insets = new Insets(0, (int)(getWidth()*0.2), 0 , (int)(getHeight()*0.2 ));
                 layout.setConstraints(listeSave, gbc);*/
-                retour.setIcon(new ImageIcon(reScale(0.5f, flecheRetour )));
-                valider.setIcon(new ImageIcon(reScale(0.4f, val )));
+                retour.setIcon(new ImageIcon(reScale(0.5f, GameConstants.flecheRetour )));
+                valider.setIcon(new ImageIcon(reScale(0.4f, GameConstants.valider )));
                 titre.setFont(new Font("Arial", Font.BOLD, (int)(getHeight()*0.06)));
             }
         });
