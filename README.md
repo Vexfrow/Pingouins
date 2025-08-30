@@ -1,6 +1,6 @@
 # Pingouins
 
-This project is an adaption in video game of the board game : "Hey! That's my fish !"
+This project is an adaption in video game of the board game : "Hey ! That's my fish !"
 
 It was made for a school project, using the Java language with the Swing library for the GUI part
 
@@ -19,7 +19,7 @@ It was made for a school project, using the Java language with the Swing library
 java -jar Pingouins.java
 ```
 
-## Developpers details
+## Developers details
 
 ### Rules to compile the game
 
